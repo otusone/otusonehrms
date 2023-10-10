@@ -1,0 +1,90 @@
+{
+    "meetingSchedule": [
+        {
+            "id": 1,
+            "title": "New Technology",
+            "date": "Mar 2, 2023",
+            "time": "3:20 PM"
+        },
+        {
+            "id": 2,
+            "title": "Team Meeting",
+            "date": "Mar 6, 2023",
+            "time": "5:00 PM"
+        },
+        {
+            "id": 3,
+            "title": "Event Related",
+            "date": "Mar 82, 2023",
+            "time": "2:25 PM"
+        },
+        {
+            "id": 4,
+            "title": "Company Rules",
+            "date": "Mar 11, 2023",
+            "time": "4:30 PM"
+        }
+    ],
+    "clockIn": [
+        {
+            "id": 1,
+            "title": "Julie Lynn",
+            "date": "Absent"
+        },
+        {
+            "id": 2,
+            "title": "Lunea Todd",
+            "date": "Absent"
+        },
+        {
+            "id": 3,
+            "title": "Ida F. Mullen",
+            "date": "Absent"
+        },
+        {
+            "id": 4,
+            "title": "Teresa R McRae",
+            "date": "Absent"
+        },
+        {
+            "id": 5,
+            "title": "Joel O Dolan",
+            "date": "Absent"
+        },
+        {
+            "id": 6,
+            "title": "Ida F. Mullen",
+            "date": "Absent"
+        }
+    ],
+    "announcementList": [
+        {
+            "id": 1,
+            "title": "New Technology",
+            "date": "Mar 2, 2023",
+            "time": "3:20 PM",
+            "description": "At est quasi saepe p"
+        },
+        {
+            "id": 2,
+            "title": "Team Meeting",
+            "date": "Mar 6, 2023",
+            "time": "5:00 PM",
+            "description": "Lorem Ipsum, Or Lipsum"
+        },
+        {
+            "id": 3,
+            "title": "Event Related",
+            "date": "Mar 82, 2023",
+            "time": "2:25 PM",
+            "description": "Lorem Ipsum, Or Lipsum"
+        },
+        {
+            "id": 4,
+            "title": "Company Rules",
+            "date": "Mar 11, 2023",
+            "time": "4:30 PM",
+            "description": "Lorem Ipsum, Or Lipsum"
+        }
+    ]
+}

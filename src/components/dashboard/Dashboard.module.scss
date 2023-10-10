@@ -1,0 +1,16 @@
+.dashboardContainer {
+    margin-inline: 2%;
+
+    h2 {
+        padding-block: 2rem;
+    }
+
+    .dashboard2ndSection {
+        > div:nth-child(1){
+            // background-color: aqua;
+        }
+        > div:nth-child(2){
+            // background-color: yellow;
+        }
+    }
+}

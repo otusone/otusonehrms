@@ -1,0 +1,10 @@
+.headingContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-block: 1%;
+    margin-inline: 2%;
+
+    >div {
+        display: flex;
+    }
+}

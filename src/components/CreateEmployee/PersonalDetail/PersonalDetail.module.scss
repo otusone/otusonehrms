@@ -1,0 +1,25 @@
+.createEmployeeCard {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 0.5rem;
+    padding-block-start: 5%;
+    padding-block-end: 8%;
+
+    h5 {
+        padding-inline-start: 8%;
+        font-size: 1.25rem;
+        // padding-block: 1rem;
+    }
+
+    >div {
+        margin: auto;
+        width: fit-content;
+
+        >div:nth-child(2) {
+            padding-inline-start: 1rem;
+        }
+    }
+
+    >div+div {
+        width: 80% !important;
+    }
+}

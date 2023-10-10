@@ -1,0 +1,126 @@
+{
+    "tableTitle": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE ID"
+        },
+        {
+            "id": 2,
+            "title": "NAME"
+        },
+        {
+            "id": 3,
+            "title": "EMAIL"
+        },
+        {
+            "id": 4,
+            "title": "BRANCH"
+        },
+        {
+            "id": 5,
+            "title": "DEPARTMENT"
+        },
+        {
+            "id": 6,
+            "title": "DESINATION"
+        },
+        {
+            "id": 7,
+            "title": "DATE OF JOINING"
+        },
+        {
+            "id": 8,
+            "title": "ACTION"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 2,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 3,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 4,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 5,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 6,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 7,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 8,
+            "col_1": "#EMP0000001",
+            "col_2": "Julie Lynn",
+            "col_3": "IsidroTJohnson@armyspy.com",
+            "col_4": "China",
+            "col_5": "Industrials",
+            "col_6": "Manager",
+            "col_7": "Mar 4, 2020",
+            "col_8": "action"
+        }
+    ]
+}

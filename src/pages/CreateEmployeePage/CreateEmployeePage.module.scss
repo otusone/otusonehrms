@@ -1,0 +1,9 @@
+.createEmployeePage {
+    padding-inline: 2%;
+
+    >div:nth-child(2) {
+        width: fit-content;
+        margin-left: auto;
+        margin-block: 2rem;
+    }
+}
