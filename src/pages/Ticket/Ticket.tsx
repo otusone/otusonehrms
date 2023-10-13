@@ -50,8 +50,9 @@ const Ticket = () => {
                     tableTitle={ticketTableHeading}
                     IsStatus={true}
                     IsProperty={true}
-                    IsCol_7={false}
-                />
+                    IsCol_7={false} IsManageLeaveStatus={false}
+                     IsManageLeaveAction={false}                
+                     />
             </Grid>
             <TicketModal
                 open={open}

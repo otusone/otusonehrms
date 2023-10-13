@@ -11,6 +11,8 @@ import EmployeeProfile from '../../staff/employeeProfile/EmployeeProfile'
 import CreateEmployeePage from '../../../pages/CreateEmployeePage/CreateEmployeePage'
 import TimeSheet from '../../../pages/TimeSheet/TimeSheet'
 import Ticket from '../../../pages/Ticket/Ticket'
+import ManageLeave from '../../../pages/ManageLeave/ManageLeave'
+import Attandance from '../../../pages/Attandance/Attandance'
 
 const RoutesPage = () => {
     return (
@@ -24,6 +26,8 @@ const RoutesPage = () => {
                 <Route path='/employee/create-employee' element={<CreateEmployeePage />} />
                 {/* <Route path='#' element={<PayrollPage />} /> */}
                 <Route path='/timesheet' element={<TimeSheet />} />
+                <Route path='/manage-leave' element={<ManageLeave />} />
+                <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
             </Routes>
         </Fragment>

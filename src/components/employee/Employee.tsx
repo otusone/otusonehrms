@@ -22,7 +22,8 @@ const Employee = () => {
                 IsAction={true}
                 IsStatus={false}
                 IsProperty={false}
-                IsCol_7={true}
+                IsCol_7={true} IsManageLeaveStatus={false}
+                IsManageLeaveAction={false}
             />
         </Grid>
     )

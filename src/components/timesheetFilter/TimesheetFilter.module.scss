@@ -1,0 +1,42 @@
+.timesheetFilterContainer {
+    display: flex;
+    padding-inline-start: 30%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding-block: 2%;
+    border-radius: 0.5rem;
+    padding-inline-end: 2%;
+
+    >div:nth-child(1),
+    >div:nth-child(2) {
+        margin-inline-start: 0.5rem;
+        margin-block: auto !important;
+    }
+
+    >div:nth-child(3) {
+        >div {
+            width: 20rem !important;
+        }
+    }
+
+    >div:nth-child(4) {
+        display: flex;
+        margin: auto;
+
+        svg {
+            color: #ffffff;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        svg:nth-child(1) {
+            background-color: #6FD943;
+            margin-inline-end: 0.5rem;
+
+        }
+
+        svg:nth-child(2) {
+            background-color: #FF3A6E;
+
+        }
+    }
+}

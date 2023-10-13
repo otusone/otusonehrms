@@ -4,6 +4,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow 
 import CommonButton from '../CommonButton/CommonButton';
 import { MdOutlineMode } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { BiRightArrow } from 'react-icons/bi';
 import SearchBox from '../searchBox/SerachBox'
 
 export interface ICommonTable {
@@ -15,9 +16,11 @@ export interface ICommonTable {
     IsStatus: boolean;
     IsProperty: boolean;
     IsCol_7: boolean
+    IsManageLeaveStatus: boolean;
+    IsManageLeaveAction: boolean;
 }
 
-const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, IsStatus, IsProperty, IsCol_7 }: ICommonTable) => {
+const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, IsStatus, IsProperty, IsCol_7, IsManageLeaveStatus, IsManageLeaveAction }: ICommonTable) => {
     const [edit, setEdit] = useState({})
     const editHandler = (itemId: number) => {
         return (
@@ -50,7 +53,7 @@ const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, I
                                 <TableRow key={item.id}>
                                     {IsEmployeeID ? <TableCell> <CommonButton name={item.col_1} onClick={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } } /> </TableCell>
+                                    }} /> </TableCell>
                                         :
                                         <TableCell> {item.col_1} </TableCell>}
                                     <TableCell>{item.col_2}</TableCell>
@@ -61,8 +64,11 @@ const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, I
                                     {IsProperty ? <TableCell>{item.status}</TableCell> : ""}
                                     <TableCell>{item.col_6}</TableCell>
                                     {IsCol_7 ? <TableCell>{item.col_7}</TableCell> : ""}
+                                    {IsManageLeaveStatus ? <TableCell>{item.col_8}</TableCell> : ""}
                                     {IsAction ?
                                         <TableCell className={styles.tableAction}>
+                                            {IsManageLeaveAction ? <BiRightArrow onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30} /> : ""}
+
                                             <MdOutlineMode onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30}
                                             />
                                             <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
