@@ -24,31 +24,31 @@
     "tableData": [
         {
             "id": 1,
-            "row_1": "Julie Lynn",
-            "row_2": "Casual Leave",
-            "row_3": "Mar 4, 2023",
-            "row_4": "Mar 3, 2023"
+            "employee": "Julie Lynn",
+            "date": "Casual Leave",
+            "hours": "Mar 4, 2023",
+            "remark": "Mar 3, 2023"
         },
         {
             "id": 2,
-            "row_1": "Julie Lynn",
-            "row_2": "Casual Leave",
-            "row_3": "Mar 4, 2023",
-            "row_4": "Mar 3, 2023"
+            "employee": "Julie Lynn",
+            "date": "Casual Leave",
+            "hours": "Mar 4, 2023",
+            "remark": "Mar 3, 2023"
         },
         {
             "id": 3,
-            "row_1": "Julie Lynn",
-            "row_2": "Casual Leave",
-            "row_3": "Mar 4, 2023",
-            "row_4": "Mar 3, 2023"
+            "employee": "Julie Lynn",
+            "date": "Casual Leave",
+            "hours": "Mar 4, 2023",
+            "remark": "Mar 3, 2023"
         },
         {
             "id": 4,
-            "row_1": "Julie Lynn",
-            "row_2": "Casual Leave",
-            "row_3": "Mar 4, 2023",
-            "row_4": "Mar 3, 2023"
+            "employee": "Julie Lynn",
+            "date": "Casual Leave",
+            "hours": "Mar 4, 2023",
+            "remark": "Mar 3, 2023"
         }
     ]
 }

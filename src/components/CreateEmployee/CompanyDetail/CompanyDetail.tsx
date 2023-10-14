@@ -18,7 +18,7 @@ const CompanyDetail = () => {
         value={"value"}
         name={'employeeID'}
         placeholder={'#EMP000001'}
-        handleChange={handleChange} />
+        handleChange={handleChange} type={undefined} />
       <Box sx={{ display: "flex" }}>
         <SelectField
           title={'Select Branch'}

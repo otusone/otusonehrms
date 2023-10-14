@@ -38,16 +38,14 @@ const PersonalDetail = () => {
                         name={'name'}
                         value={inputData.name}
                         placeholder={'Enter employee Name'}
-                        handleChange={handleChange}
-                    />
+                        handleChange={handleChange} type={undefined}                    />
                     <DateField />
                     <InputField
                         label={'Email'}
                         name={'email'}
                         value={inputData.email}
                         placeholder={'Enter employee Email'}
-                        handleChange={handleChange}
-                    />
+                        handleChange={handleChange} type={undefined}                    />
                 </Grid>
                 <Grid item sm={6}>
                     <InputField
@@ -55,7 +53,7 @@ const PersonalDetail = () => {
                         name={'phone'}
                         value={inputData.phone}
                         placeholder={'Enter employee Phone'}
-                        handleChange={handleChange} />
+                        handleChange={handleChange} type={undefined} />
                     <FormControl>
                         <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
                         <RadioGroup
@@ -72,7 +70,7 @@ const PersonalDetail = () => {
                         name={'password'}
                         value={inputData.password}
                         placeholder={'Enter employee Password'}
-                        handleChange={handleChange} />
+                        handleChange={handleChange} type={undefined} />
                 </Grid>
             </Grid>
             <InputField
@@ -80,7 +78,7 @@ const PersonalDetail = () => {
                 name={'address'}
                 value={inputData.address}
                 placeholder={'Enter employee address'}
-                handleChange={handleChange} />
+                handleChange={handleChange} type={undefined} />
         </Grid>
     )
 }

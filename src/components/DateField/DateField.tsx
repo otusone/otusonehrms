@@ -13,7 +13,7 @@ const DateField = () => {
     return (
         <Grid className={styles.dataFieldContainer}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer sx={{display:"flex"}} components={['DatePicker', 'DatePicker']}>
+                <DemoContainer sx={{ display: "flex" }} components={['DatePicker', 'DatePicker']}>
                     <Typography>Date Of Birth</Typography>
                     <DatePicker
                         value={value}

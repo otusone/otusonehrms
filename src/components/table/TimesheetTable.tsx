@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './TimesheetTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { MdOutlineMode } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import AttandanceModal from '../attandanceModal/AttandanceModal';
+import DeleteModal from '../deleteModal/DeleteModal';
 
 export interface ITimesheetTable {
     tableHeading: any;
@@ -11,10 +13,16 @@ export interface ITimesheetTable {
 }
 
 const TimesheetTable = ({ tableHeading, tableData, IsAction }: ITimesheetTable) => {
-    const editHandler = (itemID: any) => {
-
-    }
+    const [open, setOpen] = useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const openModal = () => setOpen(!open)
+    const handleClose = () => setOpen(false)
+    const editHandler = (itemID: any) => { }
     const deleteHandler = (itemID: any) => { }
+    const cancelDelete = () => setOpenDeleteModal(false)
+    const deleteTable = () => { }
+    const deleteModal = () => setOpenDeleteModal(!openDeleteModal)
+
     return (
         <Grid className={styles.meetingScheduleContainer}>
             <TableContainer>
@@ -32,15 +40,15 @@ const TimesheetTable = ({ tableHeading, tableData, IsAction }: ITimesheetTable) 
                         {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.row_1}</TableCell>
-                                    <TableCell>{item.row_2}</TableCell>
-                                    <TableCell>{item.row_3}</TableCell>
-                                    <TableCell>{item.row_4}</TableCell>
+                                    <TableCell>{item.employee}</TableCell>
+                                    <TableCell>{item.date}</TableCell>
+                                    <TableCell>{item.hours}</TableCell>
+                                    <TableCell>{item.remark}</TableCell>
                                     {IsAction ?
                                         <TableCell className={styles.tableAction}>
-                                            <MdOutlineMode onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30}
+                                            <MdOutlineMode onClick={() => { openModal(); editHandler(item.id) }} fontSize={30}
                                             />
-                                            <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
+                                            <RiDeleteBinLine onClick={() => { deleteModal(); deleteHandler(item.id) }} fontSize={30} />
                                         </TableCell>
                                         : ""}
                                 </TableRow>
@@ -49,6 +57,19 @@ const TimesheetTable = ({ tableHeading, tableData, IsAction }: ITimesheetTable) 
                     </TableBody>
                 </Table>
             </TableContainer>
+            <AttandanceModal
+                heading={'Edit Timesheet'}
+                open={open}
+                handleClose={handleClose}
+            />
+            <DeleteModal
+                heading={'Are you sure?'}
+                subHeading={'This action can not be undone. Do you want to continue?'}
+                open={openDeleteModal}
+                clossModal={undefined}
+                noHandler={cancelDelete}
+                yesHandler={deleteTable}
+            />
         </Grid>
     )
 }

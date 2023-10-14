@@ -1,27 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './AttandanceModal.module.scss'
-import { Grid, Modal, Box, Typography, Divider } from '@mui/material'
+import { Grid, Modal, Box, Typography, Divider, SelectChangeEvent } from '@mui/material'
 import SelectField from '../SelectField/SelectField';
-import DateField from '../DateField/DateField';
 import InputField from '../inputField/InputField';
 import CommonButton from '../common/CommonButton/CommonButton';
+import { RxCross1 } from 'react-icons/rx';
 
 export interface IAttandanceModal {
+    heading?: string;
     open: boolean;
-    handleClose?: () => void;
-
+    handleClose?: any;
+    inputData?: any;
+    handleChange?: any;
 }
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 550,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+
 const data = [
     {
         "id": 1,
@@ -32,58 +24,83 @@ const data = [
         "label": "john"
     }
 ]
-const AttandanceModal = ({ open, handleClose }: IAttandanceModal) => {
+const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }: IAttandanceModal) => {
+    // const [inputData, setInputData] = useState({
+    //     employee: '',
+    //     hours: '',
+    //     remark: '',
+    //     date: ''
+    // })
+    // const handleChange = (e: SelectChangeEvent) => {
+    //     const { name, value } = e.target;
+    //     setInputData({ ...inputData, [name]: value })
+    // }
+    const formData = {
+        employee: inputData.employee,
+        hours: inputData.hours,
+        remark: inputData.remark,
+        date: inputData.date
+    }
+    const createHandler = () => {
+        localStorage.setItem("data", JSON.stringify(formData))
+    }
+    console.log(inputData, 'hello')
     return (
-        <Grid className={styles.attandanceModalContainer}>
+        <Grid>
             <Modal
                 open={open}
             >
-                <Box sx={style} >
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Create New Timesheet
-                    </Typography>
+                <Grid className={styles.attandanceModal} >
+                    <Box>
+                        <Typography variant="h6">{heading}</Typography>
+                        <RxCross1 onClick={handleClose} style={{ cursor: "pointer" }} fontSize={25} />
+                    </Box>
                     <Divider sx={{ marginBlock: 2 }} />
                     <SelectField
-                        title={''}
+                        title={'Empolyee'}
                         data={data}
-                        option={"data"}
-                        name={''}
-                        handleChange={undefined}
+                        option={inputData.employee}
+                        name={'employee'}
+                        handleChange={handleChange}
                     />
-                    <Box sx={{ display: "flex" }}>
-                        <DateField />
+                    <Box sx={{ display: "flex", marginBlock: 2 }}>
+                        <InputField
+                            label={'Date'}
+                            name={'date'}
+                            placeholder={''}
+                            value={inputData.date}
+                            handleChange={handleChange}
+                            type={'date'}
+                        />
                         <InputField
                             label={'Hours'}
-                            name={''}
-                            placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            name={'hours'}
+                            placeholder={'00:00:00'}
+                            value={inputData.hours}
+                            handleChange={handleChange}
+                            type={'number'}
                         />
                     </Box>
                     <InputField
                         label={'Remark'}
-                        name={''}
-                        placeholder={''}
-                        value={''}
-                        handleChange={undefined}
+                        name={'remark'}
+                        placeholder={'Write remark some hare!'}
+                        value={inputData.remark}
+                        handleChange={handleChange}
+                        type={undefined}
                     />
-                    <Box sx={{ display: "flex" }}>
+                    <Box sx={{ display: "flex", marginBlockStart: 2, width: "fit-content", marginInlineStart: "auto" }}>
                         <CommonButton
                             name={'Close'}
-                            onClick={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
+                            onClick={handleClose}
                         />
                         <CommonButton
                             name={'Create'}
-                            onClick={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
+                            onClick={createHandler}
                         />
                     </Box>
-                </Box>
+                </Grid>
             </Modal>
-
         </Grid>
     )
 }

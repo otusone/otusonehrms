@@ -50,8 +50,7 @@ const TicketModal = ({ open, clossModal }: ITicketModal) => {
                         name={'subject'}
                         placeholder={'Enter Ticket Subject'}
                         value={inputData.subject}
-                        handleChange={handleChange}
-                    />
+                        handleChange={handleChange} type={undefined}                    />
                     <SelectField
                         title={'Ticket for Employee'}
                         name={'ticket_for_employee'}
@@ -74,8 +73,7 @@ const TicketModal = ({ open, clossModal }: ITicketModal) => {
                         name={'description'}
                         placeholder={'Ticket Description'}
                         value={inputData.description}
-                        handleChange={undefined}
-                    />
+                        handleChange={undefined} type={undefined}                    />
                     <SelectField
                         title={'Status'}
                         name={'status'}

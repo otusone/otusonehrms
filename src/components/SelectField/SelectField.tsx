@@ -8,7 +8,7 @@ import styles from './SelectField.module.scss'
 export interface ISelectField {
     title: string;
     data: any;
-    option: string;
+    option: any;
     name: string;
     handleChange: any
 
