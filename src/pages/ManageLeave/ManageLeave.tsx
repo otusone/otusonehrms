@@ -1,20 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './ManageLeave.module.scss'
 import { Grid } from '@mui/material'
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading'
-import { useNavigate } from 'react-router-dom'
-import CommonTable from '../../components/common/CommonTable/CommonTable'
+import ManageLeaveTable from '../../components/common/ManageLeave/ManageLeaveTable'
 import data from './data.json'
+import CreateLeaveModal from '../../components/CreateLeaveModal/CreateLeaveModal'
+import LeaveActionModal from '../../components/LeaveActionModal/LeaveActionModal'
 
 const ManageLeave = () => {
-    const navigation = useNavigate()
+    const [open, setOpen] = useState(false)
+    const [actionModal, setActionModal] = useState(true)
+    const openModal = () => setOpen(!open)
+    const clossModal = () => setOpen(false)
+    const LeaveActionHandler = () => setActionModal(!actionModal)
+    const clossActionModal = () => setActionModal(false)
+    const leaveEditModal = (itemId: any) => setOpen(!open)
+
     return (
         <Grid className={styles.manageLeaveContainer}>
             <CommonHeading
                 heading={'Manage Leave'}
-                onClick={(() => navigation('/'))}
+                onClick={openModal}
             />
-            <CommonTable
+            <ManageLeaveTable
                 heading={'entries per page'}
                 tableData={data.tableData}
                 tableTitle={data.tableTitle}
@@ -25,6 +33,16 @@ const ManageLeave = () => {
                 IsCol_7={true}
                 IsManageLeaveStatus={true}
                 IsManageLeaveAction={true}
+                LeaveActionHandler={LeaveActionHandler}
+                editHandler={leaveEditModal}
+            />
+            <CreateLeaveModal
+                open={open}
+                clossModal={clossModal}
+            />
+            <LeaveActionModal
+                open={actionModal}
+                clossModal={clossActionModal}
             />
         </Grid>
     )

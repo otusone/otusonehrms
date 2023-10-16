@@ -1,3 +1,46 @@
 .createLeaveModalContainer {
-    border: 1px solid yellow;
+    width: 60%;
+    margin: auto;
+    margin-block-start: 4rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 2%;
+
+    >div+hr+div {
+        margin-block: 1rem;
+
+        >div {
+            width: 100%;
+
+            >div:nth-child(1) {
+                margin: auto !important;
+            }
+        }
+
+        >div:nth-child(2) {
+            margin-inline-start: 2%;
+        }
+    }
+
+    >div+hr+div+div {
+        margin-block-end: 1rem;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem !important;
+        }
+    }
+
+    >div+hr+div+div+div+div {
+        margin-block: 1rem;
+    }
+
+    >div+hr+div+div+div+div+div {
+        width: fit-content;
+        margin-inline-start: auto;
+
+        >div:nth-child(2) {
+            margin-inline-start: 0.5rem;
+        }
+
+    }
 }

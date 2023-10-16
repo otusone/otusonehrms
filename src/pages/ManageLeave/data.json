@@ -126,5 +126,25 @@
             "col_7": "Lorem Ipsum, Or Lipsum",
             "col_8": "reject"
         }
+    ],
+    "employee": [
+        {
+            "id": 1,
+            "label": "Alex"
+        },
+        {
+            "id": 2,
+            "label": "Max"
+        }
+    ],
+    "leaveType": [
+        {
+            "id": 1,
+            "label": "Max"
+        },
+        {
+            "id": 2,
+            "label": "Alex"
+        }
     ]
 }

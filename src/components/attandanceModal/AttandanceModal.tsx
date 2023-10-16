@@ -12,39 +12,41 @@ export interface IAttandanceModal {
     handleClose?: any;
     inputData?: any;
     handleChange?: any;
+    createHandler?: any;
 }
 
 const data = [
     {
         "id": 1,
-        "label": "harry"
+        "label": "test"
     },
     {
         "id": 2,
         "label": "john"
+    },
+    {
+        "id": 3,
+        "label": "harry"
+    },
+    {
+        "id": 4,
+        "label": "Text"
+    },
+    {
+        "id": 5,
+        "label": "Delete"
+    },
+    {
+        "id": 6,
+        "label": "Result"
     }
 ]
-const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }: IAttandanceModal) => {
-    // const [inputData, setInputData] = useState({
-    //     employee: '',
-    //     hours: '',
-    //     remark: '',
-    //     date: ''
-    // })
-    // const handleChange = (e: SelectChangeEvent) => {
-    //     const { name, value } = e.target;
-    //     setInputData({ ...inputData, [name]: value })
-    // }
-    const formData = {
-        employee: inputData.employee,
-        hours: inputData.hours,
-        remark: inputData.remark,
-        date: inputData.date
-    }
-    const createHandler = () => {
-        localStorage.setItem("data", JSON.stringify(formData))
-    }
-    console.log(inputData, 'hello')
+const AttandanceModal = ({ heading, inputData, handleChange, createHandler, open, handleClose }: IAttandanceModal) => {
+    const employee = inputData?.employee || ''
+    const date = inputData?.date || ''
+    const hours = inputData?.hours || ''
+    const remark = inputData?.remark || ''
+
     return (
         <Grid>
             <Modal
@@ -59,7 +61,7 @@ const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }
                     <SelectField
                         title={'Empolyee'}
                         data={data}
-                        option={inputData.employee}
+                        option={employee}
                         name={'employee'}
                         handleChange={handleChange}
                     />
@@ -68,7 +70,7 @@ const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }
                             label={'Date'}
                             name={'date'}
                             placeholder={''}
-                            value={inputData.date}
+                            value={date}
                             handleChange={handleChange}
                             type={'date'}
                         />
@@ -76,7 +78,7 @@ const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }
                             label={'Hours'}
                             name={'hours'}
                             placeholder={'00:00:00'}
-                            value={inputData.hours}
+                            value={hours}
                             handleChange={handleChange}
                             type={'number'}
                         />
@@ -85,7 +87,7 @@ const AttandanceModal = ({ heading, inputData, handleChange, open, handleClose }
                         label={'Remark'}
                         name={'remark'}
                         placeholder={'Write remark some hare!'}
-                        value={inputData.remark}
+                        value={remark}
                         handleChange={handleChange}
                         type={undefined}
                     />

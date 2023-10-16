@@ -24,28 +24,14 @@
     "tableData": [
         {
             "id": 1,
-            "employee": "Julie Lynn",
+            "employee": "Alex",
             "date": "Casual Leave",
             "hours": "Mar 4, 2023",
             "remark": "Mar 3, 2023"
         },
         {
             "id": 2,
-            "employee": "Julie Lynn",
-            "date": "Casual Leave",
-            "hours": "Mar 4, 2023",
-            "remark": "Mar 3, 2023"
-        },
-        {
-            "id": 3,
-            "employee": "Julie Lynn",
-            "date": "Casual Leave",
-            "hours": "Mar 4, 2023",
-            "remark": "Mar 3, 2023"
-        },
-        {
-            "id": 4,
-            "employee": "Julie Lynn",
+            "employee": "Max",
             "date": "Casual Leave",
             "hours": "Mar 4, 2023",
             "remark": "Mar 3, 2023"

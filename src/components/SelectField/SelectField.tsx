@@ -29,7 +29,7 @@ const SelectField = ({ title, data, option, name, handleChange }: ISelectField) 
                 >
                     {data.map((item: any) => {
                         return (
-                            <MenuItem value={item.id}>{item.label}</MenuItem>
+                            <MenuItem key={item.id} value={item.label}>{item.label}</MenuItem>
                         )
                     })}
                 </Select>

@@ -1,0 +1,29 @@
+.leaveActionModal {
+    border: 1px solid yellow;
+    width: 50%;
+    margin: auto;
+    margin-block-start: 4rem;
+    background-color: #ffffff;
+    padding: 2%;
+    border-radius: 0.5rem;
+
+    .leaveActionDetails {
+
+        h5 {
+            color: #293240;
+        }
+
+        span {
+            font-weight: 500;
+            color: #555C67;
+            padding-inline-start: 0.25rem;
+        }
+    }
+
+    .leaveActionDetails+div {
+        >div:nth-child(2) {
+            margin-inline-start: 0.5rem;
+        }
+    }
+
+}
