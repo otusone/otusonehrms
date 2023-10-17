@@ -8,9 +8,9 @@ export interface IAttandanceTable {
     tableHeading: any;
     tableData: any;
     IsAction: boolean;
+    editAction: any;
 }
-const AttandanceTable = ({ tableHeading, tableData, IsAction }: IAttandanceTable) => {
-    const editHandler = (itemID: any) => { }
+const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction }: IAttandanceTable) => {
     const deleteHandler = (itemID: any) => { }
 
     return (
@@ -30,17 +30,17 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction }: IAttandanceTable
                         {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.row_1}</TableCell>
-                                    <TableCell>{item.row_2}</TableCell>
-                                    <TableCell>{item.row_3}</TableCell>
-                                    <TableCell>{item.row_4}</TableCell>
-                                    <TableCell>{item.row_5}</TableCell>
-                                    <TableCell>{item.row_6}</TableCell>
-                                    <TableCell>{item.row_7}</TableCell>
-                                    <TableCell>{item.row_8}</TableCell>
+                                    <TableCell>{item.employee}</TableCell>
+                                    <TableCell>{item.date}</TableCell>
+                                    <TableCell>{item.status}</TableCell>
+                                    <TableCell>{item.clock_in}</TableCell>
+                                    <TableCell>{item.clock_out}</TableCell>
+                                    <TableCell>{item.late}</TableCell>
+                                    <TableCell>{item.early_leaving}</TableCell>
+                                    <TableCell>{item.overtime}</TableCell>
                                     {IsAction ?
                                         <TableCell className={styles.tableAction}>
-                                            <MdOutlineMode onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30}
+                                            <MdOutlineMode onClick={() => { console.log(item.id); editAction(item.id) }} fontSize={30}
                                             />
                                             <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
                                         </TableCell>
@@ -51,7 +51,6 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction }: IAttandanceTable
                     </TableBody>
                 </Table>
             </TableContainer>
-
         </Grid>
     )
 }
