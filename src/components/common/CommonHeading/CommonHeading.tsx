@@ -4,7 +4,6 @@ import { TiDocumentAdd } from 'react-icons/ti';
 import { TiDocument } from 'react-icons/ti';
 import { RiAddFill } from 'react-icons/ri';
 import { Grid, Typography, Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
 
 export interface ICommonHeading {
     heading: string;
@@ -12,7 +11,6 @@ export interface ICommonHeading {
     IsHeadingAction?: boolean
 }
 const CommonHeading = ({ heading, onClick, IsHeadingAction }: ICommonHeading) => {
-    const navigation = useNavigate()
     return (
         <Grid className={styles.commonHeadingContainer}>
             <Typography variant='h5'>{heading}</Typography>

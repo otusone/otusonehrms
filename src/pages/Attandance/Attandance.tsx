@@ -9,7 +9,7 @@ import TimesheetModal from '../../components/attandanceModal/AttandanceModal'
 import EditAttandanceModal from '../../components/EditAttandanceModal/EditAttandanceModal'
 
 const Attandance = () => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
     const [inputData, setInputData] = useState({ employee: '', date: "", clock_in: '', clock_out: '' })
     const openModal = (itemID: number) => setOpen(!open)
     const clossModal = () => setOpen(false)

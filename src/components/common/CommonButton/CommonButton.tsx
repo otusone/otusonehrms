@@ -3,7 +3,7 @@ import styles from './CommonButton.module.scss'
 import { Button, Grid } from '@mui/material'
 
 export interface ICommonButton {
-    name: string;
+    name: any;
     onClick: () => void;
 }
 const CommonButton = ({ name, onClick }: ICommonButton) => {

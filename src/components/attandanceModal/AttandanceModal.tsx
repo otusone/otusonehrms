@@ -12,7 +12,9 @@ export interface IAttandanceModal {
     handleClose?: any;
     inputData?: any;
     handleChange?: any;
-    createHandler?: any;
+    modalAction?: any;
+    buttonOne?: string;
+    buttonTwo?: string;
 }
 
 const data = [
@@ -41,7 +43,7 @@ const data = [
         "label": "Result"
     }
 ]
-const AttandanceModal = ({ heading, inputData, handleChange, createHandler, open, handleClose }: IAttandanceModal) => {
+const AttandanceModal = ({ heading, inputData, handleChange, modalAction, open, handleClose, buttonOne, buttonTwo }: IAttandanceModal) => {
     const employee = inputData?.employee || ''
     const date = inputData?.date || ''
     const hours = inputData?.hours || ''
@@ -89,16 +91,16 @@ const AttandanceModal = ({ heading, inputData, handleChange, createHandler, open
                         placeholder={'Write remark some hare!'}
                         value={remark}
                         handleChange={handleChange}
-                        type={undefined}
+                        type={"text"}
                     />
                     <Box sx={{ display: "flex", marginBlockStart: 2, width: "fit-content", marginInlineStart: "auto" }}>
                         <CommonButton
-                            name={'Close'}
+                            name={buttonOne}
                             onClick={handleClose}
                         />
                         <CommonButton
-                            name={'Create'}
-                            onClick={createHandler}
+                            name={buttonTwo}
+                            onClick={modalAction}
                         />
                     </Box>
                 </Grid>

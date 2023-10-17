@@ -6,7 +6,6 @@ import TimesheetFilter from '../../components/timesheetFilter/TimesheetFilter';
 import data from './data.json'
 import TimesheetTable from '../../components/table/TimesheetTable';
 import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
-import DeleteModal from '../../components/deleteModal/DeleteModal';
 
 export interface IinputDataType {
     [x: string]: any;
@@ -14,47 +13,58 @@ export interface IinputDataType {
     hours: string;
     remark: string;
     date: string;
+    id: string | number;
 }
 const TimeSheet = () => {
     const [open, setOpen] = useState(false)
+    const [editModal, setEditModal] = useState(false)
     const [timesheetTable, setTimesheetTable] = useState<IinputDataType[]>(data.tableData)
-    const [inputData, setInputData] = useState<IinputDataType>({ employee: '', hours: '', remark: '', date: '' })
+    const [inputData, setInputData] = useState<IinputDataType>({ id: "", employee: '', hours: '', remark: '', date: '' })
+    const [itemToEdit, setItemToEdit] = useState(null);
 
     const openModal = () => setOpen(!open)
     const handleClose = () => setOpen(false)
+    const clossEditModal = () => setEditModal(false)
     const handleChange = (e: SelectChangeEvent) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
     }
-    const employeeData = {
-        employee: inputData.employee,
-        hours: inputData.hours,
-        date: inputData.date,
-        remark: inputData.remark
 
-    }
-    const createHandler = () => {
-        setTimesheetTable([...timesheetTable, inputData])
-        localStorage.setItem("data", JSON.stringify(employeeData))
-    }
-    const deleteTableHandler = (itemID: any) => { console.log(itemID, "hi") }
-    const deleteHandler = (itemID: any) => {
-        const newTimesheetTable = timesheetTable.filter((item) => item.id !== itemID)
-        setTimesheetTable(newTimesheetTable)
+    const createNewTimesheet = () => {
+        let id = timesheetTable.length + 1
+        inputData.id = id;
+        setTimesheetTable([...timesheetTable, inputData]);
+        setOpen(false)
     }
 
+    const editHandler = (itemToEdit: any) => {
+        setItemToEdit(itemToEdit);
+        console.log(itemToEdit, "itemToEdit");
+        setEditModal(!editModal)
+    }
+    const editTimesheet = () => {
+        console.log("edit", itemToEdit)
+
+    }
+
+    const deleteHandler = (itemToDelete: any) => {
+        const updatedTableData = timesheetTable.filter((row) => row.id !== itemToDelete);
+        console.log(itemToDelete, "itemToDelete")
+        setTimesheetTable(updatedTableData)
+    }
     return (
         <Grid className={styles.timeSheetContainer}>
             <CommonHeading
                 heading={'Manage Timesheet'}
                 onClick={openModal}
+                IsHeadingAction={true}
             />
             <TimesheetFilter />
             <TimesheetTable
                 tableHeading={data.tableTitle}
                 tableData={timesheetTable}
                 IsAction={true}
-                deleteTable={deleteTableHandler}
+                editHandler={editHandler}
                 deleteHandler={deleteHandler}
             />
             <AttandanceModal
@@ -63,7 +73,19 @@ const TimeSheet = () => {
                 handleClose={handleClose}
                 inputData={inputData}
                 handleChange={handleChange}
-                createHandler={createHandler}
+                modalAction={createNewTimesheet}
+                buttonOne='Closs'
+                buttonTwo='Create'
+            />
+            <AttandanceModal
+                heading="Edit Timesheet"
+                open={editModal}
+                handleClose={clossEditModal}
+                inputData={inputData}
+                handleChange={handleChange}
+                modalAction={editTimesheet}
+                buttonOne='Closs'
+                buttonTwo='Update'
             />
         </Grid>
     )
