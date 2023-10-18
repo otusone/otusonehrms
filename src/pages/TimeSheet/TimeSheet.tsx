@@ -8,7 +8,6 @@ import TimesheetTable from '../../components/table/TimesheetTable';
 import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
 
 export interface IinputDataType {
-    [x: string]: any;
     emp_id: string;
     employee: string;
     hours: string;
@@ -21,6 +20,7 @@ const TimeSheet = () => {
     const [editModal, setEditModal] = useState(false)
     const [timesheetTable, setTimesheetTable] = useState<IinputDataType[]>(data.tableData)
     const [inputData, setInputData] = useState<IinputDataType>({ id: "", emp_id: '', employee: '', hours: '', remark: '', date: '' })
+    const [searchData, setSearchDeta] = useState({ startDate: "", endDate: "" })
     const [itemToEdit, setItemToEdit] = useState(null);
     const openModal = () => setOpen(!open)
     const handleClose = () => setOpen(false)
@@ -28,7 +28,23 @@ const TimeSheet = () => {
 
     const handleChange = (e: SelectChangeEvent) => {
         const { name, value } = e.target;
-        setInputData({ ...inputData, [name]: value })
+        setInputData({ ...inputData, [name]: value });
+        setSearchDeta({ ...searchData, [name]: value });
+    }
+    const handleSearch = () => {
+        const { startDate, endDate } = searchData;
+        const filteredData = timesheetTable.filter(item => {
+            const itemDate = new Date(item.date);
+            return (
+                (!startDate || itemDate >= new Date(startDate)) &&
+                (!endDate || itemDate <= new Date(endDate))
+            );
+        });
+        setTimesheetTable(filteredData)
+    }
+    const handleReset = () => {
+        setTimesheetTable(timesheetTable)
+        console.log(timesheetTable, "timesheetTable")
     }
 
     const createNewTimesheet = () => {
@@ -77,7 +93,12 @@ const TimeSheet = () => {
                 onClick={openModal}
                 IsHeadingAction={true}
             />
-            <TimesheetFilter />
+            <TimesheetFilter
+                searchData={searchData}
+                handleChange={handleChange}
+                handleSearch={handleSearch}
+                handleReset={handleReset}
+            />
             <TimesheetTable
                 tableHeading={data.tableTitle}
                 tableData={timesheetTable}

@@ -8,17 +8,15 @@
 
     >div:nth-child(1),
     >div:nth-child(2) {
-        margin-inline-start: 0.5rem;
         margin-block: auto !important;
+        width: 100%;
+    }
+
+    >div:nth-child(2) {
+        margin-inline: 0.5rem;
     }
 
     >div:nth-child(3) {
-        >div {
-            width: 20rem !important;
-        }
-    }
-
-    >div:nth-child(4) {
         display: flex;
         margin: auto;
 

@@ -4,37 +4,37 @@ import { Box, Grid, Typography } from '@mui/material'
 import SelectField from '../SelectField/SelectField'
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineDeleteForever } from 'react-icons/md';
-import DateField from '../DateField/DateField';
+import InputField from '../inputField/InputField';
 
+export interface ITimesheetFilter {
+    handleChange?: any;
+    handleSearch?: any;
+    handleReset?: any;
+    searchData?: any;
+}
+const TimesheetFilter = ({ handleChange, handleSearch, handleReset, searchData }: ITimesheetFilter) => {
 
-const TimesheetFilter = () => {
-    const data = [
-        {
-            "id": 1, "label": "aman"
-        },
-        {
-            "id": 2, "label": "Abhay"
-        },
-        {
-            "id": 3, "label": "arjun"
-        },
-        {
-            "id": 4, "label": "anuj"
-        }
-    ]
     return (
         <Grid className={styles.timesheetFilterContainer}>
-            <DateField />
-            <DateField />
-            <SelectField
-                title={'Employee'}
-                data={data}
-                option={''} name={''}
-                handleChange={undefined}
+            <InputField
+                label={'Start Date'}
+                name={'startDate'}
+                placeholder={''}
+                value={searchData.startDate}
+                handleChange={handleChange}
+                type={"date"}
+            />
+            <InputField
+                label={'End Date'}
+                name={'endDate'}
+                placeholder={''}
+                value={searchData.endDate}
+                handleChange={handleChange}
+                type={"date"}
             />
             <Box>
-                <BsSearch fontSize={35} />
-                <MdOutlineDeleteForever fontSize={35} />
+                <BsSearch onClick={handleSearch} cursor={"pointer"} fontSize={35} />
+                <MdOutlineDeleteForever onClick={handleReset} cursor={"pointer"} fontSize={35} />
             </Box>
         </Grid>
     )
