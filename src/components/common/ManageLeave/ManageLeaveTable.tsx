@@ -5,7 +5,7 @@ import CommonButton from '../CommonButton/CommonButton';
 import { MdOutlineMode } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { BiRightArrow } from 'react-icons/bi';
-import SearchBox from '../searchBox/SerachBox'
+import SearchBox from '../searchBox/SearchBox'
 
 export interface IManageLeaveTable {
     heading: string;

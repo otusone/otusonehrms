@@ -1,0 +1,58 @@
+{
+    "tableHeading": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE ID"
+        },
+        {
+            "id": 2,
+            "title": "NAME"
+        },
+        {
+            "id": 3,
+            "title": "EMAIL"
+        },
+        {
+            "id": 4,
+            "title": "BRANCH"
+        },
+        {
+            "id": 5,
+            "title": "DEPARTMENT"
+        },
+        {
+            "id": 6,
+            "title": "DESIGNATION"
+        },
+        {
+            "id": 7,
+            "title": "DATE OF JOINING"
+        },
+        {
+            "id": 8,
+            "title": "ACTION"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "emp_id": "EMP000001",
+            "employee": "Alex",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "Noida",
+            "department": "Web Development",
+            "designation": "Team Leader",
+            "dateOfJoing": "Mar 4, 2023"
+        },
+        {
+            "id": 2,
+            "emp_id": "EMP000002",
+            "employee": "Max",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "Delhi",
+            "department": "Web Development",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 6, 2023"
+        }
+    ]
+}

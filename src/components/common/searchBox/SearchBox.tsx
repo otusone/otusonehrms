@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './SearchBox.module.scss'
 import { Grid, TextField } from '@mui/material'
 
-const SerachBox = () => {
+const SearchBox = () => {
   return (
     <Grid>
       <TextField placeholder='Search...' />
@@ -10,4 +10,4 @@ const SerachBox = () => {
   )
 }
 
-export default SerachBox
+export default SearchBox;

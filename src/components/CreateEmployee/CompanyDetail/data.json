@@ -1,0 +1,32 @@
+{
+    "branch": [
+        {
+            "id": 1,
+            "label": "Noida"
+        },
+        {
+            "id": 2,
+            "label": "Delhi"
+        }
+    ],
+    "department": [
+        {
+            "id": 1,
+            "label": "IT"
+        },
+        {
+            "id": 2,
+            "label": "Associat"
+        }
+    ],
+    "designation": [
+        {
+            "id": 1,
+            "label": "Team Leader"
+        },
+        {
+            "id": 2,
+            "label": "Manager"
+        }
+    ]
+}
