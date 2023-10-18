@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './AttandanceModal.module.scss'
-import { Grid, Modal, Box, Typography, Divider, SelectChangeEvent } from '@mui/material'
+import { Grid, Modal, Box, Typography, Divider } from '@mui/material'
 import SelectField from '../SelectField/SelectField';
 import InputField from '../inputField/InputField';
 import CommonButton from '../common/CommonButton/CommonButton';
@@ -44,6 +44,7 @@ const data = [
     }
 ]
 const AttandanceModal = ({ heading, inputData, handleChange, modalAction, open, handleClose, buttonOne, buttonTwo }: IAttandanceModal) => {
+    const emp_id = inputData?.emp_id || ''
     const employee = inputData?.employee || ''
     const date = inputData?.date || ''
     const hours = inputData?.hours || ''
@@ -60,13 +61,24 @@ const AttandanceModal = ({ heading, inputData, handleChange, modalAction, open, 
                         <RxCross1 onClick={handleClose} style={{ cursor: "pointer" }} fontSize={25} />
                     </Box>
                     <Divider sx={{ marginBlock: 2 }} />
-                    <SelectField
-                        title={'Empolyee'}
-                        data={data}
-                        option={employee}
-                        name={'employee'}
-                        handleChange={handleChange}
-                    />
+                    <Box sx={{ display: "flex", marginBlock: 2 }}>
+                        <InputField
+                            label={'Employee ID'}
+                            name={'emp_id'}
+                            placeholder={'EMP000001'}
+                            value={emp_id}
+                            handleChange={handleChange}
+                            type={'text'}
+                        />
+                        <InputField
+                            label={'Employee Name'}
+                            name={'employee'}
+                            placeholder={'John Deo'}
+                            value={employee}
+                            handleChange={handleChange}
+                            type={'text'}
+                        />
+                    </Box>
                     <Box sx={{ display: "flex", marginBlock: 2 }}>
                         <InputField
                             label={'Date'}

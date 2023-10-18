@@ -2,28 +2,33 @@
     "tableTitle": [
         {
             "id": 1,
-            "title": "EMPLOYEE"
+            "title": "EMPLOYEE ID"
         },
         {
             "id": 2,
-            "title": "DATE"
+            "title": "EMPLOYEE NAME"
         },
         {
             "id": 3,
-            "title": "HOURS"
+            "title": "DATE"
         },
         {
             "id": 4,
-            "title": "REMARK"
+            "title": "HOURS"
         },
         {
             "id": 5,
+            "title": "REMARK"
+        },
+        {
+            "id": 6,
             "title": "ACTION"
         }
     ],
     "tableData": [
         {
             "id": 1,
+            "emp_id": "EMP000001",
             "employee": "Alex",
             "date": "Casual Leave",
             "hours": "Mar 4, 2023",
@@ -31,6 +36,7 @@
         },
         {
             "id": 2,
+            "emp_id": "EMP000002",
             "employee": "Max",
             "date": "Casual Leave",
             "hours": "Mar 4, 2023",

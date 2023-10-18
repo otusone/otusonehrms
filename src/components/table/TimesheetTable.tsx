@@ -31,6 +31,7 @@ const TimesheetTable = ({ tableHeading, tableData, IsAction, editHandler, delete
                         {tableData.map((item: any,) => {
                             return (
                                 <TableRow key={item.id}>
+                                    <TableCell>{item.emp_id}</TableCell>
                                     <TableCell>{item.employee}</TableCell>
                                     <TableCell>{item.date}</TableCell>
                                     <TableCell>{item.hours}</TableCell>

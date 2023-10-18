@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styles from './TimeSheet.module.scss'
 import { Grid, SelectChangeEvent } from '@mui/material';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
@@ -9,6 +9,7 @@ import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
 
 export interface IinputDataType {
     [x: string]: any;
+    emp_id: string;
     employee: string;
     hours: string;
     remark: string;
@@ -19,12 +20,12 @@ const TimeSheet = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [timesheetTable, setTimesheetTable] = useState<IinputDataType[]>(data.tableData)
-    const [inputData, setInputData] = useState<IinputDataType>({ id: "", employee: '', hours: '', remark: '', date: '' })
+    const [inputData, setInputData] = useState<IinputDataType>({ id: "", emp_id: '', employee: '', hours: '', remark: '', date: '' })
     const [itemToEdit, setItemToEdit] = useState(null);
-
     const openModal = () => setOpen(!open)
     const handleClose = () => setOpen(false)
     const clossEditModal = () => setEditModal(false)
+
     const handleChange = (e: SelectChangeEvent) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
@@ -33,18 +34,35 @@ const TimeSheet = () => {
     const createNewTimesheet = () => {
         let id = timesheetTable.length + 1
         inputData.id = id;
-        setTimesheetTable([...timesheetTable, inputData]);
-        setOpen(false)
+        if (inputData.employee == "" || inputData.date == "" || inputData.hours == "" || inputData.remark == "") {
+            console.log("please fill employee name!");
+            return;
+        } else {
+            setTimesheetTable([...timesheetTable, inputData]);
+        }
+        setOpen(false);
     }
 
     const editHandler = (itemToEdit: any) => {
         setItemToEdit(itemToEdit);
-        console.log(itemToEdit, "itemToEdit");
         setEditModal(!editModal)
     }
     const editTimesheet = () => {
-        console.log("edit", itemToEdit)
+        if (inputData.employee == "" || inputData.date == "" || inputData.hours == "" || inputData.remark == "") {
+            console.log("please update all the field");
+            return;
+        } else {
+            timesheetTable.map((item => {
+                if (item.id === itemToEdit) {
+                    item.employee = inputData.employee
+                    item.date = inputData.date
+                    item.hours = inputData.hours
+                    item.remark = inputData.remark
+                }
+            }))
+        }
 
+        setEditModal(false)
     }
 
     const deleteHandler = (itemToDelete: any) => {
