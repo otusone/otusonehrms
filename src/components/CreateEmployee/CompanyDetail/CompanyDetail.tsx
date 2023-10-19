@@ -3,7 +3,6 @@ import { Grid, Box, Typography, Divider } from '@mui/material'
 import styles from './CompanyDetail.module.scss'
 import InputField from '../../inputField/InputField'
 import SelectField from '../../SelectField/SelectField'
-import DateField from '../../DateField/DateField'
 import data from './data.json'
 
 export interface ICompanyDetail {
@@ -48,8 +47,15 @@ const CompanyDetail = ({ companyDetail, handleChange }: ICompanyDetail) => {
         option={companyDetail.designation}
         handleChange={handleChange}
       />
-      <DateField
+      <InputField
+        label={'Date Of Joining'}
+        name={'dateOfJoining'}
+        placeholder={''}
+        value={companyDetail.dateOfJoining}
+        handleChange={handleChange}
+        type={"date"}
       />
+
     </Grid>
   )
 }

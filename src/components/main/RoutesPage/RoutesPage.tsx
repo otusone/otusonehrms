@@ -13,6 +13,7 @@ import Ticket from '../../../pages/Ticket/Ticket'
 import ManageLeave from '../../../pages/ManageLeave/ManageLeave'
 import Attandance from '../../../pages/Attandance/Attandance'
 import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmployee'
+import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 
 const RoutesPage = () => {
     return (
@@ -24,6 +25,7 @@ const RoutesPage = () => {
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/employee/create-employee' element={<CreateNewEmployee />} />
+                <Route path='/employee/edit-employee' element={<EditAddedEmployee />} />
                 {/* <Route path='#' element={<PayrollPage />} /> */}
                 <Route path='/timesheet' element={<TimeSheet />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />

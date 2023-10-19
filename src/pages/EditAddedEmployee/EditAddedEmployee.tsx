@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './CreateNewEmployee.module.scss'
+import styles from '../CreateNewEmployee/CreateNewEmployee.module.scss'
 import { Box, Grid } from '@mui/material'
 import PersonalDetail from '../../components/CreateEmployee/PersonalDetail/PersonalDetail';
 import CompanyDetail from '../../components/CreateEmployee/CompanyDetail/CompanyDetail';
@@ -7,10 +7,8 @@ import EmployeeDocument from '../../components/CreateEmployee/EmployeeDocument/E
 import EmpBankDetails from '../../components/CreateEmployee/EmpBankDetails/EmpBankDetails';
 import CommonButton from '../../components/common/CommonButton/CommonButton';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
-import { useNavigate } from 'react-router-dom';
 
-const CreateNewEmployee = () => {
-    const navigation = useNavigate()
+const EditAddedEmployee = () => {
     const [personalDetail, SetPersonalDetail] = useState({
         name: '',
         email: '',
@@ -39,8 +37,6 @@ const CreateNewEmployee = () => {
         branchLocation: '',
         taxPayerId: ''
     })
-    const [employeData, setEmployeeData] = useState<any>(null)
-    const [addEmploye, setAddEmployee] = useState<any>()
 
     const handleChangePersonalDetails = (e: any) => {
         const { name, value } = e.target;
@@ -57,25 +53,17 @@ const CreateNewEmployee = () => {
     const handleChangeBankDetails = (e: any) => {
         const { name, value } = e.target;
         setBankDetails({ ...bankDetails, [name]: value })
+        console.log(bankDetails, "bankDetails")
     }
-    const personal = employeData
     const handleCreateEmployee = () => {
-        setEmployeeData({
-            personalDetail,
-            companyDetail,
-            empDocument,
-            bankDetails
-        });
-        setAddEmployee(addEmploye)
-        console.log(personal, "personal")
-        console.log(addEmploye, "addEmploye")
+        console.log("hello")
     }
 
     return (
         <>
             <Box sx={{ marginInlineStart: 3 }}>
                 <CommonHeading
-                    heading={'Create Employee'}
+                    heading={'Edit Employee'}
                 />
             </Box>
             <Grid className={styles.createNewEmployee}>
@@ -106,15 +94,12 @@ const CreateNewEmployee = () => {
                     </Grid>
                 </Grid>
                 <CommonButton
-                    name={"Create"}
-                    onClick={() => {
-                        handleCreateEmployee();
-                        // navigation('/employee');
-                    }}
+                    name={"Update"}
+                    onClick={handleCreateEmployee}
                 />
             </Grid>
         </>
     )
 }
 
-export default CreateNewEmployee;
+export default EditAddedEmployee;

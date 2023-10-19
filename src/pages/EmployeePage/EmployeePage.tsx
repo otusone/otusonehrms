@@ -21,9 +21,11 @@ const EmployeePage = () => {
                 tableTitle={data.tableHeading}
                 tableData={data.tableData}
                 handleLeaveAction={undefined}
-                handleEdit={undefined}
+                handleEdit={(() => navigation('/employee/edit-employee'))}
                 handleDelete={undefined}
             />
+
+            
         </Grid>
     )
 }
