@@ -4,7 +4,7 @@ import { Grid, SelectChangeEvent } from '@mui/material';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import TimesheetFilter from '../../components/timesheetFilter/TimesheetFilter';
 import data from './data.json'
-import TimesheetTable from '../../components/table/TimesheetTable';
+import TimesheetTable from '../../components/tableData/timesheetTable/TimesheetTable';
 import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
 
 export interface IinputDataType {

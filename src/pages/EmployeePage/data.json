@@ -1,5 +1,5 @@
 {
-    "tableHeading": [
+    "tableTitle": [
         {
             "id": 1,
             "title": "EMPLOYEE ID"
@@ -22,7 +22,7 @@
         },
         {
             "id": 6,
-            "title": "DESIGNATION"
+            "title": "DESINATION"
         },
         {
             "id": 7,
@@ -36,23 +36,91 @@
     "tableData": [
         {
             "id": 1,
-            "emp_id": "EMP000001",
-            "employee": "Alex",
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
             "email": "IsidroTJohnson@armyspy.com",
-            "branch": "Noida",
-            "department": "Web Development",
-            "designation": "Team Leader",
-            "dateOfJoing": "Mar 4, 2023"
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
         },
         {
             "id": 2,
-            "emp_id": "EMP000002",
-            "employee": "Max",
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
             "email": "IsidroTJohnson@armyspy.com",
-            "branch": "Delhi",
-            "department": "Web Development",
+            "branch": "China",
+            "department": "Industrials",
             "designation": "Manager",
-            "dateOfJoing": "Mar 6, 2023"
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 3,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 4,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 5,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 6,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 7,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
+        },
+        {
+            "id": 8,
+            "emp_id": "#EMP0000001",
+            "employee": "Julie Lynn",
+            "email": "IsidroTJohnson@armyspy.com",
+            "branch": "China",
+            "department": "Industrials",
+            "designation": "Manager",
+            "dateOfJoing": "Mar 4, 2020",
+            "col_8": "action"
         }
     ]
 }

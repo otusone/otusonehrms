@@ -8,12 +8,12 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import SearchBox from '../../common/searchBox/SearchBox';
 
 export interface IEmployeeTable {
-    heading?: string;
-    tableTitle?: any;
-    tableData?: any;
-    handleLeaveAction?: any;
-    handleEdit?: any;
-    handleDelete?: any;
+    heading: string;
+    tableTitle: any;
+    tableData: any;
+    handleLeaveAction: any;
+    handleEdit: any;
+    handleDelete: any;
 }
 
 const EmployeeTable = ({ heading, tableTitle, tableData, handleLeaveAction, handleEdit, handleDelete }: IEmployeeTable) => {

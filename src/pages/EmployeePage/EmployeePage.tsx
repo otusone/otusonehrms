@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './EmployeePage.module.scss'
 import { Grid } from '@mui/material'
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading'
-import EmployeeTable from '../../components/employee/EmployeeTable/EmployeeTable'
+import EmployeeTable from '../../components/tableData/employeeTable/EmployeeTable'
 import data from './data.json'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,15 +17,13 @@ const EmployeePage = () => {
                 onClick={(() => navigation('/employee/create-employee'))}
             />
             <EmployeeTable
-                heading={'entries per page'}
-                tableTitle={data.tableHeading}
+                heading={''}
+                tableTitle={data.tableTitle}
                 tableData={data.tableData}
                 handleLeaveAction={undefined}
-                handleEdit={(() => navigation('/employee/edit-employee'))}
+                handleEdit={undefined}
                 handleDelete={undefined}
             />
-
-            
         </Grid>
     )
 }

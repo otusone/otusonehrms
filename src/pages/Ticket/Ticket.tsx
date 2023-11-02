@@ -42,18 +42,7 @@ const Ticket = () => {
                 </Grid>
             </Grid>
             <Grid>
-                <CommonTable
-                    heading={'entries per page'}
-                    tableData={ticketTableData}
-                    IsEmployeeID={false}
-                    IsAction={true}
-                    tableTitle={ticketTableHeading}
-                    IsStatus={true}
-                    IsProperty={true}
-                    IsCol_7={false} IsManageLeaveStatus={false}
-                    IsManageLeaveAction={false}
-                    
-                />
+
             </Grid>
             <TicketModal
                 open={open}

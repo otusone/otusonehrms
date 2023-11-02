@@ -10,23 +10,14 @@ import SearchBox from '../searchBox/SearchBox'
 export interface IManageLeaveTable {
     heading: string;
     tableData: any;
-    IsEmployeeID: boolean;
-    IsAction: boolean;
     tableTitle: any
-    IsStatus: boolean;
-    IsProperty: boolean;
-    IsCol_7: boolean
-    IsManageLeaveStatus: boolean;
     IsManageLeaveAction: boolean;
-    LeaveActionHandler?: any
+    leaveActionHandler?: any
     editHandler?: any;
+    deleteHandler: any
 }
 
-const ManageLeaveTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, IsStatus, IsProperty, IsCol_7, IsManageLeaveStatus, IsManageLeaveAction, LeaveActionHandler, editHandler }: IManageLeaveTable) => {
-
-    const deleteHandler = (itemId: number) => {
-        console.log("delete")
-    }
+const ManageLeaveTable = ({ heading, tableTitle, tableData,  IsManageLeaveAction, leaveActionHandler, editHandler,deleteHandler }: IManageLeaveTable) => {
     return (
         <Grid className={styles.commonTableContainer}>
             <TableHead className={styles.tableHead}>
@@ -47,7 +38,25 @@ const ManageLeaveTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsActi
                     <TableBody>
                         {tableData.map((item: any) => {
                             return (
-                                <TableRow key={item.id}>
+                                <>
+                                    <TableRow key={item.id}>
+                                        <TableCell>{item.empName}</TableCell>
+                                        <TableCell>{item.leaveType}</TableCell>
+                                        <TableCell>{item.appliedOn}</TableCell>
+                                        <TableCell>{item.startDate}</TableCell>
+                                        <TableCell>{item.endDate}</TableCell>
+                                        <TableCell>{item.status}</TableCell>
+                                        <TableCell>{item.totalDays}</TableCell>
+                                        <TableCell>{item.leaveReason}</TableCell>
+                                        <TableCell className={styles.tableAction}>
+                                            {IsManageLeaveAction ? <BiRightArrow onClick={() => { leaveActionHandler(); }} fontSize={30} /> : ""}
+
+                                            <MdOutlineMode onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30}
+                                            />
+                                            <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* <TableRow key={item.id}>
                                     {IsEmployeeID ? <TableCell> <CommonButton name={item.col_1} onClick={function (): void {
                                         throw new Error('Function not implemented.');
                                     }} /> </TableCell>
@@ -71,7 +80,9 @@ const ManageLeaveTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsActi
                                             <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
                                         </TableCell>
                                         : ""}
-                                </TableRow>
+                                </TableRow> */}
+                                </>
+
                             )
                         })}
                     </TableBody>
