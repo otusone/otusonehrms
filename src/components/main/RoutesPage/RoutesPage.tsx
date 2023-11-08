@@ -14,12 +14,15 @@ import ManageLeave from '../../../pages/ManageLeave/ManageLeave'
 import Attandance from '../../../pages/Attandance/Attandance'
 import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmployee'
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
+import LoginPage from '../../../pages/login/LoginPage'
+import SignupPage from '../../../pages/Signup/SignupPage'
 
 const RoutesPage = () => {
     return (
         <Fragment>
-            <Heading />
+            {/* <Heading /> */}
             <Routes>
+                
                 <Route path='/' element={<DashboardPage />} />
                 <Route path='/user' element={<User />} />
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
@@ -31,6 +34,8 @@ const RoutesPage = () => {
                 <Route path='/manage-leave' element={<ManageLeave />} />
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
+                <Route path='/login' element={<LoginPage/>}/>
+                <Route path='/Signup' element={<SignupPage/>}/>
             </Routes>
         </Fragment>
     )

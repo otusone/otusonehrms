@@ -1,10 +1,53 @@
+
+
 .overviewContainer {
     .overviewSidebar {
+     
+  
+      &.fullWidthSidebar {
+        width: 100%; 
+        
+      }
+  
+      &.overviewSidebar {
+        width: 18%; 
         height: 100vh;
-        width: 18%;
-    }
-
-    .overviewRoutesPage {
-        width: 82%;
+      }
     }
 }
+.overviewContainer {
+  .fullWidthoverviewSidebar{
+    width: 100%;}
+    .overviewRoutesPage{
+
+
+    &.fullWidthoverviewSidebar{
+      width: 100%;
+    }
+    &.overviewRoutesPage {
+      width: 82%;
+    }
+  }
+  }
+  
+
+
+@media (max-width: 768px) {
+  
+    .overviewContainer {
+       
+        .overviewSidebar button {
+            display: none;
+
+        }
+        .overviewRoutesPage {
+            width: 100%;
+            height: 0vh;
+        }
+    }  
+        .overviewContainer {
+            .overviewSidebar {
+                height: 0vh;   
+            }  
+        }
+  }

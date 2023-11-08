@@ -20,3 +20,27 @@
         }
     }
 }
+
+
+ @media (max-width: 768px) {
+    .ticketByStatusContainer {
+       width: 10rem;
+    
+        h5 {
+            font-size: 1.25rem;
+        }
+    
+        >div {
+    
+            >div {
+    
+                >div {
+                    >div {
+                        display: flex !important;
+                    }
+                }
+            }
+        }
+    }
+          
+ }

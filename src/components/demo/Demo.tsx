@@ -15,7 +15,8 @@ const Demo = () => {
     }
 
     return (
-        <Grid className={styles.demoContainer}>
+        // <Grid className={styles.demoContainer} >
+        <Grid className={`${styles.demoContainer} ${styles.sidebar}`}>
             <Box>
                 <img src={logo} alt='logo' />
             </Box>

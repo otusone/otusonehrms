@@ -1,5 +1,7 @@
 .timesheetFilterContainer {
     display: flex;
+    flex-direction: column;
+
     padding-inline-start: 30%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding-block: 2%;
@@ -38,3 +40,18 @@
         }
     }
 }
+
+
+// @media (max-width: 768px) {
+
+//     .timesheetFilterContainer {
+//         display: flex;
+//         flex-direction: column;
+//     }    
+          
+// }
+.columnLayout {
+    flex-direction: column;
+  }
+  
+        

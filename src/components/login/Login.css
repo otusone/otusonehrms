@@ -1,0 +1,10 @@
+.logincontainer{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-evenly;
+   /* border: 5px solid red; */
+   margin-top: 4rem;
+   margin-left: 2rem;
+   margin-right: 2rem;
+   height: 100vh;
+}
