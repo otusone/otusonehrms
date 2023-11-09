@@ -8,9 +8,8 @@ function Signup() {
     <>
       
       <div className="Signupcontainer">
-jhvhjvhjvhjhvhjvghhghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
         <Signupimg/>
-        <Signupform/>     
+        <Signupform/>    
         
       </div>
     </>
