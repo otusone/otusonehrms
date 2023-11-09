@@ -28,6 +28,7 @@ router.post('/signUp', async (req, res, next) => {
         } else {
             const user = new User({
                 username: req.body.username,
+                role: req.body.role,
                 phone: req.body.phone,
                 email: req.body.email,
                 password: hash
