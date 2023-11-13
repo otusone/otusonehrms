@@ -5,7 +5,8 @@ import { Grid, MenuItem, MenuList } from '@mui/material'
 
 
 
-const CommonList = () => {
+const CommonList = ({ handleLogout }: any) => {
+
     return (
         <Grid className={styles.commonListContainer}>
             <MenuItem>
@@ -14,7 +15,7 @@ const CommonList = () => {
             </MenuItem>
             <MenuItem>
                 <AiOutlinePoweroff fontSize={20} />
-                <MenuList>Logout</MenuList>
+                <MenuList onClick={handleLogout}>Logout</MenuList>
             </MenuItem>
         </Grid>
     )

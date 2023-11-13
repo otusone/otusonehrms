@@ -11,9 +11,10 @@ export interface IHeadingProfile {
     isIcon?: boolean;
     color?: string;
     name: string;
+    handleLogout?: any
 }
 
-const HeadingProfile = ({ IsImage, isIcon, color, name }: IHeadingProfile) => {
+const HeadingProfile = ({ IsImage, isIcon, color, name, handleLogout }: IHeadingProfile) => {
     const [show, setShow] = useState(false);
     const handleClick = () => {
         setShow(!show)
@@ -24,7 +25,7 @@ const HeadingProfile = ({ IsImage, isIcon, color, name }: IHeadingProfile) => {
             {isIcon ? <AiOutlineGlobal fontSize={20} /> : ""}
             <Typography style={{ color: color }}>{name}!</Typography>
             <IoIosArrowDown onClick={handleClick} fontSize={15} />
-            {show ? <CommonList /> : ""}
+            {show && <CommonList handleLogout={handleLogout} />}
         </Grid >
     )
 }
