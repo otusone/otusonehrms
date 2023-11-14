@@ -23,7 +23,7 @@ const Attandance = () => {
             <CommonHeading
                 heading={'Manage Attendance List'}
             />
-            <TimesheetFilter />
+            {/* <TimesheetFilter /> */}
             <AttandanceTable
                 tableHeading={data.tableTitle}
                 tableData={data.tableData}

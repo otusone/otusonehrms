@@ -46,7 +46,7 @@ function Signupform() {
     <>
       <div className="container formcontainer">
         <h2>
-          Welcome <span>to Signup!</span>
+          Welcome <span> to Signup!</span>
         </h2>
         <form className="formlogin" onSubmit={handleSubmit}>
           <div className="form-group">

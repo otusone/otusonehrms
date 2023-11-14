@@ -16,6 +16,7 @@ import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmploye
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 import LoginPage from '../../../pages/login/LoginPage'
 import SignupPage from '../../../pages/Signup/SignupPage'
+import AttancePage from '../../../pages/Attandence/AttancePage'
 
 const RoutesPage = () => {
     return (
@@ -36,6 +37,7 @@ const RoutesPage = () => {
                 <Route path='/ticket' element={<Ticket />} />
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/Signup' element={<SignupPage/>}/>
+                <Route path='/attandenceform' element={<AttancePage/>}/>
             </Routes>
         </Fragment>
     )

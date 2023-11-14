@@ -22,7 +22,6 @@ function Loginform() {
         if (result.status === 200) {
           localStorage.setItem("userToken", response.data.token);
           if (response.data.token && response.data.admin.role == "USER") {
-            // console.log("got");
             navigation("/");
           } else {
             // console.log("no");
