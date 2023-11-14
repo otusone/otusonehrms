@@ -15,6 +15,7 @@ const App = () => {
     axios.post('https://hrms-server-ygpa.onrender.com/user/login', inputData)
       .then((response) => {
         const newToken = response.data.token;
+        console.log(response.data.role, "response")
         setIsLogin(newToken);
         localStorage.setItem('token', newToken);
       })
