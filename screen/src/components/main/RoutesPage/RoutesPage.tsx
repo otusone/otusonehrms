@@ -14,6 +14,7 @@ import ManageLeave from '../../../pages/ManageLeave/ManageLeave'
 import Attandance from '../../../pages/Attandance/Attandance'
 import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmployee'
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
+import Attandanceform from '../../../pages/Attandanceformm/AttandancePage'
 
 const RoutesPage = ({ handleLogout }: any) => {
     return (
@@ -26,11 +27,11 @@ const RoutesPage = ({ handleLogout }: any) => {
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/employee/create-employee' element={<CreateNewEmployee />} />
                 <Route path='/employee/edit-employee' element={<EditAddedEmployee />} />
-                {/* <Route path='#' element={<PayrollPage />} /> */}
                 <Route path='/timesheet' element={<TimeSheet />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />
                 <Route path='/attandance' element={<Attandance />} />
-                <Route path='/ticket' element={<Ticket />} />
+                <Route path='/ticket' element={<Ticket />}/>
+                <Route path='/attandancepage' element={<Attandanceform/>}/>
             </Routes>
         </Fragment>
     )
