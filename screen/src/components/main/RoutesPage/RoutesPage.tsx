@@ -15,10 +15,10 @@ import Attandance from '../../../pages/Attandance/Attandance'
 import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmployee'
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 
-const RoutesPage = () => {
+const RoutesPage = ({ handleLogout }: any) => {
     return (
         <Fragment>
-            <Heading />
+            <Heading handleLogout={handleLogout} />
             <Routes>
                 <Route path='/' element={<DashboardPage />} />
                 <Route path='/user' element={<User />} />

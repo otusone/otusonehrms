@@ -1,19 +1,17 @@
 import React from 'react'
 import styles from './Overview.module.scss'
 import { Grid } from '@mui/material'
-import Sidebar from '../../sidebar/Sidebar'
 import RoutesPage from '../RoutesPage/RoutesPage'
-import Demo from '../../demo/Demo'
+import Sidebar from '../../sidebar/Sidebar'
 
-const Overview = () => {
+const Overview = ({ handleLogout }: any) => {
     return (
         <Grid container className={styles.overviewContainer}>
             <Grid className={styles.overviewSidebar}>
-                {/* <Sidebar /> */}
-                <Demo />
+                <Sidebar />
             </Grid>
             <Grid className={styles.overviewRoutesPage}>
-                <RoutesPage />
+                <RoutesPage handleLogout={handleLogout} />
             </Grid>
         </Grid>
     )

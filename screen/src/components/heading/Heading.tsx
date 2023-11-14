@@ -6,21 +6,22 @@ import HeadingProfile from './headingProfile/HeadingProfile'
 import HeadingNotification from './headingNotification/HeadingNotification'
 
 
-const Heading = () => {
+const Heading = ({ handleLogout }: any) => {
     return (
         <Grid className={styles.headingContainer}>
             <HeadingProfile
                 IsImage={true}
                 name={'Hi, Shira Arista'}
+                handleLogout={handleLogout}
             />
             <Box>
                 <HeadingNotification />
                 <HeadingNotification />
-                <HeadingProfile
+                {/* <HeadingProfile
                     isIcon={true}
                     name={'English'}
                     color={"#6FD943"}
-                />
+                /> */}
             </Box>
         </Grid>
     )
