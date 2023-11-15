@@ -8,7 +8,7 @@ import styles from './SelectField.module.scss'
 export interface ISelectField {
     title: string;
     data: any;
-    option: string;
+    option: any;
     name: string;
     handleChange: any
 
@@ -29,7 +29,7 @@ const SelectField = ({ title, data, option, name, handleChange }: ISelectField) 
                 >
                     {data.map((item: any) => {
                         return (
-                            <MenuItem value={item.id}>{item.label}</MenuItem>
+                            <MenuItem key={item.id} value={item.label}>{item.label}</MenuItem>
                         )
                     })}
                 </Select>

@@ -4,22 +4,21 @@ import { TiDocumentAdd } from 'react-icons/ti';
 import { TiDocument } from 'react-icons/ti';
 import { RiAddFill } from 'react-icons/ri';
 import { Grid, Typography, Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
 
 export interface ICommonHeading {
     heading: string;
-    onClick: () => void;
+    onClick?: () => void;
+    IsHeadingAction?: boolean
 }
-const CommonHeading = ({ heading, onClick }: ICommonHeading) => {
-    const navigation = useNavigate()
+const CommonHeading = ({ heading, onClick, IsHeadingAction }: ICommonHeading) => {
     return (
         <Grid className={styles.commonHeadingContainer}>
             <Typography variant='h5'>{heading}</Typography>
-            <Box>
+            {IsHeadingAction ? <Box>
                 <TiDocumentAdd fontSize={30} />
                 <TiDocument fontSize={30} />
                 <RiAddFill onClick={onClick} fontSize={30} />
-            </Box>
+            </Box> : ''}
         </Grid>
     )
 }

@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import TicketCard from '../../components/TicketCard/TicketCard';
 import { ticketData, ticketTableHeading, ticketTableData } from '../../data/ticketData';
 import TicketByStatus from '../../components/TicketByStatus/TicketByStatus';
-import CommonTable from '../../components/common/CommonTable/CommonTable';
+import CommonTable from '../../components/common/ManageLeave/ManageLeaveTable';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import TicketModal from '../../components/TicketModal/TicketModal';
 
@@ -50,7 +50,9 @@ const Ticket = () => {
                     tableTitle={ticketTableHeading}
                     IsStatus={true}
                     IsProperty={true}
-                    IsCol_7={false}
+                    IsCol_7={false} IsManageLeaveStatus={false}
+                    IsManageLeaveAction={false}
+                    
                 />
             </Grid>
             <TicketModal

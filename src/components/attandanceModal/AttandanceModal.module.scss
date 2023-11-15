@@ -1,0 +1,41 @@
+.attandanceModal {
+    margin: auto;
+    width: 550px;
+    margin-block: 5rem;
+    background-color: #ffffff;
+    padding: 2%;
+    border-radius: 0.5rem;
+
+    >div:nth-child(1) {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    >div:nth-child(1)+hr+div {
+        margin-block-start: 2rem;
+        margin-block-end: 1rem;
+
+        >div {
+            width: 100%;
+            margin: auto;
+        }
+
+        >div:nth-child(2) {
+            margin-inline-start: 0.5rem;
+        }
+    }
+
+    >div:nth-child(1)+hr+div+div {
+
+        >div:nth-child(2) {
+            margin-inline-start: 0.5rem;
+        }
+    }
+
+    >div:nth-child(1)+hr+div+div+div+div {
+
+        >div:nth-child(2) {
+            margin-inline-start: 0.5rem;
+        }
+    }
+}

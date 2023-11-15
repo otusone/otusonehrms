@@ -2,10 +2,18 @@ import React from 'react'
 import styles from './CommonList.module.scss'
 import { AiOutlineUser, AiOutlinePoweroff } from 'react-icons/ai';
 import { Grid, MenuItem, MenuList } from '@mui/material'
+import { useNavigate } from 'react-router-dom';
 
 
 
 const CommonList = () => {
+    const navigation = useNavigate();
+
+    const handleLogout = (e: React.FormEvent) => {
+        navigation("/login");
+  } 
+
+
     return (
         <Grid className={styles.commonListContainer}>
             <MenuItem>
@@ -14,7 +22,7 @@ const CommonList = () => {
             </MenuItem>
             <MenuItem>
                 <AiOutlinePoweroff fontSize={20} />
-                <MenuList>Logout</MenuList>
+                <MenuList onClick={handleLogout}>Logout</MenuList>
             </MenuItem>
         </Grid>
     )

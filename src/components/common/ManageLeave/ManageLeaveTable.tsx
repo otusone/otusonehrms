@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import styles from './CommonTable.module.scss'
+import styles from './ManageLeaveTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonButton from '../CommonButton/CommonButton';
 import { MdOutlineMode } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import SearchBox from '../searchBox/SerachBox'
+import { BiRightArrow } from 'react-icons/bi';
+import SearchBox from '../searchBox/SearchBox'
 
-export interface ICommonTable {
+export interface IManageLeaveTable {
     heading: string;
     tableData: any;
     IsEmployeeID: boolean;
@@ -15,15 +16,14 @@ export interface ICommonTable {
     IsStatus: boolean;
     IsProperty: boolean;
     IsCol_7: boolean
+    IsManageLeaveStatus: boolean;
+    IsManageLeaveAction: boolean;
+    LeaveActionHandler?: any
+    editHandler?: any;
 }
 
-const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, IsStatus, IsProperty, IsCol_7 }: ICommonTable) => {
-    const [edit, setEdit] = useState({})
-    const editHandler = (itemId: number) => {
-        return (
-            console.log(itemId, "itemId")
-        )
-    }
+const ManageLeaveTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, IsStatus, IsProperty, IsCol_7, IsManageLeaveStatus, IsManageLeaveAction, LeaveActionHandler, editHandler }: IManageLeaveTable) => {
+
     const deleteHandler = (itemId: number) => {
         console.log("delete")
     }
@@ -50,7 +50,7 @@ const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, I
                                 <TableRow key={item.id}>
                                     {IsEmployeeID ? <TableCell> <CommonButton name={item.col_1} onClick={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } } /> </TableCell>
+                                    }} /> </TableCell>
                                         :
                                         <TableCell> {item.col_1} </TableCell>}
                                     <TableCell>{item.col_2}</TableCell>
@@ -61,8 +61,11 @@ const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, I
                                     {IsProperty ? <TableCell>{item.status}</TableCell> : ""}
                                     <TableCell>{item.col_6}</TableCell>
                                     {IsCol_7 ? <TableCell>{item.col_7}</TableCell> : ""}
+                                    {IsManageLeaveStatus ? <TableCell>{item.col_8}</TableCell> : ""}
                                     {IsAction ?
                                         <TableCell className={styles.tableAction}>
+                                            {IsManageLeaveAction ? <BiRightArrow onClick={() => { LeaveActionHandler(); }} fontSize={30} /> : ""}
+
                                             <MdOutlineMode onClick={() => { console.log(item.id); editHandler(item.id) }} fontSize={30}
                                             />
                                             <RiDeleteBinLine onClick={() => { console.log(item.id); deleteHandler(item.id) }} fontSize={30} />
@@ -78,4 +81,4 @@ const CommonTable = ({ heading, tableTitle, tableData, IsEmployeeID, IsAction, I
     )
 }
 
-export default CommonTable;
+export default ManageLeaveTable;

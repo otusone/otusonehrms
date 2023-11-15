@@ -1,0 +1,79 @@
+
+.formcontainer {
+    width: 40%;
+    box-shadow: 1rem 1rem 2rem rgb(59, 60, 60);
+    border-radius: 2rem;
+    
+  
+    > h2 {
+        margin-top: 3rem;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+  
+      > span {
+        color: rgb(90, 215, 90);;
+      }
+    }
+  }
+  
+  .formlogin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+    > a{
+        text-decoration: none;
+     > p {
+      color: rgb(90, 215, 90);
+    }
+}
+  
+    > button {
+      background-color: rgb(90, 215, 90);
+    }
+  
+    > button:hover {
+      background-color: rgb(56, 205, 56);
+    }
+  }
+  
+  .differentbutton {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  
+    > button {
+      width: 40%;
+      margin: 1rem;
+      background-color: rgb(59, 60, 60);
+      border-radius: 1rem;
+      color: white;
+      padding: 1rem;
+    }
+  
+    > button:hover {
+      background-color: rgb(28, 29, 29);
+    }
+  }
+  
+  /* Media query for screens below 1024px */
+  @media (max-width: 1025px) {
+    .formcontainer {
+      width: 100%; /* Make it full width */
+    }
+    .differentbutton {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      
+        >button {
+          /* padding: 0.2rem; */
+          margin: 0.5rem;
+          border-radius: 1rem;
+         
+        }
+    }
+    /* You can adjust other styles as needed for responsiveness */
+  }
+  

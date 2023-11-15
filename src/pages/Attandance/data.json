@@ -1,0 +1,86 @@
+{
+    "tableTitle": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE"
+        },
+        {
+            "id": 2,
+            "title": "DATE"
+        },
+        {
+            "id": 3,
+            "title": "STATUS"
+        },
+        {
+            "id": 4,
+            "title": "CLOCK IN"
+        },
+        {
+            "id": 5,
+            "title": "CLOCK OUT"
+        },
+        {
+            "id": 6,
+            "title": "LATE"
+        },
+        {
+            "id": 7,
+            "title": "EARLY LEAVING"
+        },
+        {
+            "id": 8,
+            "title": "OVERTIME"
+        },
+        {
+            "id": 9,
+            "title": "ACTION"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "employee": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 2,
+            "employee": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 3,
+            "employee": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 4,
+            "employee": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        }
+    ]
+}

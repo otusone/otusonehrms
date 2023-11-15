@@ -15,14 +15,15 @@ const Demo = () => {
     }
 
     return (
-        <Grid className={styles.demoContainer}>
+        // <Grid className={styles.demoContainer} >
+        <Grid className={`${styles.demoContainer} ${styles.sidebar}`}>
             <Box>
                 <img src={logo} alt='logo' />
             </Box>
             {menuData.map((item) => {
                 return (
-                    <Grid className={styles.sidebarMenu}>
-                        <MenuList key={item.id} onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                    <Grid key={item.id} className={styles.sidebarMenu}>
+                        <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
                             <MenuItem>  {item.icon}{item.title}</MenuItem>
                         </MenuList>
                         {path == item.link ?

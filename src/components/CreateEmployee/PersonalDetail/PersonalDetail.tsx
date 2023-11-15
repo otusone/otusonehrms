@@ -1,63 +1,53 @@
 import React, { useState } from 'react'
 import styles from './PersonalDetail.module.scss'
-import { Divider, Grid, Typography } from '@mui/material'
+import { Box, Divider, Grid, Typography } from '@mui/material'
 import InputField from '../../inputField/InputField'
-import DateField from '../../DateField/DateField'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
 export interface IPersonalDetail {
+    personalDetail: any;
+    handleChange: any;
 
 }
-const PersonalDetail = () => {
-    const [inputData, setInputData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        gender: '',
-        password: '',
-        address: ''
-    })
-    const handleChange = (e: any) => {
-        // const { name, value } = e.target;
-        // setInputData({ ...inputData, [name]: value })
-        // console.log(inputData, "inputData")
-    }
-    console.log(inputData, "inputData")
+const PersonalDetail = ({ personalDetail, handleChange }: IPersonalDetail) => {
+
     return (
         <Grid className={styles.createEmployeeCard}>
             <Typography variant='h5'>Personal Detail</Typography>
             <Divider sx={{ marginBlock: 2 }} />
-            <Grid container>
-                <Grid item sm={6}>
+            <Grid container className={styles.employeeCard}>
+                <Box display={"flex"}>
                     <InputField
                         label={'Name'}
                         name={'name'}
-                        value={inputData.name}
+                        value={personalDetail.name}
                         placeholder={'Enter employee Name'}
                         handleChange={handleChange}
+                        type={"text"}
                     />
-                    <DateField />
-                    <InputField
-                        label={'Email'}
-                        name={'email'}
-                        value={inputData.email}
-                        placeholder={'Enter employee Email'}
-                        handleChange={handleChange}
-                    />
-                </Grid>
-                <Grid item sm={6}>
                     <InputField
                         label={'Phone'}
                         name={'phone'}
-                        value={inputData.phone}
+                        value={personalDetail.phone}
                         placeholder={'Enter employee Phone'}
-                        handleChange={handleChange} />
-                    <FormControl>
-                        <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                        handleChange={handleChange}
+                        type={"phone"}
+                    />
+                </Box>
+                <Box display={"flex"}>
+                    <InputField
+                        label={'Date of Birth'}
+                        name={'email'}
+                        value={personalDetail.email}
+                        placeholder={'Enter employee Email'}
+                        handleChange={handleChange}
+                        type={"date"}
+                    />
+                    <FormControl >
+                        <Typography>Gender</Typography>
                         <RadioGroup
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -67,20 +57,34 @@ const PersonalDetail = () => {
                             <FormControlLabel value="male" control={<Radio />} label="Male" />
                         </RadioGroup>
                     </FormControl>
+                </Box>
+                <Box display={"flex"}>
+                    <InputField
+                        label={'Email'}
+                        name={'email'}
+                        value={personalDetail.email}
+                        placeholder={'Enter employee Email'}
+                        handleChange={handleChange}
+                        type={"email"}
+                    />
                     <InputField
                         label={'Password'}
                         name={'password'}
-                        value={inputData.password}
+                        value={personalDetail.password}
                         placeholder={'Enter employee Password'}
-                        handleChange={handleChange} />
-                </Grid>
+                        handleChange={handleChange}
+                        type={"password"}
+                    />
+                </Box>
             </Grid>
             <InputField
                 label={'Address'}
                 name={'address'}
-                value={inputData.address}
+                value={personalDetail.address}
                 placeholder={'Enter employee address'}
-                handleChange={handleChange} />
+                handleChange={handleChange}
+                type={"text"}
+            />
         </Grid>
     )
 }

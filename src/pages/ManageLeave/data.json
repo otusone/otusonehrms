@@ -1,0 +1,150 @@
+{
+    "tableTitle": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE"
+        },
+        {
+            "id": 2,
+            "title": "LEAVE TYPE"
+        },
+        {
+            "id": 3,
+            "title": "APPLIED ON"
+        },
+        {
+            "id": 4,
+            "title": "START DATE"
+        },
+        {
+            "id": 5,
+            "title": "END DATE"
+        },
+        {
+            "id": 6,
+            "title": "TOTAL DAYS"
+        },
+        {
+            "id": 7,
+            "title": "LEAVE REASON"
+        },
+        {
+            "id": 8,
+            "title": "STATUS"
+        },
+        {
+            "id": 9,
+            "title": "ACTION"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 2,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 3,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 4,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 5,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 6,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 7,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        },
+        {
+            "id": 8,
+            "col_1": "Julie Lynn",
+            "col_2": "Casual Leave",
+            "col_3": "Mar 4, 2023",
+            "col_4": "Mar 3, 2023",
+            "col_5": "Mar 5, 2023",
+            "col_6": "3",
+            "col_7": "Lorem Ipsum, Or Lipsum",
+            "col_8": "reject"
+        }
+    ],
+    "employee": [
+        {
+            "id": 1,
+            "label": "Alex"
+        },
+        {
+            "id": 2,
+            "label": "Max"
+        }
+    ],
+    "leaveType": [
+        {
+            "id": 1,
+            "label": "Max"
+        },
+        {
+            "id": 2,
+            "label": "Alex"
+        }
+    ]
+}

@@ -1,14 +1,7 @@
-.commonTableContainer {
+.meetingScheduleContainer {
     margin-block: 1.25rem;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 0.5rem;
-
-    .tableHead {
-        display: flex;
-        justify-content: space-between;
-        padding-inline: 1%;
-    }
-
     .tableAction {
 
         svg {
@@ -20,11 +13,12 @@
 
         svg:nth-child(1) {
             background-color: #3EC9D6;
+            margin-inline: 0.5rem;
         }
 
         svg:nth-child(2) {
             background-color: #FF3A6E;
-            margin-inline-start: 0.5rem;
+
         }
     }
 }
