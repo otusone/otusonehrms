@@ -6,7 +6,7 @@
         },
         {
             "id": 2,
-            "title": "EMPLOYEE NAME"
+            "title": "EMPLOYEE"
         },
         {
             "id": 3,
@@ -29,18 +29,18 @@
         {
             "id": 1,
             "emp_id": "EMP000001",
-            "employee": "Alex",
-            "date": "Casual Leave",
-            "hours": "Mar 4, 2023",
-            "remark": "Mar 3, 2023"
+            "name": "Alex",
+            "date": "10 Dec 2023",
+            "hours": "08:00",
+            "remark": "remark"
         },
         {
             "id": 2,
-            "emp_id": "EMP000002",
-            "employee": "Max",
-            "date": "Casual Leave",
-            "hours": "Mar 4, 2023",
-            "remark": "Mar 3, 2023"
+            "emp_id": "EMP000001",
+            "name": "John",
+            "date": "10 Dec 2023",
+            "hours": "08:00",
+            "remark": "remark"
         }
     ]
 }

@@ -40,7 +40,7 @@
     "tableData": [
         {
             "id": 1,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -51,7 +51,7 @@
         },
         {
             "id": 2,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -62,7 +62,7 @@
         },
         {
             "id": 3,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -73,7 +73,7 @@
         },
         {
             "id": 4,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
