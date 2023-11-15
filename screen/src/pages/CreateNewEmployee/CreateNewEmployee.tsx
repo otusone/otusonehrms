@@ -8,6 +8,7 @@ import EmpBankDetails from '../../components/CreateEmployee/EmpBankDetails/EmpBa
 import CommonButton from '../../components/common/CommonButton/CommonButton';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CreateNewEmployee = () => {
     const navigation = useNavigate()
@@ -59,17 +60,36 @@ const CreateNewEmployee = () => {
         setBankDetails({ ...bankDetails, [name]: value })
     }
     const personal = employeData
-    const handleCreateEmployee = () => {
-        setEmployeeData({
-            personalDetail,
-            companyDetail,
-            empDocument,
-            bankDetails
-        });
-        setAddEmployee(addEmploye)
-        console.log(personal, "personal")
-        console.log(addEmploye, "addEmploye")
-    }
+    // const handleCreateEmployee = () => {
+    //     setEmployeeData({
+    //         personalDetail,
+    //         companyDetail,
+    //         empDocument,
+    //         bankDetails
+    //     });
+    //     setAddEmployee(addEmploye)
+    //     console.log(personal, "personal")
+    //     console.log(addEmploye, "addEmploye")
+    // }
+
+
+        const handleCreateEmployee = async () => {
+            try {
+                const response = await axios.post('', {
+                    personalDetail,
+                    companyDetail,
+                    empDocument,
+                    bankDetails
+                });
+                
+                console.log(response.data);
+    
+                navigation('/success'); 
+            } catch (error) {
+                console.error('Error creating employee:', error);
+            }
+        }
+    // }
 
     return (
         <>
@@ -109,7 +129,6 @@ const CreateNewEmployee = () => {
                     name={"Create"}
                     onClick={() => {
                         handleCreateEmployee();
-                        // navigation('/employee');
                     }}
                 />
             </Grid>

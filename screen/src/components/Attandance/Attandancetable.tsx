@@ -66,18 +66,18 @@ function Attandancetable() {
     <>
       <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 6 }} className="tableconatienr">
         <Grid item xs={12} sm={8} >
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Emp_ID</StyledTableCell>
-                  <StyledTableCell align="right">Name </StyledTableCell>
-                  <StyledTableCell align="right">Date</StyledTableCell>
-                  <StyledTableCell align="right">Clouck_In</StyledTableCell>
-                  <StyledTableCell align="right">
+          <TableContainer component={Paper}  >
+            <Table sx={{ minWidth: 700 }} aria-label="customized table" >
+              <TableHead >
+                <TableRow  >
+                  <StyledTableCell style={{backgroundColor:'rgb(88, 2, 75)'}}>Emp_ID</StyledTableCell>
+                  <StyledTableCell align="right" style={{backgroundColor:'rgb(88, 2, 75)'}}>Name </StyledTableCell>
+                  <StyledTableCell align="right" style={{backgroundColor:'rgb(88, 2, 75)'}}>Date</StyledTableCell>
+                  <StyledTableCell align="right" style={{backgroundColor:'rgb(88, 2, 75)'}}>Clouck_In</StyledTableCell>
+                  <StyledTableCell align="right" style={{backgroundColor:'rgb(88, 2, 75)'}}>
                     Clock_Out
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="right" style={{backgroundColor:'rgb(88, 2, 75)'}}>
                     Status
                   </StyledTableCell>
                 </TableRow>
