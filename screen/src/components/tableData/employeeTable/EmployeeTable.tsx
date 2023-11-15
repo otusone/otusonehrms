@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './EmployeeTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { MdOutlineMode } from 'react-icons/md';
@@ -6,6 +6,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { BiRightArrow } from 'react-icons/bi';
 import CommonButton from '../../common/CommonButton/CommonButton';
 import SearchBox from '../../common/searchBox/SearchBox';
+import axios from 'axios';
 
 export interface IEmployeeTable {
     heading: string;
@@ -18,6 +19,26 @@ export interface IEmployeeTable {
 
 const EmployeeTable = ({ heading, tableTitle, tableData, handleLeaveAction, handleEdit, handleDelete }: IEmployeeTable) => {
 
+     const [apiData, setApiData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // useEffect(() => {
+    //     // Fetch data from your API endpoint using Axios
+    //     axios.get('https://hrms-server-ygpa.onrender.com/employee')
+    //         .then(response => {
+    //             setApiData(response.data.employeeData);
+    //             setLoading(false);
+    //             console.log(response.data.employeeData.personalDetails, "response")
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //             setLoading(false);
+    //         });
+    // }, []);
+
+
+
+    
 
     return (
         <Grid className={styles.commonTableContainer}>
@@ -37,7 +58,7 @@ const EmployeeTable = ({ heading, tableTitle, tableData, handleLeaveAction, hand
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tableData.map((item: any) => {
+                        {apiData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
                                     <TableCell>
