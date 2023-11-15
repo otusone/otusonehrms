@@ -30,9 +30,9 @@ const UserModal = ({ open, inputData, handleChange, handleClose, handleCreate }:
                 <Box>
                     <InputField
                         label={'Name'}
-                        name={'name'}
+                        name={'username'}
                         placeholder={'Enter Your Name'}
-                        value={inputData.name}
+                        value={inputData.username}
                         handleChange={handleChange}
                         type={"text"}
                     />
@@ -55,9 +55,9 @@ const UserModal = ({ open, inputData, handleChange, handleClose, handleCreate }:
                     <SelectField
                         title={'User Role'}
                         data={role}
-                        option={undefined}
-                        name={''}
-                        handleChange={undefined}
+                        option={inputData.role}
+                        name={'role'}
+                        handleChange={handleChange}
                     />
                 </Box>
                 <Box sx={{ display: "flex" }}>
