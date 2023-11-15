@@ -7,15 +7,17 @@ import { BiUserCheck } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import img from '../../../asserst/images/profile_pic.jpg'
 
-
-const User = () => {
+export interface IUser {
+    handleClick: () => void;
+}
+const User = ({ handleClick }: IUser) => {
     return (
         <Grid className={styles.userContainer}>
             <Grid>
                 <Typography variant='h5'>Manage Users</Typography>
                 <Box>
                     <BiUserCheck fontSize={32} />
-                    <AiOutlinePlus fontSize={32} />
+                    <AiOutlinePlus onClick={handleClick} cursor={"pointer"} fontSize={32} />
                 </Box>
             </Grid>
             <Grid container spacing={2} >

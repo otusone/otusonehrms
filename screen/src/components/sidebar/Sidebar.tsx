@@ -25,7 +25,7 @@ const Sidebar = () => {
                         <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
                             <MenuItem>  {item.icon}{item.title}</MenuItem>
                         </MenuList>
-                        {path == item.link ?
+                        {/* {path == item.link ?
                             <Box>
                                 {show ?
                                     <Box>
@@ -39,7 +39,7 @@ const Sidebar = () => {
                                         })}
                                         </Box> : ""}
                                     </Box> : ""}
-                            </Box> : ""}
+                            </Box> : ""} */}
                     </Grid>
                 )
             })}
