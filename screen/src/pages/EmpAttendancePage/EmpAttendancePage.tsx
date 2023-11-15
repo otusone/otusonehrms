@@ -4,17 +4,28 @@ import { Box, Grid } from '@mui/material'
 import EmpAttendance from '../../components/empAttendance/EmpAttendance'
 import img from '../../asserst/images/logo.png'
 import HeadingProfile from '../../components/heading/headingProfile/HeadingProfile'
+import Sidebar from '../../components/sidebar/Sidebar'
+import { menuData } from './menuData'
+import { Route, Routes } from 'react-router-dom'
+import Dashboard from './Dashboard/Dashboard'
+import Attendance from './Attendance/Attendance'
+import Heading from './Heading/Heading'
 
 const EmpAttendancePage = () => {
     return (
-        <Grid className={styles.empAttendancePageContainer}>
-            <Grid className={styles.logo}>
-                <Box>
-                    <img src={img} alt='img' />
-                </Box>
-                <HeadingProfile name={'Anuj'} />
+        <Grid container className={styles.empAttendancePageContainer}>
+            <Grid className={styles.empAttendanceSidebar}>
+                <Sidebar
+                    menuData={menuData}
+                />
             </Grid>
-            <EmpAttendance />
+            <Grid className={styles.empAttendanceScreen}>
+                <Heading />
+                <Routes>
+                    <Route path='/' element={<Dashboard />} />
+                    <Route path='/attendance' element={<Attendance />} />
+                </Routes>
+            </Grid>
         </Grid>
     )
 }

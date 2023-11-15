@@ -1,16 +1,9 @@
 .empAttendancePageContainer {
-    .logo {
-        padding: 0.5rem;
-        width: 15rem;
-        height: 7rem;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        img {
-            width: 100%;
-            height: 100%
-        }
+    .empAttendanceSidebar {
+        width: 18%;
     }
 
+    .empAttendanceScreen {
+        width: 82%;
+    }
 }
