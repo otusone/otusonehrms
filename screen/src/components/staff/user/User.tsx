@@ -7,10 +7,19 @@ import { BiUserCheck } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import img from '../../../asserst/images/profile_pic.jpg'
 
+
 export interface IUser {
-    handleClick: () => void;
+    role: string,
+    image?: string,
+    username: string,
+    email: string,
 }
-const User = ({ handleClick }: IUser) => {
+export interface IUserDataType {
+    handleClick: () => void;
+    handleAction: any;
+    data: any;
+}
+const User = ({ handleClick, data,handleAction }: IUserDataType) => {
     return (
         <Grid className={styles.userContainer}>
             <Grid>
@@ -21,21 +30,22 @@ const User = ({ handleClick }: IUser) => {
                 </Box>
             </Grid>
             <Grid container spacing={2} >
-                {data.map((item) => {
+                {data.map((item: IUser, idx:number) => {
                     return (
                         <Grid item sm={3}>
                             <UserCard
-                                label={item.label}
+                                label={item.role}
                                 image={item.image}
-                                name={item.name}
+                                name={item.username}
                                 email={item.email}
                                 IsButton={false}
                                 IsLabel={true}
+                                handleClick={(()=>handleAction(idx))}
                             />
                         </Grid>
                     )
                 })}
-                <Grid item sm={3}>
+                {/* <Grid item sm={3}>
                     <UserCard
                         label={'add'}
                         image={img}
@@ -44,7 +54,7 @@ const User = ({ handleClick }: IUser) => {
                         IsButton={false}
                         IsLabel={false}
                     />
-                </Grid>
+                </Grid> */}
             </Grid>
 
         </Grid>

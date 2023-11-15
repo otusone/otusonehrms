@@ -9,11 +9,10 @@ export interface IAttandanceTable {
     tableData: any;
     IsAction: boolean;
     editAction: any;
-    deleteHandler:any
+    deleteHandler: any
 }
 const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, deleteHandler }: IAttandanceTable) => {
     // const deleteHandler = (itemID: any) => { }
-
     return (
         <Grid className={styles.attandanceTableContainer}>
             <TableContainer>
@@ -31,7 +30,7 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, delete
                         {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.employee}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.date}</TableCell>
                                     <TableCell>{item.status}</TableCell>
                                     <TableCell>{item.clock_in}</TableCell>
