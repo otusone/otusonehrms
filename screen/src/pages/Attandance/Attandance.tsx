@@ -85,15 +85,23 @@ const Attandance = () => {
         setEditModal(false)
     }
 
+    // const deleteHandler = (itemToDelete: any) => {
+    //     const updatedTableData = data.tableData.filter((row: { id: any; }) => row.id !== itemToDelete);
+    //     console.log(itemToDelete, "itemToDelete")
+    //     setTimesheetTable(updatedTableData)
+    // }
+
     const deleteHandler = (itemToDelete: any) => {
         const updatedTableData = timesheetTable.filter((row: { id: any; }) => row.id !== itemToDelete);
-        console.log(itemToDelete, "itemToDelete")
-        setTimesheetTable(updatedTableData)
-    }
+        setTimesheetTable(updatedTableData);
+    };
+    
+    
+
     return (
         <Grid className={styles.timeSheetContainer}>
             <CommonHeading
-                heading={'Manage Timesheet'}
+                heading={'Attandance'}
                 onClick={openModal}
                 IsHeadingAction={true}
             />
@@ -105,7 +113,8 @@ const Attandance = () => {
             />
             <AttandanceTable
                 tableHeading={data.tableTitle}
-                tableData={data.tableData}
+                // tableData={data.tableData}
+                tableData={timesheetTable}
                 IsAction={true}
                 editAction={editHandler}
                 deleteHandler={deleteHandler}
