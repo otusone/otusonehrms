@@ -40,14 +40,14 @@ const ManageLeaveTable = ({ heading, tableTitle, tableData,  IsManageLeaveAction
                             return (
                                 <>
                                     <TableRow key={item.id}>
-                                        <TableCell>{item.empName}</TableCell>
-                                        <TableCell>{item.leaveType}</TableCell>
-                                        <TableCell>{item.appliedOn}</TableCell>
-                                        <TableCell>{item.startDate}</TableCell>
-                                        <TableCell>{item.endDate}</TableCell>
+                                        <TableCell>{item.emp_id}</TableCell>
+                                        <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.leave_type}</TableCell>
+                                        <TableCell>{item.start_date}</TableCell>
+                                        <TableCell>{item.end_date}</TableCell>
+                                        <TableCell>{item.total_day}</TableCell>
+                                        <TableCell>{item.leave_reason}</TableCell>
                                         <TableCell>{item.status}</TableCell>
-                                        <TableCell>{item.totalDays}</TableCell>
-                                        <TableCell>{item.leaveReason}</TableCell>
                                         <TableCell className={styles.tableAction}>
                                             {IsManageLeaveAction ? <BiRightArrow onClick={() => { leaveActionHandler(); }} fontSize={30} /> : ""}
 

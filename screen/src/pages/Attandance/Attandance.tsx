@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../TimeSheet/TimeSheet.module.scss'
 import { Grid, SelectChangeEvent } from '@mui/material';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
@@ -6,6 +6,7 @@ import TimesheetFilter from '../../components/timesheetFilter/TimesheetFilter';
 import data from './data.json'
 import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
 import AttandanceTable from '../../components/tableData/attandanceTable/AttandanceTable';
+import axios from 'axios';
 
 export interface IinputDataType {
     emp_id: string;
@@ -46,6 +47,27 @@ const Attandance = () => {
         });
         setTimesheetTable(filteredData)
     }
+// ////////////////////////////////////////////////////////////////api integrate
+
+
+    const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
+    useEffect(() => {
+      axios
+        .get("https://hrms-server-ygpa.onrender.com/attendance")
+        .then((result) => {
+          const data = result.data.attendanceData;
+          setattandenceTable(data);
+          console.log(data, "result");
+        });
+    }, []) ;
+    console.log(attandenceTable, "attandenceTable");
+
+// ////////////////////////////////////////////////////////////////////
+
+
+
+
+    
     const handleReset = () => {
         setTimesheetTable(timesheetTable)
         console.log(timesheetTable, "timesheetTable")
@@ -85,11 +107,7 @@ const Attandance = () => {
         setEditModal(false)
     }
 
-    // const deleteHandler = (itemToDelete: any) => {
-    //     const updatedTableData = data.tableData.filter((row: { id: any; }) => row.id !== itemToDelete);
-    //     console.log(itemToDelete, "itemToDelete")
-    //     setTimesheetTable(updatedTableData)
-    // }
+   
 
     const deleteHandler = (itemToDelete: any) => {
         const updatedTableData = timesheetTable.filter((row: { id: any; }) => row.id !== itemToDelete);
@@ -113,8 +131,7 @@ const Attandance = () => {
             />
             <AttandanceTable
                 tableHeading={data.tableTitle}
-                // tableData={data.tableData}
-                tableData={timesheetTable}
+                tableData={attandenceTable}
                 IsAction={true}
                 editAction={editHandler}
                 deleteHandler={deleteHandler}
