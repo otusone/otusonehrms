@@ -26,7 +26,6 @@ const RoutesPage = ({ handleLogout }: any) => {
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/employee/create-employee' element={<CreateNewEmployee />} />
                 <Route path='/employee/edit-employee' element={<EditAddedEmployee />} />
-                {/* <Route path='#' element={<PayrollPage />} /> */}
                 <Route path='/timesheet' element={<TimeSheet />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />
                 <Route path='/attandance' element={<Attandance />} />
