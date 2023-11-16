@@ -3,6 +3,7 @@ import Overview from './components/main/Overview/Overview'
 import Login from './pages/Login/Login';
 import axios from 'axios'
 import { Grid } from '@mui/material';
+import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
 
 const App = () => {
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('token') || '');
@@ -31,17 +32,17 @@ const App = () => {
 
   return (
     <Fragment>
-      {IsLogin ? <Overview handleLogout={handleLogout} /> : <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />}
-      {/* <Grid>
+      {/* {IsLogin ? <Overview handleLogout={handleLogout} /> : <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />} */}
+      <Grid>
         {IsLogin ?
           <>
             {user == "ADMIN" && <Overview handleLogout={handleLogout} />}
-            {user == "EMPLOYEE" && "Employee"}
+            {user == "EMPLOYEE" && <EmpAttendancePage />}
           </>
           :
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
         }
-      </Grid> */}
+      </Grid>
     </Fragment>
   )
 }

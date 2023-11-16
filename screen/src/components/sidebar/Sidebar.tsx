@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Grid, Box, MenuList, MenuItem } from '@mui/material'
+import { Grid, Box, MenuList, MenuItem, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import { menuData } from './menuData'
 import logo from '../../asserst/images/logo.png'
 
-const Sidebar = () => {
+const Sidebar = ({ menuData }: any) => {
     const [show, setShow] = useState(false)
     const navigation = useNavigate()
     const location = useLocation()
@@ -13,36 +13,31 @@ const Sidebar = () => {
     const handleMenu = () => {
         setShow(!show)
     }
+    const handleLogout = () => {
+        console.log("jkdl")
+        localStorage.removeItem('token')
+
+    }
 
     return (
         <Grid className={styles.sidebarContainer}>
             <Box>
                 <img src={logo} alt='logo' />
             </Box>
-            {menuData.map((item) => {
+            {menuData.map((item: any) => {
                 return (
                     <Grid key={item.id} className={styles.sidebarMenu}>
                         <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
                             <MenuItem>  {item.icon}{item.title}</MenuItem>
                         </MenuList>
-                        {/* {path == item.link ?
-                            <Box>
-                                {show ?
-                                    <Box>
-                                        {item.subtitle ? <Box>{item.subtitle.map((item) => {
-                                            return (
-                                                <MenuItem key={item.id} onClick={(() => navigation(item.subLink))} className={styles.subMenu}>
-                                                    {item.icon}
-                                                    {item.menu}
-                                                </MenuItem>
-                                            )
-                                        })}
-                                        </Box> : ""}
-                                    </Box> : ""}
-                            </Box> : ""} */}
                     </Grid>
                 )
             })}
+            <Grid className={styles.logout}>
+                <MenuList onClick={handleLogout}>
+                    <MenuItem>Logout</MenuItem>
+                </MenuList>
+            </Grid>
         </Grid>
     )
 }

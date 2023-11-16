@@ -66,13 +66,32 @@
             width: 80%;
             margin-left: auto !important;
             color: #58024B;
-            &:hover{
+
+            &:hover {
                 font-weight: 600;
             }
 
             svg {
                 font-size: 1.75rem;
                 margin-inline-end: 0.5rem;
+            }
+        }
+    }
+
+    .logout {
+        position: absolute;
+        bottom: 0px !important;
+        width: 100%;
+
+        >ul {
+            background-color: #58024B;
+            color: #ffffff;
+            padding: 0;
+
+            >li {
+                // margin: auto;
+                justify-content: center !important;
+                padding-block: 0.75rem;
             }
         }
     }
