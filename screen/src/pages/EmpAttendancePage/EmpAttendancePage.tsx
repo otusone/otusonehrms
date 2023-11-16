@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import styles from './EmpAttendancePage.module.scss'
-import { Box, Grid } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { menuData } from './menuData'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from './Dashboard/Dashboard'
 import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
+import axios from 'axios'
 
 const EmpAttendancePage = () => {
-    const [checkIn, setCheckIn] = useState<any>(new Date())
-    // const formattedTime = checkIn.toLocaleTimeString();
-    const formattedTime = checkIn instanceof Date ? checkIn.toLocaleTimeString() : '';
+    const [checkIn, setCheckIn] = useState<any>('')
+
+    const date = new Date();
+    const time = date.getTime();
+    const clock_in = new Date(time).toLocaleTimeString();
+    const clock_out = new Date(time).toLocaleTimeString();
 
     const handleCheckIn = () => {
-        setCheckIn(formattedTime)
-        console.log(formattedTime, "checkIn")
+        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/check-in', { clock_in })
+            .then(result => {
+                console.log(result, 'result...')
+                setCheckIn(clock_in)
+            })
     }
-    const handleCheckOut = () => { }
+    const handleCheckOut = () => {
+        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/65565aaa9e7a0aa6f1820a46`, { clock_out })
+            .then(response => {
+                console.log('Update successful:', response);
+            })
+            .catch(error => {
+                console.error('Error updating data:', error);
+            });
+    }
 
     return (
         <Grid container className={styles.empAttendancePageContainer}>
