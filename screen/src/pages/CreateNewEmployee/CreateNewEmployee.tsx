@@ -12,7 +12,7 @@ import axios from "axios";
 
 const CreateNewEmployee = () => {
   const navigation = useNavigate();
-  const [inputData, setInputData] = useState({
+  const [inputData, setInputData] = useState<any>({
     name: "",
     email: "",
     phone: "",
@@ -34,54 +34,8 @@ const CreateNewEmployee = () => {
     branchLocation: "",
     taxPayerId: "",
   });
-  //   const [personalDetail, SetPersonalDetail] = useState({
-  //     name: "",
-  //     email: "",
-  //     phone: "",
-  //     gender: "",
-  //     password: "",
-  //     address: "",
-  //   });
-  //   const [companyDetail, SetCompanyDetail] = useState({
-  //     emp_id: "",
-  //     branch: "",
-  //     department: "",
-  //     designation: "",
-  //     dateOfJoining: "",
-  //   });
-  //   const [empDocument, SetEmpDocument] = useState({
-  //     certificate: "",
-  //     resume: "",
-  //     photo: "",
-  //   });
-  //   const [bankDetails, setBankDetails] = useState({
-  //     accHolderName: "",
-  //     accNumber: "",
-  //     bankName: "",
-  //     identifierCode: "",
-  //     branchLocation: "",
-  //     taxPayerId: "",
-  //   });
-  const [employeeData, setEmployeeData] = useState({});
 
-//   const handleChangePersonalDetails = (e: any) => {
-//     const { name, value } = e.target;
-//     setInputData({ ...inputData, [name]: value });
-//   };
-//   const handleChangeCompanyDetails = (e: any) => {
-//     const { name, value } = e.target;
-//     SetCompanyDetail({ ...companyDetail, [name]: value });
-//   };
-//   const handleChangeDocument = (e: any) => {
-//     const { name, value } = e.target;
-//     SetEmpDocument({ ...empDocument, [name]: value });
-//   };
-//   const handleChangeBankDetails = (e: any) => {
-//     const { name, value } = e.target;
-//     setBankDetails({ ...bankDetails, [name]: value });
-//   };
-
-const handleChange = (e: any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
   };
@@ -90,7 +44,7 @@ const handleChange = (e: any) => {
     axios
       .post("https://hrms-server-ygpa.onrender.com/employee/create", inputData)
       .then((result) => {
-        setInputData(result.data.new_Employee.personalDetails);
+        setInputData(result);
         console.log(result, "result....");
       });
   };

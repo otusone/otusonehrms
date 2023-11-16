@@ -19,27 +19,6 @@ export interface IEmployeeTable {
 
 const EmployeeTable = ({ heading, tableTitle, tableData, handleLeaveAction, handleEdit, handleDelete }: IEmployeeTable) => {
 
-     const [apiData, setApiData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //     // Fetch data from your API endpoint using Axios
-    //     axios.get('https://hrms-server-ygpa.onrender.com/employee')
-    //         .then(response => {
-    //             setApiData(response.data.employeeData);
-    //             setLoading(false);
-    //             console.log(response.data.employeeData.personalDetails, "response")
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //             setLoading(false);
-    //         });
-    // }, []);
-
-
-
-    
-
     return (
         <Grid className={styles.commonTableContainer}>
             <TableHead className={styles.tableHead}>
@@ -58,18 +37,18 @@ const EmployeeTable = ({ heading, tableTitle, tableData, handleLeaveAction, hand
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {apiData.map((item: any) => {
+                        {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
                                     <TableCell>
                                         <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
                                     </TableCell>
-                                    <TableCell>{item.employee}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.branch}</TableCell>
                                     <TableCell>{item.department}</TableCell>
                                     <TableCell>{item.designation}</TableCell>
-                                    <TableCell>{item.dateOfJoing}</TableCell>
+                                    <TableCell>{item.dateOfJoin}</TableCell>
                                     <TableCell className={styles.tableAction}>
                                         <BiRightArrow onClick={handleLeaveAction} fontSize={30} />
 
