@@ -4,6 +4,7 @@ import { Grid } from '@mui/material'
 import RoutesPage from '../RoutesPage/RoutesPage'
 import Sidebar from '../../sidebar/Sidebar'
 import { menuData } from '../../sidebar/menuData'
+import Heading from '../../../pages/EmpAttendancePage/Heading/Heading'
 
 const Overview = ({ handleLogout }: any) => {
     return (
@@ -14,6 +15,7 @@ const Overview = ({ handleLogout }: any) => {
                 />
             </Grid>
             <Grid className={styles.overviewRoutesPage}>
+                <Heading IsAction={false} />
                 <RoutesPage handleLogout={handleLogout} />
             </Grid>
         </Grid>

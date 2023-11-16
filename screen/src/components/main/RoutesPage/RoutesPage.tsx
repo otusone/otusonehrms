@@ -18,7 +18,7 @@ import EmpAttendancePage from '../../../pages/EmpAttendancePage/EmpAttendancePag
 const RoutesPage = ({ handleLogout }: any) => {
     return (
         <Fragment>
-            <Heading handleLogout={handleLogout} />
+            {/* <Heading handleLogout={handleLogout} /> */}
             <Routes>
                 <Route path='/' element={<DashboardPage />} />
                 <Route path='/user' element={<StaffPage />} />

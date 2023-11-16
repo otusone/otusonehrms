@@ -1,13 +1,16 @@
 import React from 'react'
 import styles from './Heading.module.scss'
 import { Grid, Box, Typography, Button } from '@mui/material'
-import { FaRegCircleUser } from "react-icons/fa6";
 import img from '../../../asserst/images/profile_pic.jpg'
-import HeadingNotification from '../../../components/heading/headingNotification/HeadingNotification';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
+import HeadingNotification from '../../../components/heading/headingNotification/HeadingNotification';
 
-
-const Heading = () => {
+export interface IHeading {
+    handleCheckIn?: any;
+    handleCheckOut?: any;
+    IsAction?: boolean;
+}
+const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
     return (
         <Grid container className={styles.headingContainer}>
             <Grid >
@@ -20,14 +23,16 @@ const Heading = () => {
                 </Box>
             </Grid>
             <Grid >
-                <CommonButton name={"Check In"} onClick={function (): void {
-                    throw new Error('Function not implemented.');
-                } } />
-                <CommonButton name={"Check Out"} onClick={function (): void {
-                    throw new Error('Function not implemented.');
-                } } />
+                {IsAction
+                    ?
+                    <Box>
+                        <CommonButton name={"Check In"} onClick={handleCheckIn} />
+                        <CommonButton name={"Check Out"} onClick={handleCheckOut} />
+                    </Box> :
+                    <Box>
+                        <HeadingNotification />
+                    </Box>}
             </Grid>
-
         </Grid>
     )
 }

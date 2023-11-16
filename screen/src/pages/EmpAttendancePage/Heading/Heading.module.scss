@@ -23,7 +23,14 @@
     }
 
     >div:nth-child(2) {
-        display: flex;
+        >div:nth-child(1) {
+            display: flex;
+            margin-block: auto;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
+        }
 
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Box, MenuList, MenuItem } from '@mui/material'
+import { Grid, Box, MenuList, MenuItem, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import { menuData } from './menuData'
@@ -12,6 +12,11 @@ const Sidebar = ({ menuData }: any) => {
     const path = location.pathname
     const handleMenu = () => {
         setShow(!show)
+    }
+    const handleLogout = () => {
+        console.log("jkdl")
+        localStorage.removeItem('token')
+
     }
 
     return (
@@ -28,6 +33,11 @@ const Sidebar = ({ menuData }: any) => {
                     </Grid>
                 )
             })}
+            <Grid className={styles.logout}>
+                <MenuList onClick={handleLogout}>
+                    <MenuItem>Logout</MenuItem>
+                </MenuList>
+            </Grid>
         </Grid>
     )
 }
