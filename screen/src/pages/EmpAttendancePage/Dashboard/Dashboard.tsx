@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonCard from '../../../components/common/CommonCard/CommonCard'
-import { MdAccountBalanceWallet, MdOutlineStickyNote2 } from "react-icons/md";
+import { MdAccountBalanceWallet } from "react-icons/md";
 import { AiOutlineTeam } from 'react-icons/ai';
 import { RiHotspotLine } from 'react-icons/ri';
 import { TbTicket } from 'react-icons/tb';
-import tableData from './data.json';
 import axios from 'axios';
 
 const Dashboard = () => {
@@ -98,9 +97,9 @@ const Dashboard = () => {
                 {attendanceData.map((item: any) => {
                   return (
                     <TableRow key={item.id}>
-                      <TableCell>{item.emp_id}</TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.status}</TableCell>
+                      <TableCell>EMP000001</TableCell>
+                      <TableCell>Anuj Kumar</TableCell>
+                      <TableCell>Present</TableCell>
                       <TableCell>{item.clock_in}</TableCell>
                       <TableCell>{item.clock_out}</TableCell>
                     </TableRow>
