@@ -11,6 +11,7 @@ import axios from 'axios'
 
 const EmpAttendancePage = () => {
     const [checkIn, setCheckIn] = useState<any>('')
+    const [checkOut, setCheckOut] = useState<any>()
 
     const date = new Date();
     const time = date.getTime();
@@ -18,21 +19,28 @@ const EmpAttendancePage = () => {
     const clock_out = new Date(time).toLocaleTimeString();
 
     const handleCheckIn = () => {
+
         axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/check-in', { clock_in })
             .then(result => {
                 console.log(result, 'result...')
                 setCheckIn(clock_in)
             })
     }
+    useEffect(() => {
+        const checkInData = localStorage.getItem("AttendanceID")
+        setCheckOut(checkInData)
+
+    }, []);
+
     const handleCheckOut = () => {
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/65565aaa9e7a0aa6f1820a46`, { clock_out })
+        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { clock_out })
             .then(response => {
                 console.log('Update successful:', response);
             })
             .catch(error => {
                 console.error('Error updating data:', error);
             });
-    }
+    };
 
     return (
         <Grid container className={styles.empAttendancePageContainer}>

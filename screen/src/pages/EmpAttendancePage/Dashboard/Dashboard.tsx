@@ -58,8 +58,17 @@ const Dashboard = () => {
     axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
       .then(result => {
         const data = result.data.EmpAttendanceData;
+        if (Array.isArray(data) && data.length > 0) {
+          const lastIndex = data.length - 1;
+          const lastItem = data[lastIndex];
+          const attendance_id = lastItem._id;
+          localStorage.setItem("AttendanceID", attendance_id);
+          console.log(attendance_id, "last item");
+        } else {
+          console.log("Data is not an array or is empty");
+        }
         setAttendanceData(data)
-        console.log(data, "result")
+        console.log(data, "result...")
       })
 
   }, [])
@@ -94,9 +103,9 @@ const Dashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {attendanceData.map((item: any) => {
+                {attendanceData.map((item: any, idx: number) => {
                   return (
-                    <TableRow key={item.id}>
+                    <TableRow key={idx}>
                       <TableCell>EMP000001</TableCell>
                       <TableCell>Anuj Kumar</TableCell>
                       <TableCell>Present</TableCell>
@@ -117,4 +126,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;
