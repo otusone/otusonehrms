@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ManageLeave.module.scss'
 import { Grid } from '@mui/material'
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading'
@@ -6,13 +6,25 @@ import ManageLeaveTable from '../../components/common/ManageLeave/ManageLeaveTab
 import data from './data.json'
 import CreateLeaveModal from '../../components/CreateLeaveModal/CreateLeaveModal'
 import LeaveActionModal from '../../components/LeaveActionModal/LeaveActionModal'
+import axios from 'axios'
+
+
+
+export interface ManageType {
+    emp_id: string;
+    name: string;
+    status: string;
+    id: string | number
+}
+
 
 const ManageLeave = () => {
     const [stateData, setStateData] = useState({
         tableData: data.tableData,
     });
     const [open, setOpen] = useState(false)
-    const [actionModal, setActionModal] = useState(true)
+    const [actionModal, setActionModal] = useState(false)
+    const [inputData, setInputData] = useState<any>({ emp_id: "",  name: '', status: '', })
     const openModal = () => setOpen(!open)
     const clossModal = () => setOpen(false)
     const leaveActionHandler = () => setActionModal(!actionModal)
@@ -21,13 +33,39 @@ const ManageLeave = () => {
     const editHandler = () => { };
     // const deleteHandler = () => { };
 
+// /////////////////////////////api integration///////////////////////////////////////////
+
+
+const [Manageleave, setManageleave] = useState<ManageType[]>([]);
+    useEffect(() => {
+      axios
+        .get("https://hrms-server-ygpa.onrender.com/leave")
+        .then((result) => {
+          const data = result.data.leaveData;          ;
+          setManageleave(data);
+          console.log(data, "result");
+        });
+    }, []) ;
+    console.log(Manageleave, "Manageleave");
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////
+
+
+
 
       
     const deleteHandler = (itemId: any) => {
-        // console.log('Deleting item with ID:', itemId);
-        const updatedTableData = stateData.tableData.filter((item) => item.id !== itemId);
-        // console.log('Updated Table Data:', updatedTableData);
-    
+        const updatedTableData = stateData.tableData.filter((item) => item.id !== itemId);    
         setStateData({ ...stateData, tableData: updatedTableData });
     };
 
@@ -39,7 +77,7 @@ const ManageLeave = () => {
             />
             <ManageLeaveTable
                 heading={'entries per page'}
-                tableData={stateData.tableData}
+                tableData={Manageleave}
                 tableTitle={data.tableTitle}
                 IsManageLeaveAction={true}
                 leaveActionHandler={leaveActionHandler}

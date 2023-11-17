@@ -2,15 +2,15 @@
     "tableTitle": [
         {
             "id": 1,
-            "title": "EMPLOYEE"
+            "title": "EMPLOYEE ID"
         },
         {
             "id": 2,
-            "title": "LEAVE TYPE"
+            "title": "EMPLOYEE"
         },
         {
             "id": 3,
-            "title": "APPLIED ON"
+            "title": "LEAVE TYPE"
         },
         {
             "id": 4,

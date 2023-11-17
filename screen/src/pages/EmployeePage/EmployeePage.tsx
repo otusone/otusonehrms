@@ -15,7 +15,6 @@ interface Employee {
 }
 
 const EmployeePage = () => {
-  // const [empData, setEmpData] = useState<any>([]);
   const [empData, setEmpData] = useState<Employee[]>([]);
   
   const navigation = useNavigate();
