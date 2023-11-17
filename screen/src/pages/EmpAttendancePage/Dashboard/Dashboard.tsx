@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonCard from '../../../components/common/CommonCard/CommonCard'
@@ -7,8 +7,10 @@ import { AiOutlineTeam } from 'react-icons/ai';
 import { RiHotspotLine } from 'react-icons/ri';
 import { TbTicket } from 'react-icons/tb';
 import tableData from './data.json';
+import axios from 'axios';
 
 const Dashboard = () => {
+  const [attendanceData, setAttendanceData] = useState<any>([])
   const data = [
     {
       "id": 1,
@@ -53,6 +55,15 @@ const Dashboard = () => {
       "color": "#58024B"
     }
   ]
+  useEffect(() => {
+    axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
+      .then(result => {
+        const data = result.data.EmpAttendanceData;
+        setAttendanceData(data)
+        console.log(data, "result")
+      })
+
+  }, [])
   return (
     <Grid className={styles.dashboardContainer}>
       <Grid container spacing={2}>
@@ -76,22 +87,22 @@ const Dashboard = () => {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#58024B" }}>
-                  <TableCell sx={{color:"#ffffff"}}>EMPLOYEE ID</TableCell>
-                  <TableCell sx={{color:"#ffffff"}}>EMPLOYEE</TableCell>
-                  <TableCell sx={{color:"#ffffff"}}>STATUS</TableCell>
-                  <TableCell sx={{color:"#ffffff"}}>CHECK IN</TableCell>
-                  <TableCell sx={{color:"#ffffff"}}>CHECK OUT</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>STATUS</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>CHECK IN</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>CHECK OUT</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData.map((item) => {
+                {attendanceData.map((item: any) => {
                   return (
                     <TableRow key={item.id}>
                       <TableCell>{item.emp_id}</TableCell>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.status}</TableCell>
-                      <TableCell>{item.check_in}</TableCell>
-                      <TableCell>{item.check_out}</TableCell>
+                      <TableCell>{item.clock_in}</TableCell>
+                      <TableCell>{item.clock_out}</TableCell>
                     </TableRow>
                   )
                 })}
