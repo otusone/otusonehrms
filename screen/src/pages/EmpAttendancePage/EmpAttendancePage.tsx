@@ -22,17 +22,24 @@ const EmpAttendancePage = () => {
 
         axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/check-in', { clock_in })
             .then(result => {
-                console.log(result, 'result...')
                 setCheckIn(clock_in)
             })
-    }
+    };
+
+    useEffect(() => {
+        const empDataString: any = localStorage.getItem("loginedUser")
+        const empData = JSON.parse(empDataString);
+        const empName = empData.username;
+        console.log(empName, "empName....")
+    },);
+
     useEffect(() => {
         const checkInData = localStorage.getItem("AttendanceID")
         setCheckOut(checkInData)
-
     }, []);
 
     const handleCheckOut = () => {
+
         axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { clock_out })
             .then(response => {
                 console.log('Update successful:', response);

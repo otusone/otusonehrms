@@ -7,7 +7,7 @@ import axios from 'axios'
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
-    const [inputData, setInputData] = useState({ username: "", email: "", password: '', role:"" })
+    const [inputData, setInputData] = useState({ username: "", email: "", password: '', role: "" })
     const [userData, setUserData] = useState([])
 
     const handleClick = () => setOpen(!open);
@@ -37,6 +37,7 @@ const StaffPage = () => {
                 const response = await axios.get('https://hrms-server-ygpa.onrender.com/user');
                 const users = response.data.userData;
                 setUserData(users)
+                localStorage.setItem("user", JSON.stringify(users))
                 console.log(users, "fetched data");
             } catch (error) {
                 console.error("Error during GET request:", error);

@@ -10,6 +10,7 @@ import axios from 'axios';
 
 const Dashboard = () => {
   const [attendanceData, setAttendanceData] = useState<any>([])
+  const [currentUser, setCurrentUser] = useState<any>('')
   const data = [
     {
       "id": 1,
@@ -70,8 +71,12 @@ const Dashboard = () => {
         setAttendanceData(data)
         console.log(data, "result...")
       })
+    const empDataString: any = localStorage.getItem("loginedUser")
+    const empData = JSON.parse(empDataString);
+    const empName = empData.username;
+    setCurrentUser([empName])
+  }, []);
 
-  }, [])
   return (
     <Grid className={styles.dashboardContainer}>
       <Grid container spacing={2}>
@@ -107,7 +112,7 @@ const Dashboard = () => {
                   return (
                     <TableRow key={idx}>
                       <TableCell>EMP000001</TableCell>
-                      <TableCell>Anuj Kumar</TableCell>
+                      <TableCell>{currentUser}</TableCell>
                       <TableCell>Present</TableCell>
                       <TableCell>{item.clock_in}</TableCell>
                       <TableCell>{item.clock_out}</TableCell>

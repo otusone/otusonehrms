@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Heading.module.scss'
 import { Grid, Box, Typography, Button } from '@mui/material'
 import img from '../../../asserst/images/profile_pic.jpg'
@@ -11,6 +11,24 @@ export interface IHeading {
     IsAction?: boolean;
 }
 const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
+    const [date, setDate] = useState<any>('');
+    const [headingName, setHeadingName] = useState<any>('');
+
+    useEffect(() => {
+
+        const today = new Date();
+        const formatedDate = today.toDateString();
+        setDate(formatedDate);
+
+        const userEmail = localStorage.getItem('email')
+        const userString = localStorage.getItem("user");
+        const users = userString ? JSON.parse(userString) : null;
+        const findUser = users.find((user: { email: string; }) => user.email === userEmail)
+        const userName = findUser.username;
+        setHeadingName(userName);
+
+    }, []);
+
     return (
         <Grid container className={styles.headingContainer}>
             <Grid >
@@ -18,8 +36,8 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
                     <img src={img} alt='img' />
                 </Box>
                 <Box>
-                    <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, Sharry Lin</Typography>
-                    <Typography fontSize={15}>Monday, 20 May 2019</Typography>
+                    <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, {headingName}</Typography>
+                    <Typography fontSize={15}>{date}</Typography>
                 </Box>
             </Grid>
             <Grid >
