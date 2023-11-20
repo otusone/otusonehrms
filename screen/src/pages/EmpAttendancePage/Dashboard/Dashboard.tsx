@@ -127,7 +127,7 @@ const Dashboard = () => {
                 })} */}
 
                 {
-                  attendanceData.filter((emp: {
+                  attendanceData?.filter((emp: {
                     [x: string]: any; employee: any;
                   }) => emp.email === email).map((item: any, idx: number) => {
                     return (
