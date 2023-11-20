@@ -24,7 +24,7 @@ const Attandance = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [timesheetTable, setTimesheetTable] = useState<any>(data.tableData)
-    const [inputData, setInputData] = useState<any>({ id: "", emp_id: '', name: '', date: '', status: '', clock_in: '', clock_out: "", email:"" })
+    const [inputData, setInputData] = useState<any>({ id: "", emp_id: '', name: '', date: '', status: '', clock_in: '', clock_out: "", email: "" })
     const [searchData, setSearchDeta] = useState({ startDate: "", endDate: "" })
     const [itemToEdit, setItemToEdit] = useState(null);
     const openModal = () => setOpen(!open)
@@ -47,27 +47,20 @@ const Attandance = () => {
         });
         setTimesheetTable(filteredData)
     }
-// ////////////////////////////////////////////////////////////////api integrate////////////////////////////////////////////////////////
 
 
     const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
     useEffect(() => {
-      axios
-        .get("https://hrms-server-ygpa.onrender.com/empAttendance")
-        .then((result) => {
-          const data = result.data.EmpAttendanceData;
-          setattandenceTable(data);
-          console.log(data, "result");
-        });
-    }, []) ;
+        axios
+            .get("https://hrms-server-ygpa.onrender.com/empAttendance")
+            .then((result) => {
+                const data = result.data.EmpAttendanceData;
+                setattandenceTable(data);
+                console.log(data, "result");
+            });
+    }, []);
     console.log(attandenceTable, "EmpAttendanceData");
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-    
     const handleReset = () => {
         setTimesheetTable(timesheetTable)
         console.log(timesheetTable, "timesheetTable")
@@ -76,7 +69,7 @@ const Attandance = () => {
     const createNewTimesheet = () => {
         let id = timesheetTable.length + 1
         inputData.id = id;
-        if (inputData.name == "" ||inputData.emp_id==""|| inputData.date == "" || inputData.status == "" || inputData.clock_in == ""||inputData.email=="" || inputData.clock_out=="" || inputData.date=="") {
+        if (inputData.name == "" || inputData.emp_id == "" || inputData.date == "" || inputData.status == "" || inputData.clock_in == "" || inputData.email == "" || inputData.clock_out == "" || inputData.date == "") {
             console.log("please fill employee name!");
             return;
         } else {
@@ -85,16 +78,12 @@ const Attandance = () => {
         setOpen(false);
     }
 
-    const editHandler = (itemToEdit: any) => {
-        setItemToEdit(itemToEdit);
-        setEditModal(!editModal)
-    }
     const editTimesheet = () => {
         if (inputData.name == "" || inputData.date == "" || inputData.status == "" || inputData.clock_in == "") {
             console.log("please update all the field");
             return;
         } else {
-            timesheetTable.map(((item: { id: number;emp_id:string, name: string; date: string; status: string; clock_in: string; clock_out:string}) => {
+            timesheetTable.map(((item: { id: number; emp_id: string, name: string; date: string; status: string; clock_in: string; clock_out: string }) => {
                 if (item.id === itemToEdit) {
                     item.emp_id = inputData.emp_id
                     item.name = inputData.name
@@ -105,18 +94,9 @@ const Attandance = () => {
                 }
             }))
         }
-
         setEditModal(false)
     }
 
-   
-
-    const deleteHandler = (itemToDelete: any) => {
-        const updatedTableData = timesheetTable.filter((row: { id: any; }) => row.id !== itemToDelete);
-        setTimesheetTable(updatedTableData);
-    };
-    
-    
 
     return (
         <Grid className={styles.timeSheetContainer}>
@@ -134,9 +114,6 @@ const Attandance = () => {
             <AttandanceTable
                 tableHeading={data.tableTitle}
                 tableData={attandenceTable}
-                IsAction={true}
-                editAction={editHandler}
-                deleteHandler={deleteHandler}
             />
             <AttandanceModal
                 heading={'Create New Timesheet'}

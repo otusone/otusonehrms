@@ -7,6 +7,7 @@ import { AiOutlineTeam } from 'react-icons/ai';
 import { RiHotspotLine } from 'react-icons/ri';
 import { TbTicket } from 'react-icons/tb';
 import axios from 'axios';
+import CommonButton from '../../../components/common/CommonButton/CommonButton';
 
 const Dashboard = () => {
   const [attendanceData, setAttendanceData] = useState<any>([])
@@ -100,12 +101,12 @@ const Dashboard = () => {
         })}
       </Grid>
       <Grid container className={styles.dashboard}>
-        <Grid item sm={7}>
+        <Grid item sm={8}>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#58024B" }}>
-                  {/* <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell> */}
+                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>STATUS</TableCell>
@@ -132,6 +133,9 @@ const Dashboard = () => {
                   }) => emp.email === email).map((item: any, idx: number) => {
                     return (
                       <TableRow key={idx}>
+                        <TableCell>
+                          <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
+                        </TableCell>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.date}</TableCell>
                         <TableCell>Present</TableCell>
@@ -145,7 +149,7 @@ const Dashboard = () => {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item sm={5}>
+        <Grid item sm={4}>
 
         </Grid>
       </Grid>
