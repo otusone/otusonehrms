@@ -76,11 +76,8 @@ const EmpAttendancePage = () => {
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                {/* <Heading
-                    IsAction={true}
-                    handleCheckIn={handleCheckIn}
-                    handleCheckOut={handleCheckOut}
-                /> */}
+                <Heading
+                />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={<Attendance />} />

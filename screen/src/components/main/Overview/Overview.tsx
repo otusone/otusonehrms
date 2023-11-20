@@ -15,7 +15,7 @@ const Overview = ({ handleLogout }: any) => {
                 />
             </Grid>
             <Grid className={styles.overviewRoutesPage}>
-                <Heading IsAction={false} />
+                <Heading/>
                 <RoutesPage handleLogout={handleLogout} />
             </Grid>
         </Grid>
