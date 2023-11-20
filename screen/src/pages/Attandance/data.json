@@ -6,32 +6,25 @@
         },
         {
             "id": 2,
-            "title": "DATE"
+            "title": "NAME"
         },
         {
             "id": 3,
-            "title": "STATUS"
+            "title": "EMAIL"
         },
         {
             "id": 4,
-            "title": "CLOCK IN"
+            "title": "DATE"
         },
         {
             "id": 5,
-            "title": "CLOCK OUT"
+            "title": "CLOCK IN"
         },
         {
             "id": 6,
-            "title": "LATE"
+            "title": "CLOCK OUT"
         },
-        {
-            "id": 7,
-            "title": "EARLY LEAVING"
-        },
-        {
-            "id": 8,
-            "title": "OVERTIME"
-        },
+    
         {
             "id": 9,
             "title": "ACTION"

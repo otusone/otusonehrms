@@ -24,7 +24,7 @@ const Attandance = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [timesheetTable, setTimesheetTable] = useState<any>(data.tableData)
-    const [inputData, setInputData] = useState<any>({ id: "", emp_id: '', name: '', date: '', status: '', clock_in: '', clock_out: "", late: "", early_leaving: "", overtime: "" })
+    const [inputData, setInputData] = useState<any>({ id: "", emp_id: '', name: '', date: '', status: '', clock_in: '', clock_out: "", email:"" })
     const [searchData, setSearchDeta] = useState({ startDate: "", endDate: "" })
     const [itemToEdit, setItemToEdit] = useState(null);
     const openModal = () => setOpen(!open)
@@ -47,22 +47,22 @@ const Attandance = () => {
         });
         setTimesheetTable(filteredData)
     }
-// ////////////////////////////////////////////////////////////////api integrate
+// ////////////////////////////////////////////////////////////////api integrate////////////////////////////////////////////////////////
 
 
     const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
     useEffect(() => {
       axios
-        .get("https://hrms-server-ygpa.onrender.com/attendance")
+        .get("https://hrms-server-ygpa.onrender.com/empAttendance")
         .then((result) => {
-          const data = result.data.attendanceData;
+          const data = result.data.EmpAttendanceData;
           setattandenceTable(data);
           console.log(data, "result");
         });
     }, []) ;
-    console.log(attandenceTable, "attandenceTable");
+    console.log(attandenceTable, "EmpAttendanceData");
 
-// ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -76,7 +76,7 @@ const Attandance = () => {
     const createNewTimesheet = () => {
         let id = timesheetTable.length + 1
         inputData.id = id;
-        if (inputData.name == "" || inputData.date == "" || inputData.status == "" || inputData.clock_in == "") {
+        if (inputData.name == "" ||inputData.emp_id==""|| inputData.date == "" || inputData.status == "" || inputData.clock_in == ""||inputData.email=="" || inputData.clock_out=="" || inputData.date=="") {
             console.log("please fill employee name!");
             return;
         } else {
@@ -94,12 +94,14 @@ const Attandance = () => {
             console.log("please update all the field");
             return;
         } else {
-            timesheetTable.map(((item: { id: number; name: string; date: string; status: string; clock_in: string; }) => {
+            timesheetTable.map(((item: { id: number;emp_id:string, name: string; date: string; status: string; clock_in: string; clock_out:string}) => {
                 if (item.id === itemToEdit) {
+                    item.emp_id = inputData.emp_id
                     item.name = inputData.name
                     item.date = inputData.date
                     item.status = inputData.status
                     item.clock_in = inputData.clock_in
+                    item.clock_out = inputData.clock_out
                 }
             }))
         }

@@ -17,43 +17,7 @@ export interface ILeaveActionModal {
   start_date:any;
 }
 
-// const data = [
-//     {
-//         "id": 1,
-//         "title": "Employee",
-//         "label": "	Julie Lynn"
-//     },
-//     {
-//         "id": 2,
-//         "title": "Leave Typ",
-//         "label": "Casual Leave"
-//     },
-//     {
-//         "id": 3,
-//         "title": "Appplied",
-//         "label": "Mar 4, 2023"
-//     },
-//     {
-//         "id": 4,
-//         "title": "Start Dat",
-//         "label": "Mar 3, 2023"
-//     },
-//     {
-//         "id": 5,
-//         "title": "End Date",
-//         "label": "Mar 5, 2023"
-//     },
-//     {
-//         "id": 6,
-//         "title": "Leave Rea",
-//         "label": "	Lorem Ipsum, Or Lipsum"
-//     },
-//     {
-//         "id": 7,
-//         "title": "Status",
-//         "label": "Reject"
-//     }
-// ]
+
 const LeaveActionModal = ({
   open,
   emp_id,
