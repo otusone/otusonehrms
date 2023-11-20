@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { BiRightArrow } from "react-icons/bi";
 import SearchBox from "../searchBox/SearchBox";
+import CommonButton from "../CommonButton/CommonButton";
 
 export interface IManageLeaveTable {
   heading: string;
@@ -21,7 +22,7 @@ export interface IManageLeaveTable {
   leaveActionHandler?: any;
   editHandler?: any;
   deleteHandler?: any;
-  handleAction?:any;
+  handleAction?: any;
   newStatus?: string;
 }
 
@@ -52,11 +53,13 @@ const ManageLeaveTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((item: any, idx:number) => {
+            {tableData.map((item: any, idx: number) => {
               return (
                 <>
                   <TableRow key={item.id}>
-                    <TableCell>{item.emp_id}</TableCell>
+                    <TableCell>
+                      <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
+                    </TableCell>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.leave_type}</TableCell>
                     <TableCell>{item.start_date}</TableCell>

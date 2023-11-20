@@ -2,11 +2,11 @@
     "tableTitle": [
         {
             "id": 1,
-            "title": "EMPLOYEE"
+            "title": "EMPLOYEE ID"
         },
         {
             "id": 2,
-            "title": "NAME"
+            "title": "EMPLOYEE"
         },
         {
             "id": 3,
@@ -23,11 +23,6 @@
         {
             "id": 6,
             "title": "CLOCK OUT"
-        },
-    
-        {
-            "id": 9,
-            "title": "ACTION"
         }
     ],
     "tableData": [

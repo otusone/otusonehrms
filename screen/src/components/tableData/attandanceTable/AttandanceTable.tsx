@@ -1,18 +1,14 @@
 import React from 'react'
 import styles from './AttandanceTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import { MdOutlineMode } from 'react-icons/md';
-import { RiDeleteBinLine } from 'react-icons/ri';
+import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface IAttandanceTable {
     tableHeading: any;
     tableData: any;
-    IsAction: boolean;
-    editAction: any;
-    deleteHandler: any
 }
-const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, deleteHandler }: IAttandanceTable) => {
-    // const deleteHandler = (itemID: any) => { }
+const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
+
     return (
         <Grid className={styles.attandanceTableContainer}>
             <TableContainer>
@@ -30,20 +26,14 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, delete
                         {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.emp_id}</TableCell>
+                                    <TableCell>
+                                        <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
+                                    </TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.date}</TableCell>
                                     <TableCell>{item.clock_in}</TableCell>
                                     <TableCell>{item.clock_out}</TableCell>
-                                    
-                                    {IsAction ?
-                                        <TableCell className={styles.tableAction}>
-                                            <MdOutlineMode onClick={() => { console.log(item.id); editAction(item.id) }} fontSize={30}
-                                            />
-                                            <RiDeleteBinLine onClick={(() => deleteHandler(item.id))} fontSize={30} />
-                                        </TableCell>
-                                        : ""}
                                 </TableRow>
                             )
                         })}
