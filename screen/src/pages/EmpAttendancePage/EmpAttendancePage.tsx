@@ -32,9 +32,9 @@ const EmpAttendancePage = () => {
 
     const handleCheckIn = () => {
 
-        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email })
+        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, clock_in })
             .then(result => {
-                setCheckIn(clock_in)
+                console.log(result, "result...")
             })
     };
 
@@ -42,7 +42,6 @@ const EmpAttendancePage = () => {
         const empDataString: any = localStorage.getItem("loginedUser")
         const empData = JSON.parse(empDataString);
         const empName = empData.username;
-        console.log(empName, "empName....")
     },);
 
     useEffect(() => {
