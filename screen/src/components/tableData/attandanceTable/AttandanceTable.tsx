@@ -30,14 +30,13 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, delete
                         {tableData.map((item: any) => {
                             return (
                                 <TableRow key={item.id}>
+                                    <TableCell>{item.emp_id}</TableCell>
                                     <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.status}</TableCell>
                                     <TableCell>{item.clock_in}</TableCell>
                                     <TableCell>{item.clock_out}</TableCell>
-                                    <TableCell>{item.late}</TableCell>
-                                    <TableCell>{item.early_leaving}</TableCell>
-                                    <TableCell>{item.overtime}</TableCell>
+                                    
                                     {IsAction ?
                                         <TableCell className={styles.tableAction}>
                                             <MdOutlineMode onClick={() => { console.log(item.id); editAction(item.id) }} fontSize={30}
