@@ -39,8 +39,15 @@ const EmpAttendancePage = () => {
     }, [])
 
     const handleCheckIn = () => {
+        const requestData = {
+            emp_id: emp_id || 'default_emp_id',
+            name: name || 'default_name',
+            email: email || 'default_email',
+            date: date || 'default_date',
+            clock_in: clock_in || 'default_clock_in',
+        };
 
-        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in })
+        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { requestData })
             .then(result => {
                 console.log(result, "result...")
             })
@@ -58,8 +65,15 @@ const EmpAttendancePage = () => {
     }, []);
 
     const handleCheckOut = () => {
+        const requestData = {
+            emp_id: emp_id || 'default_emp_id',
+            name: name || 'default_name',
+            email: email || 'default_email',
+            date: date || 'default_date',
+            clock_in: clock_in || 'default_clock_in',
+        };
 
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, date, clock_in, clock_out })
+        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { requestData })
             .then(response => {
                 console.log('Update successful:', response);
             })
@@ -77,6 +91,9 @@ const EmpAttendancePage = () => {
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
                 <Heading
+                    IsAction={true}
+                    handleCheckIn={handleCheckIn}
+                    handleCheckOut={handleCheckOut}
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
