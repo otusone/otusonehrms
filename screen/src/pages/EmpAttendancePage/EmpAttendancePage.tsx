@@ -12,15 +12,27 @@ import axios from 'axios'
 const EmpAttendancePage = () => {
     const [checkIn, setCheckIn] = useState<any>('')
     const [checkOut, setCheckOut] = useState<any>()
+    const [email, setEmail] = useState<any>()
 
     const date = new Date();
     const time = date.getTime();
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
+    const emp_id = "EMP000001";
+    const name = "Anuj";
+    // const email = "anuj@gmail.com";
+    useEffect(() => {
+        const userEmail = localStorage.getItem('email')
+        setEmail(userEmail)
+
+
+    }, [])
+    console.log(email, "userEmail")
+
 
     const handleCheckIn = () => {
 
-        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/check-in', { clock_in })
+        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email })
             .then(result => {
                 setCheckIn(clock_in)
             })
@@ -40,7 +52,7 @@ const EmpAttendancePage = () => {
 
     const handleCheckOut = () => {
 
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { clock_out })
+        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, email })
             .then(response => {
                 console.log('Update successful:', response);
             })
