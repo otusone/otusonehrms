@@ -13,6 +13,7 @@ const EmpAttendancePage = () => {
     const [checkIn, setCheckIn] = useState<any>('')
     const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
+    const [name, setName] = useState<any>()
 
     const formatedData = new Date();
     const date = formatedData.toLocaleDateString();
@@ -20,17 +21,22 @@ const EmpAttendancePage = () => {
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
     const emp_id = "EMP000001";
-    const name = "Anuj";
-
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
         setEmail(userEmail)
+        const loginedUserString = localStorage.getItem('loginedUser')
+        if (loginedUserString) {
+            const loginedUser = JSON.parse(loginedUserString);
+            const username = loginedUser.username;
+            setName(username)
 
+            console.log(username);
+        } else {
+            console.log('No logined user found');
+        }
 
     }, [])
-    console.log(email, "userEmail")
-
 
     const handleCheckIn = () => {
 
@@ -70,11 +76,11 @@ const EmpAttendancePage = () => {
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                <Heading
+                {/* <Heading
                     IsAction={true}
                     handleCheckIn={handleCheckIn}
                     handleCheckOut={handleCheckOut}
-                />
+                /> */}
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={<Attendance />} />
