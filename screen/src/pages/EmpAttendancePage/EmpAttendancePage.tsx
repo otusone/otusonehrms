@@ -14,13 +14,15 @@ const EmpAttendancePage = () => {
     const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
 
-    const date = new Date();
-    const time = date.getTime();
+    const formatedData = new Date();
+    const date = formatedData.toLocaleDateString();
+    const time = formatedData.getTime();
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
     const emp_id = "EMP000001";
     const name = "Anuj";
-    // const email = "anuj@gmail.com";
+
+
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
         setEmail(userEmail)
@@ -32,7 +34,7 @@ const EmpAttendancePage = () => {
 
     const handleCheckIn = () => {
 
-        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, clock_in })
+        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in })
             .then(result => {
                 console.log(result, "result...")
             })
@@ -51,7 +53,7 @@ const EmpAttendancePage = () => {
 
     const handleCheckOut = () => {
 
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, email })
+        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, date, clock_in, clock_out })
             .then(response => {
                 console.log('Update successful:', response);
             })
@@ -68,11 +70,11 @@ const EmpAttendancePage = () => {
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                {/* <Heading
+                <Heading
                     IsAction={true}
                     handleCheckIn={handleCheckIn}
                     handleCheckOut={handleCheckOut}
-                /> */}
+                />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={<Attendance />} />

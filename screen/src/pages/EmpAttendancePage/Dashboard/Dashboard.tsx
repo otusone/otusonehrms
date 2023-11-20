@@ -11,6 +11,7 @@ import axios from 'axios';
 const Dashboard = () => {
   const [attendanceData, setAttendanceData] = useState<any>([])
   const [currentUser, setCurrentUser] = useState<any>('')
+  const [email, setEmail] = useState<any>('')
   const data = [
     {
       "id": 1,
@@ -74,8 +75,12 @@ const Dashboard = () => {
     const empDataString: any = localStorage.getItem("loginedUser")
     const empData = JSON.parse(empDataString);
     const empName = empData.username;
+    const empEmail = empData.email;
+    setEmail(empEmail)
     setCurrentUser([empName])
   }, []);
+  console.log(email, "email...")
+
 
   return (
     <Grid className={styles.dashboardContainer}>
@@ -100,15 +105,16 @@ const Dashboard = () => {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#58024B" }}>
-                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell>
+                  {/* <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell> */}
                   <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>STATUS</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>CHECK IN</TableCell>
                   <TableCell sx={{ color: "#ffffff" }}>CHECK OUT</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {attendanceData.map((item: any, idx: number) => {
+                {/* {attendanceData.map((item: any, idx: number) => {
                   return (
                     <TableRow key={idx}>
                       <TableCell>EMP000001</TableCell>
@@ -118,7 +124,23 @@ const Dashboard = () => {
                       <TableCell>{item.clock_out}</TableCell>
                     </TableRow>
                   )
-                })}
+                })} */}
+
+                {
+                  attendanceData.filter((emp: {
+                    [x: string]: any; employee: any;
+                  }) => emp.email === email).map((item: any, idx: number) => {
+                    return (
+                      <TableRow key={idx}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.date}</TableCell>
+                        <TableCell>Present</TableCell>
+                        <TableCell>{item.clock_in}</TableCell>
+                        <TableCell>{item.clock_out}</TableCell>
+                      </TableRow>
+                    )
+                  })
+                }
               </TableBody>
             </Table>
           </TableContainer>

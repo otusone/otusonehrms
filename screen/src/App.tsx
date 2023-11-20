@@ -36,15 +36,14 @@ const App = () => {
 
   return (
     <Fragment>
-      <Overview/>
-      {/* {IsLogin ?
+      {IsLogin ?
         <>
           {user == "ADMIN" && <Overview handleLogout={handleLogout} />}
           {user == "EMPLOYEE" && <EmpAttendancePage />}
         </>
         :
         <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
-      } */}
+      }
     </Fragment>
   )
 }
