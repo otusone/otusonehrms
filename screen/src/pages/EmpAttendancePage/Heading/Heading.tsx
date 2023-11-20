@@ -33,11 +33,11 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
         <Grid container className={styles.headingContainer}>
             <Grid >
                 <Box>
-                    <img src={img} alt='img' />
+                    {img && <img src={img} alt='img' />}
                 </Box>
                 <Box>
-                    <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, {headingName}</Typography>
-                    <Typography fontSize={15}>{date}</Typography>
+                    {headingName && <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, {headingName}</Typography>}
+                    {date && <Typography fontSize={15}>{date}</Typography>}
                 </Box>
             </Grid>
             <Grid >
