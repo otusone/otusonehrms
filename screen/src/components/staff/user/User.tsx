@@ -38,7 +38,7 @@ const User = ({ handleClick, data,handleAction }: IUserDataType) => {
                                 image={item.image}
                                 name={item.username}
                                 email={item.email}
-                                IsButton={false}
+                                IsButton={true}
                                 IsLabel={true}
                                 handleClick={(()=>handleAction(idx))}
                             />

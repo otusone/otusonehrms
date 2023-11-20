@@ -12,7 +12,7 @@ export interface IAttandanceTable {
     deleteHandler: any
 }
 const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, deleteHandler }: IAttandanceTable) => {
-    // const deleteHandler = (itemID: any) => { }
+    
     return (
         <Grid className={styles.attandanceTableContainer}>
             <TableContainer>
@@ -37,13 +37,13 @@ const AttandanceTable = ({ tableHeading, tableData, IsAction, editAction, delete
                                     <TableCell>{item.clock_in}</TableCell>
                                     <TableCell>{item.clock_out}</TableCell>
                                     
-                                    {IsAction ?
+                                    {/* {IsAction ?
                                         <TableCell className={styles.tableAction}>
                                             <MdOutlineMode onClick={() => { console.log(item.id); editAction(item.id) }} fontSize={30}
                                             />
                                             <RiDeleteBinLine onClick={(() => deleteHandler(item.id))} fontSize={30} />
                                         </TableCell>
-                                        : ""}
+                                        : ""} */}
                                 </TableRow>
                             )
                         })}
