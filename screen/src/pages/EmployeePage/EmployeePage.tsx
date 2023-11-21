@@ -7,7 +7,6 @@ import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 interface Employee {
   // Define the structure of your employee data
   id: number;
@@ -16,7 +15,8 @@ interface Employee {
 
 const EmployeePage = () => {
   const [empData, setEmpData] = useState<Employee[]>([]);
-  
+  const [query, setQuery] = useState("")
+
   const navigation = useNavigate();
   useEffect(() => {
     axios
@@ -26,11 +26,7 @@ const EmployeePage = () => {
         setEmpData(data);
         console.log(data, "result");
       });
-  }, []) ;
-  console.log(empData, "empData");
-
-
-
+  }, []);
 
   const handleDelete = (id: number) => {
     const updatedEmpData = empData.filter((employee) => employee.id !== id);
@@ -42,6 +38,7 @@ const EmployeePage = () => {
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
         heading={"Manage Employee"}
+
         IsHeadingAction={true}
         onClick={() => navigation("/employee/create-employee")}
       />
@@ -52,6 +49,8 @@ const EmployeePage = () => {
         handleLeaveAction={undefined}
         handleEdit={undefined}
         handleDelete={handleDelete}
+        setQuery={setQuery}
+        query={query}
       />
     </Grid>
   );
