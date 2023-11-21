@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styles from './EmpAttendancePage.module.scss'
-import { Box, Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { menuData } from './menuData'
 import { Route, Routes } from 'react-router-dom'
@@ -8,9 +8,9 @@ import Dashboard from './Dashboard/Dashboard'
 import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
 import axios from 'axios'
+import Leave from './Leave/Leave'
 
 const EmpAttendancePage = () => {
-    const [checkIn, setCheckIn] = useState<any>('')
     const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
@@ -84,6 +84,7 @@ const EmpAttendancePage = () => {
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={<Attendance />} />
+                    <Route path='/leaves' element={<Leave />} />
                 </Routes>
             </Grid>
         </Grid>
