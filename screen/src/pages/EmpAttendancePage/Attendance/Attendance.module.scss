@@ -1,0 +1,13 @@
+.attendanceContainer {
+    // padding-inline: 2%;
+    margin-block-start: 3rem;
+    margin-block-end: 2rem;
+    height: 10rem;
+
+
+    .attendance {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        height: 32rem;
+        overflow: scroll;
+    }
+}

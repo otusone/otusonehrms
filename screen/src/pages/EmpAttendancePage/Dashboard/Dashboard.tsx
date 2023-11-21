@@ -8,31 +8,31 @@ import { RiHotspotLine } from 'react-icons/ri';
 import { TbTicket } from 'react-icons/tb';
 import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
+import MeetingScheduleTable from '../../../components/tableData/meetingScheduleTable/MeetingScheduleTable';
+import tabelData from '../../../data/mettingSchedule.json'
 
 const Dashboard = () => {
-  const [attendanceData, setAttendanceData] = useState<any>([])
-  const [currentUser, setCurrentUser] = useState<any>('')
-  const [email, setEmail] = useState<any>('')
+
   const data = [
     {
       "id": 1,
       "icon": <AiOutlineTeam />,
-      "heading": "Staff",
+      "heading": "Leave",
       "number": 24,
       "color": "#58024B"
     },
     {
       "id": 2,
       "icon": <TbTicket />,
-      "heading": "Ticket",
+      "heading": "Casual Leave",
       "number": 9,
       "color": "#3EC9D6"
     },
     {
       "id": 3,
       "icon": <MdAccountBalanceWallet />,
-      "heading": "Account Balance",
-      "number": "$2,089,000.00",
+      "heading": "Sick Leave",
+      "number": 4,
       "color": "#6FD943"
     },
     {
@@ -57,30 +57,6 @@ const Dashboard = () => {
       "color": "#58024B"
     }
   ]
-  useEffect(() => {
-    axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
-      .then(result => {
-        const data = result.data.EmpAttendanceData;
-        if (Array.isArray(data) && data.length > 0) {
-          const lastIndex = data.length - 1;
-          const lastItem = data[lastIndex];
-          const attendance_id = lastItem._id;
-          localStorage.setItem("AttendanceID", attendance_id);
-          console.log(attendance_id, "last item");
-        } else {
-          console.log("Data is not an array or is empty");
-        }
-        setAttendanceData(data)
-        console.log(data, "result...")
-      })
-    const empDataString: any = localStorage.getItem("loginedUser")
-    const empData = JSON.parse(empDataString);
-    const empName = empData.username;
-    const empEmail = empData.email;
-    setEmail(empEmail)
-    setCurrentUser([empName])
-  }, []);
-  console.log(email, "email...")
 
 
   return (
@@ -101,56 +77,10 @@ const Dashboard = () => {
         })}
       </Grid>
       <Grid container className={styles.dashboard}>
-        <Grid item sm={8}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#58024B" }}>
-                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE ID</TableCell>
-                  <TableCell sx={{ color: "#ffffff" }}>EMPLOYEE</TableCell>
-                  <TableCell sx={{ color: "#ffffff" }}>DATE</TableCell>
-                  <TableCell sx={{ color: "#ffffff" }}>STATUS</TableCell>
-                  <TableCell sx={{ color: "#ffffff" }}>CHECK IN</TableCell>
-                  <TableCell sx={{ color: "#ffffff" }}>CHECK OUT</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {/* {attendanceData.map((item: any, idx: number) => {
-                  return (
-                    <TableRow key={idx}>
-                      <TableCell>EMP000001</TableCell>
-                      <TableCell>{currentUser}</TableCell>
-                      <TableCell>Present</TableCell>
-                      <TableCell>{item.clock_in}</TableCell>
-                      <TableCell>{item.clock_out}</TableCell>
-                    </TableRow>
-                  )
-                })} */}
-
-                {
-                  attendanceData?.filter((emp: {
-                    [x: string]: any; employee: any;
-                  }) => emp.email === email).map((item: any, idx: number) => {
-                    return (
-                      <TableRow key={idx}>
-                        <TableCell>
-                          <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
-                        </TableCell>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>{item.date}</TableCell>
-                        <TableCell>Present</TableCell>
-                        <TableCell>{item.clock_in}</TableCell>
-                        <TableCell>{item.clock_out}</TableCell>
-                      </TableRow>
-                    )
-                  })
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-        <Grid item sm={4}>
-
+        <Grid item sm={6}>
+          <MeetingScheduleTable
+            data={tabelData}
+          />
         </Grid>
       </Grid>
     </Grid>
