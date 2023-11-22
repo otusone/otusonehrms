@@ -13,8 +13,8 @@ const StaffPage = () => {
     console.log(userData, "userData...")
 
 
-    const handleClick = () => setOpen(!open);
-    const handleClose = () => setOpen(false);
+  const handleClick = () => setOpen(!open);
+  const handleClose = () => setOpen(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
