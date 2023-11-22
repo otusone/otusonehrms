@@ -41,14 +41,21 @@ const CreateNewEmployee = () => {
   };
 
   const handleCreate = () => {
-    axios
-      .post("https://hrms-server-ygpa.onrender.com/employee/create", inputData)
-      .then((result) => {
-        setInputData(result);
-        console.log(result, "result....");
-      });
+    if (inputData.name === '' || inputData.email === '' || inputData.phone === '' || inputData.password === '' || inputData.emp_id === '') {
+      console.log('please fill all the require field')
+    } else {
+      axios
+        .post("https://hrms-server-ygpa.onrender.com/employee/create", inputData)
+        .then((result) => {
+          setInputData(result);
+          navigation('/employee')
+          console.log(result, "result....");
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   };
-  console.log(inputData, "inputData");
   return (
     <>
       <Box sx={{ marginInlineStart: 3 }}>

@@ -30,7 +30,7 @@ const User = ({ handleClick, data,handleAction }: IUserDataType) => {
                 </Box>
             </Grid>
             <Grid container spacing={2} >
-                {data.map((item: IUser, idx:number) => {
+                {data && data.map((item: IUser, idx:number) => {
                     return (
                         <Grid item sm={3}>
                             <UserCard
