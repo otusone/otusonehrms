@@ -6,17 +6,10 @@ import EmployeeTable from "../../components/tableData/employeeTable/EmployeeTabl
 import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEmployeeDataContext } from "../../ContextAPI/EmployeeContext";
-
-interface Employee {
-  // Define the structure of your employee data
-  id: number;
-  // ... other properties
-}
 
 const EmployeePage = () => {
   const [query, setQuery] = useState("");
-  const { employeeData, setEmployeeData } = useEmployeeDataContext();
+  const [employeeData, setEmployeeData] = useState<any>([]);
 
   const navigation = useNavigate();
 
@@ -32,16 +25,18 @@ const EmployeePage = () => {
   const handleDelete = (employeeId: any) => {
     axios
       .delete(`https://hrms-server-ygpa.onrender.com/employee/${employeeId}`)
-      .then((result) => {
-        // Assuming the API returns updated data after deletion
-        const data = result.data.employeeData;
-        setEmployeeData(data);
+      .then(() => {
+        const updatedEmployeeData = employeeData.filter(
+          (employee: { _id: any; }) => employee._id !== employeeId
+        );
+
+        setEmployeeData(updatedEmployeeData);
       })
       .catch((error) => {
         console.error("Error deleting employee:", error);
       });
-    console.log(employeeId, "employeeId");
   };
+
 
   return (
     <Grid className={styles.employeePageContainer}>
