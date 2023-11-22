@@ -18,8 +18,7 @@ const EmployeeProfile = () => {
                 name={item.name}
                 email={item.email}
                 IsButton={true}
-                IsLabel={false}
-              />
+                IsLabel={false} handleClose={undefined} handleClick={undefined}              />
             </Grid>
           )
         })}

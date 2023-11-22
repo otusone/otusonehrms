@@ -13,13 +13,16 @@ export interface IUser {
     image?: string,
     username: string,
     email: string,
+    handleClose:any;
+    _id:number;
 }
 export interface IUserDataType {
     handleClick: () => void;
     handleAction: any;
     data: any;
+    handleDelete:any;
 }
-const User = ({ handleClick, data,handleAction }: IUserDataType) => {
+const User = ({ handleClick, data,handleAction, handleDelete }: IUserDataType) => {
     return (
         <Grid className={styles.userContainer}>
             <Grid>
@@ -40,8 +43,8 @@ const User = ({ handleClick, data,handleAction }: IUserDataType) => {
                                 email={item.email}
                                 IsButton={false}
                                 IsLabel={true}
-                                handleClick={(()=>handleAction(idx))}
-                            />
+                                handleClick={(() => handleAction(idx))}
+                                handleDelete={(()=>handleDelete(item._id))} handleClose={undefined}                            />
                         </Grid>
                     )
                 })}

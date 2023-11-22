@@ -56,6 +56,20 @@ const StaffPage = () => {
     }
 
 
+    const handleDelete = (idx:any) =>{
+        console.log(idx, "idx....")
+        const datanew= axios
+        .delete(`https://hrms-server-ygpa.onrender.com/employee/user/${idx}`)
+        .then((result) => {
+         
+          const data = result.data.employeeData;
+          setUserData(data);
+        })
+        .catch((error) => {
+          console.error("Error deleting employee:", error);
+        });
+    }
+
 
     return (
         <Grid>
@@ -63,6 +77,7 @@ const StaffPage = () => {
                 data={userData}
                 handleClick={handleClick}
                 handleAction={handleAction}
+                handleDelete={handleDelete}
             />
             <UserModal
                 open={open}
