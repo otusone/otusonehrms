@@ -6,6 +6,8 @@ import EmployeeTable from "../../components/tableData/employeeTable/EmployeeTabl
 import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEmployeeDataContext } from '../../ContextAPI/EmployeeContext';
+
 
 interface Employee {
   // Define the structure of your employee data
@@ -14,23 +16,23 @@ interface Employee {
 }
 
 const EmployeePage = () => {
-  const [empData, setEmpData] = useState<Employee[]>([]);
   const [query, setQuery] = useState("")
+  const { employeeData, setEmployeeData } = useEmployeeDataContext();
 
   const navigation = useNavigate();
+
   useEffect(() => {
     axios
       .get("https://hrms-server-ygpa.onrender.com/employee")
       .then((result) => {
         const data = result.data.employeeData;
-        setEmpData(data);
-        console.log(data, "result");
+        setEmployeeData(data)
       });
   }, []);
 
   const handleDelete = (id: number) => {
-    const updatedEmpData = empData.filter((employee) => employee.id !== id);
-    setEmpData(updatedEmpData);
+    // const updatedEmpData = empData.filter((employee) => employee.id !== id);
+    // setEmpData(updatedEmpData);
   };
 
 
@@ -38,14 +40,13 @@ const EmployeePage = () => {
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
         heading={"Manage Employee"}
-
         IsHeadingAction={true}
         onClick={() => navigation("/employee/create-employee")}
       />
       <EmployeeTable
         heading={""}
         tableTitle={data.tableTitle}
-        tableData={empData}
+        tableData={employeeData}
         handleLeaveAction={undefined}
         handleEdit={undefined}
         handleDelete={handleDelete}
