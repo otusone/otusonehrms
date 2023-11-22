@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import Overview from './components/main/Overview/Overview'
 import Login from './pages/Login/Login';
 import axios from 'axios'
 import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
+import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
 
 const App = () => {
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('token') || '');
@@ -36,14 +37,16 @@ const App = () => {
 
   return (
     <Fragment>
-      {IsLogin ?
-        <>
-          {user == "ADMIN" && <Overview handleLogout={handleLogout} />}
-          {user == "EMPLOYEE" && <EmpAttendancePage />}
-        </>
-        :
-        <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
-      }
+      <EmployeeDataContextProvider>
+        {IsLogin ?
+          <>
+            {user === "ADMIN" && <Overview handleLogout={handleLogout} />}
+            {user === "EMPLOYEE" && <EmpAttendancePage />}
+          </>
+          :
+          <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
+        }
+      </EmployeeDataContextProvider>
     </Fragment>
   )
 }

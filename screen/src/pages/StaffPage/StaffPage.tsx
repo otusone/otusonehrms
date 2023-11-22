@@ -5,10 +5,13 @@ import User from '../../components/staff/user/User'
 import UserModal from '../../components/userModal/UserModal'
 import axios from 'axios'
 
+
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
     const [inputData, setInputData] = useState({ username: "", email: "", password: '', role: "" })
     const [userData, setUserData] = useState([])
+    console.log(userData, "userData...")
+
 
   const handleClick = () => setOpen(!open);
   const handleClose = () => setOpen(false);
@@ -26,6 +29,7 @@ const StaffPage = () => {
         try {
             const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/signUp', inputData);
             console.log(response.data, "result");
+            setUserData(response.data)
         } catch (error) {
             console.error("Error during POST request:", error);
         }

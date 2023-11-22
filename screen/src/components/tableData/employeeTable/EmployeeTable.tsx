@@ -42,7 +42,7 @@ const EmployeeTable = ({ heading, query, setQuery, tableTitle, tableData, handle
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {
+                        {tableData &&
                             tableData.filter((employee: { name: string; }) => {
                                 return query === '' || (employee.name?.toLowerCase()?.includes(query.toLowerCase()) ?? false);
                             }).map((item: any) => {
