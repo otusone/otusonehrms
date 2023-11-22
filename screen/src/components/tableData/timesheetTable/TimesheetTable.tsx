@@ -32,7 +32,7 @@ const TimesheetTable = ({ tableHeading, tableData, IsAction, editHandler, delete
                             return (
                                 <TableRow key={item.id}>
                                     <TableCell>{item.emp_id}</TableCell>
-                                    <TableCell>{item.employee}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.date}</TableCell>
                                     <TableCell>{item.hours}</TableCell>
                                     <TableCell>{item.remark}</TableCell>

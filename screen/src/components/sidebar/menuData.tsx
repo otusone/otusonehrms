@@ -29,32 +29,26 @@ export const menuData = [
     },
     {
         "id": 4,
-        "icon": <PiNote />,
-        "title": "Payroll",
-        "link": "/payroll",
-    },
-    {
-        "id": 5,
-        "icon": <AiOutlineClockCircle />,
-        "title": "Timesheet",
-        "link": "/timesheet",
-    },
-    {
-        "id": 6,
-        "icon": <GrDocumentTime/>,
-        "title": "Manage Leave",
-        "link": "/manage-leave",
-    },
-    {
-        "id": 7,
         "icon": <TbCalendarTime />,
         "title": "Attandance",
         "link": "/attandance",
     },
     {
-        "id": 8,
+        "id": 5,
+        "icon": <GrDocumentTime />,
+        "title": "Manage Leave",
+        "link": "/manage-leave",
+    },
+    {
+        "id": 6,
         "icon": <FaTasks />,
         "title": "Ticket",
         "link": "/ticket",
-    }
+    },
+    {
+        "id": 7,
+        "icon": <PiNote />,
+        "title": "Payroll",
+        "link": "/payroll",
+    },
 ]

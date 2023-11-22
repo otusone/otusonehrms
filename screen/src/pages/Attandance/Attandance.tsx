@@ -1,25 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../TimeSheet/TimeSheet.module.scss'
 import { Grid, SelectChangeEvent } from '@mui/material';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import TimesheetFilter from '../../components/timesheetFilter/TimesheetFilter';
-import data from '../TimeSheet/data.json'
-import TimesheetTable from '../../components/tableData/timesheetTable/TimesheetTable';
+import data from './data.json'
 import AttandanceModal from '../../components/attandanceModal/AttandanceModal';
+import AttandanceTable from '../../components/tableData/attandanceTable/AttandanceTable';
+import axios from 'axios';
 
 export interface IinputDataType {
     emp_id: string;
-    employee: string;
-    hours: string;
-    remark: string;
+    name: string;
     date: string;
-    id: string | number;
+    status: string;
+    clock_in: string;
+    clock_out: string | number;
+    late: string;
+    early_leaving: string;
+    overtime: string
+    id: string | number
 }
-const TimeSheet = () => {
+const Attandance = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
-    const [timesheetTable, setTimesheetTable] = useState<IinputDataType[]>(data.tableData)
-    const [inputData, setInputData] = useState<IinputDataType>({ id: "", emp_id: '', employee: '', hours: '', remark: '', date: '' })
+    const [timesheetTable, setTimesheetTable] = useState<any>(data.tableData)
+    const [inputData, setInputData] = useState<any>({ id: "", emp_id: '', name: '', date: '', status: '', clock_in: '', clock_out: "", email: "" })
     const [searchData, setSearchDeta] = useState({ startDate: "", endDate: "" })
     const [itemToEdit, setItemToEdit] = useState(null);
     const openModal = () => setOpen(!open)
@@ -33,7 +38,7 @@ const TimeSheet = () => {
     }
     const handleSearch = () => {
         const { startDate, endDate } = searchData;
-        const filteredData = timesheetTable.filter(item => {
+        const filteredData = timesheetTable.filter((item: { date: string | number | Date; }) => {
             const itemDate = new Date(item.date);
             return (
                 (!startDate || itemDate >= new Date(startDate)) &&
@@ -42,6 +47,20 @@ const TimeSheet = () => {
         });
         setTimesheetTable(filteredData)
     }
+
+
+    const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
+    useEffect(() => {
+        axios
+            .get("https://hrms-server-ygpa.onrender.com/empAttendance")
+            .then((result) => {
+                const data = result.data.EmpAttendanceData;
+                setattandenceTable(data);
+                console.log(data, "result");
+            });
+    }, []);
+    console.log(attandenceTable, "EmpAttendanceData");
+
     const handleReset = () => {
         setTimesheetTable(timesheetTable)
         console.log(timesheetTable, "timesheetTable")
@@ -50,7 +69,7 @@ const TimeSheet = () => {
     const createNewTimesheet = () => {
         let id = timesheetTable.length + 1
         inputData.id = id;
-        if (inputData.employee == "" || inputData.date == "" || inputData.hours == "" || inputData.remark == "") {
+        if (inputData.name == "" || inputData.emp_id == "" || inputData.date == "" || inputData.status == "" || inputData.clock_in == "" || inputData.email == "" || inputData.clock_out == "" || inputData.date == "") {
             console.log("please fill employee name!");
             return;
         } else {
@@ -59,37 +78,30 @@ const TimeSheet = () => {
         setOpen(false);
     }
 
-    const editHandler = (itemToEdit: any) => {
-        setItemToEdit(itemToEdit);
-        setEditModal(!editModal)
-    }
     const editTimesheet = () => {
-        if (inputData.employee == "" || inputData.date == "" || inputData.hours == "" || inputData.remark == "") {
+        if (inputData.name == "" || inputData.date == "" || inputData.status == "" || inputData.clock_in == "") {
             console.log("please update all the field");
             return;
         } else {
-            timesheetTable.map((item => {
+            timesheetTable.map(((item: { id: number; emp_id: string, name: string; date: string; status: string; clock_in: string; clock_out: string }) => {
                 if (item.id === itemToEdit) {
-                    item.employee = inputData.employee
+                    item.emp_id = inputData.emp_id
+                    item.name = inputData.name
                     item.date = inputData.date
-                    item.hours = inputData.hours
-                    item.remark = inputData.remark
+                    item.status = inputData.status
+                    item.clock_in = inputData.clock_in
+                    item.clock_out = inputData.clock_out
                 }
             }))
         }
-
         setEditModal(false)
     }
 
-    const deleteHandler = (itemToDelete: any) => {
-        const updatedTableData = timesheetTable.filter((row) => row.id !== itemToDelete);
-        console.log(itemToDelete, "itemToDelete")
-        setTimesheetTable(updatedTableData)
-    }
+
     return (
         <Grid className={styles.timeSheetContainer}>
             <CommonHeading
-                heading={'Manage Timesheet'}
+                heading={'Attandance'}
                 onClick={openModal}
                 IsHeadingAction={true}
             />
@@ -99,12 +111,9 @@ const TimeSheet = () => {
                 handleSearch={handleSearch}
                 handleReset={handleReset}
             />
-            <TimesheetTable
+            <AttandanceTable
                 tableHeading={data.tableTitle}
-                tableData={timesheetTable}
-                IsAction={true}
-                editHandler={editHandler}
-                deleteHandler={deleteHandler}
+                tableData={attandenceTable}
             />
             <AttandanceModal
                 heading={'Create New Timesheet'}
@@ -130,4 +139,4 @@ const TimeSheet = () => {
     )
 }
 
-export default TimeSheet;
+export default Attandance;

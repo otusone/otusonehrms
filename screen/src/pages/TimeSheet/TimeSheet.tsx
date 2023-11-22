@@ -18,7 +18,7 @@ export interface IinputDataType {
 const TimeSheet = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
-    const [timesheetTable, setTimesheetTable] = useState<IinputDataType[]>(data.tableData)
+    const [timesheetTable, setTimesheetTable] = useState<any>(data.tableData)
     const [inputData, setInputData] = useState<IinputDataType>({ id: "", emp_id: '', employee: '', hours: '', remark: '', date: '' })
     const [searchData, setSearchDeta] = useState({ startDate: "", endDate: "" })
     const [itemToEdit, setItemToEdit] = useState(null);
@@ -33,7 +33,7 @@ const TimeSheet = () => {
     }
     const handleSearch = () => {
         const { startDate, endDate } = searchData;
-        const filteredData = timesheetTable.filter(item => {
+        const filteredData = timesheetTable.filter((item: { date: string | number | Date; }) => {
             const itemDate = new Date(item.date);
             return (
                 (!startDate || itemDate >= new Date(startDate)) &&
@@ -68,7 +68,7 @@ const TimeSheet = () => {
             console.log("please update all the field");
             return;
         } else {
-            timesheetTable.map((item => {
+            timesheetTable.map(((item: { id: null; employee: string; date: string; hours: string; remark: string; }) => {
                 if (item.id === itemToEdit) {
                     item.employee = inputData.employee
                     item.date = inputData.date
@@ -82,7 +82,7 @@ const TimeSheet = () => {
     }
 
     const deleteHandler = (itemToDelete: any) => {
-        const updatedTableData = timesheetTable.filter((row) => row.id !== itemToDelete);
+        const updatedTableData = timesheetTable.filter((row: { id: any; }) => row.id !== itemToDelete);
         console.log(itemToDelete, "itemToDelete")
         setTimesheetTable(updatedTableData)
     }

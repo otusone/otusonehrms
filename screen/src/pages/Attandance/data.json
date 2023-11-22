@@ -2,45 +2,33 @@
     "tableTitle": [
         {
             "id": 1,
-            "title": "EMPLOYEE"
+            "title": "EMPLOYEE ID"
         },
         {
             "id": 2,
-            "title": "DATE"
+            "title": "EMPLOYEE"
         },
         {
             "id": 3,
-            "title": "STATUS"
+            "title": "EMAIL"
         },
         {
             "id": 4,
-            "title": "CLOCK IN"
+            "title": "DATE"
         },
         {
             "id": 5,
-            "title": "CLOCK OUT"
+            "title": "CLOCK IN"
         },
         {
             "id": 6,
-            "title": "LATE"
-        },
-        {
-            "id": 7,
-            "title": "EARLY LEAVING"
-        },
-        {
-            "id": 8,
-            "title": "OVERTIME"
-        },
-        {
-            "id": 9,
-            "title": "ACTION"
+            "title": "CLOCK OUT"
         }
     ],
     "tableData": [
         {
             "id": 1,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -51,7 +39,7 @@
         },
         {
             "id": 2,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -62,7 +50,7 @@
         },
         {
             "id": 3,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",
@@ -73,7 +61,7 @@
         },
         {
             "id": 4,
-            "employee": "Teresa R McRae",
+            "name": "Teresa R McRae",
             "date": "Mar 2, 2022",
             "status": "Present",
             "clock_in": "9:00 AM",

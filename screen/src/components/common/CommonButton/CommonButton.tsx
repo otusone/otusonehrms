@@ -4,7 +4,7 @@ import { Button, Grid } from '@mui/material'
 
 export interface ICommonButton {
     name: any;
-    onClick: () => void;
+    onClick?: () => void;
 }
 const CommonButton = ({ name, onClick }: ICommonButton) => {
     return (

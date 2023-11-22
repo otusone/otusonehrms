@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "Team Meeting",
+        "date": "20 Dec 2023",
+        "time": "08:30 AM"
+    },
+    {
+        "id": 2,
+        "title": "Client Meeting",
+        "date": "22 Dec 2023",
+        "time": "09:30 AM"
+    },
+    {
+        "id": 3,
+        "title": "Team Meeting",
+        "date": "20 Dec 2023",
+        "time": "08:30 AM"
+    },
+    {
+        "id": 4,
+        "title": "Client Meeting",
+        "date": "22 Dec 2023",
+        "time": "09:30 AM"
+    }
+]
