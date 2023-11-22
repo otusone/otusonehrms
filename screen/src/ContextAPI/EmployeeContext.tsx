@@ -2,6 +2,7 @@ import { createContext, useContext, ReactNode, useState, Dispatch, SetStateActio
 
 // Define the API data type
 type EmployeeData = {
+    [x: string]: any;
     // Define the structure of the data received from the API
     // For example, assuming the API returns a user object:
     userId: number;
