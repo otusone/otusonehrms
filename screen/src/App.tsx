@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import Overview from './components/main/Overview/Overview'
 import Login from './pages/Login/Login';
 import axios from 'axios'
@@ -25,18 +25,25 @@ const App = () => {
         const newEmail = response.data.email;
         setIsLogin(newToken);
         setUser(newRole);
-        localStorage.setItem("loginedUser", JSON.stringify(loginedUser));
+        localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
         localStorage.setItem('token', newToken);
         localStorage.setItem('role', newRole);
         localStorage.setItem('email', newEmail);
-        console.log(response, "response..")
-      })
+        console.log(response, 'response..');
+      });
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    setIsLogin('')
+    localStorage.removeItem('token');
+    setIsLogin('');
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setIsLogin(localStorage.getItem('token'));
+      setUser(localStorage.getItem('role'));
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -44,7 +51,7 @@ const App = () => {
         {IsLogin ?
           <>
             {user === "ADMIN" && <Overview handleLogout={handleLogout} />}
-            {user === "EMPLOYEE" && <EmpAttendancePage />}
+            {user === "EMPLOYEE" && <EmpAttendancePage handleLogout={handleLogout} />}
           </>
           :
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />

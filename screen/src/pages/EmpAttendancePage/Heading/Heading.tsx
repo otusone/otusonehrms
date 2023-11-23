@@ -14,54 +14,22 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
     const [date, setDate] = useState<any>('');
     const [headingName, setHeadingName] = useState<any>('');
 
-    // useEffect(() => {
-
-    //     const today = new Date();
-    //     const formatedDate = today.toDateString();
-    //     setDate(formatedDate);
-
-    //     const userEmail = localStorage.getItem('email')
-    //     const userString = localStorage.getItem("user");
-    //     const users = userString ? JSON.parse(userString) : 'null';
-    //     const findUser = users.find((user: { email: string; }) => user.email === userEmail)
-    //     const userName = findUser.username;
-    //     setHeadingName(userName);
-
-    // }, []);
-
     useEffect(() => {
+
         const today = new Date();
         const formatedDate = today.toDateString();
         setDate(formatedDate);
 
-        const userEmail = localStorage.getItem('email');
-        const userString = localStorage.getItem('user');
-        let users = [];
-
-        try {
-            // Parse the userString only if it is not null or undefined
-            if (userString) {
-                users = JSON.parse(userString);
-
-                // Check if users is an array before using the find method
-                if (Array.isArray(users)) {
-                    const findUser = users.find((user) => user.email === userEmail);
-
-                    if (findUser) {
-                        const userName = findUser.username;
-                        setHeadingName(userName);
-                    } else {
-                        console.log('User not found');
-                    }
-                } else {
-                    console.log('Users is not an array');
-                }
-            } else {
-                console.log('User string is null or undefined');
-            }
-        } catch (error) {
-            console.error('Error parsing userString:', error);
+        const loginedUserString = localStorage.getItem('loginedUser')
+        if (loginedUserString) {
+            const loginedUser = JSON.parse(loginedUserString);
+            const username = loginedUser.name;
+            setHeadingName(username)
+            console.log(username, "username.....")
+        } else {
+            console.log('No logined user found');
         }
+
     }, []);
 
     return (
