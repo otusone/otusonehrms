@@ -13,8 +13,8 @@ const StaffPage = () => {
     console.log(userData, "userData...")
 
 
-  const handleClick = () => setOpen(!open);
-  const handleClose = () => setOpen(false);
+    const handleClick = () => setOpen(!open);
+    const handleClose = () => setOpen(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -52,10 +52,19 @@ const StaffPage = () => {
     }, []);
 
     const handleAction = (idx: number) => {
-        console.log(idx, "handleaction")
+        axios
+            .delete(`https://hrms-server-ygpa.onrender.com/user/${idx}`)
+            .then(() => {
+                const updatedEmployeeData = userData.filter(
+                    (employee: { _id: any; }) => employee._id !== idx
+                );
+
+                setUserData(updatedEmployeeData);
+            })
+            .catch((error) => {
+                console.error("Error deleting employee:", error);
+            });
     }
-
-
 
     return (
         <Grid>
