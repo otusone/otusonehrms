@@ -5,30 +5,15 @@ import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
 
-const Attendance = () => {
-    const [attendanceData, setAttendanceData] = useState<any>([])
+const Attendance = ({ attendanceData }: any) => {
     const [email, setEmail] = useState<any>('')
 
     useEffect(() => {
-        axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
-            .then(result => {
-                const data = result.data.EmpAttendanceData;
-                if (Array.isArray(data) && data.length > 0) {
-                    const lastIndex = data.length - 1;
-                    const lastItem = data[lastIndex];
-                    const attendance_id = lastItem._id;
-                    localStorage.setItem("AttendanceID", attendance_id);
-                } else {
-                    console.log("Data is not an array or is empty");
-                }
-                setAttendanceData(data)
-            })
         const empDataString: any = localStorage.getItem("loginedUser")
         const empData = JSON.parse(empDataString);
         const empEmail = empData.email;
         setEmail(empEmail)
     }, []);
-
 
     return (
         <Grid className={styles.attendanceContainer}>

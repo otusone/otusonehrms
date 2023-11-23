@@ -5,6 +5,8 @@ import axios from 'axios'
 import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
 import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigation = useNavigate()
@@ -31,6 +33,7 @@ const App = () => {
         localStorage.setItem('email', newEmail);
         console.log(response, 'response..');
       });
+    // toast.success("Login Successfull!")
   };
 
   const handleLogout = () => {
@@ -57,6 +60,7 @@ const App = () => {
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
         }
       </EmployeeDataContextProvider>
+      <ToastContainer />
     </Fragment>
   )
 }
