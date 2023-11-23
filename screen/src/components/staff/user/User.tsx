@@ -9,6 +9,7 @@ import img from '../../../asserst/images/profile_pic.jpg'
 
 
 export interface IUser {
+    _id:string,
     role: string,
     image?: string,
     username: string,
@@ -40,7 +41,7 @@ const User = ({ handleClick, data,handleAction }: IUserDataType) => {
                                 email={item.email}
                                 IsButton={false}
                                 IsLabel={true}
-                                handleClick={(()=>handleAction(idx))}
+                                handleClick={(()=>handleAction(item._id))}
                             />
                         </Grid>
                     )

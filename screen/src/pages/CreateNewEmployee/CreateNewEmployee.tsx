@@ -23,7 +23,7 @@ const CreateNewEmployee = () => {
     branch: "",
     department: "",
     designation: "",
-    dateOfJoining: "",
+    dateOfJoin: "",
     certificate: "",
     resume: "",
     photo: "",
