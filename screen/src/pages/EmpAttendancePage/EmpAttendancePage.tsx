@@ -9,13 +9,15 @@ import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
 import axios from 'axios'
 import Leave from './Leave/Leave'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
     const [attendanceData, setAttendanceData] = useState<any>([])
-    const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
     const [emp_id, setEmpId] = useState<any>()
+    const [checkedAttendance, setCheckedAttendance] = useState()
 
     const formatedData = new Date();
     const date = formatedData.toLocaleDateString();
@@ -47,7 +49,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                     const lastIndex = data.length - 1;
                     const lastItem = data[lastIndex];
                     const attendance_id = lastItem._id;
-                    localStorage.setItem("AttendanceID", attendance_id);
+                    setCheckedAttendance(attendance_id)
                 } else {
                     console.log("Data is not an array or is empty");
                 }
@@ -68,21 +70,18 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             })
     };
 
-
-    useEffect(() => {
-        const checkInData = localStorage.getItem("AttendanceID")
-        setCheckOut(checkInData)
-    }, []);
-
     const handleCheckOut = () => {
 
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, date, clock_in, clock_out })
-            .then(response => {
-                console.log('Update successful:', response);
-            })
-            .catch(error => {
-                console.error('Error updating data:', error);
-            });
+        if (checkedAttendance) {
+            axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out })
+                .then(response => {
+                    console.log('Update successful:', response);
+                })
+                .catch(error => {
+                    console.error('Error updating data:', error);
+                });
+        } else { console.log("not Checked") }
+
     };
 
     return (
@@ -105,6 +104,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                     <Route path='/leaves' element={<Leave />} />
                 </Routes>
             </Grid>
+            <ToastContainer />
         </Grid>
     )
 }
