@@ -11,6 +11,7 @@ import axios from 'axios'
 import Leave from './Leave/Leave'
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
+    const [attendanceData, setAttendanceData] = useState<any>([])
     const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
@@ -38,6 +39,27 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
 
     }, [])
 
+    useEffect(() => {
+        axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
+            .then(result => {
+                const data = result.data.EmpAttendanceData;
+                if (Array.isArray(data) && data.length > 0) {
+                    const lastIndex = data.length - 1;
+                    const lastItem = data[lastIndex];
+                    const attendance_id = lastItem._id;
+                    localStorage.setItem("AttendanceID", attendance_id);
+                } else {
+                    console.log("Data is not an array or is empty");
+                }
+                setAttendanceData(data)
+            })
+        const empDataString: any = localStorage.getItem("loginedUser")
+        const empData = JSON.parse(empDataString);
+        const empEmail = empData.email;
+        setEmail(empEmail)
+    }, [attendanceData]);
+
+
     const handleCheckIn = () => {
 
         axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in })
@@ -46,11 +68,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             })
     };
 
-    useEffect(() => {
-        const empDataString: any = localStorage.getItem("loginedUser")
-        const empData = JSON.parse(empDataString);
-        const empName = empData.username;
-    },);
 
     useEffect(() => {
         const checkInData = localStorage.getItem("AttendanceID")
@@ -84,7 +101,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance />} />
+                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} />} />
                     <Route path='/leaves' element={<Leave />} />
                 </Routes>
             </Grid>
