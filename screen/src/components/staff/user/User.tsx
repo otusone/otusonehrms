@@ -14,7 +14,7 @@ export interface IUser {
     username: string,
     email: string,
     handleClose:any;
-    _id:number;
+    _id:any;
 }
 export interface IUserDataType {
     handleClick: () => void;
