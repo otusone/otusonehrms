@@ -18,19 +18,16 @@ const Attendance = () => {
                     const lastItem = data[lastIndex];
                     const attendance_id = lastItem._id;
                     localStorage.setItem("AttendanceID", attendance_id);
-                    console.log(attendance_id, "last item");
                 } else {
                     console.log("Data is not an array or is empty");
                 }
                 setAttendanceData(data)
-                console.log(data, "result...")
             })
         const empDataString: any = localStorage.getItem("loginedUser")
         const empData = JSON.parse(empDataString);
         const empEmail = empData.email;
         setEmail(empEmail)
     }, []);
-    console.log(email, "email...")
 
 
     return (

@@ -5,18 +5,13 @@ import styles from './Sidebar.module.scss'
 import { menuData } from './menuData'
 import logo from '../../asserst/images/logo.png'
 
-const Sidebar = ({ menuData }: any) => {
+const Sidebar = ({ menuData, handleLogout }: any) => {
     const [show, setShow] = useState(false)
     const navigation = useNavigate()
     const location = useLocation()
     const path = location.pathname
     const handleMenu = () => {
         setShow(!show)
-    }
-    const handleLogout = () => {
-        console.log("jkdl")
-        localStorage.removeItem('token')
-
     }
 
     return (

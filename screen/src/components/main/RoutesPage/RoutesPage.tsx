@@ -4,8 +4,6 @@ import { Routes, Route } from 'react-router-dom'
 import DashboardPage from '../../../pages/DashboardPage/DashboardPage'
 import StaffPage from '../../../pages/StaffPage/StaffPage'
 import EmployeePage from '../../../pages/EmployeePage/EmployeePage'
-import PayrollPage from '../../../pages/PayrollPage/PayrollPage'
-import Heading from '../../heading/Heading'
 import EmployeeProfile from '../../staff/employeeProfile/EmployeeProfile'
 import TimeSheet from '../../../pages/TimeSheet/TimeSheet'
 import Ticket from '../../../pages/Ticket/Ticket'
@@ -15,10 +13,9 @@ import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmploye
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 import EmpAttendancePage from '../../../pages/EmpAttendancePage/EmpAttendancePage'
 
-const RoutesPage = ({ handleLogout }: any) => {
+const RoutesPage = () => {
     return (
         <Fragment>
-            {/* <Heading handleLogout={handleLogout} /> */}
             <Routes>
                 <Route path='/' element={<DashboardPage />} />
                 <Route path='/user' element={<StaffPage />} />

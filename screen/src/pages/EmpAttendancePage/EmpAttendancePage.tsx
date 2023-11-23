@@ -10,17 +10,17 @@ import Heading from './Heading/Heading'
 import axios from 'axios'
 import Leave from './Leave/Leave'
 
-const EmpAttendancePage = () => {
+const EmpAttendancePage = ({ handleLogout }: any) => {
     const [checkOut, setCheckOut] = useState<any>()
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
+    const [emp_id, setEmpId] = useState<any>()
 
     const formatedData = new Date();
     const date = formatedData.toLocaleDateString();
     const time = formatedData.getTime();
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
-    const emp_id = "EMP000001";
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
@@ -28,10 +28,10 @@ const EmpAttendancePage = () => {
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const username = loginedUser.username;
+            const username = loginedUser.name;
+            const userId = loginedUser.emp_id
             setName(username)
-
-            console.log(username);
+            setEmpId(userId)
         } else {
             console.log('No logined user found');
         }
@@ -73,6 +73,7 @@ const EmpAttendancePage = () => {
             <Grid className={styles.empAttendanceSidebar}>
                 <Sidebar
                     menuData={menuData}
+                    handleLogout={handleLogout}
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
