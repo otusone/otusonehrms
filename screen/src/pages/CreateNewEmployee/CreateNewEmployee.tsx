@@ -9,6 +9,7 @@ import CommonButton from "../../components/common/CommonButton/CommonButton";
 import CommonHeading from "../../components/common/CommonHeading/CommonHeading";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Emergencycontatc from "../../components/CreateEmployee/Emergencycontact/Emergencycontatc";
 
 const CreateNewEmployee = () => {
   const navigation = useNavigate();
@@ -23,7 +24,7 @@ const CreateNewEmployee = () => {
     branch: "",
     department: "",
     designation: "",
-    dateOfJoining: "",
+    dateOfJoin: "",
     certificate: "",
     resume: "",
     photo: "",
@@ -87,6 +88,12 @@ const CreateNewEmployee = () => {
               handleChange={handleChange}
             />
           </Grid>
+          <Grid item sm={6}>
+            <Emergencycontatc
+              emergencydetail={inputData}
+              handleChange={handleChange}
+            />
+          </Grid>
         </Grid>
         <CommonButton name={"Create"} onClick={handleCreate} />
       </Grid>
@@ -95,3 +102,5 @@ const CreateNewEmployee = () => {
 };
 
 export default CreateNewEmployee;
+
+

@@ -9,12 +9,12 @@ import img from '../../../asserst/images/profile_pic.jpg'
 
 
 export interface IUser {
+    _id:string,
     role: string,
     image?: string,
     username: string,
     email: string,
     handleClose:any;
-    _id:any;
 }
 export interface IUserDataType {
     handleClick: () => void;
@@ -43,8 +43,7 @@ const User = ({ handleClick, data,handleAction, handleDelete }: IUserDataType) =
                                 email={item.email}
                                 IsButton={false}
                                 IsLabel={true}
-                                handleClick={(() => handleAction(idx))}
-                                handleDelete={(()=>handleDelete(item._id))} handleClose={undefined}                            />
+                                handleClick={(() => handleAction(item._id))} handleClose={undefined}                            />
                         </Grid>
                     )
                 })}

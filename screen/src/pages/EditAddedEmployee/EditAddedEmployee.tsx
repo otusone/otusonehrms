@@ -7,6 +7,7 @@ import EmployeeDocument from '../../components/CreateEmployee/EmployeeDocument/E
 import EmpBankDetails from '../../components/CreateEmployee/EmpBankDetails/EmpBankDetails';
 import CommonButton from '../../components/common/CommonButton/CommonButton';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
+import Emergencycontatc from '../../components/CreateEmployee/Emergencycontact/Emergencycontatc';
 
 const EditAddedEmployee = () => {
     const [personalDetail, SetPersonalDetail] = useState({
@@ -38,6 +39,15 @@ const EditAddedEmployee = () => {
         taxPayerId: ''
     })
 
+    const [emergencydetail, setemergencydetail] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        gender: '',
+        password: '',
+        address: ''
+    })
+
     const handleChangePersonalDetails = (e: any) => {
         const { name, value } = e.target;
         SetPersonalDetail({ ...personalDetail, [name]: value })
@@ -57,6 +67,11 @@ const EditAddedEmployee = () => {
     }
     const handleCreateEmployee = () => {
         console.log("hello")
+    }
+
+    const handleChangeEmergencyDetails = (e: any) => {
+        const { name, value } = e.target;
+        SetPersonalDetail({ ...emergencydetail, [name]: value })
     }
 
     return (
@@ -90,6 +105,12 @@ const EditAddedEmployee = () => {
                         <EmpBankDetails
                             bankDetails={bankDetails}
                             handleChange={handleChangeBankDetails}
+                        />
+                    </Grid>
+                    <Grid item sm={6}>
+                        <Emergencycontatc
+                            emergencydetail={emergencydetail}
+                            handleChange={handleChangeEmergencyDetails}
                         />
                     </Grid>
                 </Grid>

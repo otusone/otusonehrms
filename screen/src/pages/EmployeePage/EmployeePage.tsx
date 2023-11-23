@@ -6,19 +6,40 @@ import EmployeeTable from "../../components/tableData/employeeTable/EmployeeTabl
 import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEmployeeDataContext } from "../../ContextAPI/EmployeeContext";
-
-interface Employee {
-  // Define the structure of your employee data
-  id: number;
-  // ... other properties
-}
+import UserModel from "../../components/userModal/UserModel";
+import ViewDetailsModal from "../../components/viewDetailsModal/ViewDetailsModal";
 
 const EmployeePage = () => {
   const [query, setQuery] = useState("");
-  const { employeeData, setEmployeeData } = useEmployeeDataContext();
+  const [employeeData, setEmployeeData] = useState<any>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [open, setOpen] = useState(true);
+
+  const [updateLeave, setUpdateLeave] = useState<any>("");
 
   const navigation = useNavigate();
+
+  const handleClose = () => setOpen(false);
+  const [actionModal, setActionModal] = useState(false);
+
+  const handleview = (emp_id: any) => {
+   
+    const selectedEmployee = employeeData.find(
+      (employee: { emp_id: any }) => employee.emp_id === emp_id
+    );
+    console.log(emp_id, "Idx....");
+    setActionModal(!actionModal);
+    const newData = employeeData.find((uData: any) => uData.emp_id == emp_id);
+
+    const { name, gender, address,branch, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email} = newData
+    setSelectedEmployee(selectedEmployee);
+    setOpen(!open);
+    const itemData = { name, gender, address,branch, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email};
+    setUpdateLeave(itemData);
+    console.log(selectedEmployee, "employeesesesesesesese");
+    console.log(gender,"gender");
+  };
+
 
   useEffect(() => {
     axios
@@ -26,21 +47,23 @@ const EmployeePage = () => {
       .then((result) => {
         const data = result.data.employeeData;
         setEmployeeData(data);
+        setSelectedEmployee(selectedEmployee);
       });
   }, []);
 
   const handleDelete = (employeeId: any) => {
     axios
       .delete(`https://hrms-server-ygpa.onrender.com/employee/${employeeId}`)
-      .then((result) => {
-        // Assuming the API returns updated data after deletion
-        const data = result.data.employeeData;
-        setEmployeeData(data);
+      .then(() => {
+        const updatedEmployeeData = employeeData.filter(
+          (employee: { _id: any }) => employee._id !== employeeId
+        );
+
+        setEmployeeData(updatedEmployeeData);
       })
       .catch((error) => {
         console.error("Error deleting employee:", error);
       });
-    console.log(employeeId, "employeeId");
   };
 
   return (
@@ -59,7 +82,31 @@ const EmployeePage = () => {
         handleDelete={handleDelete}
         setQuery={setQuery}
         query={query}
+        handleview={handleview}
       />
+      {/* <UserModel
+        open={open}
+        email={updateLeave.email}
+        name={updateLeave.name}
+        gender={updateLeave.gender}
+        address={updateLeave.address}
+        branch={updateLeave.branch}
+        phone={updateLeave.phone}
+        role={updateLeave.role}
+        accHolderName={updateLeave.accHolderName}
+        accNumber={updateLeave.accNumber}
+        bankName={updateLeave.bankName}
+        dateOfJoin={updateLeave.dateOfJoin}
+        department={updateLeave.department}
+        designation={updateLeave.designation}
+        resume={updateLeave.resume}
+        photo={updateLeave.photo}
+        taxPayerId= {updateLeave.taxPayerId}
+        handleClose={handleClose}
+        handleCreate={undefined}
+        tabledata={selectedEmployee}
+      /> */}
+      <ViewDetailsModal open={open} />
     </Grid>
   );
 };

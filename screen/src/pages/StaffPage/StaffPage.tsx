@@ -13,8 +13,8 @@ const StaffPage = () => {
     console.log(userData, "userData...")
 
 
-  const handleClick = () => setOpen(!open);
-  const handleClose = () => setOpen(false);
+    const handleClick = () => setOpen(!open);
+    const handleClose = () => setOpen(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -52,40 +52,19 @@ const StaffPage = () => {
     }, []);
 
     const handleAction = (idx: number) => {
-        console.log(idx, "handleaction")
-    }
-
-
-    // const handleDelete = (idx:any) =>{
-    //     console.log(idx, "idx....")
-    //     const datanew= axios
-    //     .delete(`https://hrms-server-ygpa.onrender.com/employee/user/${idx}`)
-    //     .then((result) => {
-    //       const data = result.data.employeeData;
-    //       setUserData(data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error deleting employee:", error);
-    //     });
-    // }
-
-    const handleDelete = (idx: any) => {
         axios
-          .delete(`https://hrms-server-ygpa.onrender.com/user/${idx}`)
-          .then(() => {
-            const updatedEmployeeData = idx.filter(
-              (employee: { _id: any; }) => employee._id !== idx
-            );
-    
-            setUserData(updatedEmployeeData);
-            console.log(idx, "idx")
-            console.log(updatedEmployeeData, "updatedEmployeeData")
-          })
-          .catch((error) => {
-            console.error("Error deleting employee:", error);
-          });
-      };
+            .delete(`https://hrms-server-ygpa.onrender.com/user/${idx}`)
+            .then(() => {
+                const updatedEmployeeData = userData.filter(
+                    (employee: { _id: any; }) => employee._id !== idx
+                );
 
+                setUserData(updatedEmployeeData);
+            })
+            .catch((error) => {
+                console.error("Error deleting employee:", error);
+            });
+    }
 
     return (
         <Grid>
@@ -93,7 +72,7 @@ const StaffPage = () => {
                 data={userData}
                 handleClick={handleClick}
                 handleAction={handleAction}
-                handleDelete={handleDelete}
+                handleDelete={undefined}
             />
             <UserModal
                 open={open}

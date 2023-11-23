@@ -49,9 +49,9 @@ const CompanyDetail = ({ companyDetail, handleChange }: ICompanyDetail) => {
       />
       <InputField
         label={'Date Of Joining'}
-        name={'dateOfJoining'}
+        name={'dateOfJoin'}
         placeholder={''}
-        value={companyDetail.dateOfJoining}
+        value={companyDetail.dateOfJoin}
         handleChange={handleChange}
         type={"date"}
       />

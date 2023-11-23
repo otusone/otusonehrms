@@ -4,10 +4,8 @@ import Login from './pages/Login/Login';
 import axios from 'axios'
 import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
 import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
-import { useNavigate } from 'react-router-dom';
 
 const App = () => {
-  const navigation = useNavigate()
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('token') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('role') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
@@ -29,7 +27,9 @@ const App = () => {
         localStorage.setItem('token', newToken);
         localStorage.setItem('role', newRole);
         localStorage.setItem('email', newEmail);
+
         console.log(response, "response..")
+
       })
   };
 

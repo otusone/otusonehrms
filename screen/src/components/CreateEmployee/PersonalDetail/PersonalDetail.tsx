@@ -40,8 +40,8 @@ const PersonalDetail = ({ personalDetail, handleChange }: IPersonalDetail) => {
                 <Box display={"flex"}>
                     <InputField
                         label={'Date of Birth'}
-                        name={'email'}
-                        value={personalDetail.email}
+                        name={'date'}
+                        value={personalDetail.date}
                         placeholder={'Enter employee Email'}
                         handleChange={handleChange}
                         type={"date"}

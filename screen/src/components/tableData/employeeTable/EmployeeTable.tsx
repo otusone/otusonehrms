@@ -14,6 +14,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { BiRightArrow } from "react-icons/bi";
 import CommonButton from "../../common/CommonButton/CommonButton";
 import SearchBox from "../../common/searchBox/SearchBox";
+import { CiViewList } from "react-icons/ci";
 
 export interface IEmployeeTable {
   heading: string;
@@ -24,6 +25,7 @@ export interface IEmployeeTable {
   handleDelete: any;
   setQuery: any;
   query: any;
+  handleview:any;
 }
 
 const EmployeeTable = ({
@@ -35,6 +37,7 @@ const EmployeeTable = ({
   handleLeaveAction,
   handleEdit,
   handleDelete,
+  handleview,
 }: IEmployeeTable) => {
   return (
     <Grid className={styles.commonTableContainer}>
@@ -83,6 +86,9 @@ const EmployeeTable = ({
                       <TableCell>{item.designation}</TableCell>
                       <TableCell>{item.dateOfJoin}</TableCell>
                       <TableCell className={styles.tableAction}>
+                        {/* /////////////////////////////////////////////////////////////////////// */}
+                      <CiViewList fontSize={30} onClick={() => handleview(item.emp_id)}/>
+                      {/* //////////////////////////////////////////////////////////////// */}
                         <MdOutlineMode onClick={handleEdit} fontSize={30} />
                         <RiDeleteBinLine
                           onClick={() => handleDelete(item._id)}
