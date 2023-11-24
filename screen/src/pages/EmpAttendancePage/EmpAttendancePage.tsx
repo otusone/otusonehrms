@@ -9,18 +9,21 @@ import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
 import axios from 'axios'
 import Leave from './Leave/Leave'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const EmpAttendancePage = () => {
-    const [checkOut, setCheckOut] = useState<any>()
+const EmpAttendancePage = ({ handleLogout }: any) => {
+    const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
+    const [emp_id, setEmpId] = useState<any>()
+    const [checkedAttendance, setCheckedAttendance] = useState()
 
     const formatedData = new Date();
     const date = formatedData.toLocaleDateString();
     const time = formatedData.getTime();
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
-    const emp_id = "EMP000001";
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
@@ -28,15 +31,36 @@ const EmpAttendancePage = () => {
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const username = loginedUser.username;
+            const username = loginedUser.name;
+            const userId = loginedUser.emp_id
             setName(username)
-
-            console.log(username);
+            setEmpId(userId)
         } else {
             console.log('No logined user found');
         }
 
     }, [])
+
+    useEffect(() => {
+        axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
+            .then(result => {
+                const data = result.data.EmpAttendanceData;
+                if (Array.isArray(data) && data.length > 0) {
+                    const lastIndex = data.length - 1;
+                    const lastItem = data[lastIndex];
+                    const attendance_id = lastItem._id;
+                    setCheckedAttendance(attendance_id)
+                } else {
+                    console.log("Data is not an array or is empty");
+                }
+                setAttendanceData(data)
+            })
+        const empDataString: any = localStorage.getItem("loginedUser")
+        const empData = JSON.parse(empDataString);
+        const empEmail = empData.email;
+        setEmail(empEmail)
+    }, [attendanceData]);
+
 
     const handleCheckIn = () => {
 
@@ -46,26 +70,18 @@ const EmpAttendancePage = () => {
             })
     };
 
-    useEffect(() => {
-        const empDataString: any = localStorage.getItem("loginedUser")
-        const empData = JSON.parse(empDataString);
-        const empName = empData.username;
-    },);
-
-    useEffect(() => {
-        const checkInData = localStorage.getItem("AttendanceID")
-        setCheckOut(checkInData)
-    }, []);
-
     const handleCheckOut = () => {
 
-        axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkOut}`, { emp_id, name, date, clock_in, clock_out })
-            .then(response => {
-                console.log('Update successful:', response);
-            })
-            .catch(error => {
-                console.error('Error updating data:', error);
-            });
+        if (checkedAttendance) {
+            axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out })
+                .then(response => {
+                    console.log('Update successful:', response);
+                })
+                .catch(error => {
+                    console.error('Error updating data:', error);
+                });
+        } else { console.log("not Checked") }
+
     };
 
     return (
@@ -73,6 +89,7 @@ const EmpAttendancePage = () => {
             <Grid className={styles.empAttendanceSidebar}>
                 <Sidebar
                     menuData={menuData}
+                    handleLogout={handleLogout}
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
@@ -83,10 +100,11 @@ const EmpAttendancePage = () => {
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance />} />
+                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} />} />
                     <Route path='/leaves' element={<Leave />} />
                 </Routes>
             </Grid>
+            <ToastContainer />
         </Grid>
     )
 }
