@@ -40,48 +40,69 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
 
     }, [])
+    const fetchData = async () => {
+        try {
+            const result = await axios.get('https://hrms-server-ygpa.onrender.com/empAttendance');
+            const data = result.data.EmpAttendanceData;
 
-    useEffect(() => {
-        axios.get('https://hrms-server-ygpa.onrender.com/empAttendance')
-            .then(result => {
-                const data = result.data.EmpAttendanceData;
-                if (Array.isArray(data) && data.length > 0) {
-                    const lastIndex = data.length - 1;
-                    const lastItem = data[lastIndex];
-                    const attendance_id = lastItem._id;
-                    setCheckedAttendance(attendance_id)
-                } else {
-                    console.log("Data is not an array or is empty");
-                }
-                setAttendanceData(data)
-            })
-        const empDataString: any = localStorage.getItem("loginedUser")
-        const empData = JSON.parse(empDataString);
-        const empEmail = empData.email;
-        setEmail(empEmail)
-    }, [attendanceData]);
+            if (Array.isArray(data) && data.length > 0) {
+                const lastIndex = data.length - 1;
+                const lastItem = data[lastIndex];
+                const attendance_id = lastItem._id;
+                setCheckedAttendance(attendance_id);
+            } else {
+                console.log("Data is not an array or is empty");
+            }
 
+            setAttendanceData(data);
 
-    const handleCheckIn = () => {
-
-        axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in })
-            .then(result => {
-                console.log(result, "result...")
-            })
+            const empDataString: any = localStorage.getItem("loginedUser");
+            const empData = JSON.parse(empDataString);
+            const empEmail = empData.email;
+            setEmail(empEmail);
+        } catch (error) {
+            console.error("Error during GET request:", error);
+        }
     };
 
-    const handleCheckOut = () => {
+    useEffect(() => {
+        fetchData();
+    }, []);
 
+    const handleCheckIn = async () => {
+        try {
+            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in });
+
+            if (response.status === 200) {
+                console.log("Clock-in successful");
+                // Fetch updated data after successful clock-in
+                await fetchData();
+            } else {
+                console.error("Clock-in request failed with status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error during clock-in request:", error);
+        }
+    };
+
+
+    const handleCheckOut = async () => {
         if (checkedAttendance) {
-            axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out })
-                .then(response => {
-                    console.log('Update successful:', response);
-                })
-                .catch(error => {
-                    console.error('Error updating data:', error);
-                });
-        } else { console.log("not Checked") }
+            try {
+                const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out })
 
+                if (response.status === 200) {
+                    console.log("Clock-in successful");
+                    await fetchData();
+                } else {
+                    console.error("Clock-in request failed with status:", response.status);
+                }
+            } catch (error) {
+                console.error("Error during clock-in request:", error);
+            }
+        } else {
+            console.log("not clock_in Data")
+        }
     };
 
     return (

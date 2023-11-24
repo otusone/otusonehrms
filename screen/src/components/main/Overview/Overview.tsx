@@ -6,7 +6,7 @@ import Sidebar from '../../sidebar/Sidebar'
 import { menuData } from '../../sidebar/menuData'
 import Heading from '../../../pages/EmpAttendancePage/Heading/Heading'
 
-const Overview = ({handleLogout}:any) => {
+const Overview = ({ handleLogout }: any) => {
     return (
         <Grid container className={styles.overviewContainer}>
             <Grid className={styles.overviewSidebar}>
