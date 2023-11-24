@@ -24,6 +24,7 @@ export interface IEmployeeTable {
   handleDelete: any;
   setQuery: any;
   query: any;
+  loading:boolean
 }
 
 const EmployeeTable = ({
@@ -35,6 +36,7 @@ const EmployeeTable = ({
   handleLeaveAction,
   handleEdit,
   handleDelete,
+  loading
 }: IEmployeeTable) => {
   return (
     <Grid className={styles.commonTableContainer}>

@@ -1,0 +1,30 @@
+.customLoaderContainer {
+    background-color: darkgray;
+    width: 100%;
+    height: 100vh;
+    padding-block-start: 20%;
+
+
+
+    .customLoader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #58024B;
+        border-bottom: 16px solid #58024B;
+        width: 140px;
+        height: 140px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        margin: auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}

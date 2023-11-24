@@ -2,12 +2,14 @@ import React from 'react'
 import styles from './AttandanceTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonButton from '../../common/CommonButton/CommonButton';
+import CustomLoader from '../../CustomLoader/CustomLoader';
 
 export interface IAttandanceTable {
     tableHeading: any;
     tableData: any;
+    loading: boolean;
 }
-const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
+const AttandanceTable = ({ tableHeading, tableData, loading }: IAttandanceTable) => {
 
     return (
         <Grid className={styles.attandanceTableContainer}>
@@ -22,6 +24,7 @@ const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
                             })}
                         </TableRow>
                     </TableHead>
+                    {loading ? <CustomLoader /> : 
                     <TableBody>
                         {tableData.map((item: any) => {
                             return (
@@ -37,7 +40,7 @@ const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
                                 </TableRow>
                             )
                         })}
-                    </TableBody>
+                    </TableBody>}
                 </Table>
             </TableContainer>
         </Grid>

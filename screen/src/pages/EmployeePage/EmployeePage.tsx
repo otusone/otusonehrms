@@ -10,33 +10,42 @@ import axios from "axios";
 const EmployeePage = () => {
   const [query, setQuery] = useState("");
   const [employeeData, setEmployeeData] = useState<any>([]);
+  const [loading, setLoading] = useState(false)
 
   const navigation = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("https://hrms-server-ygpa.onrender.com/employee")
-      .then((result) => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.get("https://hrms-server-ygpa.onrender.com/employee");
         const data = result.data.employeeData;
         setEmployeeData(data);
-      });
+      } catch (error) {
+        console.error("Error fetching employee data:", error);
+      } finally {
+        setLoading(false)
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleDelete = (employeeId: any) => {
-    axios
-      .delete(`https://hrms-server-ygpa.onrender.com/employee/${employeeId}`)
-      .then(() => {
-        const updatedEmployeeData = employeeData.filter(
-          (employee: { _id: any; }) => employee._id !== employeeId
-        );
 
-        setEmployeeData(updatedEmployeeData);
-      })
-      .catch((error) => {
-        console.error("Error deleting employee:", error);
-      });
+  const handleDelete = async (employeeId: any) => {
+    try {
+      setLoading(true);
+      await axios.delete(`https://hrms-server-ygpa.onrender.com/employee/${employeeId}`);
+
+      setEmployeeData((prevEmployeeData: any[]) =>
+        prevEmployeeData.filter((employee: { _id: any }) => employee._id !== employeeId)
+      );
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
 
   return (
     <Grid className={styles.employeePageContainer}>
@@ -49,12 +58,11 @@ const EmployeePage = () => {
         heading={""}
         tableTitle={data.tableTitle}
         tableData={employeeData}
-        handleLeaveAction={undefined}
         handleEdit={undefined}
         handleDelete={handleDelete}
         setQuery={setQuery}
         query={query}
-      />
+        loading={loading} handleLeaveAction={undefined}      />
     </Grid>
   );
 };

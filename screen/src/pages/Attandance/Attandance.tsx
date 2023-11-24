@@ -30,6 +30,8 @@ const Attandance = () => {
     const openModal = () => setOpen(!open)
     const handleClose = () => setOpen(false)
     const clossEditModal = () => setEditModal(false)
+    const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e: SelectChangeEvent) => {
         const { name, value } = e.target;
@@ -49,22 +51,23 @@ const Attandance = () => {
     }
 
 
-    const [attandenceTable, setattandenceTable] = useState<IinputDataType[]>([]);
     useEffect(() => {
-        axios
-            .get("https://hrms-server-ygpa.onrender.com/empAttendance")
-            .then((result) => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const result = await axios.get("https://hrms-server-ygpa.onrender.com/empAttendance");
                 const data = result.data.EmpAttendanceData;
                 setattandenceTable(data);
                 console.log(data, "result");
-            });
-    }, []);
-    console.log(attandenceTable, "EmpAttendanceData");
+            } catch (error) {
+                console.error("Error fetching attendance data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const handleReset = () => {
-        setTimesheetTable(timesheetTable)
-        console.log(timesheetTable, "timesheetTable")
-    }
+        fetchData();
+    }, []);
 
     const createNewTimesheet = () => {
         let id = timesheetTable.length + 1
@@ -103,37 +106,12 @@ const Attandance = () => {
             <CommonHeading
                 heading={'Attandance'}
                 onClick={openModal}
-                IsHeadingAction={true}
-            />
-            <TimesheetFilter
-                searchData={searchData}
-                handleChange={handleChange}
-                handleSearch={handleSearch}
-                handleReset={handleReset}
+                IsHeadingAction={false}
             />
             <AttandanceTable
                 tableHeading={data.tableTitle}
                 tableData={attandenceTable}
-            />
-            <AttandanceModal
-                heading={'Create New Timesheet'}
-                open={open}
-                handleClose={handleClose}
-                inputData={inputData}
-                handleChange={handleChange}
-                modalAction={createNewTimesheet}
-                buttonOne='Closs'
-                buttonTwo='Create'
-            />
-            <AttandanceModal
-                heading="Edit Timesheet"
-                open={editModal}
-                handleClose={clossEditModal}
-                inputData={inputData}
-                handleChange={handleChange}
-                modalAction={editTimesheet}
-                buttonOne='Closs'
-                buttonTwo='Update'
+                loading={loading}
             />
         </Grid>
     )

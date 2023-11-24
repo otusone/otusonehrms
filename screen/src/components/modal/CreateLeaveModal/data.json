@@ -1,0 +1,12 @@
+{
+    "leaveType": [
+        {
+            "id": 1,
+            "label": "CL"
+        },
+        {
+            "id": 2,
+            "label": "Sick Leave"
+        }
+    ]
+}
