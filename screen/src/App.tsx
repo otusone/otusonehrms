@@ -5,8 +5,8 @@ import axios from 'axios'
 import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
 import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigation = useNavigate()
@@ -60,7 +60,7 @@ const App = () => {
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
         }
       </EmployeeDataContextProvider>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </Fragment>
   )
 }

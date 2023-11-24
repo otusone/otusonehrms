@@ -9,8 +9,8 @@ import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
 import axios from 'axios'
 import Leave from './Leave/Leave'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
     const [attendanceData, setAttendanceData] = useState<any>([])
@@ -104,7 +104,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                     <Route path='/leaves' element={<Leave />} />
                 </Routes>
             </Grid>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </Grid>
     )
 }

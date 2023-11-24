@@ -54,7 +54,7 @@ function Emergencycontatc({ emergencydetail, handleChange }: IPersonalDetail) {
                         label={'Relation'}
                         name={'relation'}
                         value={emergencydetail.relation}
-                        placeholder={'Enter employee Email'}
+                        placeholder={'Enter employee Relation'}
                         handleChange={handleChange}
                         type={"text"}
                     />

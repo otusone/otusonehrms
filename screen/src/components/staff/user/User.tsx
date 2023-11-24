@@ -47,16 +47,7 @@ const User = ({ handleClick, data,handleAction, handleDelete }: IUserDataType) =
                         </Grid>
                     )
                 })}
-                {/* <Grid item sm={3}>
-                    <UserCard
-                        label={'add'}
-                        image={img}
-                        name={'New User'}
-                        email={'Click here to add new user'}
-                        IsButton={false}
-                        IsLabel={false}
-                    />
-                </Grid> */}
+               
             </Grid>
 
         </Grid>

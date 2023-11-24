@@ -13,7 +13,7 @@ const EmployeePage = () => {
   const [query, setQuery] = useState("");
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [updateLeave, setUpdateLeave] = useState<any>("");
 
@@ -31,15 +31,15 @@ const EmployeePage = () => {
     setActionModal(!actionModal);
     const newData = employeeData.find((uData: any) => uData.emp_id == emp_id);
 
-    const { name, gender, address,branch, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email} = newData
+    const { name, gender, address,branch,certificate, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email} = newData
     setSelectedEmployee(selectedEmployee);
     setOpen(!open);
-    const itemData = { name, gender, address,branch, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email};
+    const itemData = { name, gender, address,branch,certificate, phone, role,accHolderName, accNumber,bankName,dateOfJoin,department,designation,resume,photo,email};
     setUpdateLeave(itemData);
     console.log(selectedEmployee, "employeesesesesesesese");
     console.log(gender,"gender");
   };
-
+console.log(updateLeave, "updateLeave...")
 
   useEffect(() => {
     axios
@@ -84,11 +84,12 @@ const EmployeePage = () => {
         query={query}
         handleview={handleview}
       />
-      {/* <UserModel
+      <UserModel
         open={open}
         email={updateLeave.email}
         name={updateLeave.name}
         gender={updateLeave.gender}
+        certificate={updateLeave.certificate}
         address={updateLeave.address}
         branch={updateLeave.branch}
         phone={updateLeave.phone}
@@ -105,8 +106,8 @@ const EmployeePage = () => {
         handleClose={handleClose}
         handleCreate={undefined}
         tabledata={selectedEmployee}
-      /> */}
-      <ViewDetailsModal open={open} />
+      />
+      {/* <ViewDetailsModal open={open} /> */}
     </Grid>
   );
 };
