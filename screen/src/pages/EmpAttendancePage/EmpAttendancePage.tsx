@@ -130,4 +130,4 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     )
 }
 
-export default EmpAttendancePage    
+export default EmpAttendancePage;
