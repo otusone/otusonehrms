@@ -4,8 +4,14 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow 
 import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
+import CustomLoader from '../../../components/CustomLoader/CustomLoader';
 
-const Attendance = ({ attendanceData }: any) => {
+export interface IAttendance {
+    loading: boolean;
+    attendanceData: any;
+
+}
+const Attendance = ({ loading, attendanceData }: IAttendance) => {
     const [email, setEmail] = useState<any>('')
 
     useEffect(() => {
@@ -31,6 +37,10 @@ const Attendance = ({ attendanceData }: any) => {
                                 <TableCell sx={{ color: "#ffffff" }}>CHECK OUT</TableCell>
                             </TableRow>
                         </TableHead>
+                    </Table>
+                </TableContainer>
+                <TableContainer>
+                    {loading ? <CustomLoader /> : <Table>
                         <TableBody>
                             {
                                 attendanceData?.filter((emp: {
@@ -51,7 +61,7 @@ const Attendance = ({ attendanceData }: any) => {
                                 })
                             }
                         </TableBody>
-                    </Table>
+                    </Table>}
                 </TableContainer>
             </Grid>
         </Grid>

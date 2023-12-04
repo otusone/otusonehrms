@@ -34,9 +34,10 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
             const username = loginedUser.name;
-            const userId = loginedUser.emp_id
+            const userId = "EMP00001"
             setName(username)
             setEmpId(userId)
+            console.log(loginedUser, "userId...")
         } else {
             console.log('No logined user found');
         }
@@ -82,6 +83,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 date,
                 clock_in,
             });
+            console.log(response, 'response')
 
             if (response.status === 200) {
                 console.log("Clock-in successful");
@@ -134,12 +136,12 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                     handleCheckIn={handleCheckIn}
                     handleCheckOut={handleCheckOut}
                 />
-                {loading ? <CustomLoader /> : <Routes>
+                <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} />} />
+                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} loading={loading} />} />
                     <Route path='/leaves' element={<Leave />} />
                     <Route path='/loader' element={<CustomLoader />} />
-                </Routes>}
+                </Routes>
             </Grid>
             <ToastContainer />
         </Grid>

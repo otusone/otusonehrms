@@ -7,6 +7,7 @@ import CreateLeaveModal from '../../../components/modal/CreateLeaveModal/CreateL
 
 const Leave = () => {
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [inputData, setInputData] = useState({
         emp_id: '', name: '', start_date: '', end_date: '', leave_type: '', leave_reason: '', remark: ''
     });
@@ -25,6 +26,7 @@ const Leave = () => {
                 handleClick={handleModal} />
             <LeaveTable
                 data={leaveData}
+                loading={loading}
             />
             <CreateLeaveModal
                 open={open}

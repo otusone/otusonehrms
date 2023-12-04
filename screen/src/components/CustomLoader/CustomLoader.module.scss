@@ -1,30 +1,38 @@
 .customLoaderContainer {
-    background-color: darkgray;
+    background-color: #F5F5F5;
     width: 100%;
     height: 100vh;
-    padding-block-start: 20%;
-
-
 
     .customLoader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #58024B;
-        border-bottom: 16px solid #58024B;
-        width: 140px;
-        height: 140px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
+        display: flex;
+        width: fit-content;
+        height: fit-content;
         margin: auto;
-    }
+        padding-block-start: 15rem;
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
+        >div {
+            // border: 4px solid #f3f3f3;
+            border: 4px solid #ffffff;
+            border-top: 4px solid #58024B;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: auto;
         }
 
-        100% {
-            transform: rotate(360deg);
+        h6 {
+            margin-inline-start: 0.25rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     }
 }

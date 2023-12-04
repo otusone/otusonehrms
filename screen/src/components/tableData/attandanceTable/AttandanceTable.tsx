@@ -24,24 +24,26 @@ const AttandanceTable = ({ tableHeading, tableData, loading }: IAttandanceTable)
                             })}
                         </TableRow>
                     </TableHead>
-                    {loading ? <CustomLoader /> : 
-                    <TableBody>
-                        {tableData.map((item: any) => {
-                            return (
-                                <TableRow key={item.id}>
-                                    <TableCell>
-                                        <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
-                                    </TableCell>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.clock_in}</TableCell>
-                                    <TableCell>{item.clock_out}</TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>}
                 </Table>
+            </TableContainer>
+            <TableContainer>
+                {loading ? <CustomLoader /> : <Table><TableBody>
+                    {tableData.map((item: any) => {
+                        return (
+                            <TableRow key={item.id}>
+                                <TableCell>
+                                    <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
+                                </TableCell>
+                                <TableCell>{item.name}</TableCell>
+                                <TableCell>{item.email}</TableCell>
+                                <TableCell>{item.date}</TableCell>
+                                <TableCell>{item.clock_in}</TableCell>
+                                <TableCell>{item.clock_out}</TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody></Table>}
+
             </TableContainer>
         </Grid>
     )
