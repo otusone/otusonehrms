@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { MdOutlineMode } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { BiRightArrow } from "react-icons/bi";
 import CommonButton from "../../common/CommonButton/CommonButton";
 import SearchBox from "../../common/searchBox/SearchBox";
+import CustomLoader from "../../CustomLoader/CustomLoader";
 
 export interface IEmployeeTable {
   heading: string;
@@ -24,6 +24,7 @@ export interface IEmployeeTable {
   handleDelete: any;
   setQuery: any;
   query: any;
+  loading: boolean
 }
 
 const EmployeeTable = ({
@@ -35,6 +36,7 @@ const EmployeeTable = ({
   handleLeaveAction,
   handleEdit,
   handleDelete,
+  loading
 }: IEmployeeTable) => {
   return (
     <Grid className={styles.commonTableContainer}>
@@ -55,6 +57,10 @@ const EmployeeTable = ({
               })}
             </TableRow>
           </TableHead>
+        </Table>
+      </TableContainer>
+      <TableContainer>
+        {loading ? <CustomLoader /> : <Table>
           <TableBody>
             {tableData &&
               tableData
@@ -93,7 +99,8 @@ const EmployeeTable = ({
                   );
                 })}
           </TableBody>
-        </Table>
+        </Table>}
+
       </TableContainer>
     </Grid>
   );

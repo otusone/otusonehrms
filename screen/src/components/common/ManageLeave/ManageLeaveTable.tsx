@@ -13,6 +13,7 @@ import {
 import { BiRightArrow } from "react-icons/bi";
 import SearchBox from "../searchBox/SearchBox";
 import CommonButton from "../CommonButton/CommonButton";
+import CustomLoader from "../../CustomLoader/CustomLoader";
 
 export interface IManageLeaveTable {
   heading: string;
@@ -24,6 +25,7 @@ export interface IManageLeaveTable {
   deleteHandler?: any;
   handleAction?: any;
   newStatus?: string;
+  loading: boolean;
 }
 
 const ManageLeaveTable = ({
@@ -31,7 +33,7 @@ const ManageLeaveTable = ({
   tableTitle,
   tableData,
   handleAction,
-  newStatus,
+  loading
 }: IManageLeaveTable) => {
   return (
     <Grid className={styles.commonTableContainer}>
@@ -52,6 +54,10 @@ const ManageLeaveTable = ({
               })}
             </TableRow>
           </TableHead>
+        </Table>
+      </TableContainer>
+      <TableContainer>
+        {loading ? <CustomLoader /> : <Table>
           <TableBody>
             {tableData.map((item: any, idx: number) => {
               return (
@@ -81,7 +87,7 @@ const ManageLeaveTable = ({
               );
             })}
           </TableBody>
-        </Table>
+        </Table>}
       </TableContainer>
     </Grid>
   );
