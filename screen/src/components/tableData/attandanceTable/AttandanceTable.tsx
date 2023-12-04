@@ -2,12 +2,14 @@ import React from 'react'
 import styles from './AttandanceTable.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonButton from '../../common/CommonButton/CommonButton';
+import CustomLoader from '../../CustomLoader/CustomLoader';
 
 export interface IAttandanceTable {
     tableHeading: any;
     tableData: any;
+    loading: boolean;
 }
-const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
+const AttandanceTable = ({ tableHeading, tableData, loading }: IAttandanceTable) => {
 
     return (
         <Grid className={styles.attandanceTableContainer}>
@@ -22,23 +24,26 @@ const AttandanceTable = ({ tableHeading, tableData }: IAttandanceTable) => {
                             })}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {tableData.map((item: any) => {
-                            return (
-                                <TableRow key={item.id}>
-                                    <TableCell>
-                                        <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
-                                    </TableCell>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.clock_in}</TableCell>
-                                    <TableCell>{item.clock_out}</TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
                 </Table>
+            </TableContainer>
+            <TableContainer>
+                {loading ? <CustomLoader /> : <Table><TableBody>
+                    {tableData.map((item: any) => {
+                        return (
+                            <TableRow key={item.id}>
+                                <TableCell>
+                                    <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
+                                </TableCell>
+                                <TableCell>{item.name}</TableCell>
+                                <TableCell>{item.email}</TableCell>
+                                <TableCell>{item.date}</TableCell>
+                                <TableCell>{item.clock_in}</TableCell>
+                                <TableCell>{item.clock_out}</TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody></Table>}
+
             </TableContainer>
         </Grid>
     )

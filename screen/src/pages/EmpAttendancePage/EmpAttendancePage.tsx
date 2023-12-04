@@ -11,6 +11,7 @@ import axios from 'axios'
 import Leave from './Leave/Leave'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CustomLoader from '../../components/CustomLoader/CustomLoader'
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
     const [attendanceData, setAttendanceData] = useState<any>([])
@@ -18,6 +19,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [name, setName] = useState<any>()
     const [emp_id, setEmpId] = useState<any>()
     const [checkedAttendance, setCheckedAttendance] = useState()
+    const [loading, setLoading] = useState(false);
 
     const formatedData = new Date();
     const date = formatedData.toLocaleDateString();
@@ -32,9 +34,10 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
             const username = loginedUser.name;
-            const userId = loginedUser.emp_id
+            const userId = "EMP00001"
             setName(username)
             setEmpId(userId)
+            console.log(loginedUser, "userId...")
         } else {
             console.log('No logined user found');
         }
@@ -71,37 +74,51 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
 
     const handleCheckIn = async () => {
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', { emp_id, name, email, date, clock_in });
+            setLoading(true);
+
+            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', {
+                emp_id,
+                name,
+                email,
+                date,
+                clock_in,
+            });
+            console.log(response, 'response')
 
             if (response.status === 200) {
                 console.log("Clock-in successful");
-                // Fetch updated data after successful clock-in
                 await fetchData();
             } else {
                 console.error("Clock-in request failed with status:", response.status);
             }
         } catch (error) {
             console.error("Error during clock-in request:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
 
     const handleCheckOut = async () => {
-        if (checkedAttendance) {
-            try {
-                const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out })
+        try {
+            setLoading(true);
+
+            if (checkedAttendance) {
+                const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out });
 
                 if (response.status === 200) {
-                    console.log("Clock-in successful");
+                    console.log("Clock-out successful");
                     await fetchData();
                 } else {
-                    console.error("Clock-in request failed with status:", response.status);
+                    console.error("Clock-out request failed with status:", response.status);
                 }
-            } catch (error) {
-                console.error("Error during clock-in request:", error);
+            } else {
+                console.log("Not clocked in");
             }
-        } else {
-            console.log("not clock_in Data")
+        } catch (error) {
+            console.error("Error during clock-out request:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -121,8 +138,9 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} />} />
+                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} loading={loading} />} />
                     <Route path='/leaves' element={<Leave />} />
+                    <Route path='/loader' element={<CustomLoader />} />
                 </Routes>
             </Grid>
             <ToastContainer />

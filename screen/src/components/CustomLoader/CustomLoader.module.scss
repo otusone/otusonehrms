@@ -1,0 +1,38 @@
+.customLoaderContainer {
+    background-color: #F5F5F5;
+    width: 100%;
+    height: 100vh;
+
+    .customLoader {
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        margin: auto;
+        padding-block-start: 15rem;
+
+        >div {
+            // border: 4px solid #f3f3f3;
+            border: 4px solid #ffffff;
+            border-top: 4px solid #58024B;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+        }
+
+        h6 {
+            margin-inline-start: 0.25rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+}

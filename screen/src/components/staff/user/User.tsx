@@ -6,10 +6,11 @@ import data from './data.json'
 import { BiUserCheck } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import img from '../../../asserst/images/profile_pic.jpg'
+import CustomLoader from '../../CustomLoader/CustomLoader'
 
 
 export interface IUser {
-    _id:string,
+    _id: string,
     role: string,
     image?: string,
     username: string,
@@ -19,8 +20,9 @@ export interface IUserDataType {
     handleClick: () => void;
     handleAction: any;
     data: any;
+    loading: boolean;
 }
-const User = ({ handleClick, data,handleAction }: IUserDataType) => {
+const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
     return (
         <Grid className={styles.userContainer}>
             <Grid>
@@ -30,33 +32,24 @@ const User = ({ handleClick, data,handleAction }: IUserDataType) => {
                     <AiOutlinePlus onClick={handleClick} cursor={"pointer"} fontSize={32} />
                 </Box>
             </Grid>
-            <Grid container spacing={2} >
-                {data && data.map((item: IUser, idx:number) => {
-                    return (
-                        <Grid item sm={3}>
-                            <UserCard
-                                label={item.role}
-                                image={item.image}
-                                name={item.username}
-                                email={item.email}
-                                IsButton={false}
-                                IsLabel={true}
-                                handleClick={(()=>handleAction(item._id))}
-                            />
-                        </Grid>
-                    )
-                })}
-                {/* <Grid item sm={3}>
-                    <UserCard
-                        label={'add'}
-                        image={img}
-                        name={'New User'}
-                        email={'Click here to add new user'}
-                        IsButton={false}
-                        IsLabel={false}
-                    />
-                </Grid> */}
-            </Grid>
+            {loading ? <CustomLoader /> :
+                <Grid container spacing={2} >
+                    {data && data.map((item: IUser, idx: number) => {
+                        return (
+                            <Grid item sm={3}>
+                                <UserCard
+                                    label={item.role}
+                                    image={item.image}
+                                    name={item.username}
+                                    email={item.email}
+                                    IsButton={false}
+                                    IsLabel={true}
+                                    handleClick={(() => handleAction(item._id))}
+                                />
+                            </Grid>
+                        )
+                    })}
+                </Grid>}
 
         </Grid>
     )

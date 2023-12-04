@@ -4,7 +4,6 @@ import { Grid } from "@mui/material";
 import CommonHeading from "../../components/common/CommonHeading/CommonHeading";
 import ManageLeaveTable from "../../components/common/ManageLeave/ManageLeaveTable";
 import data from "./data.json";
-import CreateLeaveModal from "../../components/CreateLeaveModal/CreateLeaveModal";
 import LeaveActionModal from "../../components/LeaveActionModal/LeaveActionModal";
 import axios from "axios";
 
@@ -12,11 +11,11 @@ export interface ManageType {
   emp_id: string;
   name: string;
   status: string;
-  leave_type:string;
-  start_date:number;
-  leave_reason:string;
-  total_day:number;
-  end_date:number;
+  leave_type: string;
+  start_date: number;
+  leave_reason: string;
+  total_day: number;
+  end_date: number;
   id: string | number;
 }
 
@@ -26,31 +25,42 @@ const ManageLeave = () => {
   });
   const [open, setOpen] = useState(false);
   const [actionModal, setActionModal] = useState(false);
- 
   const [inputData, setInputData] = useState<any>({
     emp_id: "",
     name: "",
-    leave_type:"",
-    start_date:"",
-    end_date:"",
+    leave_type: "",
+    start_date: "",
+    end_date: "",
     status: "",
-    total_day:"",
-    leave_reason:"",
+    total_day: "",
+    leave_reason: "",
   });
   const [updateLeave, setUpdateLeave] = useState<any>("");
   const openModal = () => setOpen(!open);
   const clossModal = () => setOpen(false);
   const clossActionModal = () => setActionModal(false);
+  const [loading, setLoading] = useState(false)
 
   const [Manageleave, setManageleave] = useState<ManageType[]>([]);
   useEffect(() => {
-    axios.get("https://hrms-server-ygpa.onrender.com/leave").then((result) => {
-      const data = result.data.leaveData;
-      setManageleave(data);
-    });
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.get("https://hrms-server-ygpa.onrender.com/leave");
+        const data = result.data.leaveData;
+        setManageleave(data);
+      } catch (error) {
+        console.error("Error fetching leave data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleAction = (Idx:any) => {
+
+  const handleAction = (Idx: any) => {
     console.log(Idx, "Idx....")
     setActionModal(!actionModal);
     const newData = Manageleave.find(
@@ -58,7 +68,7 @@ const ManageLeave = () => {
     );
     const emp_id = newData?.emp_id;
     const name = newData?.name;
-    const leave_type=newData?.leave_type;
+    const leave_type = newData?.leave_type;
     const start_date = newData?.start_date;
     const end_date = newData?.end_date;
     const total_day = newData?.total_day;
@@ -74,7 +84,7 @@ const ManageLeave = () => {
 
   return (
     <Grid className={styles.manageLeaveContainer}>
-       
+
       <CommonHeading heading={"Manage Leave"} onClick={openModal} />
       <ManageLeaveTable
         heading={"entries per page"}
@@ -82,21 +92,20 @@ const ManageLeave = () => {
         tableTitle={data.tableTitle}
         IsManageLeaveAction={true}
         handleAction={handleAction}
-        // newStatus={updateLeave.status}
+        loading={loading}
       />
-      <CreateLeaveModal open={open} clossModal={clossModal} />
       <LeaveActionModal
-                open={actionModal}
-                emp_id={updateLeave.emp_id}
-                name={updateLeave.name}
-                leave_type={updateLeave.leave_type}
-                start_date={updateLeave.start_date}
-                end_date={updateLeave.end_date}
-                total_day={updateLeave.total_day}
-                leave_reason={updateLeave.leave_reason}
-                status={updateLeave.status}
-                clossModal={clossActionModal}
-            />
+        open={actionModal}
+        emp_id={updateLeave.emp_id}
+        name={updateLeave.name}
+        leave_type={updateLeave.leave_type}
+        start_date={updateLeave.start_date}
+        end_date={updateLeave.end_date}
+        total_day={updateLeave.total_day}
+        leave_reason={updateLeave.leave_reason}
+        status={updateLeave.status}
+        clossModal={clossActionModal}
+      />
     </Grid>
   );
 };
