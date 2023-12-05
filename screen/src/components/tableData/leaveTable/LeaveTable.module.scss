@@ -1,5 +1,21 @@
 .leaveTableContainer {
     .leaveAction {
         display: flex;
+
+        svg {
+            color: #ffffff;
+            border-radius: 0.25rem;
+            padding: 0.35rem;
+            cursor: pointer;
+        }
+
+        svg:nth-child(1) {
+            background-color: #58024B;
+        }
+
+        svg:nth-child(2) {
+            background-color: #FF3A6E;
+            margin-inline: 0.5rem;
+        }
     }
 }
