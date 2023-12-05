@@ -39,6 +39,7 @@ const CreateNewEmployee = () => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
   };
+  const userData = { name: inputData.name, emp_id: inputData.emp_id, }
 
   const handleCreate = () => {
     if (inputData.name === '' || inputData.email === '' || inputData.phone === '' || inputData.password === '' || inputData.emp_id === '') {
@@ -50,12 +51,15 @@ const CreateNewEmployee = () => {
           setInputData(result);
           navigation('/employee')
           console.log(result, "result....");
+          localStorage.setItem("userData", JSON.stringify(userData))
+
         })
         .catch(err => {
           console.log(err)
         })
     }
   };
+  console.log(inputData, "inputData...")
   return (
     <>
       <Box sx={{ marginInlineStart: 3 }}>
