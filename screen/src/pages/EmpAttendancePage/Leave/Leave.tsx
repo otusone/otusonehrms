@@ -12,6 +12,8 @@ const Leave = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [name, setName] = useState(false)
+    const [emp_id, setEmpId] = useState(false)
     const [leaveId, setLeaveId] = useState<string>()
     const [inputData, setInputData] = useState({
         emp_id: '', name: '', start_date: '', end_date: '', leave_type: '', leave_reason: '', remark: ''
@@ -39,6 +41,13 @@ const Leave = () => {
 
     useEffect(() => {
         fetchData();
+        const dataString: any = localStorage.getItem("loginedUser");
+        const userData = JSON.parse(dataString);
+        const { emp_id, name } = userData;
+        setName(name);
+        setEmpId(emp_id)
+
+        console.log(userData, "dataString..")
     }, []);
 
     const handleClick = async () => {
@@ -48,9 +57,11 @@ const Leave = () => {
             inputData.leave_type == '') {
             toast.error("Please fill all the field!")
             return;
-        } try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', inputData);
+        } 
+        try {
+            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', { name, emp_id, start_date: inputData.start_date, end_date: inputData.end_date, leave_reason: inputData.leave_reason, leave_type: inputData.leave_type });
             await fetchData();
+            console.log(response, "response..")
             if (response.status === 200) {
                 toast.success("Leave successfully created");
             } else {

@@ -25,7 +25,6 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
             const loginedUser = JSON.parse(loginedUserString);
             const username = loginedUser.name;
             setHeadingName(username)
-            console.log(username, "username.....")
         } else {
             console.log('No logined user found');
         }

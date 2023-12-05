@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './LeaveTable.module.scss'
 import { Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonButton from '../../common/CommonButton/CommonButton'
@@ -13,6 +13,15 @@ export interface ILeaveTable {
 }
 
 const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) => {
+    const [name, setName] = useState()
+    const [empId, setEmpId] = useState()
+    useEffect(() => {
+        const dataString: any = localStorage.getItem("loginedUser")
+        const data = JSON.parse(dataString)
+        const { name, emp_id } = data;
+        setName(name)
+        setEmpId(emp_id)
+    }, [])
     return (
         <>
             <TableContainer className={styles.leaveTableContainer}>
@@ -35,13 +44,13 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
             <TableContainer className={styles.leaveTableContainer}>
                 {loading ? <CustomLoader /> : <Table>
                     <TableBody>
-                        {data && data.map((item: any, idx: number) => {
+                        {data && data.filter((leave: any) => leave.emp_id === empId).map((item: any, idx: number) => {
                             return (
                                 <TableRow key={idx}>
                                     <TableCell>
-                                        <CommonButton name={item.emp_id} />
+                                        <CommonButton name={empId} />
                                     </TableCell>
-                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{name}</TableCell>
                                     <TableCell>{item.leave_type}</TableCell>
                                     <TableCell>{item.start_date}</TableCell>
                                     <TableCell>{item.end_date}</TableCell>

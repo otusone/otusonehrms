@@ -33,11 +33,9 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const username = loginedUser.name;
-            const userId = "EMP00001"
-            setName(username)
-            setEmpId(userId)
-            console.log(loginedUser, "userId...")
+            const { name, emp_id } = loginedUser;
+            setName(name)
+            setEmpId(emp_id)
         } else {
             console.log('No logined user found');
         }
