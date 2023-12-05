@@ -8,9 +8,11 @@ import CustomLoader from '../../CustomLoader/CustomLoader';
 export interface ILeaveTable {
     loading: boolean;
     data: any;
+    handleEdit: (idx: string) => void;
+    handleDelete: (idx: string) => void;
 }
 
-const LeaveTable = ({ loading, data }: ILeaveTable) => {
+const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) => {
     return (
         <>
             <TableContainer className={styles.leaveTableContainer}>
@@ -33,9 +35,9 @@ const LeaveTable = ({ loading, data }: ILeaveTable) => {
             <TableContainer className={styles.leaveTableContainer}>
                 {loading ? <CustomLoader /> : <Table>
                     <TableBody>
-                        {data && data.map((item: any) => {
+                        {data && data.map((item: any, idx: number) => {
                             return (
-                                <TableRow>
+                                <TableRow key={idx}>
                                     <TableCell>
                                         <CommonButton name={item.emp_id} />
                                     </TableCell>
@@ -47,8 +49,8 @@ const LeaveTable = ({ loading, data }: ILeaveTable) => {
                                     <TableCell>{item.leave_reason}</TableCell>
                                     <TableCell>{item.status}</TableCell>
                                     <TableCell className={styles.leaveAction}>
-                                        <MdEdit fontSize={20} cursor={"pointer"} />
-                                        <MdDelete fontSize={20} cursor={"pointer"} />
+                                        <MdEdit fontSize={30} onClick={(() => handleEdit(item._id))} />
+                                        <MdDelete fontSize={30} onClick={(() => handleDelete(item._id))} />
                                     </TableCell>
                                 </TableRow>
                             )

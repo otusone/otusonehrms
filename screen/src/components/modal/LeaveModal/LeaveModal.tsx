@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './CreateLeaveModal.module.scss'
+import styles from './LeaveModal.module.scss'
 import { Modal, Grid, Typography, Divider, Box } from '@mui/material'
 import SelectField from '../../SelectField/SelectField';
 import InputField from '../../inputField/InputField';
@@ -9,13 +9,15 @@ import data from './data.json';
 
 
 
-export interface ICreateLeaveModal {
+export interface ILeaveModal {
     open: boolean;
+    heading:string;
     handleClose: any;
     inputData: any;
     handleChange: any;
+    handleClick: any;
 }
-const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreateLeaveModal) => {
+const LeaveModal = ({ open,heading, handleClose, inputData, handleChange, handleClick }: ILeaveModal) => {
     return (
         <Modal
             open={open}
@@ -23,7 +25,7 @@ const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreat
         >
             <Grid className={styles.createLeaveModalContainer}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h4' fontSize={20} fontWeight={500}> Create New Leave </Typography>
+                    <Typography variant='h4' fontSize={20} fontWeight={500}>{heading} </Typography>
                     <RxCross1 fontSize={20} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider />
@@ -35,18 +37,18 @@ const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreat
                     <Box display={"flex"}>
                         <InputField
                             label={'Start Date'}
-                            name={''}
+                            name={'start_date'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.start_date}
+                            handleChange={handleChange}
                             type={"date"}
                         />
                         <InputField
                             label={'End Date'}
-                            name={''}
+                            name={'end_date'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.end_date}
+                            handleChange={handleChange}
                             type={"date"}
                         />
 
@@ -63,18 +65,18 @@ const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreat
                     <Box>
                         <InputField
                             label={'Leave Reason'}
-                            name={''}
+                            name={'leave_reason'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.leave_reason}
+                            handleChange={handleChange}
                             type={"text"}
                         />
                         <InputField
                             label={'Remak'}
-                            name={''}
-                            placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            name={'remark'}
+                            placeholder={'Remark'}
+                            value={inputData.remark}
+                            handleChange={handleChange}
                             type={"text"}
                         />
                     </Box>
@@ -85,6 +87,7 @@ const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreat
                         />
                         <CommonButton
                             name={"Create"}
+                            onClick={handleClick}
                         />
                     </Box>
                 </Grid>
@@ -94,4 +97,4 @@ const CreateLeaveModal = ({ open, handleClose, inputData, handleChange }: ICreat
     )
 }
 
-export default CreateLeaveModal
+export default LeaveModal
