@@ -59,10 +59,10 @@ const ManageLeaveTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData.map((item: any, idx: number) => {
+            {tableData && tableData.map((item: any, idx: number) => {
               return (
                 <>
-                  <TableRow key={item.id}>
+                  <TableRow key={idx}>
                     <TableCell>
                       <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
                     </TableCell>
@@ -75,10 +75,7 @@ const ManageLeaveTable = ({
                     <TableCell>{item.status}</TableCell>
                     <TableCell className={styles.tableAction}>
                       <BiRightArrow
-                        onClick={() => {
-                          console.log(item.emp_id);
-                          handleAction(item.emp_id);
-                        }}
+                        onClick={(() => handleAction(item._id))}
                         fontSize={30}
                       />
                     </TableCell>
