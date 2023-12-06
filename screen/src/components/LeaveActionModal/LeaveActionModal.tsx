@@ -1,129 +1,65 @@
-import React, {useState} from "react";
-import styles from "./LeaveActionModal.module.scss";
-import { Box, Divider, Grid, Modal, Typography } from "@mui/material";
-import { RxCross1 } from "react-icons/rx";
-import CommonButton from "../common/CommonButton/CommonButton";
+import React from 'react'
+import { Divider, Grid, Modal, Typography } from '@mui/material'
+import styles from './LeaveActionModal.module.scss'
+import LeaveText from './LeaveText/LeaveText';
+import { RxCross2 } from "react-icons/rx";
+import CommonButton from '../common/CommonButton/CommonButton';
+
 
 export interface ILeaveActionModal {
   open: boolean;
-  clossModal: any;
-  emp_id: any;
-  name: any;
-  leave_type:any;
-  end_date:any;
-  total_day:any;
-  leave_reason:any;
-  status:any;
-  start_date:any;
+  name: string,
+  empId: string,
+  leaveType: string,
+  startDate: string,
+  endDate: string,
+  totalLeave: string,
+  leaveReason: string
+  handleClose: () => void;
+  handleApproved: () => void;
+  handleReject: () => void;
+
+}
+const LeaveActionModal = ({ open, name, empId, leaveType, startDate, endDate, totalLeave, leaveReason, handleClose, handleApproved, handleReject }: ILeaveActionModal) => {
+  return (
+    <Modal
+      open={open}
+      sx={{ width: 600, height: "fit-content", margin: "auto" }}
+    >
+      <Grid className={styles.leaveActionModal}>
+        <Grid display={"flex"} justifyContent={"space-between"}>
+          <Typography variant='h5' fontSize={20} fontWeight={500}>Manage Leave</Typography>
+          <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
+        </Grid>
+        <Divider />
+        <Grid container className={styles.leaveDetails} >
+          <Grid item sm={6}>
+            <LeaveText name={"Name"} lebel={name} />
+            <LeaveText name={"Start Date"} lebel={startDate} />
+            <LeaveText name={"Leave Type"} lebel={leaveType} />
+            <LeaveText name={"Leave Reason"} lebel={leaveReason} />
+          </Grid>
+          <Grid item sm={6}>
+            <LeaveText name={"EMP ID"} lebel={empId} />
+            <LeaveText name={"End Date"} lebel={endDate} />
+            <LeaveText name={"Total Days"} lebel={totalLeave} />
+          </Grid>
+        </Grid>
+        <Grid className={styles.actionButton}>
+          <CommonButton
+            name={"Approved"}
+            onClick={handleApproved}
+          />
+          <CommonButton
+            name={"ReJect"}
+            onClick={handleReject}
+          />
+        </Grid>
+
+      </Grid>
+
+    </Modal>
+  )
 }
 
-
-const LeaveActionModal = ({
-  open,
-  emp_id,
-  name,
-  leave_type,
-  start_date,
-  end_date,
-  total_day,
-  leave_reason,
-  status,
-
-  clossModal,
-}: ILeaveActionModal) => {
-
-  const [newStatus, setNewStatus] = useState(status);
-
-  const handleApprove = () => {
-    setNewStatus("Approved");
-  };
-
-
-  const handleReject = () => {
-    setNewStatus("Reject");
-  };
-
-
-
-  return (
-    <Grid>
-      <Modal open={open}>
-        <Grid className={styles.leaveActionModal}>
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <Typography variant="h4" fontSize={22}>
-              Leave Action
-            </Typography>
-            <RxCross1 onClick={clossModal} cursor={"pointer"} fontSize={22} />
-          </Box>
-          <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-          <Grid container className={styles.leaveActionDetails}>
-            <Grid item sm={12}>
-              <Grid container>
-                <Grid item sm={6} >
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    EMPLOYEE ID: <span>{emp_id}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    NAME: <span>{name}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    Leave Reason <span>{leave_reason}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    Total Days <span>{total_day}</span>
-                  </Typography>
-                </Grid>
-               
-                <Grid item sm={6}>
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    Leave Type <span>{leave_type}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                   Start Date <span>{start_date}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    End Date: <span>{end_date}</span>
-                  </Typography>
-                  <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 5 }} />
-                  <Typography variant="h5" fontSize={16} fontWeight={600}>
-                    {/* Status <span>{status}</span> */}
-                    Status <span>{newStatus}</span>
-                  </Typography>
-                </Grid>
-              </Grid>
-             
-            </Grid>
-          </Grid>
-          <Box
-            width={"fit-content"}
-            marginInlineStart={"auto"}
-            display={"flex"}
-          >
-            <CommonButton
-              name={"Approved"}
-              // onClick={() => console.log("approved")}
-              onClick={() => {
-                handleApprove();
-                // clossModal(); 
-              }}
-            />
-            <CommonButton
-              name={"Reject"}
-              onClick={() => {
-                handleReject();
-                // clossModal(); 
-              }}
-            />
-          </Box>
-        </Grid>
-      </Modal>
-    </Grid>
-  );
-};
-
-export default LeaveActionModal;
+export default LeaveActionModal
