@@ -78,7 +78,6 @@ const ManageLeave = () => {
     } finally {
       setOpen(false)
     }
-
   }
   const handleReject = async () => {
     try {
