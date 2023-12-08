@@ -2,11 +2,19 @@
     "leaveType": [
         {
             "id": 1,
-            "label": "CL"
+            "label": "Casual Leave"
         },
         {
             "id": 2,
             "label": "Sick Leave"
+        },
+        {
+            "id": 3,
+            "label": "Maternity Leave"
+        },
+        {
+            "id": 4,
+            "label": "Half Day Casual Leave"
         }
     ]
 }

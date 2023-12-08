@@ -7,16 +7,16 @@
         {
             "id": 2,
             "label": "Delhi"
+        },
+        {
+            "id": 2,
+            "label": "Gurgoan"
         }
     ],
     "department": [
         {
             "id": 1,
-            "label": "IT"
-        },
-        {
-            "id": 2,
-            "label": "Associat"
+            "label": "IT Services"
         }
     ],
     "designation": [
@@ -26,7 +26,15 @@
         },
         {
             "id": 2,
-            "label": "Manager"
+            "label": "Software Engineer"
+        },
+        {
+            "id": 2,
+            "label": "QA Engineer"
+        },
+        {
+            "id": 3,
+            "label": "Associat Software Engineer"
         }
     ]
 }

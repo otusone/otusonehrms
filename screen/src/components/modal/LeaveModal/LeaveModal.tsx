@@ -7,8 +7,6 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { RxCross1 } from "react-icons/rx";
 import data from './data.json';
 
-
-
 export interface ILeaveModal {
     open: boolean;
     heading: string;
