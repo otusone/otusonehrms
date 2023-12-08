@@ -42,6 +42,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
 
     }, [])
     const fetchData = async () => {
+        setLoading(true)
         try {
             const result = await axios.get('https://hrms-server-ygpa.onrender.com/empAttendance');
             const data = result.data.EmpAttendanceData;
@@ -63,6 +64,8 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setEmail(empEmail);
         } catch (error) {
             console.error("Error during GET request:", error);
+        } finally {
+            setLoading(false)
         }
     };
 

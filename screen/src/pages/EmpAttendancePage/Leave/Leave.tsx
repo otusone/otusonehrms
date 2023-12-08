@@ -29,6 +29,7 @@ const Leave = () => {
     };
 
     const fetchData = async () => {
+        setLoading(true)
         try {
             const response = axios.get('https://hrms-server-ygpa.onrender.com/empLeave')
             const data = (await response).data.leaveData;
@@ -36,6 +37,8 @@ const Leave = () => {
 
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -46,8 +49,6 @@ const Leave = () => {
         const { emp_id, name } = userData;
         setName(name);
         setEmpId(emp_id)
-
-        console.log(userData, "dataString..")
     }, []);
 
     const handleClick = async () => {
@@ -57,7 +58,7 @@ const Leave = () => {
             inputData.leave_type == '') {
             toast.error("Please fill all the field!")
             return;
-        } 
+        }
         try {
             const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', { name, emp_id, start_date: inputData.start_date, end_date: inputData.end_date, leave_reason: inputData.leave_reason, leave_type: inputData.leave_type });
             await fetchData();
@@ -76,6 +77,7 @@ const Leave = () => {
     };
 
     const handleDelete = async (idx: string) => {
+        setLoading(true)
         try {
             await axios.delete(`https://hrms-server-ygpa.onrender.com/empLeave/${idx}`);
             setLeaveData((prevLeaveData: any) => {
@@ -83,6 +85,8 @@ const Leave = () => {
             });
         } catch (error) {
             console.error('Error deleting data:', error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -94,6 +98,7 @@ const Leave = () => {
         setLeaveId(idx)
     }
     const handleEditLeave = async () => {
+        setLoading(true)
         try {
             const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${leaveId}`, inputData)
 
@@ -112,6 +117,7 @@ const Leave = () => {
             console.log(error)
         } finally {
             setEditModal(false)
+            setLoading(false)
         }
     }
 

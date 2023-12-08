@@ -17,6 +17,8 @@ import CustomLoader from "../../CustomLoader/CustomLoader";
 
 export interface IManageLeaveTable {
   heading: string;
+  query: any;
+  setQuery: any;
   tableData: any;
   tableTitle: any;
   IsManageLeaveAction: boolean;
@@ -29,6 +31,8 @@ export interface IManageLeaveTable {
 }
 
 const ManageLeaveTable = ({
+  query,
+  setQuery,
   heading,
   tableTitle,
   tableData,
@@ -40,7 +44,7 @@ const ManageLeaveTable = ({
       <TableHead className={styles.tableHead}>
         <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
         <TableCell sx={{ fontSize: 20 }}>
-          <SearchBox />
+          <SearchBox setQuery={setQuery} />
         </TableCell>
       </TableHead>
       <TableContainer>
@@ -59,7 +63,15 @@ const ManageLeaveTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData && tableData.map((item: any, idx: number) => {
+            {tableData && tableData.filter((employee: { name: string }) => {
+              return (
+                query === "" ||
+                (employee.name
+                  ?.toLowerCase()
+                  ?.includes(query.toLowerCase()) ??
+                  false)
+              );
+            }).map((item: any, idx: number) => {
               return (
                 <>
                   <TableRow key={idx}>
