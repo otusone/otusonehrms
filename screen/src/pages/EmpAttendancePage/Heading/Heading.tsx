@@ -4,6 +4,7 @@ import { Grid, Box, Typography, Button } from '@mui/material'
 import img from '../../../asserst/images/profile_pic.jpg'
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingNotification from '../../../components/heading/headingNotification/HeadingNotification';
+import { useLocation } from 'react-router-dom';
 
 export interface IHeading {
     handleCheckIn?: any;
@@ -11,8 +12,12 @@ export interface IHeading {
     IsAction?: boolean;
 }
 const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
+    const location = useLocation();
     const [date, setDate] = useState<any>('');
     const [headingName, setHeadingName] = useState<any>('');
+
+    const path = location.pathname;
+    console.log(path, "path...")
 
     useEffect(() => {
 
@@ -20,11 +25,9 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
         const formatedDate = today.toDateString();
         setDate(formatedDate);
 
-        const loginedUserString = localStorage.getItem('loginedUser')
-        if (loginedUserString) {
-            const loginedUser = JSON.parse(loginedUserString);
-            const username = loginedUser.name;
-            setHeadingName(username)
+        const userName = localStorage.getItem('userName')
+        if (userName) {
+            setHeadingName(userName)
         } else {
             console.log('No logined user found');
         }
@@ -46,8 +49,13 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
                 {IsAction
                     ?
                     <Box>
-                        <CommonButton name={"Check In"} onClick={handleCheckIn} />
-                        <CommonButton name={"Check Out"} onClick={handleCheckOut} />
+                        {path === "/attendance" ?
+                            <>
+                                <CommonButton name={"Check In"} onClick={handleCheckIn} />
+                                <CommonButton name={"Check Out"} onClick={handleCheckOut} />
+                            </>
+                            :
+                            ""}
                     </Box> :
                     <Box>
                         <HeadingNotification />

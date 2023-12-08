@@ -76,13 +76,13 @@ const Dashboard = () => {
           )
         })}
       </Grid>
-      <Grid container className={styles.dashboard}>
+      {/* <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
           <MeetingScheduleTable
             data={tabelData}
           />
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
