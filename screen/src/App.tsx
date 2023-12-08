@@ -47,6 +47,20 @@ const App = () => {
       setUser(localStorage.getItem('role'));
     }
   }, []);
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     localStorage.removeItem("loginedUser");
+  //     localStorage.removeItem("token");
+  //     localStorage.removeItem("role");
+  //     localStorage.removeItem("email");
+  //   };
+
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload);
+  //   };
+  // }, []);
 
   return (
     <Fragment>

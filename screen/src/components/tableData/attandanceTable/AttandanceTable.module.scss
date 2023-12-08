@@ -1,4 +1,8 @@
 .attandanceTableContainer {
+    .tableHead {
+        display: flex;
+        justify-content: space-between;
+    }
     .tableAction {
 
         svg {

@@ -21,6 +21,7 @@ export interface ManageType {
 
 const ManageLeave = () => {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false);
   const [leaveData, setLeaveData] = useState<any>();
   const handleClose = () => setOpen(false);
@@ -35,10 +36,13 @@ const ManageLeave = () => {
 
   const getData = async () => {
     try {
+      setLoading(true)
       const response = await axios.get('https://hrms-server-ygpa.onrender.com/empLeave')
       setLeaveData(response.data.leaveData)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
   useEffect(() => {
@@ -78,6 +82,7 @@ const ManageLeave = () => {
     } finally {
       setOpen(false)
     }
+
   }
   const handleReject = async () => {
     try {
@@ -94,6 +99,8 @@ const ManageLeave = () => {
     <Grid className={styles.manageLeaveContainer}>
       <CommonHeading heading={"Manage Leave"} />
       <ManageLeaveTable
+        query={query}
+        setQuery={setQuery}
         heading={""}
         tableData={leaveData}
         tableTitle={data.tableTitle}
