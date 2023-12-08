@@ -14,8 +14,8 @@ export interface IUserModal {
     inputData: any;
 }
 const UserModal = ({ open, inputData, handleChange, handleClose, handleCreate }: IUserModal) => {
-    const role = [{ "id": 1, "label": "HR" }, { "id": 2, "label": "Manager" }, { "id": 3, "label": "Team Leader" }, { "id": 4, "label": "Employee" }]
-    return (
+    const role = [{ "id": 1, "label": "Founder" }, { "id": 2, "label": "CEO" }, { "id": 3, "label": "Manager" }, { "id": 4, "label": "HR" }]
+    return (    
         <Modal
             open={open}
             sx={{ width: 500, height: 'fit-content', margin: "auto" }}
