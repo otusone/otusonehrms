@@ -6,28 +6,40 @@ import EmployeeTable from "../../components/tableData/employeeTable/EmployeeTabl
 import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import EmployeeModal from "../../components/modal/EmployeeModal/EmployeeModal";
 
 const EmployeePage = () => {
+  const [open, setOpen] = useState(false)
+  const [inputData, setInputData] = useState<any>({
+    name: "",
+    email: "",
+    emp_id: "",
+    branch: "",
+    department: "",
+    designation: "",
+    dateOfJoin: ""
+  });
   const [query, setQuery] = useState("");
+  const [editEmployee, setEditEmployee] = useState(false);
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
+  const handleCloss = () => setOpen(false);
 
   const navigation = useNavigate();
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = await axios.get("https://hrms-server-ygpa.onrender.com/employee");
+      const data = result.data.employeeData;
+      setEmployeeData(data);
+    } catch (error) {
+      console.error("Error fetching employee data:", error);
+    } finally {
+      setLoading(false)
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const result = await axios.get("https://hrms-server-ygpa.onrender.com/employee");
-        const data = result.data.employeeData;
-        setEmployeeData(data);
-      } catch (error) {
-        console.error("Error fetching employee data:", error);
-      } finally {
-        setLoading(false)
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -46,7 +58,31 @@ const EmployeePage = () => {
       setLoading(false);
     }
   };
+  const handleEditModal = (idx: any) => {
+    setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    setEditEmployee(idx)
+    console.log(idx, "idex....")
+  }
 
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value })
+  }
+
+  const handleEdit = async () => {
+    try {
+      await axios.put(`https://hrms-server-ygpa.onrender.com/employee/${editEmployee}`, inputData)
+      await fetchData();
+
+    } catch (error) {
+      console.error(error)
+    }finally{
+      setOpen(false)
+    }
+
+  }
+
+  console.log(inputData, "inputData..")
   return (
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
@@ -58,11 +94,19 @@ const EmployeePage = () => {
         heading={""}
         tableTitle={data.tableTitle}
         tableData={employeeData}
-        handleEdit={undefined}
+        handleEdit={handleEditModal}
         handleDelete={handleDelete}
         setQuery={setQuery}
         query={query}
-        loading={loading} handleLeaveAction={undefined}      />
+        loading={loading}
+      />
+      <EmployeeModal
+        open={open}
+        inputData={inputData}
+        handleChange={handleChange}
+        handleCloss={handleCloss}
+        handleEdit={handleEdit}
+      />
     </Grid>
   );
 };
