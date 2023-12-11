@@ -4,6 +4,8 @@ import { Box, Divider, Grid, Modal, Typography } from '@mui/material'
 import InputField from '../../inputField/InputField';
 import { RxCross2 } from "react-icons/rx";
 import CommonButton from '../../common/CommonButton/CommonButton';
+import SelectField from '../../SelectField/SelectField';
+import data from '../LeaveModal/data.json'
 
 
 export interface IEmployeeModal {
@@ -51,32 +53,28 @@ const EmployeeModal = ({ open, inputData, handleChange, handleCloss, handleEdit 
                             handleChange={handleChange}
                             type={undefined}
                         />
-                        <InputField
-                            label={'Branch'}
+                        <SelectField
+                            title={'Branch'}
+                            data={data.branch}
+                            option={inputData.branch}
                             name={'branch'}
-                            placeholder={''}
-                            value={inputData.branch}
                             handleChange={handleChange}
-                            type={undefined}
                         />
-
                     </Grid>
                     <Grid item sm={6}>
-                        <InputField
-                            label={'Department'}
+                        <SelectField
+                            title={'Department'}
+                            data={data.department}
+                            option={inputData.department}
                             name={'department'}
-                            placeholder={''}
-                            value={inputData.department}
                             handleChange={handleChange}
-                            type={undefined}
                         />
-                        <InputField
-                            label={'Desination'}
-                            name={'desination'}
-                            placeholder={''}
-                            value={inputData.designation}
+                        <SelectField
+                            title={'Designation'}
+                            data={data.designation}
+                            option={inputData.designation}
+                            name={'designation'}
                             handleChange={handleChange}
-                            type={undefined}
                         />
                         <InputField
                             label={'Date Of Joining'}
@@ -84,9 +82,8 @@ const EmployeeModal = ({ open, inputData, handleChange, handleCloss, handleEdit 
                             placeholder={''}
                             value={inputData.dateOfJoin}
                             handleChange={handleChange}
-                            type={undefined}
+                            type={"date"}
                         />
-
                     </Grid>
                 </Grid>
                 <Grid className={styles.modalAction}>

@@ -60,9 +60,7 @@ const EmployeeTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData &&
-              tableData
-                .filter((employee: { name: string }) => {
+            {tableData && tableData.filter((employee: { name: string }) => {
                   return (
                     query === "" ||
                     (employee.name
@@ -71,7 +69,7 @@ const EmployeeTable = ({
                       false)
                   );
                 })
-                .map((item: any, idx: any) => {
+              .map((item: any, idx: any) => {
                   return (
                     <TableRow key={idx}>
                       <TableCell>

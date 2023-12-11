@@ -20,7 +20,7 @@ const EmployeePage = () => {
     dateOfJoin: ""
   });
   const [query, setQuery] = useState("");
-  const [editEmployee, setEditEmployee] = useState(false);
+  const [editEmployee, setEditEmployee] = useState();
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
   const handleCloss = () => setOpen(false);
@@ -33,6 +33,7 @@ const EmployeePage = () => {
       const result = await axios.get("https://hrms-server-ygpa.onrender.com/employee");
       const data = result.data.employeeData;
       setEmployeeData(data);
+
     } catch (error) {
       console.error("Error fetching employee data:", error);
     } finally {
@@ -58,10 +59,18 @@ const EmployeePage = () => {
       setLoading(false);
     }
   };
-  const handleEditModal = (idx: any) => {
+  const handleEditModal = async (idx: any) => {
     setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     setEditEmployee(idx)
     console.log(idx, "idex....")
+    const res = await axios.get('https://hrms-server-ygpa.onrender.com/employee');
+    const resData = res.data.employeeData;
+    const filteredData = resData.filter((employee: any) => employee._id === editEmployee)
+    await setInputData({
+      emp_id: filteredData[0].emp_id,
+      name: filteredData[0].name,
+      email: filteredData[0].email
+    })
   }
 
   const handleChange = (e: any) => {
@@ -76,13 +85,11 @@ const EmployeePage = () => {
 
     } catch (error) {
       console.error(error)
-    }finally{
+    } finally {
       setOpen(false)
     }
-
   }
 
-  console.log(inputData, "inputData..")
   return (
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
