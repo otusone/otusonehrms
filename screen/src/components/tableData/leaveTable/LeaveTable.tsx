@@ -33,7 +33,6 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>Leave Type</TableCell>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>START DATE</TableCell>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>TOTAL DAYS</TableCell>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>LEAVE REASON</TableCell>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>STATUS</TableCell>
                             <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>ACTION</TableCell>
@@ -54,10 +53,9 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leave_type}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.start_date}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.end_date}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.total_days}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }} className={styles.leaveAction}>
+                                    <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
                                         <MdEdit fontSize={30} onClick={(() => handleEdit(item._id))} />
                                         <MdDelete fontSize={30} onClick={(() => handleDelete(item._id))} />
                                     </TableCell>

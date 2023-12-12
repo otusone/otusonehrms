@@ -53,9 +53,9 @@ const App = () => {
       console.error("An error occurred:", error);
     }
   };
-  // window.addEventListener('beforeunload', () => {
-  //   localStorage.removeItem('userToken');
-  // });
+  window.addEventListener('beforeunload', () => {
+    localStorage.removeItem('userToken');
+  });
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
