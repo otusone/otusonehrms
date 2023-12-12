@@ -10,57 +10,55 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigation = useNavigate()
-  const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('token') || '');
-  const [user, setUser] = useState<any>(localStorage.getItem('role') || '');
+  const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
+  const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value })
   };
 
-  const handleLogin = () => {
-    axios.post('https://hrms-server-ygpa.onrender.com/employee/login', inputData)
-      .then((response) => {
+  const handleLogin = async () => {
+    const userEmail = "admin@gmail.com";
+    const userPass = "admin@123";
+
+    try {
+      if (userEmail === inputData.email && userPass === inputData.password) {
+        console.log("Found Admin");
+        await localStorage.setItem("userToken", ("admin@token"));
+        await localStorage.setItem("userRole", ("ADMIN"));
+        await localStorage.setItem("userName", ("Admin"));
+        setIsLogin('admin@token');
+        setUser("ADMIN");
+      } else {
+        console.log("Found Employee");
+        const response = await axios.post('https://hrms-server-ygpa.onrender.com/employee/login', inputData);
         const loginedUser = response.data;
         const newToken = response.data.token;
         const newRole = response.data.role;
         const newEmail = response.data.email;
+        const newName = response.data.name;
+
         setIsLogin(newToken);
         setUser(newRole);
         localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
-        localStorage.setItem('token', newToken);
-        localStorage.setItem('role', newRole);
+        localStorage.setItem('userToken', newToken);
+        localStorage.setItem('userToken', newToken);
+        localStorage.setItem('userRole', newRole);
         localStorage.setItem('email', newEmail);
+        localStorage.setItem('userName', newName);
         console.log(response, 'response..');
-      });
-    // toast.success("Login Successfull!")
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userToken');
+    navigation('/')
     setIsLogin('');
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setIsLogin(localStorage.getItem('token'));
-      setUser(localStorage.getItem('role'));
-    }
-  }, []);
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     localStorage.removeItem("loginedUser");
-  //     localStorage.removeItem("token");
-  //     localStorage.removeItem("role");
-  //     localStorage.removeItem("email");
-  //   };
-
-  //   window.addEventListener('beforeunload', handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload);
-  //   };
-  // }, []);
 
   return (
     <Fragment>

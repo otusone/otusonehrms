@@ -19,7 +19,6 @@ export interface IEmployeeTable {
   heading: string;
   tableTitle: any;
   tableData: any;
-  handleLeaveAction: any;
   handleEdit: any;
   handleDelete: any;
   setQuery: any;
@@ -33,7 +32,6 @@ const EmployeeTable = ({
   setQuery,
   tableTitle,
   tableData,
-  handleLeaveAction,
   handleEdit,
   handleDelete,
   loading
@@ -62,9 +60,7 @@ const EmployeeTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData &&
-              tableData
-                .filter((employee: { name: string }) => {
+            {tableData && tableData.filter((employee: { name: string }) => {
                   return (
                     query === "" ||
                     (employee.name
@@ -73,7 +69,7 @@ const EmployeeTable = ({
                       false)
                   );
                 })
-                .map((item: any, idx: any) => {
+              .map((item: any, idx: any) => {
                   return (
                     <TableRow key={idx}>
                       <TableCell>
@@ -89,7 +85,7 @@ const EmployeeTable = ({
                       <TableCell>{item.designation}</TableCell>
                       <TableCell>{item.dateOfJoin}</TableCell>
                       <TableCell className={styles.tableAction}>
-                        <MdOutlineMode onClick={handleEdit} fontSize={30} />
+                        <MdOutlineMode onClick={()=>handleEdit(item._id)} fontSize={30} />
                         <RiDeleteBinLine
                           onClick={() => handleDelete(item._id)}
                           fontSize={30}

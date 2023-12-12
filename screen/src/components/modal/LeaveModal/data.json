@@ -10,11 +10,41 @@
         },
         {
             "id": 3,
-            "label": "Maternity Leave"
+            "label": "Other Leave"
+        }
+    ],
+    "branch": [
+        {
+            "id": 1,
+            "label": "Noida"
         },
         {
-            "id": 4,
-            "label": "Half Day Casual Leave"
+            "id": 2,
+            "label": "Delhi"
+        },
+        {
+            "id": 3,
+            "label": "Gurgoan"
+        }
+    ],
+    "department": [
+        {
+            "id": 1,
+            "label": "IT Services"
+        }
+    ],
+    "designation": [
+        {
+            "id": 1,
+            "label": "Team Leader"
+        },
+        {
+            "id": 2,
+            "label": "Software Engineer"
+        },
+        {
+            "id": 3,
+            "label": "Jr. Software Engineer"
         }
     ]
 }

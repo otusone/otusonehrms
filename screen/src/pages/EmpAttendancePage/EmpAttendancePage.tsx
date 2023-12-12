@@ -3,7 +3,7 @@ import styles from './EmpAttendancePage.module.scss'
 import { Grid } from '@mui/material'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { menuData } from './menuData'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from './Dashboard/Dashboard'
 import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
@@ -26,6 +26,8 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const time = formatedData.getTime();
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
+
+    
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
@@ -98,7 +100,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setLoading(false);
         }
     };
-
 
     const handleCheckOut = async () => {
         try {
