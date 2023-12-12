@@ -27,7 +27,7 @@ const EmployeeModal = ({ open, inputData, handleChange, handleCloss, handleEdit 
                     <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleCloss} />
                 </Box>
                 <Divider />
-                <Grid container >
+                <Grid container className={styles.employeeDetails} >
                     <Grid item sm={6}>
                         <InputField
                             label={'Emp ID'}

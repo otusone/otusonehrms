@@ -18,35 +18,35 @@ const Dashboard = () => {
       "id": 1,
       "icon": <AiOutlineTeam />,
       "heading": "Leave",
-      "number": 24,
+      "number": 0,
       "color": "#58024B"
     },
     {
       "id": 2,
       "icon": <TbTicket />,
       "heading": "Casual Leave",
-      "number": 9,
+      "number": 0,
       "color": "#3EC9D6"
     },
     {
       "id": 3,
       "icon": <MdAccountBalanceWallet />,
       "heading": "Sick Leave",
-      "number": 4,
+      "number": 0,
       "color": "#6FD943"
     },
     {
       "id": 4,
       "icon": <RiHotspotLine />,
       "heading": "Jobs",
-      "number": 4,
+      "number": 0,
       "color": "#3EC9D6"
     },
     {
       "id": 5,
       "icon": <RiHotspotLine />,
       "heading": "Active Jobs",
-      "number": 4,
+      "number": 0,
       "color": "#6FD943"
     },
     {
