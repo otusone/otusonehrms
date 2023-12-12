@@ -60,18 +60,33 @@ const EmployeePage = () => {
     }
   };
   const handleEditModal = async (idx: any) => {
-    setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-    setEditEmployee(idx)
-    console.log(idx, "idex....")
-    const res = await axios.get('https://hrms-server-ygpa.onrender.com/employee');
-    const resData = res.data.employeeData;
-    const filteredData = resData.filter((employee: any) => employee._id === editEmployee)
-    await setInputData({
-      emp_id: filteredData[0].emp_id,
-      name: filteredData[0].name,
-      email: filteredData[0].email
-    })
-  }
+    try {
+      setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }));
+      setEditEmployee(idx);
+
+      const res = await axios.get('https://hrms-server-ygpa.onrender.com/employee');
+
+      if (res.status === 200) {
+        const resData = res.data.employeeData;
+        const filteredData = resData.filter((employee: any) => employee._id === editEmployee);
+
+        setInputData({
+          emp_id: filteredData[0].emp_id,
+          name: filteredData[0].name,
+          email: filteredData[0].email,
+          branch: filteredData[0].branch,
+          department: filteredData[0].department,
+          designation: filteredData[0].designation,
+          dateOfJoin: filteredData[0].dateOfJoin
+        });
+      } else {
+        console.error('Failed to fetch employee data');
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching or processing data:', error);
+    }
+  };
+
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
