@@ -53,7 +53,7 @@ const ManageLeaveTable = ({
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "white" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "white", textAlign:"center" }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>
@@ -75,17 +75,17 @@ const ManageLeaveTable = ({
               return (
                 <>
                   <TableRow key={idx}>
-                    <TableCell>
+                    <TableCell sx={{textAlign:"center"}}>
                       <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
                     </TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.leave_type}</TableCell>
-                    <TableCell>{item.start_date}</TableCell>
-                    <TableCell>{item.end_date}</TableCell>
-                    <TableCell>{item.total_day}</TableCell>
-                    <TableCell>{item.leave_reason}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell className={styles.tableAction}>
+                    <TableCell sx={{textAlign:"center"}}>{item.name}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.leave_type}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.start_date}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.end_date}</TableCell>
+                    {/* <TableCell>{item.total_day}</TableCell> */}
+                    <TableCell sx={{textAlign:"center"}}>{item.leave_reason}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.status}</TableCell>
+                    <TableCell sx={{textAlign:"center"}} className={styles.tableAction}>
                       <BiRightArrow
                         onClick={(() => handleAction(item._id))}
                         fontSize={30}
