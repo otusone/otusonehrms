@@ -108,12 +108,12 @@ const EmployeePage = () => {
   return (
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
-        heading={"Manage Employee"}
+        heading={""}
         IsHeadingAction={true}
         onClick={() => navigation("/employee/create-employee")}
       />
       <EmployeeTable
-        heading={""}
+        heading={"Manage Employee"}
         tableTitle={data.tableTitle}
         tableData={employeeData}
         handleEdit={handleEditModal}

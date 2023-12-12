@@ -47,7 +47,7 @@ const Attandance = () => {
     return (
         <Grid className={styles.timeSheetContainer}>
             <CommonHeading
-                heading={'Attandance'}
+                heading={''}
                 onClick={openModal}
                 IsHeadingAction={false}
             />

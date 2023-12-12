@@ -97,11 +97,11 @@ const ManageLeave = () => {
   }
   return (
     <Grid className={styles.manageLeaveContainer}>
-      <CommonHeading heading={"Manage Leave"} />
+      <CommonHeading heading={""} />
       <ManageLeaveTable
         query={query}
         setQuery={setQuery}
-        heading={""}
+        heading={"Manage Leave"}
         tableData={leaveData}
         tableTitle={data.tableTitle}
         IsManageLeaveAction={true}
