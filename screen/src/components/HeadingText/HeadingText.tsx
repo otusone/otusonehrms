@@ -6,16 +6,17 @@ import CommonButton from '../common/CommonButton/CommonButton';
 
 export interface IHeadingText {
     heading: string;
+    name?:string;
     handleClick?: any;
     IsAction?: boolean;
 }
-const HeadingText = ({ heading, handleClick, IsAction }: IHeadingText) => {
+const HeadingText = ({ heading,name, handleClick, IsAction }: IHeadingText) => {
     return (
         <Grid className={styles.headingTextContainer}>
             <Typography variant='h4' fontWeight={500} fontSize={25}>{heading}</Typography>
             {IsAction
                 ?
-                <CommonButton name={"Applie Leave"} onClick={handleClick} /> :
+                <CommonButton name={name} onClick={handleClick} /> :
                 ""}
         </Grid>
     )

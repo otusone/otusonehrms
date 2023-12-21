@@ -2,31 +2,31 @@ import React from 'react'
 import styles from './MeetingSchedule.module.scss'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import HeadingText from '../../HeadingText/HeadingText';
+
+
+
 export interface IMeetingSchedule {
-    heading: string;
     data: any;
-    title1st: string;
-    title2nd: string;
-    title3rd?: string;
-    title4th?: string
-    Is3rdCell: boolean;
-    Is4thCell: boolean;
+    handleClick: any;
+    handleEdit: any
 }
 
-const MeetingSchedule = ({ heading, title1st, title2nd, title3rd, title4th, Is4thCell, Is3rdCell, data }: IMeetingSchedule) => {
+const MeetingSchedule = ({ data, handleClick, handleEdit }: IMeetingSchedule) => {
     return (
         <Grid className={styles.meetingScheduleContainer}>
+            <HeadingText heading={'Announcement List'} IsAction={true} name='Create' handleClick={handleClick} />
             <TableContainer>
                 <Table>
-                    <TableHead>
-                        <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
-                    </TableHead>
                     <TableHead style={{ backgroundColor: "#58024B" }}>
                         <TableRow >
-                            <TableCell style={{ color: "white" }}>{title1st}</TableCell>
-                            <TableCell style={{ color: "white" }}>{title2nd}</TableCell>
-                            <TableCell style={{ color: "white" }}>{title3rd}</TableCell>
-                            <TableCell style={{ color: "white" }}>{title4th}</TableCell>
+                            <TableCell style={{ color: "white" }}>TITLE</TableCell>
+                            <TableCell style={{ color: "white" }}>START DATE</TableCell>
+                            <TableCell style={{ color: "white" }}>START TIME</TableCell>
+                            <TableCell style={{ color: "white" }}>DESCRIPTION</TableCell>
+                            <TableCell style={{ color: "white" }}>ACTION</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -35,8 +35,12 @@ const MeetingSchedule = ({ heading, title1st, title2nd, title3rd, title4th, Is4t
                                 <TableRow>
                                     <TableCell>{item.title}</TableCell>
                                     <TableCell>{item.date}</TableCell>
-                                    {Is3rdCell ? <TableCell>{item.time}</TableCell> : ""}
-                                    {Is4thCell ? <TableCell>{item.description}</TableCell> : ""}
+                                    <TableCell>{item.time}</TableCell>
+                                    <TableCell>{item.description}</TableCell>
+                                    <TableCell>
+                                        <MdEdit fontSize={22} cursor={"pointer"} style={{ color: "#3EC8D5" }} onClick={handleEdit} />
+                                        <MdDelete fontSize={22} cursor={"pointer"} style={{ color: "#FF3A6E" }} />
+                                    </TableCell>
                                 </TableRow>
                             )
                         })}

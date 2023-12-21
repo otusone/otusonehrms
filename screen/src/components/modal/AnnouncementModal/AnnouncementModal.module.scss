@@ -1,0 +1,44 @@
+.announcementModal {
+    padding: 6%;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+
+    >div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    >div+hr {
+        color: aqua;
+        margin-block-start: 1rem;
+        margin-block-end: 1rem;
+    }
+
+    .announcementDetails {
+
+        >div:nth-child(1) {
+            width: 48%;
+
+            >div {
+                margin-block: 1rem;
+            }
+        }
+
+        >div:nth-child(2) {
+            width: 48%;
+
+            >div {
+                margin-block: 1rem;
+            }
+        }
+    }
+
+    .announcementDetails+div {
+        margin-block-start: 1rem;
+        justify-content: right;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}
