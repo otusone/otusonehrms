@@ -15,13 +15,15 @@ const Leave = () => {
     const [name, setName] = useState(false)
     const [emp_id, setEmpId] = useState(false)
     const [leaveId, setLeaveId] = useState<string>()
-    const [inputData, setInputData] = useState({
+    const [inputData, setInputData] = useState<any>({
         emp_id: '', name: '', start_date: '', end_date: '', leave_type: '', leave_reason: '', remark: ''
     });
     const [leaveData, setLeaveData] = useState<any>('')
     const handleModal = () => setOpen(!open)
     const handleClose = () => setOpen(false)
-    const handleEditClose = () => setEditModal(false)
+    const handleEditClose = () => {
+        setEditModal(false)
+    }
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -90,12 +92,32 @@ const Leave = () => {
         }
     };
 
-    const handleEdit = (idx: string) => {
+    const handleEdit = async (idx: string) => {
 
-        setEditModal((preState: any) => ({
-            ...preState, [idx]: !preState[idx]
-        }))
-        setLeaveId(idx)
+        try {
+            setEditModal((preState: any) => ({
+                ...preState, [idx]: !preState[idx]
+            }))
+            setLeaveId(idx)
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/empLeave`)
+
+            if (response.status === 200) {
+                const data = response.data.leaveData;
+                const filteredData = leaveData.filter((leave: any) => leave._id === idx);
+                setInputData({
+                    emp_id: filteredData[0].emp_id,
+                    name: filteredData[0].name,
+                    leave_type: filteredData[0].leave_type,
+                    leave_reason: filteredData[0].leave_reason,
+                    start_date: filteredData[0].start_date,
+                    end_date: filteredData[0].end_date,
+                })
+            } else {
+                console.log("data not found")
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
     const handleEditLeave = async () => {
         setLoading(true)
@@ -113,6 +135,7 @@ const Leave = () => {
 
                 return updatedLeaveData;
             });
+            await fetchData();
         } catch (error) {
             console.log(error)
         } finally {
