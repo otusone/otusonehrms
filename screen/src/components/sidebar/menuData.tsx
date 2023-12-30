@@ -7,6 +7,9 @@ import { FaGraduationCap } from 'react-icons/fa';
 import { GrDocumentTime } from "react-icons/gr";
 import { TbCalendarTime } from "react-icons/tb";
 import { FaTasks } from "react-icons/fa";
+import { PiNoteBold } from "react-icons/pi";
+
+
 
 export const menuData = [
     {
@@ -41,14 +44,8 @@ export const menuData = [
     },
     {
         "id": 6,
-        "icon": <FaTasks />,
-        "title": "Ticket",
-        "link": "/ticket",
-    },
-    {
-        "id": 7,
-        "icon": <PiNote />,
-        "title": "Payroll",
-        "link": "/payroll",
-    },
+        "icon": <PiNoteBold />,
+        "title": "Invoice",
+        "link": "/invoice",
+    }
 ]

@@ -7,18 +7,24 @@ import { TbTicket } from 'react-icons/tb';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 import { RiHotspotLine } from 'react-icons/ri';
 import MeetingSchedule from './meetingSchedule/MeetingSchedule';
-import tableData from './data.json'
 import Calender from './calender/Calender';
 import AnnouncementModal from '../modal/AnnouncementModal/AnnouncementModal';
 
+export interface IDashboard {
+    handleCreate: any;
+    handleEdit: any;
+    announcementData: any;
+    inputData: any;
+    handleChange: any;
+    handleEditModal: any;
+    handleClose: any;
+    editModal: boolean;
+    handleModal: any;
+    open: boolean;
+    handleDelete: any;
+}
+const Dashboard = ({ announcementData, handleCreate, handleEdit, inputData, handleChange, handleEditModal, handleClose, editModal, handleModal, open, handleDelete }: IDashboard) => {
 
-const Dashboard = () => {
-    const [open, setOpen] = useState(false);
-    const [editModal, setEditModal] = useState(false);
-    const handleModal = () => setOpen(!open)
-    const handleEdit = () => setEditModal(!editModal)
-    const handleClose = () => { setOpen(false); setEditModal(false) }
-    const [inputData, setInputData] = useState({ title: "", start_date: '', start_time: "", description: "" })
 
     const data = [
         {
@@ -64,16 +70,13 @@ const Dashboard = () => {
             "color": "#58024B"
         }
     ]
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        setInputData({ ...inputData, [name]: value })
-    }
+
     console.log(inputData, "inputData..")
     return (
         <Grid className={styles.dashboardContainer}>
             <Typography variant='h2' fontWeight={500} fontSize={20}>Dashboard</Typography>
             <Grid spacing={2} container>
-                {data.map((item) => {
+                {data && data.map((item: any) => {
                     return (
                         <Grid item sm={4}>
                             <CommonCard
@@ -91,10 +94,9 @@ const Dashboard = () => {
                 <Grid item sm={7}>
                     <MeetingSchedule
                         handleClick={handleModal}
-                        handleEdit={handleEdit}
-                        data={tableData.announcementList}
-
-
+                        handleEdit={handleEditModal}
+                        data={announcementData}
+                        handleDelete={handleDelete}
                     />
                 </Grid>
                 <Grid item sm={5}>
@@ -103,17 +105,21 @@ const Dashboard = () => {
             </Grid>
             <AnnouncementModal
                 open={open}
+                name={"Create"}
                 heading={"Create New Announcement"}
                 handleClose={handleClose}
                 inputData={inputData}
                 handleChange={handleChange}
+                handleClick={handleCreate}
             />
             <AnnouncementModal
                 open={editModal}
+                name={"Edit"}
                 heading={"Edit Announcement"}
                 handleClose={handleClose}
                 inputData={inputData}
                 handleChange={handleChange}
+                handleClick={handleEdit}
             />
         </Grid>
     )

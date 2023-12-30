@@ -8,12 +8,14 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface IAnnouncementModal {
     open: boolean;
+    name:string;
     inputData: any;
     handleChange: any;
     handleClose: any;
     heading: any;
+    handleClick: any;
 }
-const AnnouncementModal = ({ open, inputData, handleChange, handleClose, heading }: IAnnouncementModal) => {
+const AnnouncementModal = ({ open, name, inputData, handleChange, handleClose, heading, handleClick }: IAnnouncementModal) => {
     return (
         <Modal
             open={open}
@@ -66,7 +68,7 @@ const AnnouncementModal = ({ open, inputData, handleChange, handleClose, heading
                 </Grid>
                 <Box>
                     <CommonButton name={"Close"} onClick={handleClose} />
-                    <CommonButton name={"Create"} />
+                    <CommonButton name={name} onClick={handleClick} />
                 </Box>
             </Grid>
         </Modal>
