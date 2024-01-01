@@ -1,0 +1,93 @@
+.addClientModalContainer {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 5%;
+
+    .action {
+        display: flex;
+        justify-content: right;
+        margin-block-start: 1rem;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+
+    .basicInfoContainer {
+        .basicInfo {
+            border: 1px dashed #58024B;
+            background-color: #F3F5F7;
+            padding-block: 5%;
+            border-radius: 0.25rem;
+        }
+
+        >div:nth-child(2) {
+            display: flex;
+            justify-content: space-between;
+            margin-block: 1rem;
+
+            >div:nth-child(1) {
+                width: 48%;
+
+                >div:nth-child(2)>div {
+                    margin: auto;
+                }
+
+            }
+
+            >div:nth-child(2) {
+                width: 48%;
+
+                >div:nth-child(1)>div {
+                    margin: auto;
+                }
+
+            }
+
+        }
+    }
+
+    .taxInfoContainer {
+
+        .taxInfo {
+            display: flex;
+            justify-content: space-between;
+
+            >div {
+                width: 48%;
+            }
+        }
+
+        >div:nth-child(2) {
+            >h5+div+div {
+                >div {
+                    margin: auto;
+                    margin-block: 1rem;
+                }
+            }
+        }
+    }
+
+    .addressContainer {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 48%;
+
+            >div>div {
+                margin: auto;
+            }
+        }
+    }
+
+    .additionalDetails {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 48%;
+        }
+    }
+
+}

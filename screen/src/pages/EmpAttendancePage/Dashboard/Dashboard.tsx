@@ -10,8 +10,11 @@ import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import MeetingScheduleTable from '../../../components/tableData/meetingScheduleTable/MeetingScheduleTable';
 import tabelData from '../../../data/mettingSchedule.json'
+import Calender from '../../../components/dashboard/calender/Calender';
+import MeetingSchedule from '../../../components/dashboard/meetingSchedule/MeetingSchedule';
 
 const Dashboard = () => {
+  const [anouncementData, setAnouncementData] = useState<any>()
 
   const data = [
     {
@@ -34,30 +37,21 @@ const Dashboard = () => {
       "heading": "Sick Leave",
       "number": 0,
       "color": "#6FD943"
-    },
-    {
-      "id": 4,
-      "icon": <RiHotspotLine />,
-      "heading": "Jobs",
-      "number": 0,
-      "color": "#3EC9D6"
-    },
-    {
-      "id": 5,
-      "icon": <RiHotspotLine />,
-      "heading": "Active Jobs",
-      "number": 0,
-      "color": "#6FD943"
-    },
-    {
-      "id": 6,
-      "icon": <RiHotspotLine />,
-      "heading": "Inactive Jobs",
-      "number": 0,
-      "color": "#58024B"
     }
   ]
-
+  const getData = async () => {
+    try {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/anouncement`)
+      const data = response.data.anouncementData;
+      setAnouncementData(data)
+      console.log(data, "data...")
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, [])
 
   return (
     <Grid className={styles.dashboardContainer}>
@@ -76,13 +70,37 @@ const Dashboard = () => {
           )
         })}
       </Grid>
-      {/* <Grid container className={styles.dashboard}>
+      <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
-          <MeetingScheduleTable
-            data={tabelData}
-          />
+          <TableContainer>
+            <Table>
+              <TableHead sx={{ backgroundColor: '#58024B' }}>
+                <TableRow >
+                  <TableCell sx={{ color: "#ffffff" }}>TITLE</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>START DATE</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>START TIME</TableCell>
+                  <TableCell sx={{ color: "#ffffff" }}>DESCRIPTION</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {anouncementData && anouncementData.map((item: any) => {
+                  return (
+                    <TableRow>
+                      <TableCell>{item.title}</TableCell>
+                      <TableCell>{item.start_date}</TableCell>
+                      <TableCell>{item.start_time}</TableCell>
+                      <TableCell>{item.description}</TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
-      </Grid> */}
+        <Grid item sm={6}>
+          <Calender />
+        </Grid>
+      </Grid>
     </Grid>
   )
 }

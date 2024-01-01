@@ -1,0 +1,115 @@
+.invoiceContainer {
+    border: 1px solid #58024B;
+    width: 80%;
+    margin-inline: auto;
+    margin-block: 5%;
+    background-color: #ffffff;
+    padding: 2%;
+    border-radius: 0.25rem;
+
+    h4 {
+        border-bottom: 2px dashed #58024B;
+        width: fit-content;
+        margin: auto;
+    }
+
+    .invoiceDetails {
+        display: flex;
+        justify-content: space-between;
+        margin-block: 4%;
+
+        >div:nth-child(1) {
+            width: 50%;
+        }
+    }
+
+    .billedInfo {
+        // border: 2px solid yellow;
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 48%;
+        }
+    }
+
+    .taxContainer {
+        margin-block: 2rem;
+        display: flex;
+        justify-content: space-between;
+
+        >div:nth-child(2) {
+            display: flex;
+            width: 30%;
+
+            p {
+                color: #58024B;
+                margin-block: auto;
+                padding-inline-end: 0.5rem;
+            }
+
+            >div {
+                width: 100%;
+                margin-block-start: 0.01rem;
+
+                >div>div>div {
+                    padding: 0.9rem;
+                }
+            }
+        }
+    }
+
+    .invoiceTable {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        margin-block: 2rem;
+    }
+
+    .checkout {
+        margin-block: 1rem;
+        width: 40%;
+        margin-inline-start: auto;
+    }
+
+    .addtionalButton {
+
+        >div:nth-child(1) {
+            display: flex;
+            justify-content: space-between;
+            margin-block: 0.5rem;
+
+            >div {
+                width: 24%;
+                padding: 1%;
+                border: 1px dashed #58024B;
+                border-radius: 0.25rem;
+            }
+        }
+
+        >div:nth-child(2) {
+            display: flex;
+            margin-block: 0.5rem;
+
+            >div {
+                width: 24%;
+                padding: 1%;
+                border: 1px dashed #58024B;
+                border-radius: 0.25rem;
+            }
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.75rem;
+            }
+        }
+
+    }
+
+    .acction {
+        display: flex;
+        justify-content: right;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+
+        }
+    }
+}
