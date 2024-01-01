@@ -6,8 +6,10 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { MdAdd } from "react-icons/md";
 
 
-
-const InvoiceTable = () => {
+export interface IInvoiceTable {
+    handleClick: any;
+}
+const InvoiceTable = ({ handleClick }: IInvoiceTable) => {
     return (
         <Grid className={styles.invoiceTableContainer}>
             <TableContainer>
@@ -16,7 +18,7 @@ const InvoiceTable = () => {
                         <TableRow >
                             <TableCell sx={{ color: "#ffffff" }}>Item</TableCell>
                             <TableCell sx={{ color: "#ffffff" }}>Quantity</TableCell>
-                            <TableCell sx={{ color: "#ffffff" }}>Rate</TableCell>
+                            <TableCell sx={{ color: "#ffffff" }}>GST</TableCell>
                             <TableCell sx={{ color: "#ffffff" }}>Amount</TableCell>
                             <TableCell sx={{ color: "#ffffff" }}>Action</TableCell>
                         </TableRow>
@@ -32,14 +34,14 @@ const InvoiceTable = () => {
                                 <MdDelete fontSize={20} cursor={"pointer"} />
                             </TableCell>
                         </TableRow>
-                        {/* <TableRow className={styles.add}>
-                            <TableCell sx={{textAlign:"center"}}>Add</TableCell>
-                        </TableRow> */}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Grid>
-                <Typography textAlign={"center"} sx={{ paddingBlock: 1, }}> <MdAdd fontSize={22} />Add</Typography>
+            <Grid onClick={handleClick} sx={{cursor:"pointer"}}>
+                <Box>
+                    <MdAdd fontSize={22} />
+                    <Typography textAlign={"center"} sx={{ paddingBlock: 1, }}> Add</Typography>
+                </Box>
             </Grid>
         </Grid>
     )

@@ -1,0 +1,25 @@
+.taxModalContainer {
+    background-color: #ffffff;
+    padding: 6%;
+    border-radius: 0.25rem;
+
+    >div:nth-child(1)+hr+div {
+
+        >div {
+            margin: auto;
+        }
+    }
+
+    >div:nth-child(1)+hr+div+div {
+        margin-block: 1rem;
+    }
+
+    .action {
+        display: flex;
+        justify-content: right;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}

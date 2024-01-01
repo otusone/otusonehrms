@@ -9,11 +9,11 @@ const BilledCard = () => {
         <Grid className={styles.billedCardContainer}>
             <Box display={"flex"} justifyContent={"space-between"}>
                 <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
-                <Typography sx={{color:"#58024B"}}><MdEdit fontSize={25} style={{ color: "#58024B" }} />Edit</Typography>
+                {/* <Typography sx={{color:"#58024B"}}><MdEdit fontSize={25} style={{ color: "#58024B" }} />Edit</Typography> */}
             </Box>
             <Box>
                 <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
-                    Business Name  <span style={{ color: "#000000", paddingInlineStart: 12, }}>Anuj Kumar</span>
+                    Business Name  <span style={{ color: "#000000", paddingInlineStart: 12, }}>OTUSONE LLC</span>
                 </Typography>
                 <Typography sx={{ color: "#51618A", fontSize: 15, }}>
                     Address  <span style={{ color: "#000000", paddingInlineStart: 12 }}>India</span>

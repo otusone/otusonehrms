@@ -1,13 +1,18 @@
 import React from 'react'
 import styles from './SelectBox.module.scss'
-import { Grid, Typography } from '@mui/material'
-import { CgMathPercent } from "react-icons/cg";
+import { Box, Grid, Typography } from '@mui/material'
 
-
-const SelectBox = ({name}:any) => {
+export interface ISelectBox {
+    icon: any;
+    name: string;
+    handleClick: any;
+}
+const SelectBox = ({ icon, name, handleClick }: ISelectBox) => {
     return (
-        <Grid className={styles.selectBox}>
-            <CgMathPercent fontSize={25} style={{ color: "#58024B" }} />
+        <Grid className={styles.selectBox} onClick={handleClick}>
+            <Box>
+                {icon}
+            </Box>
             <Typography sx={{ paddingInline: 1 }}>{name}</Typography>
         </Grid>
     )

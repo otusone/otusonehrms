@@ -41,16 +41,27 @@
         >div:nth-child(2) {
             display: flex;
             width: 30%;
-            justify-content: center;
+
+            p {
+                color: #58024B;
+                margin-block: auto;
+                padding-inline-end: 0.5rem;
+            }
 
             >div {
                 width: 100%;
+                margin-block-start: 0.01rem;
+
+                >div>div>div {
+                    padding: 0.9rem;
+                }
             }
         }
     }
 
     .invoiceTable {
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        margin-block: 2rem;
     }
 
     .checkout {
@@ -73,6 +84,7 @@
                 border-radius: 0.25rem;
             }
         }
+
         >div:nth-child(2) {
             display: flex;
             margin-block: 0.5rem;
@@ -83,16 +95,19 @@
                 border: 1px dashed #58024B;
                 border-radius: 0.25rem;
             }
-            >div:nth-child(1){
+
+            >div:nth-child(1) {
                 margin-inline-end: 0.75rem;
             }
         }
 
     }
-    .acction{
+
+    .acction {
         display: flex;
         justify-content: right;
-        >div:nth-child(1){
+
+        >div:nth-child(1) {
             margin-inline-end: 0.5rem;
 
         }

@@ -26,21 +26,23 @@ const CheckoutCard = () => {
         <Grid className={styles.checkoutCardContainer}>
             <Typography variant='h5' fontSize={22} fontWeight={500}>Checkout Details</Typography>
             <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 3 }} />
-            {data.map((item) => {
-                return (
-                    <Grid display={"flex"} className={styles.CheckoutCard}>
-                        <Box>{item.icon}</Box>
-                        <Typography fontSize={15} sx={{ paddingInline: 1, color: "#161C26" }}>{item.lable}</Typography>
-                    </Grid>
-                )
-            })}
+            <Box>
+                <Box display={"flex"} justifyContent={"space-between"} sx={{ marginBlock: 1 }}>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>Amount </Typography>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>1200/- </Typography>
+                </Box>
+                <Box display={"flex"} justifyContent={"space-between"} sx={{ marginBlock: 1 }}>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>GST</Typography>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>12%</Typography>
+                </Box>
+            </Box>
             <Divider />
             <Grid display={"flex"} justifyContent={"space-between"} sx={{ marginBlock: 2 }}>
                 <Grid>
-                    <Typography variant='h5' fontSize={20} fontWeight={500}>Total (INR)</Typography>
+                    <Typography variant='h5' fontSize={20} fontWeight={600}>Total (INR)</Typography>
                 </Grid>
                 <Grid>
-                    <Typography variant='h5' fontSize={20} fontWeight={500}>₹1</Typography>
+                    <Typography variant='h5' fontSize={20} fontWeight={600}>₹1</Typography>
                 </Grid>
             </Grid>
         </Grid>

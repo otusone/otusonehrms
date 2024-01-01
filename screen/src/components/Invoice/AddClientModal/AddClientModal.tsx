@@ -11,8 +11,12 @@ import InputField from '../../inputField/InputField';
 import SelectField from '../../SelectField/SelectField';
 import data from './data.json'
 
+export interface IAddClientModal {
+    open: boolean;
+    handleClose: any;
+}
 
-const AddClientModal = ({ open }: any) => {
+const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
     const handleChange =
@@ -27,7 +31,7 @@ const AddClientModal = ({ open }: any) => {
             <Grid className={styles.addClientModalContainer}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography variant='h5' fontSize={22} fontWeight={500}>Add New Client</Typography>
-                    <RxCross2 fontSize={22} />
+                    <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 4 }} />
                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -95,7 +99,10 @@ const AddClientModal = ({ open }: any) => {
                         aria-controls="panel2bh-content"
                         id="panel2bh-header"
                     >
-                        <Typography variant='h5' fontSize={18} fontWeight={500}>Tax Information (optional)</Typography>
+                        <Typography variant='h5' fontSize={18} fontWeight={500}>
+                            Tax Information
+                            <span style={{ color: "#617183", fontSize: 14, paddingInlineStart: 2 }}>(optional)</span>
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails className={styles.taxInfoContainer}>
                         <Grid className={styles.taxInfo}>
@@ -151,18 +158,56 @@ const AddClientModal = ({ open }: any) => {
                         aria-controls="panel3bh-content"
                         id="panel3bh-header"
                     >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                            Advanced settings
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                            Filtering has been entirely disabled for whole web server
+                        <Typography variant='h5' fontSize={18} fontWeight={500}>
+                            Address
+                            <span style={{ color: "#617183", fontSize: 14, paddingInlineStart: 2 }}>(optional)</span>
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography>
-                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                            amet egestas eros, vitae egestas augue. Duis vel est augue.
-                        </Typography>
+                        <Grid className={styles.addressContainer}>
+                            <Grid>
+                                <SelectField
+                                    title={'Select Country'}
+                                    data={data.data}
+                                    option={undefined}
+                                    name={''}
+                                    handleChange={undefined}
+                                />
+                                <InputField
+                                    label={'City'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                                <InputField
+                                    label={'Street Address'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                            </Grid>
+                            <Grid>
+                                <SelectField
+                                    title={'State / Province'}
+                                    data={data.data}
+                                    option={undefined}
+                                    name={''}
+                                    handleChange={undefined}
+                                />
+                                <InputField
+                                    label={'Postal Code / Zip Code'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                            </Grid>
+                        </Grid>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
@@ -171,17 +216,54 @@ const AddClientModal = ({ open }: any) => {
                         aria-controls="panel4bh-content"
                         id="panel4bh-header"
                     >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>Personal data</Typography>
+                        <Typography variant='h5' fontSize={18} fontWeight={500}>
+                            Additional Details
+                            <span style={{ color: "#617183", fontSize: 14, paddingInlineStart: 2 }}>(optional)</span>
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography>
-                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                            amet egestas eros, vitae egestas augue. Duis vel est augue.
-                        </Typography>
+                        <Grid className={styles.additionalDetails}>
+                            <Grid>
+                                <InputField
+                                    label={'Business Alias (Nick Name)'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                                <InputField
+                                    label={'Email'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                            </Grid>
+                            <Grid>
+                                <InputField
+                                    label={'Unique Key'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                                <InputField
+                                    label={'Phone Number'}
+                                    name={''}
+                                    placeholder={''}
+                                    value={''}
+                                    handleChange={undefined}
+                                    type={undefined}
+                                />
+                            </Grid>
+                        </Grid>
                     </AccordionDetails>
                 </Accordion>
                 <Grid className={styles.action}>
-                    <CommonButton name={"Close"} />
+                    <CommonButton name={"Close"} onClick={handleClose} />
                     <CommonButton name={"Create"} />
                 </Grid>
             </Grid>

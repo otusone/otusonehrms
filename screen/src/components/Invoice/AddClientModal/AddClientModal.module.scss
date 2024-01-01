@@ -59,12 +59,34 @@
         }
 
         >div:nth-child(2) {
-            >h5+div+div{
-                >div{
+            >h5+div+div {
+                >div {
                     margin: auto;
                     margin-block: 1rem;
                 }
             }
+        }
+    }
+
+    .addressContainer {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 48%;
+
+            >div>div {
+                margin: auto;
+            }
+        }
+    }
+
+    .additionalDetails {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 48%;
         }
     }
 

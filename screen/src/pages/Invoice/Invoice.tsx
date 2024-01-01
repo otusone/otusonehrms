@@ -3,7 +3,6 @@ import styles from './Invoice.module.scss'
 import { Divider, Grid, Typography, Box } from '@mui/material'
 import InvoiceInfo from '../../components/Invoice/InvoiceInfo/InvoiceInfo'
 import logo from '../../asserst/images/logo.png'
-import BilledInfo from '../../components/Invoice/BilledInfo/BilledInfo'
 import SelectBox from '../../components/Invoice/SelectBox/SelectBox'
 import InvoiceSelect from '../../components/Invoice/InvoiceSelect/InvoiceSelect'
 import { Md123, MdAdd, MdNote, MdOutlineAttachFile, MdEdit, MdLocalPhone } from "react-icons/md";
@@ -11,6 +10,13 @@ import InvoiceTable from '../../components/Invoice/InvoiceTable/InvoiceTable'
 import CheckoutCard from '../../components/Invoice/CheckoutCard/CheckoutCard'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import AddClientModal from '../../components/Invoice/AddClientModal/AddClientModal'
+import BilledBy from '../../components/Invoice/BilledBy/BilledBy'
+import BilledTo from '../../components/Invoice/BilledTo/BilledTo'
+import { CgMathPercent } from "react-icons/cg";
+import TaxModal from '../../components/Invoice/Modal/TaxModal/TaxModal'
+import AddItemModule from '../../components/Invoice/Modal/AddItemModule/AddItemModule'
+
+
 
 
 const Invoice = () => {
@@ -53,8 +59,13 @@ const Invoice = () => {
     }
 
     const [open, setOpen] = useState(false)
-    const handleClick = () => {
-        setOpen(!open)
+    const [addItemModal, setAddModalItem] = useState(false)
+    const handleClick = () => setOpen(!open)
+    const handleAddItem = () => setAddModalItem(!addItemModal)
+    const handleClose = () => { setOpen(false); setAddModalItem(false) };
+
+    const handleAddModal = (idx: any) => {
+        console.log(idx, "jkl")
     }
     return (
         <Grid className={styles.invoiceContainer}>
@@ -69,23 +80,23 @@ const Invoice = () => {
             </Grid>
             <Grid container className={styles.billedInfo}>
                 <Grid>
-                    <BilledInfo IsBilledCard={true} />
+                    <BilledBy />
                 </Grid>
                 <Grid>
-                    <BilledInfo handleClick={handleClick} />
+                    <BilledTo handleClick={handleClick} />
                 </Grid>
             </Grid>
-            <Grid className={styles.taxContainer}>
-                <SelectBox name={"Add Tax"} />
+            {/* <Grid className={styles.taxContainer}>
+                <SelectBox name={"Add Tax"} icon={<CgMathPercent fontSize={25} />} handleClick={handleTaxModal} />
                 <Box>
-                    <Typography>Currency*</Typography>
+                    <Typography >Currency*</Typography>
                     <InvoiceSelect />
                 </Box>
-                <SelectBox name={"Number/Currency Format"} />
-                <SelectBox name={"Rename/Add Fields"} />
-            </Grid>
+                <SelectBox name={"Number/Currency Format"} icon={<Md123 fontSize={28} />} handleClick={undefined} />
+                <SelectBox name={"Rename/Add Fields"} icon={<MdNote fontSize={22} />} handleClick={undefined} />
+            </Grid> */}
             <Grid className={styles.invoiceTable}>
-                <InvoiceTable />
+                <InvoiceTable handleClick={handleAddItem} />
             </Grid>
             <Grid className={styles.checkout}>
                 <CheckoutCard />
@@ -95,7 +106,7 @@ const Invoice = () => {
                 <Box>
                     {addBTN.one?.map((item) => {
                         return (
-                            <Grid key={item.id} display={"flex"}>
+                            <Grid key={item.id} display={"flex"} onClick={(() => handleAddModal(item.id))}>
                                 <Box>{item.icon}</Box>
                                 <Typography sx={{ paddingInlineStart: 1 }}>{item.label}</Typography>
                             </Grid>
@@ -120,6 +131,11 @@ const Invoice = () => {
             </Grid>
             <AddClientModal
                 open={open}
+                handleClose={handleClose}
+            />
+            <AddItemModule
+                open={addItemModal}
+                handleClose={handleClose}
             />
         </Grid>
     )
