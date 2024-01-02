@@ -19,7 +19,6 @@ export interface IEmployeeTable {
   heading: string;
   tableTitle: any;
   tableData: any;
-  handleLeaveAction: any;
   handleEdit: any;
   handleDelete: any;
   setQuery: any;
@@ -33,7 +32,6 @@ const EmployeeTable = ({
   setQuery,
   tableTitle,
   tableData,
-  handleLeaveAction,
   handleEdit,
   handleDelete,
   loading
@@ -52,7 +50,7 @@ const EmployeeTable = ({
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "white" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "white", textAlign:"center" }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>
@@ -62,9 +60,7 @@ const EmployeeTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData &&
-              tableData
-                .filter((employee: { name: string }) => {
+            {tableData && tableData.filter((employee: { name: string }) => {
                   return (
                     query === "" ||
                     (employee.name
@@ -73,23 +69,22 @@ const EmployeeTable = ({
                       false)
                   );
                 })
-                .map((item: any, idx: any) => {
+              .map((item: any, idx: any) => {
                   return (
                     <TableRow key={idx}>
-                      <TableCell>
+                      <TableCell sx={{textAlign:"center"}}>
                         <CommonButton
                           name={item.emp_id}
-                          onClick={() => console.log("hi")}
                         />
                       </TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.email}</TableCell>
-                      <TableCell>{item.branch}</TableCell>
-                      <TableCell>{item.department}</TableCell>
-                      <TableCell>{item.designation}</TableCell>
-                      <TableCell>{item.dateOfJoin}</TableCell>
-                      <TableCell className={styles.tableAction}>
-                        <MdOutlineMode onClick={handleEdit} fontSize={30} />
+                      <TableCell sx={{textAlign:"center"}}>{item.name}</TableCell>
+                      <TableCell sx={{textAlign:"center"}}>{item.email}</TableCell>
+                      <TableCell sx={{textAlign:"center"}}>{item.branch}</TableCell>
+                      <TableCell sx={{textAlign:"center"}}>{item.department}</TableCell>
+                      <TableCell sx={{textAlign:"center"}}>{item.designation}</TableCell>
+                      <TableCell sx={{textAlign:"center"}}>{item.dateOfJoin}</TableCell>
+                      <TableCell sx={{textAlign:"center"}} className={styles.tableAction}>
+                        <MdOutlineMode onClick={()=>handleEdit(item._id)} fontSize={30} />
                         <RiDeleteBinLine
                           onClick={() => handleDelete(item._id)}
                           fontSize={30}

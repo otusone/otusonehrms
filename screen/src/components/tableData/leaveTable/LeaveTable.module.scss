@@ -1,6 +1,41 @@
 .leaveTableContainer {
-    .leaveAction {
-        display: flex;
+    // .leaveAction {
+    //     display: flex;
+
+    //     svg {
+    //         color: #ffffff;
+    //         border-radius: 0.25rem;
+    //         padding: 0.35rem;
+    //         cursor: pointer;
+    //     }
+
+    //     svg:nth-child(1) {
+    //         background-color: #58024B;
+    //     }
+
+    //     svg:nth-child(2) {
+    //         background-color: #FF3A6E;
+    //         margin-inline: 0.5rem;
+    //     }
+    // }
+
+    table {
+
+        tr {
+
+            th {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+
+            td {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+        }
+    }
+
+    .tableAction {
 
         svg {
             color: #ffffff;
@@ -10,12 +45,13 @@
         }
 
         svg:nth-child(1) {
-            background-color: #58024B;
+            background-color: #3EC9D6;
+            margin-inline: 0.5rem;
         }
 
         svg:nth-child(2) {
             background-color: #FF3A6E;
-            margin-inline: 0.5rem;
+
         }
     }
 }

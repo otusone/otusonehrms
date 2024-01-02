@@ -1,0 +1,38 @@
+.employeeEditModal {
+    background-color: #ffffff;
+    padding: 6%;
+    border-radius: 0.25rem;
+
+    hr {
+        margin-block-start: 1rem;
+        margin-block-end: 2rem;
+    }
+
+    .employeeDetails {
+
+        >div:nth-child(1) {
+            padding-inline-end: 0.25rem;
+
+            >div>div {
+                margin: auto;
+            }
+        }
+
+        >div:nth-child(2) {
+            padding-inline-start: 0.25rem;
+
+            >div>div {
+                margin: auto;
+            }
+        }
+    }
+
+    .modalAction {
+        display: flex;
+        justify-content: right;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}

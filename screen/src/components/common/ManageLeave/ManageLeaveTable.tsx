@@ -17,6 +17,8 @@ import CustomLoader from "../../CustomLoader/CustomLoader";
 
 export interface IManageLeaveTable {
   heading: string;
+  query: any;
+  setQuery: any;
   tableData: any;
   tableTitle: any;
   IsManageLeaveAction: boolean;
@@ -29,6 +31,8 @@ export interface IManageLeaveTable {
 }
 
 const ManageLeaveTable = ({
+  query,
+  setQuery,
   heading,
   tableTitle,
   tableData,
@@ -40,7 +44,7 @@ const ManageLeaveTable = ({
       <TableHead className={styles.tableHead}>
         <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
         <TableCell sx={{ fontSize: 20 }}>
-          <SearchBox />
+          <SearchBox setQuery={setQuery} />
         </TableCell>
       </TableHead>
       <TableContainer>
@@ -49,7 +53,7 @@ const ManageLeaveTable = ({
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "white" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "white", textAlign:"center" }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>
@@ -59,26 +63,31 @@ const ManageLeaveTable = ({
       <TableContainer>
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData.map((item: any, idx: number) => {
+            {tableData && tableData.filter((employee: { name: string }) => {
+              return (
+                query === "" ||
+                (employee.name
+                  ?.toLowerCase()
+                  ?.includes(query.toLowerCase()) ??
+                  false)
+              );
+            }).map((item: any, idx: number) => {
               return (
                 <>
-                  <TableRow key={item.id}>
-                    <TableCell>
+                  <TableRow key={idx}>
+                    <TableCell sx={{textAlign:"center"}}>
                       <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
                     </TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.leave_type}</TableCell>
-                    <TableCell>{item.start_date}</TableCell>
-                    <TableCell>{item.end_date}</TableCell>
-                    <TableCell>{item.total_day}</TableCell>
-                    <TableCell>{item.leave_reason}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell className={styles.tableAction}>
+                    <TableCell sx={{textAlign:"center"}}>{item.name}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.leave_type}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.start_date}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.end_date}</TableCell>
+                    {/* <TableCell>{item.total_day}</TableCell> */}
+                    <TableCell sx={{textAlign:"center"}}>{item.leave_reason}</TableCell>
+                    <TableCell sx={{textAlign:"center"}}>{item.status}</TableCell>
+                    <TableCell sx={{textAlign:"center"}} className={styles.tableAction}>
                       <BiRightArrow
-                        onClick={() => {
-                          console.log(item.emp_id);
-                          handleAction(item.emp_id);
-                        }}
+                        onClick={(() => handleAction(item._id))}
                         fontSize={30}
                       />
                     </TableCell>

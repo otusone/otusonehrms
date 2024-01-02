@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './LeaveModal.module.scss'
 import { Modal, Grid, Typography, Divider, Box } from '@mui/material'
 import SelectField from '../../SelectField/SelectField';
@@ -7,17 +7,24 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { RxCross1 } from "react-icons/rx";
 import data from './data.json';
 
-
-
 export interface ILeaveModal {
     open: boolean;
-    heading:string;
+    heading: string;
     handleClose: any;
     inputData: any;
     handleChange: any;
     handleClick: any;
 }
-const LeaveModal = ({ open,heading, handleClose, inputData, handleChange, handleClick }: ILeaveModal) => {
+const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handleClick }: ILeaveModal) => {
+    const [name, setName] = useState()
+    const [empId, setEmpId] = useState()
+    useEffect(() => {
+        const dataString: any = localStorage.getItem("loginedUser")
+        const data = JSON.parse(dataString)
+        const { name, emp_id } = data;
+        setName(name)
+        setEmpId(emp_id)
+    }, [])
     return (
         <Modal
             open={open}
@@ -31,8 +38,8 @@ const LeaveModal = ({ open,heading, handleClose, inputData, handleChange, handle
                 <Divider />
                 <Grid>
                     <Box display={"flex"} justifyContent={"space-between"}>
-                        <Typography variant='h5' fontWeight={600} fontSize={18}>NAME: <span style={{ fontSize: 18, fontWeight: 500 }}>ANUJ KUMAR</span></Typography>
-                        <Typography fontWeight={600} fontSize={18}>ID: <span style={{ fontSize: 18, fontWeight: 500 }}>EMP00001</span></Typography>
+                        <Typography variant='h5' fontWeight={600} fontSize={18}>NAME: <span style={{ fontSize: 18, fontWeight: 500 }}>{name}</span></Typography>
+                        <Typography fontWeight={600} fontSize={18}>ID: <span style={{ fontSize: 18, fontWeight: 500 }}>{empId}</span></Typography>
                     </Box>
                     <Box display={"flex"}>
                         <InputField

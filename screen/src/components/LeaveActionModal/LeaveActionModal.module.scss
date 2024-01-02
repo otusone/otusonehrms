@@ -1,29 +1,27 @@
 .leaveActionModal {
     border: 1px solid yellow;
-    width: 50%;
     margin: auto;
-    margin-block-start: 4rem;
     background-color: #ffffff;
-    padding: 2%;
+    padding: 8%;
     border-radius: 0.5rem;
 
-    .leaveActionDetails {
+    hr {
+        margin-block-start: 1rem;
+        margin-block-end: 2rem;
+    }
 
-        h5 {
-            color: #293240;
-        }
+    .leaveDetails {}
 
-        span {
-            font-weight: 500;
-            color: #555C67;
-            padding-inline-start: 0.25rem;
+    .actionButton {
+        display: flex;
+        justify-content: right;
+        margin-block-start: 1rem;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
         }
     }
 
-    .leaveActionDetails+div {
-        >div:nth-child(2) {
-            margin-inline-start: 0.5rem;
-        }
-    }
+
 
 }

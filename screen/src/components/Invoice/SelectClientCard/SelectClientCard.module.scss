@@ -1,0 +1,12 @@
+.selectClientCardContainer {
+    border: 0.5px solid #58024B;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    padding-inline: 6%;
+    padding-block: 7%;
+    margin-block: 1rem;
+
+    >div:nth-child(2) {
+        margin-block: 1rem;
+    }
+}

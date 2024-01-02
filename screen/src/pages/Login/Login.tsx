@@ -6,7 +6,13 @@ import LoginForm from '../../components/LoginForm/LoginForm'
 import hr from '../../asserst/images/hr.jpg'
 
 
-const Login = ({ inputData, handleChange, handleLogin }: any) => {
+export interface ILogin {
+    inputData: any;
+    handleChange: any;
+    handleLogin: any;
+
+}
+const Login = ({ inputData, handleChange, handleLogin }: ILogin) => {
 
     return (
         <Grid className={styles.loginContainer}>

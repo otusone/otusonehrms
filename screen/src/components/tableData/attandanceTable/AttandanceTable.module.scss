@@ -1,4 +1,25 @@
 .attandanceTableContainer {
+    .tableHead {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    table {
+
+        tr {
+
+            th {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+
+            td {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+        }
+    }
+
     .tableAction {
 
         svg {

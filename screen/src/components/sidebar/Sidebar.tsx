@@ -13,7 +13,6 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
     const handleMenu = () => {
         setShow(!show)
     }
-
     return (
         <Grid className={styles.sidebarContainer}>
             <Box>

@@ -3,7 +3,7 @@ import styles from './EmpAttendancePage.module.scss'
 import { Grid } from '@mui/material'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { menuData } from './menuData'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from './Dashboard/Dashboard'
 import Attendance from './Attendance/Attendance'
 import Heading from './Heading/Heading'
@@ -27,23 +27,24 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const clock_in = new Date(time).toLocaleTimeString();
     const clock_out = new Date(time).toLocaleTimeString();
 
+    
+
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
         setEmail(userEmail)
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const username = loginedUser.name;
-            const userId = "EMP00001"
-            setName(username)
-            setEmpId(userId)
-            console.log(loginedUser, "userId...")
+            const { name, emp_id } = loginedUser;
+            setName(name)
+            setEmpId(emp_id)
         } else {
             console.log('No logined user found');
         }
 
     }, [])
     const fetchData = async () => {
+        setLoading(true)
         try {
             const result = await axios.get('https://hrms-server-ygpa.onrender.com/empAttendance');
             const data = result.data.EmpAttendanceData;
@@ -65,6 +66,8 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setEmail(empEmail);
         } catch (error) {
             console.error("Error during GET request:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -97,7 +100,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setLoading(false);
         }
     };
-
 
     const handleCheckOut = async () => {
         try {

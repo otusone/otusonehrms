@@ -12,6 +12,7 @@ import Attandance from '../../../pages/Attandance/Attandance'
 import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmployee'
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 import EmpAttendancePage from '../../../pages/EmpAttendancePage/EmpAttendancePage'
+import Invoice from '../../../pages/Invoice/Invoice'
 
 const RoutesPage = () => {
     return (
@@ -28,6 +29,7 @@ const RoutesPage = () => {
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
                 <Route path='emp-attendance' element={<EmpAttendancePage />} />
+                <Route path='invoice' element={<Invoice />} />
             </Routes>
         </Fragment>
     )

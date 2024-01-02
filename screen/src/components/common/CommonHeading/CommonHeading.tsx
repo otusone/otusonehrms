@@ -4,6 +4,7 @@ import { TiDocumentAdd } from 'react-icons/ti';
 import { TiDocument } from 'react-icons/ti';
 import { RiAddFill } from 'react-icons/ri';
 import { Grid, Typography, Box } from '@mui/material'
+import CommonButton from '../CommonButton/CommonButton';
 
 export interface ICommonHeading {
     heading: string;
@@ -14,11 +15,7 @@ const CommonHeading = ({ heading, onClick, IsHeadingAction }: ICommonHeading) =>
     return (
         <Grid className={styles.commonHeadingContainer}>
             <Typography variant='h5'>{heading}</Typography>
-            {IsHeadingAction ? <Box>
-                <TiDocumentAdd fontSize={30} />
-                <TiDocument fontSize={30} />
-                <RiAddFill onClick={onClick} fontSize={30} />
-            </Box> : ''}
+            {IsHeadingAction ? <CommonButton name={"Add Employee"} onClick={onClick} /> : ''}
         </Grid>
     )
 }

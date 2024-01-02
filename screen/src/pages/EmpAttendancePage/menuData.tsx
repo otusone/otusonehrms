@@ -22,17 +22,5 @@ export const menuData = [
         "icon": <AiOutlineUser />,
         "title": "Leaves",
         "link": "/leaves",
-    },
-    {
-        "id": 4,
-        "icon": <PiNote />,
-        "title": "Salary Sheet",
-        "link": "/salary-sheet",
-    },
-    {
-        "id": 5,
-        "icon": <AiOutlineClockCircle />,
-        "title": "Policy",
-        "link": "/policy",
     }
 ]
