@@ -8,8 +8,11 @@ import { MdAdd } from "react-icons/md";
 
 export interface IInvoiceTable {
     handleClick: any;
+    data: any;
+    handleEdit: any;
+    handleDelete: any;
 }
-const InvoiceTable = ({ handleClick }: IInvoiceTable) => {
+const InvoiceTable = ({ data, handleClick, handleEdit, handleDelete }: IInvoiceTable) => {
     return (
         <Grid className={styles.invoiceTableContainer}>
             <TableContainer>
@@ -24,20 +27,24 @@ const InvoiceTable = ({ handleClick }: IInvoiceTable) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell>Item</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Rate</TableCell>
-                            <TableCell>Amount</TableCell>
-                            <TableCell>
-                                <MdEdit fontSize={20} cursor={"pointer"} />
-                                <MdDelete fontSize={20} cursor={"pointer"} />
-                            </TableCell>
-                        </TableRow>
+                        {data && data.map((item: any) => {
+                            return (
+                                <TableRow key={item._id}>
+                                    <TableCell>{item.item}</TableCell>
+                                    <TableCell>{item.quantity}</TableCell>
+                                    <TableCell>{item.gst}</TableCell>
+                                    <TableCell>{item.amount}</TableCell>
+                                    <TableCell>
+                                        <MdEdit fontSize={20} cursor={"pointer"} onClick={(() => handleEdit(item._id))} />
+                                        <MdDelete fontSize={20} cursor={"pointer"} onClick={(() => handleDelete(item._id))} />
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Grid onClick={handleClick} sx={{cursor:"pointer"}}>
+            <Grid onClick={handleClick} sx={{ cursor: "pointer" }}>
                 <Box>
                     <MdAdd fontSize={22} />
                     <Typography textAlign={"center"} sx={{ paddingBlock: 1, }}> Add</Typography>
