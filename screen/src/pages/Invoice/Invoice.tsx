@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Invoice.module.scss'
 import { Divider, Grid, Typography, Box } from '@mui/material'
 import InvoiceInfo from '../../components/Invoice/InvoiceInfo/InvoiceInfo'
@@ -14,9 +14,8 @@ import BilledBy from '../../components/Invoice/BilledBy/BilledBy'
 import BilledTo from '../../components/Invoice/BilledTo/BilledTo'
 import { CgMathPercent } from "react-icons/cg";
 import TaxModal from '../../components/Invoice/Modal/TaxModal/TaxModal'
-import AddItemModule from '../../components/Invoice/Modal/AddItemModule/AddItemModule'
-
-
+import ItemModule from '../../components/Invoice/Modal/ItemModule/ItemModule'
+import axios from 'axios'
 
 
 const Invoice = () => {
@@ -58,15 +57,91 @@ const Invoice = () => {
         ]
     }
 
-    const [open, setOpen] = useState(false)
-    const [addItemModal, setAddModalItem] = useState(false)
-    const handleClick = () => setOpen(!open)
-    const handleAddItem = () => setAddModalItem(!addItemModal)
-    const handleClose = () => { setOpen(false); setAddModalItem(false) };
+    const [open, setOpen] = useState(false);
+    const [editModal, setEditModal] = useState(false);
+    const [inputData, setInputData] = useState({ item: "", amount: "", quantity: "", gst: "", });
+    const [tableData, setTableData] = useState([]);
+    const [selectedItem, setSelectedItem] = useState();
+    const [addItemModal, setAddModalItem] = useState(false);
+    const handleClick = () => setOpen(!open);
+    const handleAddItem = () => setAddModalItem(!addItemModal);
+    const handleClose = () => { setOpen(false); setAddModalItem(false); setEditModal(false) };
+
+    const handleEditModal = async (idx: any) => {
+        setEditModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+        setSelectedItem(idx)
+        const res = await axios.get('https://hrms-server-ygpa.onrender.com/invoice');
+
+        if (res.status === 200) {
+            const resData = res.data.employeeData;
+            const filteredData = resData.filter((employee: any) => employee._id === idx);
+
+            setInputData({
+                item: filteredData[0].item,
+                amount: filteredData[0].amount,
+                quantity: filteredData[0].quantity,
+                gst: filteredData[0].gst,
+            });
+        } else {
+            console.error('Failed to fetch employee data');
+        }
+    };
 
     const handleAddModal = (idx: any) => {
         console.log(idx, "jkl")
     }
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setInputData({ ...inputData, [name]: value })
+    }
+    const getData = async () => {
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/invoice`)
+            const itemData = response.data.employeeData;
+            setTableData(itemData)
+            console.log(response.data.employeeData, "response...")
+
+        } catch (err) {
+            console.error(err)
+        }
+    };
+    const handleCreate = async () => {
+        try {
+            await axios.post(`https://hrms-server-ygpa.onrender.com/invoice/create`, inputData)
+            await getData();
+
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setOpen(false)
+        }
+
+    };
+    const handleEdit = async () => {
+        await axios.put(`https://hrms-server-ygpa.onrender.com/invoice/${selectedItem}`, inputData);
+        await getData();
+    };
+    const handleDelete = async (idx: any) => {
+        const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/invoice/${idx}`);
+        if (response.status === 200) {
+
+            const updatedEmployeeData = tableData.filter(
+                (employee: { _id: any; }) => employee._id !== idx
+            );
+
+            setTableData(updatedEmployeeData);
+            console.log("Employee deleted successfully.");
+        } else {
+            console.error(`Failed to delete employee. Server responded with status ${response.status}`);
+        }
+
+        await getData();
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <Grid className={styles.invoiceContainer}>
             <Typography variant='h4' fontSize={32} fontWeight={500} textAlign={"center"}>Invoice</Typography>
@@ -96,7 +171,12 @@ const Invoice = () => {
                 <SelectBox name={"Rename/Add Fields"} icon={<MdNote fontSize={22} />} handleClick={undefined} />
             </Grid> */}
             <Grid className={styles.invoiceTable}>
-                <InvoiceTable handleClick={handleAddItem} />
+                <InvoiceTable
+                    handleClick={handleAddItem}
+                    data={tableData}
+                    handleEdit={handleEditModal}
+                    handleDelete={handleDelete}
+                />
             </Grid>
             <Grid className={styles.checkout}>
                 <CheckoutCard />
@@ -133,9 +213,21 @@ const Invoice = () => {
                 open={open}
                 handleClose={handleClose}
             />
-            <AddItemModule
+            <ItemModule
                 open={addItemModal}
+                heading='Add New Item'
                 handleClose={handleClose}
+                inputData={inputData}
+                handleChange={handleChange}
+                handleClick={handleCreate}
+            />
+            <ItemModule
+                open={editModal}
+                heading='Edit Item'
+                handleClose={handleClose}
+                inputData={inputData}
+                handleChange={handleChange}
+                handleClick={handleEdit}
             />
         </Grid>
     )

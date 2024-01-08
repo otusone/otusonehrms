@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './AddItemModule.module.scss'
+import styles from './ItemModule.module.scss'
 import { Box, Divider, Grid, Modal, Typography } from '@mui/material'
 import { RxCross2 } from "react-icons/rx";
 import InputField from '../../../inputField/InputField';
@@ -8,9 +8,13 @@ import CommonButton from '../../../common/CommonButton/CommonButton';
 
 export interface IAddItemModule {
     open: boolean;
+    heading: string;
     handleClose: any;
+    inputData: any;
+    handleChange: any;
+    handleClick: any;
 }
-const AddItemModule = ({ open, handleClose }: IAddItemModule) => {
+const AddItemModule = ({ open, heading, handleClose, inputData, handleChange, handleClick }: IAddItemModule) => {
     return (
         <Modal
             open={open}
@@ -18,7 +22,7 @@ const AddItemModule = ({ open, handleClose }: IAddItemModule) => {
         >
             <Grid className={styles.addItemModuleContainer}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Add New Item</Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>{heading}</Typography>
                     <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 4 }} />
@@ -26,43 +30,43 @@ const AddItemModule = ({ open, handleClose }: IAddItemModule) => {
                     <Grid>
                         <InputField
                             label={'Item'}
-                            name={''}
+                            name={'item'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.item}
+                            handleChange={handleChange}
                             type={undefined}
                         />
                         <InputField
                             label={'Amount'}
-                            name={''}
+                            name={'amount'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.amount}
+                            handleChange={handleChange}
                             type={undefined}
                         />
                     </Grid>
                     <Grid>
                         <InputField
                             label={'Quantity'}
-                            name={''}
+                            name={'quantity'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.quantity}
+                            handleChange={handleChange}
                             type={undefined}
                         />
                         <InputField
                             label={'GST'}
-                            name={''}
+                            name={'gst'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
+                            value={inputData.gst}
+                            handleChange={handleChange}
                             type={undefined}
                         />
                     </Grid>
                 </Grid>
                 <Grid className={styles.action}>
                     <CommonButton name={"Close"} onClick={handleClose} />
-                    <CommonButton name={"Create"} />
+                    <CommonButton name={"Create"} onClick={handleClick} />
                 </Grid>
             </Grid>
         </Modal>
