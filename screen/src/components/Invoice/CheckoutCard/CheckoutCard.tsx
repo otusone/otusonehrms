@@ -3,25 +3,13 @@ import styles from './CheckoutCard.module.scss'
 import { Box, Divider, Grid, Typography } from '@mui/material'
 import { MdAdd } from "react-icons/md";
 
+export interface ICheckoutCard {
+    totalAm: any;
+    gts: any;
+    data: any;
+}
+const CheckoutCard = ({ totalAm, gts, data }: ICheckoutCard) => {
 
-const CheckoutCard = () => {
-    const data = [
-        {
-            "id": 1,
-            "icon": <MdAdd fontSize={16} />,
-            "lable": 'Give Item wise Discount'
-        },
-        {
-            "id": 2,
-            "icon": <MdAdd fontSize={16} />,
-            "lable": 'Give Discount on Total'
-        },
-        {
-            "id": 3,
-            "icon": <MdAdd fontSize={16} />,
-            "lable": 'Add Additional Charges'
-        }
-    ]
     return (
         <Grid className={styles.checkoutCardContainer}>
             <Typography variant='h5' fontSize={22} fontWeight={500}>Checkout Details</Typography>
@@ -29,11 +17,11 @@ const CheckoutCard = () => {
             <Box>
                 <Box display={"flex"} justifyContent={"space-between"} sx={{ marginBlock: 1 }}>
                     <Typography variant='h5' fontSize={18} fontWeight={500}>Amount </Typography>
-                    <Typography variant='h5' fontSize={18} fontWeight={500}>1200/- </Typography>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>{totalAm}/- </Typography>
                 </Box>
                 <Box display={"flex"} justifyContent={"space-between"} sx={{ marginBlock: 1 }}>
                     <Typography variant='h5' fontSize={18} fontWeight={500}>GST</Typography>
-                    <Typography variant='h5' fontSize={18} fontWeight={500}>12%</Typography>
+                    <Typography variant='h5' fontSize={18} fontWeight={500}>{gts}%</Typography>
                 </Box>
             </Box>
             <Divider />
@@ -42,7 +30,7 @@ const CheckoutCard = () => {
                     <Typography variant='h5' fontSize={20} fontWeight={600}>Total (INR)</Typography>
                 </Grid>
                 <Grid>
-                    <Typography variant='h5' fontSize={20} fontWeight={600}>₹1</Typography>
+                    <Typography variant='h5' fontSize={20} fontWeight={600}>{data}/-</Typography>
                 </Grid>
             </Grid>
         </Grid>
