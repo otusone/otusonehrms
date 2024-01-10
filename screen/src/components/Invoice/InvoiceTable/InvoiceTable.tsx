@@ -32,8 +32,8 @@ const InvoiceTable = ({ data, handleClick, handleEdit, handleDelete }: IInvoiceT
                                 <TableRow key={item._id}>
                                     <TableCell>{item.item}</TableCell>
                                     <TableCell>{item.quantity}</TableCell>
-                                    <TableCell>{item.gst}</TableCell>
-                                    <TableCell>{item.amount}</TableCell>
+                                    <TableCell>{item.gst}%</TableCell>
+                                    <TableCell>Rs.{item.amount}/-</TableCell>
                                     <TableCell>
                                         <MdEdit fontSize={20} cursor={"pointer"} onClick={(() => handleEdit(item._id))} />
                                         <MdDelete fontSize={20} cursor={"pointer"} onClick={(() => handleDelete(item._id))} />

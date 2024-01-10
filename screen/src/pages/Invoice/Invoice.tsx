@@ -16,6 +16,7 @@ import { CgMathPercent } from "react-icons/cg";
 import TaxModal from '../../components/Invoice/Modal/TaxModal/TaxModal'
 import ItemModule from '../../components/Invoice/Modal/ItemModule/ItemModule'
 import axios from 'axios'
+import { constants } from 'buffer'
 
 
 const Invoice = () => {
@@ -63,6 +64,17 @@ const Invoice = () => {
     const [tableData, setTableData] = useState([]);
     const [selectedItem, setSelectedItem] = useState();
     const [addItemModal, setAddModalItem] = useState(false);
+    const [clientData, setClientData] = useState<any>({
+        businessName: "", country: "", clientIndustry: "", city: "", gstNumber: "", panNumber: "", clientType: "", taxTreatment: "", addressContainer: "", streetAddress: "", state: "", zipCode: "", nickName: "", email: "", uniqueKey: "", phone: ""
+    })
+    const [clientList, setClientList] = useState([]);
+    const [businessName, setBusinessName] = useState([]);
+    const [businessAddress, setBusinessAddress] = useState([]);
+    const [checkoutValue, setCheckOutValue] = useState()
+    const [totalAm, setTotalAm] = useState()
+    const [gts, setGst] = useState()
+
+
     const handleClick = () => setOpen(!open);
     const handleAddItem = () => setAddModalItem(!addItemModal);
     const handleClose = () => { setOpen(false); setAddModalItem(false); setEditModal(false) };
@@ -94,12 +106,47 @@ const Invoice = () => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
     }
+    const handleChangeClientForm = (e: any) => {
+        const { name, value } = e.target;
+        setClientData({ ...clientData, [name]: value })
+
+    }
     const getData = async () => {
         try {
             const response = await axios.get(`https://hrms-server-ygpa.onrender.com/invoice`)
             const itemData = response.data.employeeData;
+            const findGst = itemData[0].gst;
+            setGst(findGst)
+            const onlyAmounts: any[] = itemData.map((item: any) => ({ quantity: item.quantity, amount: (item.quantity * item.amount) }));
+
+            const totalAmount = onlyAmounts.reduce((accumulator: number, currentValue: any) => accumulator + currentValue.amount, 0);
+            const newGst = totalAmount * findGst / 100
+            console.log(newGst, "newGst..")
+            const finalValue = totalAmount + newGst;
+
+            setCheckOutValue(finalValue)
+            setTotalAm(totalAmount)
+
             setTableData(itemData)
-            console.log(response.data.employeeData, "response...")
+            console.log(totalAmount, "totalAmount..")
+        } catch (err) {
+            console.error(err)
+        }
+    };
+    const getClientData = async () => {
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/addClient`)
+            const res = response.data.clientData;
+            if (Array.isArray(res) && res.length > 0) {
+                const lastBusinessName = res[res.length - 1].businessName;
+                const lastBusinessAddress = res[res.length - 1].country;
+                setBusinessName(lastBusinessName)
+                setBusinessAddress(lastBusinessAddress)
+            } else {
+                console.error("clientData is not an array or is empty");
+            }
+
+
 
         } catch (err) {
             console.error(err)
@@ -137,9 +184,21 @@ const Invoice = () => {
 
         await getData();
     };
+    const handleCreateClient = async () => {
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/addClient/create`, clientData)
+
+        } catch (err) {
+            console.error(err)
+
+        } finally {
+            setOpen(false)
+        }
+    }
 
     useEffect(() => {
         getData();
+        getClientData();
     }, []);
 
     return (
@@ -158,18 +217,12 @@ const Invoice = () => {
                     <BilledBy />
                 </Grid>
                 <Grid>
-                    <BilledTo handleClick={handleClick} />
+                    <BilledTo
+                        businessName={businessName}
+                        businessAddress={businessAddress}
+                        handleClick={handleClick} />
                 </Grid>
             </Grid>
-            {/* <Grid className={styles.taxContainer}>
-                <SelectBox name={"Add Tax"} icon={<CgMathPercent fontSize={25} />} handleClick={handleTaxModal} />
-                <Box>
-                    <Typography >Currency*</Typography>
-                    <InvoiceSelect />
-                </Box>
-                <SelectBox name={"Number/Currency Format"} icon={<Md123 fontSize={28} />} handleClick={undefined} />
-                <SelectBox name={"Rename/Add Fields"} icon={<MdNote fontSize={22} />} handleClick={undefined} />
-            </Grid> */}
             <Grid className={styles.invoiceTable}>
                 <InvoiceTable
                     handleClick={handleAddItem}
@@ -179,7 +232,11 @@ const Invoice = () => {
                 />
             </Grid>
             <Grid className={styles.checkout}>
-                <CheckoutCard />
+                <CheckoutCard
+                    totalAm={totalAm}
+                    gts={gts}
+                    data={checkoutValue}
+                />
             </Grid>
 
             <Grid className={styles.addtionalButton}>
@@ -212,7 +269,9 @@ const Invoice = () => {
             <AddClientModal
                 open={open}
                 handleClose={handleClose}
-            />
+                inputData={clientData}
+                handleChange={handleChangeClientForm}
+                handleClick={handleCreateClient} />
             <ItemModule
                 open={addItemModal}
                 heading='Add New Item'

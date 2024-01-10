@@ -14,12 +14,15 @@ import data from './data.json'
 export interface IAddClientModal {
     open: boolean;
     handleClose: any;
+    inputData: any;
+    handleChange: any;
+    handleClick: any;
 }
 
-const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
+const AddClientModal = ({ open, handleClose, inputData, handleChange, handleClick }: IAddClientModal) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
-    const handleChange =
+    const handleChangeAccordion =
         (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
@@ -34,7 +37,7 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                     <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 4 }} />
-                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                <Accordion expanded={expanded === 'panel1'} onChange={handleChangeAccordion('panel1')}>
                     <AccordionSummary
                         expandIcon={<RxCross2 />}
                         aria-controls="panel1bh-content"
@@ -56,35 +59,35 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             <Box>
                                 <InputField
                                     label={'Business Name*'}
-                                    name={''}
+                                    name={'businessName'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.businessName}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                                 <SelectField
                                     title={'Select Country *'}
-                                    data={data.data}
-                                    option={undefined}
-                                    name={''}
-                                    handleChange={undefined}
+                                    data={data.country}
+                                    option={inputData?.country}
+                                    name={'country'}
+                                    handleChange={handleChange}
                                 />
 
                             </Box>
                             <Box>
                                 <SelectField
                                     title={'Client Industry'}
-                                    data={data.data}
-                                    option={undefined}
-                                    name={''}
-                                    handleChange={undefined}
+                                    data={data.industry}
+                                    option={inputData?.clientIndustry}
+                                    name={'clientIndustry'}
+                                    handleChange={handleChange}
                                 />
                                 <InputField
                                     label={'City'}
-                                    name={''}
+                                    name={'city'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.city}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
 
@@ -93,7 +96,7 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                         </Box>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                <Accordion expanded={expanded === 'panel2'} onChange={handleChangeAccordion('panel2')}>
                     <AccordionSummary
                         expandIcon={<RxCross2 />}
                         aria-controls="panel2bh-content"
@@ -109,10 +112,10 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             <Box>
                                 <InputField
                                     label={'Business GSTIN'}
-                                    name={''}
+                                    name={'gstNumber'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.gstNumber}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
 
@@ -120,15 +123,13 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             <Box>
                                 <InputField
                                     label={'Business PAN Number'}
-                                    name={''}
+                                    name={'panNumber'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.gstNumber}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
-
                             </Box>
-
                         </Grid>
                         <Grid sx={{ marginBlock: 2 }}>
                             <Typography variant='h5' fontSize={16} fontWeight={500}>Client Type</Typography>
@@ -144,15 +145,15 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             </FormControl>
                             <SelectField
                                 title={'Tax Treatment'}
-                                data={data.data}
-                                option={undefined}
-                                name={''}
-                                handleChange={undefined}
+                                data={data.taxTreatment}
+                                option={inputData?.taxTreatment}
+                                name={'taxTreatment'}
+                                handleChange={handleChange}
                             />
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                <Accordion expanded={expanded === 'panel3'} onChange={handleChangeAccordion('panel3')}>
                     <AccordionSummary
                         expandIcon={<RxCross2 />}
                         aria-controls="panel3bh-content"
@@ -168,49 +169,49 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             <Grid>
                                 <SelectField
                                     title={'Select Country'}
-                                    data={data.data}
-                                    option={undefined}
-                                    name={''}
-                                    handleChange={undefined}
+                                    data={data.country}
+                                    option={inputData?.country}
+                                    name={'country'}
+                                    handleChange={handleChange}
                                 />
                                 <InputField
                                     label={'City'}
-                                    name={''}
+                                    name={'city'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.city}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                                 <InputField
                                     label={'Street Address'}
-                                    name={''}
+                                    name={'streetAddress'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.streetAddress}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                             </Grid>
                             <Grid>
                                 <SelectField
                                     title={'State / Province'}
-                                    data={data.data}
-                                    option={undefined}
-                                    name={''}
+                                    data={data.state}
+                                    option={inputData?.state}
+                                    name={'state'}
                                     handleChange={undefined}
                                 />
                                 <InputField
                                     label={'Postal Code / Zip Code'}
-                                    name={''}
+                                    name={'zipCode'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.zipCode}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                             </Grid>
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                <Accordion expanded={expanded === 'panel4'} onChange={handleChangeAccordion('panel4')}>
                     <AccordionSummary
                         expandIcon={<RxCross2 />}
                         aria-controls="panel4bh-content"
@@ -226,36 +227,36 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                             <Grid>
                                 <InputField
                                     label={'Business Alias (Nick Name)'}
-                                    name={''}
+                                    name={'nickName'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.nickName}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                                 <InputField
                                     label={'Email'}
-                                    name={''}
+                                    name={'email'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.email}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                             </Grid>
                             <Grid>
                                 <InputField
                                     label={'Unique Key'}
-                                    name={''}
+                                    name={'uniqueKey'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.uniqueKey}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                                 <InputField
                                     label={'Phone Number'}
-                                    name={''}
+                                    name={'phone'}
                                     placeholder={''}
-                                    value={''}
-                                    handleChange={undefined}
+                                    value={inputData?.phone}
+                                    handleChange={handleChange}
                                     type={undefined}
                                 />
                             </Grid>
@@ -264,7 +265,7 @@ const AddClientModal = ({ open, handleClose }: IAddClientModal) => {
                 </Accordion>
                 <Grid className={styles.action}>
                     <CommonButton name={"Close"} onClick={handleClose} />
-                    <CommonButton name={"Create"} />
+                    <CommonButton name={"Create"} onClick={handleClick} />
                 </Grid>
             </Grid>
         </Modal>
