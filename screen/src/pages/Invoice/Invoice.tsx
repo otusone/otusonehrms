@@ -1,83 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Invoice.module.scss'
-import { Divider, Grid, Typography, Box } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 import InvoiceInfo from '../../components/Invoice/InvoiceInfo/InvoiceInfo'
 import logo from '../../asserst/images/logo.png'
-import SelectBox from '../../components/Invoice/SelectBox/SelectBox'
-import InvoiceSelect from '../../components/Invoice/InvoiceSelect/InvoiceSelect'
-import { Md123, MdAdd, MdNote, MdOutlineAttachFile, MdEdit, MdLocalPhone } from "react-icons/md";
+import { MdAdd, MdNote, MdEdit, MdLocalPhone } from "react-icons/md";
 import InvoiceTable from '../../components/Invoice/InvoiceTable/InvoiceTable'
 import CheckoutCard from '../../components/Invoice/CheckoutCard/CheckoutCard'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import AddClientModal from '../../components/Invoice/AddClientModal/AddClientModal'
 import BilledBy from '../../components/Invoice/BilledBy/BilledBy'
 import BilledTo from '../../components/Invoice/BilledTo/BilledTo'
-import { CgMathPercent } from "react-icons/cg";
-import TaxModal from '../../components/Invoice/Modal/TaxModal/TaxModal'
 import ItemModule from '../../components/Invoice/Modal/ItemModule/ItemModule'
 import axios from 'axios'
-import { constants } from 'buffer'
+import TermsConditionModal from '../../components/modal/TermsConditionModal/TermsConditionModal'
+import ContactDetailsModal from '../../components/modal/ContactDetailsModal/ContactDetailsModal'
+import SignatureModal from '../../components/modal/SignatureModal/SignatureModal'
 
 
 const Invoice = () => {
-    const addBTN = {
-        "one": [
-            {
-                "id": 1,
-                "icon": <MdAdd fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Terms & Conditions"
-            },
-            {
-                "id": 2,
-                "icon": <MdNote fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Notes"
-            },
-            {
-                "id": 3,
-                "icon": <MdOutlineAttachFile fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Additional Info"
-            },
-            {
-                "id": 4,
-                "icon": <MdEdit fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Signature"
-            },
-        ],
-        "two": [
-
-            {
-                "id": 5,
-                "icon": <MdNote fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Additional Info"
-            },
-            {
-                "id": 6,
-                "icon": <MdLocalPhone fontSize={20} style={{ color: '#58024B' }} />,
-                "label": "Add Contact Details"
-            }
-        ]
-    }
 
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false);
+    const [tandC, setTandC] = useState(false);
+    const handleTandC = () => setTandC(!tandC);
+    const [notesModal, setNotesModal] = useState(false);
+    const [contactModal, setContactModal] = useState(false);
+    const handleContactModal = () => setContactModal(!contactModal);
+    const [signModal, setSignModal] = useState(false);
+    const handleSignatureModal = () => setSignModal(!signModal)
+
+    const handleNotesModal = () => setNotesModal(!notesModal);
     const [inputData, setInputData] = useState({ item: "", amount: "", quantity: "", gst: "", });
     const [tableData, setTableData] = useState([]);
     const [selectedItem, setSelectedItem] = useState();
     const [addItemModal, setAddModalItem] = useState(false);
+
     const [clientData, setClientData] = useState<any>({
         businessName: "", country: "", clientIndustry: "", city: "", gstNumber: "", panNumber: "", clientType: "", taxTreatment: "", addressContainer: "", streetAddress: "", state: "", zipCode: "", nickName: "", email: "", uniqueKey: "", phone: ""
     })
+    const [tremValue, setTremValue] = useState({ term: "" })
+    const [invoiceNo, setInvoiceNo] = useState({ invoiceNo: "", date: "" })
     const [clientList, setClientList] = useState([]);
     const [businessName, setBusinessName] = useState([]);
     const [businessAddress, setBusinessAddress] = useState([]);
     const [checkoutValue, setCheckOutValue] = useState()
-    const [totalAm, setTotalAm] = useState()
-    const [gts, setGst] = useState()
-
+    const [totalAm, setTotalAm] = useState();
+    const [constactInfo, setConstactInfo] = useState({ name: "", phone: "", email: '' });
+    const [gts, setGst] = useState();
 
     const handleClick = () => setOpen(!open);
     const handleAddItem = () => setAddModalItem(!addItemModal);
-    const handleClose = () => { setOpen(false); setAddModalItem(false); setEditModal(false) };
+    const handleClose = () => { setOpen(false); setAddModalItem(false); setEditModal(false); setTandC(false); setNotesModal(false); setContactModal(false); setSignModal(false) };
 
     const handleEditModal = async (idx: any) => {
         setEditModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
@@ -102,6 +75,12 @@ const Invoice = () => {
     const handleAddModal = (idx: any) => {
         console.log(idx, "jkl")
     }
+    const handleChangeInvoice = (e: any) => {
+        const { name, value } = e.target;
+        setInvoiceNo({ ...invoiceNo, [name]: value })
+
+    }
+    console.log(invoiceNo, "invoiceNo...")
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
@@ -109,7 +88,14 @@ const Invoice = () => {
     const handleChangeClientForm = (e: any) => {
         const { name, value } = e.target;
         setClientData({ ...clientData, [name]: value })
-
+    }
+    const handleChangeTerm = (e: any) => {
+        const { name, value } = e.target;
+        setTremValue({ ...tremValue, [name]: value })
+    }
+    const handleChangeContact = (e: any) => {
+        const { name, value } = e.target;
+        setConstactInfo({ ...constactInfo, [name]: value })
     }
     const getData = async () => {
         try {
@@ -206,7 +192,10 @@ const Invoice = () => {
             <Typography variant='h4' fontSize={32} fontWeight={500} textAlign={"center"}>Invoice</Typography>
             <Grid container className={styles.invoiceDetails}>
                 <Grid>
-                    <InvoiceInfo />
+                    <InvoiceInfo
+                        data={invoiceNo}
+                        handleChange={handleChangeInvoice}
+                    />
                 </Grid>
                 <Grid sx={{ marginInlineEnd: 4 }}>
                     <img src={logo} width={190} height={110} alt='logo' />
@@ -241,24 +230,22 @@ const Invoice = () => {
 
             <Grid className={styles.addtionalButton}>
                 <Box>
-                    {addBTN.one?.map((item) => {
-                        return (
-                            <Grid key={item.id} display={"flex"} onClick={(() => handleAddModal(item.id))}>
-                                <Box>{item.icon}</Box>
-                                <Typography sx={{ paddingInlineStart: 1 }}>{item.label}</Typography>
-                            </Grid>
-                        )
-                    })}
-                </Box>
-                <Box>
-                    {addBTN.two.map((item) => {
-                        return (
-                            <Grid key={item.id} display={"flex"}>
-                                <Box>{item.icon}</Box>
-                                <Typography>{item.label}</Typography>
-                            </Grid>
-                        )
-                    })}
+                    <Grid display={"flex"} onClick={handleTandC}>
+                        <Box><MdAdd fontSize={20} style={{ color: '#58024B' }} /></Box>
+                        <Typography sx={{ paddingInlineStart: 1 }}>Add Terms & Conditions</Typography>
+                    </Grid>
+                    <Grid display={"flex"} onClick={handleNotesModal}>
+                        <Box><MdNote fontSize={20} style={{ color: '#58024B' }} /></Box>
+                        <Typography sx={{ paddingInlineStart: 1 }}>Add Notes</Typography>
+                    </Grid>
+                    <Grid display={"flex"} onClick={handleContactModal}>
+                        <Box><MdLocalPhone fontSize={20} style={{ color: '#58024B' }} /></Box>
+                        <Typography sx={{ paddingInlineStart: 1 }}>Add Contact Details</Typography>
+                    </Grid>
+                    <Grid display={"flex"} onClick={handleSignatureModal}>
+                        <Box><MdEdit fontSize={20} style={{ color: '#58024B' }} /></Box>
+                        <Typography sx={{ paddingInlineStart: 1 }}>Add Signature</Typography>
+                    </Grid>
                 </Box>
 
             </Grid>
@@ -287,6 +274,30 @@ const Invoice = () => {
                 inputData={inputData}
                 handleChange={handleChange}
                 handleClick={handleEdit}
+            />
+            <TermsConditionModal
+                heading={"Add Terms & Conditions"}
+                open={tandC}
+                handleClose={handleClose}
+                tremValue={tremValue}
+                handleChange={handleChangeTerm}
+            />
+            <TermsConditionModal
+                heading={"Additional Notes"}
+                open={notesModal}
+                handleClose={handleClose}
+                tremValue={tremValue}
+                handleChange={handleChangeTerm}
+            />
+            <ContactDetailsModal
+                open={contactModal}
+                handleClose={handleClose}
+                constactInfo={constactInfo}
+                handleChange={handleChangeContact}
+            />
+            <SignatureModal
+                open={signModal}
+                handleClose={handleClose}
             />
         </Grid>
     )
