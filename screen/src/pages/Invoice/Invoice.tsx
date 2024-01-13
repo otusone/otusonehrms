@@ -15,13 +15,14 @@ import axios from 'axios'
 import TermsConditionModal from '../../components/modal/TermsConditionModal/TermsConditionModal'
 import ContactDetailsModal from '../../components/modal/ContactDetailsModal/ContactDetailsModal'
 import SignatureModal from '../../components/modal/SignatureModal/SignatureModal'
+import { AnyAction } from '@reduxjs/toolkit'
 
 
 const Invoice = () => {
 
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false);
-    const [tandC, setTandC] = useState(false);
+    const [tandC, setTandC] = useState(true);
     const handleTandC = () => setTandC(!tandC);
     const [notesModal, setNotesModal] = useState(false);
     const [contactModal, setContactModal] = useState(false);
@@ -38,7 +39,9 @@ const Invoice = () => {
     const [clientData, setClientData] = useState<any>({
         businessName: "", country: "", clientIndustry: "", city: "", gstNumber: "", panNumber: "", clientType: "", taxTreatment: "", addressContainer: "", streetAddress: "", state: "", zipCode: "", nickName: "", email: "", uniqueKey: "", phone: ""
     })
-    const [tremValue, setTremValue] = useState({ term: "" })
+    const [tremValue, setTremValue] = useState<any>({ term: "" })
+    const [tremData, setTremData] = useState()
+
     const [invoiceNo, setInvoiceNo] = useState({ invoiceNo: "", date: "" })
     const [clientList, setClientList] = useState([]);
     const [businessName, setBusinessName] = useState([]);
@@ -181,10 +184,28 @@ const Invoice = () => {
             setOpen(false)
         }
     }
+    const getTermsData = async () => {
+        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/term`)
+        setTremData(response.data.termsData)
+
+
+    }
+    const handleCrateTerm = async () => {
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/term/create`, tremValue)
+            await getTermsData();
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setTremValue("")
+        }
+
+    }
 
     useEffect(() => {
         getData();
         getClientData();
+        getTermsData();
     }, []);
 
     return (
@@ -281,6 +302,8 @@ const Invoice = () => {
                 handleClose={handleClose}
                 tremValue={tremValue}
                 handleChange={handleChangeTerm}
+                handleClick={handleCrateTerm}
+                tremData={tremData}
             />
             <TermsConditionModal
                 heading={"Additional Notes"}
@@ -288,6 +311,8 @@ const Invoice = () => {
                 handleClose={handleClose}
                 tremValue={tremValue}
                 handleChange={handleChangeTerm}
+                handleClick={handleClick}
+                tremData={tremData}
             />
             <ContactDetailsModal
                 open={contactModal}
