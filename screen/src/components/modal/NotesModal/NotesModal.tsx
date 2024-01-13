@@ -38,7 +38,7 @@ const NotesModal = ({ open, heading, handleClose, noteValue, noteData, handleCha
                 <Grid className={styles.termDetails}>
                     <InputField
                         label={''}
-                        name={'term'}
+                        name={'note'}
                         placeholder={'Write terms and conditions hare.'}
                         value={noteValue.note}
                         handleChange={handleChange}

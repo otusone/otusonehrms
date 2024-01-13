@@ -13,6 +13,7 @@ import CreateNewEmployee from '../../../pages/CreateNewEmployee/CreateNewEmploye
 import EditAddedEmployee from '../../../pages/EditAddedEmployee/EditAddedEmployee'
 import EmpAttendancePage from '../../../pages/EmpAttendancePage/EmpAttendancePage'
 import Invoice from '../../../pages/Invoice/Invoice'
+import InvoicePreview from '../../../pages/invoicePreview/invoicePreview'
 
 const RoutesPage = () => {
     return (
@@ -30,6 +31,7 @@ const RoutesPage = () => {
                 <Route path='/ticket' element={<Ticket />} />
                 <Route path='emp-attendance' element={<EmpAttendancePage />} />
                 <Route path='invoice' element={<Invoice />} />
+                <Route path='invoice-preview' element={<InvoicePreview />} />
             </Routes>
         </Fragment>
     )

@@ -16,13 +16,14 @@ import TermsConditionModal from '../../components/modal/TermsConditionModal/Term
 import ContactDetailsModal from '../../components/modal/ContactDetailsModal/ContactDetailsModal'
 import SignatureModal from '../../components/modal/SignatureModal/SignatureModal'
 import { AnyAction } from '@reduxjs/toolkit'
+import NotesModal from '../../components/modal/NotesModal/NotesModal'
 
 
 const Invoice = () => {
 
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false);
-    const [tandC, setTandC] = useState(true);
+    const [tandC, setTandC] = useState(false);
     const handleTandC = () => setTandC(!tandC);
     const [notesModal, setNotesModal] = useState(false);
     const [contactModal, setContactModal] = useState(false);
@@ -40,7 +41,9 @@ const Invoice = () => {
         businessName: "", country: "", clientIndustry: "", city: "", gstNumber: "", panNumber: "", clientType: "", taxTreatment: "", addressContainer: "", streetAddress: "", state: "", zipCode: "", nickName: "", email: "", uniqueKey: "", phone: ""
     })
     const [tremValue, setTremValue] = useState<any>({ term: "" })
-    const [tremData, setTremData] = useState()
+    const [tremData, setTremData] = useState();
+    const [noteValue, setNoteValue] = useState<any>({ note: "" });
+    const [noteData, setNoteData] = useState();
 
     const [invoiceNo, setInvoiceNo] = useState({ invoiceNo: "", date: "" })
     const [clientList, setClientList] = useState([]);
@@ -49,6 +52,8 @@ const Invoice = () => {
     const [checkoutValue, setCheckOutValue] = useState()
     const [totalAm, setTotalAm] = useState();
     const [constactInfo, setConstactInfo] = useState({ name: "", phone: "", email: '' });
+    const [constactData, setConstactData] = useState();
+
     const [gts, setGst] = useState();
 
     const handleClick = () => setOpen(!open);
@@ -83,7 +88,6 @@ const Invoice = () => {
         setInvoiceNo({ ...invoiceNo, [name]: value })
 
     }
-    console.log(invoiceNo, "invoiceNo...")
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
@@ -201,11 +205,28 @@ const Invoice = () => {
         }
 
     }
+    const handleChangeNote = (e: any) => {
+        const { name, value } = e.target;
+        setNoteValue({ ...noteValue, [name]: value })
+    }
+    const getNoteData = async () => {
+        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/note`);
+        setNoteData(response.data.notesData)
+    }
+    const handleClickNotes = async () => {
+        await axios.post(`https://hrms-server-ygpa.onrender.com/note/create`, noteValue);
+        await getNoteData();
+    };
+
+    const handleCreateContact = async () => {
+        await axios.post(`https://hrms-server-ygpa.onrender.com/contactDetail/create`, constactInfo)
+    }
 
     useEffect(() => {
         getData();
         getClientData();
         getTermsData();
+        getNoteData();
     }, []);
 
     return (
@@ -305,20 +326,21 @@ const Invoice = () => {
                 handleClick={handleCrateTerm}
                 tremData={tremData}
             />
-            <TermsConditionModal
-                heading={"Additional Notes"}
+            <NotesModal
                 open={notesModal}
+                heading={'Additional Notes'}
                 handleClose={handleClose}
-                tremValue={tremValue}
-                handleChange={handleChangeTerm}
-                handleClick={handleClick}
-                tremData={tremData}
+                noteValue={noteValue}
+                noteData={noteData}
+                handleChange={handleChangeNote}
+                handleClick={handleClickNotes}
             />
             <ContactDetailsModal
                 open={contactModal}
                 handleClose={handleClose}
                 constactInfo={constactInfo}
                 handleChange={handleChangeContact}
+                handleClick={handleCreateContact}
             />
             <SignatureModal
                 open={signModal}
