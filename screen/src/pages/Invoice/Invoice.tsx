@@ -8,18 +8,21 @@ import InvoiceTable from '../../components/Invoice/InvoiceTable/InvoiceTable'
 import CheckoutCard from '../../components/Invoice/CheckoutCard/CheckoutCard'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import AddClientModal from '../../components/Invoice/AddClientModal/AddClientModal'
-import BilledBy from '../../components/Invoice/BilledBy/BilledBy'
-import BilledTo from '../../components/Invoice/BilledTo/BilledTo'
+import BilledInfoCard from '../../components/Invoice/BilledInfoCard/BilledInfoCard'
 import ItemModule from '../../components/Invoice/Modal/ItemModule/ItemModule'
 import axios from 'axios'
 import TermsConditionModal from '../../components/modal/TermsConditionModal/TermsConditionModal'
 import ContactDetailsModal from '../../components/modal/ContactDetailsModal/ContactDetailsModal'
 import SignatureModal from '../../components/modal/SignatureModal/SignatureModal'
-import { AnyAction } from '@reduxjs/toolkit'
 import NotesModal from '../../components/modal/NotesModal/NotesModal'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
+import AddClientCard from '../../components/Invoice/AddClientCard/AddClientCard'
 
 
 const Invoice = () => {
+    const navigate = useNavigate()
 
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -146,9 +149,16 @@ const Invoice = () => {
         }
     };
     const handleCreate = async () => {
+        if (inputData.item === "" || inputData.quantity === "" || inputData.gst === "" || inputData.amount == "") {
+            toast.error("Please fill the all input field!")
+            return;
+        }
         try {
-            await axios.post(`https://hrms-server-ygpa.onrender.com/invoice/create`, inputData)
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/invoice/create`, inputData)
             await getData();
+            if (response.status === 200) {
+                toast.success("Your item added successfully!")
+            }
 
         } catch (err) {
             console.error(err)
@@ -158,8 +168,21 @@ const Invoice = () => {
 
     };
     const handleEdit = async () => {
-        await axios.put(`https://hrms-server-ygpa.onrender.com/invoice/${selectedItem}`, inputData);
-        await getData();
+        if (inputData.item === "" || inputData.quantity === "" || inputData.gst === "" || inputData.amount == "") {
+            toast.error("Please fill the all input field!")
+            return;
+        }
+        try {
+            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/invoice/${selectedItem}`, inputData);
+            await getData();
+            if (response.status === 200) {
+                toast.success("Your item updated successfully!")
+            } else {
+                toast.error("Something wronge!")
+            }
+        } catch (err) {
+            console.error(err)
+        }
     };
     const handleDelete = async (idx: any) => {
         const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/invoice/${idx}`);
@@ -170,9 +193,9 @@ const Invoice = () => {
             );
 
             setTableData(updatedEmployeeData);
-            console.log("Employee deleted successfully.");
+            toast.success("Employee deleted successfully.");
         } else {
-            console.error(`Failed to delete employee. Server responded with status ${response.status}`);
+            toast.error(`Failed to delete employee. Server responded with status ${response.status}`);
         }
 
         await getData();
@@ -192,12 +215,18 @@ const Invoice = () => {
         const response = await axios.get(`https://hrms-server-ygpa.onrender.com/term`)
         setTremData(response.data.termsData)
 
-
     }
     const handleCrateTerm = async () => {
+        if (tremValue.term === '') {
+            toast.error("Please fill the input filed!")
+            return;
+        }
         try {
             const response = await axios.post(`https://hrms-server-ygpa.onrender.com/term/create`, tremValue)
             await getTermsData();
+            if (response.status === 200) {
+                toast.success("Your new terms & conditions added successfully")
+            }
         } catch (err) {
             console.log(err)
         } finally {
@@ -214,12 +243,35 @@ const Invoice = () => {
         setNoteData(response.data.notesData)
     }
     const handleClickNotes = async () => {
-        await axios.post(`https://hrms-server-ygpa.onrender.com/note/create`, noteValue);
-        await getNoteData();
+        if (noteValue.note === '') {
+            toast.error("Please fill the input filed!")
+            return;
+        }
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/note/create`, noteValue);
+            await getNoteData();
+            if (response.status === 200) {
+                toast.success("Your new note added successfully")
+            }
+        } catch (err) {
+            console.error(err)
+        }
     };
 
     const handleCreateContact = async () => {
-        await axios.post(`https://hrms-server-ygpa.onrender.com/contactDetail/create`, constactInfo)
+        if (constactInfo.name === '' || constactInfo.email === "" || constactInfo.phone === "") {
+            toast.error("Please fill the input filed!")
+            return;
+        }
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/contactDetail/create`, constactInfo)
+            if (response.status === 200) {
+                toast.success("Your address added successfully")
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -245,13 +297,24 @@ const Invoice = () => {
             </Grid>
             <Grid container className={styles.billedInfo}>
                 <Grid>
-                    <BilledBy />
+                    <BilledInfoCard
+                        heading={'Your Details'}
+                        businessName={'OTUSONE LLC'}
+                        address={'Noida, Up, India'}
+                    />
                 </Grid>
                 <Grid>
-                    <BilledTo
-                        businessName={businessName}
-                        businessAddress={businessAddress}
-                        handleClick={handleClick} />
+                    {1 + 1 === 12 ?
+                        <BilledInfoCard
+                            heading={'Client Details'}
+                            businessName={'XYZ Pvt .Ltd'}
+                            address={''}
+                        /> :
+                        <AddClientCard
+                            heading={'Client Details'}
+                            handleClick={handleClick}
+                        />
+                    }
                 </Grid>
             </Grid>
             <Grid className={styles.invoiceTable}>
@@ -292,8 +355,8 @@ const Invoice = () => {
 
             </Grid>
             <Grid className={styles.acction}>
-                <CommonButton name={"Save as Draft"} />
-                <CommonButton name={"Save and Continue"} />
+                <CommonButton name={"Save as Draft"} onClick={(() => navigate('/'))} />
+                <CommonButton name={"Save and Continue"} onClick={(() => navigate('/invoice-preview'))} />
             </Grid>
             <AddClientModal
                 open={open}
@@ -346,6 +409,7 @@ const Invoice = () => {
                 open={signModal}
                 handleClose={handleClose}
             />
+            <ToastContainer />
         </Grid>
     )
 }

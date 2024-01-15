@@ -97,6 +97,15 @@
                 }
             }
         }
+    }
+}
 
+.action {
+    display: flex;
+    justify-content: right;
+    margin-block-start: 1rem;
+
+    >div:nth-child(1) {
+        margin-inline-end: 0.5rem;
     }
 }
