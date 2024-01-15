@@ -1,0 +1,22 @@
+.billedByContainer {
+    border: 1px solid #58024B;
+    padding: 6%;
+    background-color: #F5F5F5;
+    border-radius: 0.5rem;
+    height: 18rem;
+
+    .addClientButton {
+        border: 1px solid #58024B;
+        padding: 5%;
+        margin-block-start: 1rem;
+        border-radius: 0.5rem;
+        background-color: #ffffff;
+        height: 75%;
+
+        h5+div {
+            width: fit-content;
+            margin-inline: auto;
+            margin-block-start: 2rem;
+        }
+    }
+}

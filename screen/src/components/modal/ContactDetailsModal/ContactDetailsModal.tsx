@@ -11,8 +11,9 @@ export interface IContactDetailsModal {
     constactInfo: any;
     handleClose: any;
     handleChange: any;
+    handleClick: any;
 }
-const ContactDetailsModal = ({ open, constactInfo, handleClose, handleChange }: IContactDetailsModal) => {
+const ContactDetailsModal = ({ open, constactInfo, handleClose, handleChange, handleClick }: IContactDetailsModal) => {
     return (
         <Modal
             open={open}
@@ -52,7 +53,7 @@ const ContactDetailsModal = ({ open, constactInfo, handleClose, handleChange }: 
                 </Grid>
                 <Grid className={styles.action}>
                     <CommonButton name={"Close"} onClick={handleClose} />
-                    <CommonButton name={"Add"} />
+                    <CommonButton name={"Add"} onClick={handleClick} />
                 </Grid>
             </Grid>
         </Modal>
