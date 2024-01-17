@@ -44,7 +44,7 @@ const Invoice = () => {
     const [noteValue, setNoteValue] = useState({ note: '' })
     const [noteData, setNoteData] = useState<any>([]);
     const [constactValue, setConstactValue] = useState({ name: '', email: "", phone: '' })
-    const [clientValue, setClientValue] = useState({ businessName: "", country: "", industry: "", city: "" })
+    const [clientValue, setClientValue] = useState({ businessName: "", country: "", clientIndustry: "", city: "" })
     const [clientDetails, setclientDetails] = useState<any>([]);
     const handleChangeInvoice = (e: any) => {
         const { name, value } = e.target;
@@ -70,23 +70,63 @@ const Invoice = () => {
         const { name, value } = e.target;
         setConstactValue({ ...constactValue, [name]: value })
     }
-    const handleCreateClient = () => {
-        setclientDetails(clientValue)
-    }
-    const handleCreateItem = () => {
-        const newItemData = itemValue;
-        setItemData((prevData: any) => [...prevData, newItemData])
+    const handleCreateClient = async () => {
 
-    }
-    console.log(itemData, "itemData...")
+        try {
+            if (clientValue.businessName === "" || clientValue.city === "" || clientValue.country === "" || clientValue.clientIndustry === "") {
+                toast.error("Please fill client details!");
+                return;
+            }
+            await setclientDetails(clientValue);
+            toast.success("Client added successfully!");
+            setClientModal(false)
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleCreateItem = async () => {
+        try {
+            if (itemValue.amount === '' || itemValue.gst === "" || itemValue.item === "" || itemValue.quantity === "") {
+                toast.error("Please all the input field!")
+                return;
+            }
+            const newItemData = itemValue;
+            await setItemData((prevData: any) => [...prevData, newItemData])
+            toast.success("Item add successfuly!")
+            setAddItemModal(false)
+        } catch (err) {
+            console.log(err)
+        }
+    };
     const handleDeleteItem = () => { };
-    const handleCrateTerm = () => {
-        const newTermData = tremValue;
-        setTermData((prevData: any) => [...prevData, newTermData]);
+    const handleCrateTerm = async () => {
+        try {
+            if (tremValue.term === "") {
+                toast.error("Please fill input field!")
+                return;
+            }
+            const newTermData = tremValue;
+            setTermData((prevData: any) => [...prevData, newTermData]);
+            toast.success("A new terms and conditions added successfully");
+            setTandC(false)
+        } catch (err) {
+            console.error(err)
+        }
     };
     const handleClickNotes = () => {
-        const newNoteData = noteValue;
-        setNoteData((prevData: any) => [...prevData, newNoteData])
+        try {
+            if (noteValue.note === "") {
+                toast.error("Please fill input field!")
+                return;
+            }
+            const newNoteData = noteValue;
+            setNoteData((prevData: any) => [...prevData, newNoteData])
+            toast.success("A new note added successfully");
+
+            setNotesModal(false)
+        } catch (err) {
+            console.log(err)
+        }
     };
 
     const invoiceData = [{
@@ -94,6 +134,22 @@ const Invoice = () => {
     }];
 
     const handleSaveandContinue = async () => {
+        if (invoiceValue.invoiceNo === '' || invoiceValue.data) {
+            toast.error("Please fill invoice number and date")
+            return;
+        } else if (clientValue.businessName === '', clientValue.city === '', clientValue.country === '', clientValue.clientIndustry === '') {
+            toast.error("Please fill client details!")
+            return;
+        } else if (itemValue.amount === '', itemValue.gst === '', itemValue.item === '', itemValue.quantity === '') {
+            toast.error("Please fill item details!")
+            return;
+        } else if (tremValue.term === '') {
+            toast.error("Please terms and conditions!")
+            return;
+        } else if (noteValue.note === '') {
+            toast.error("Please additional note!")
+            return;
+        }
         try {
             localStorage.setItem("invoiceDetails", JSON.stringify(invoiceData))
             await navigation('/invoice-preview')
@@ -102,7 +158,6 @@ const Invoice = () => {
             console.log(err)
         }
     }
-    const tableData: never[] = [];
 
     return (
         <Grid className={styles.invoiceContainer}>
@@ -122,7 +177,7 @@ const Invoice = () => {
                 <Grid>
                     <BilledInfoCard
                         heading={'Your Details'}
-                        businessName={'OTUSONE LLC'}
+                        businessName={'OTUSONE LLP'}
                         address={'Noida, Up, India'}
                     />
                 </Grid>
@@ -148,13 +203,13 @@ const Invoice = () => {
                     handleDelete={handleDeleteItem}
                 />
             </Grid>
-            {/* <Grid className={styles.checkout}>
-                <CheckoutCard
+            <Grid className={styles.checkout}>
+                {/* <CheckoutCard
                     totalAm={totalAm}
                     gts={gts}
                     data={checkoutValue}
-                />
-            </Grid> */}
+                /> */}
+            </Grid>
 
             <Grid className={styles.addtionalButton}>
                 <Box>

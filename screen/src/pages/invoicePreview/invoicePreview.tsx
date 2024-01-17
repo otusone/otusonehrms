@@ -40,9 +40,11 @@ const InvoicePreview = () => {
             const itemData = tableData;
             const onlyAmounts: any[] = itemData.map((item: any) => ({ quantity: item.quantity, amount: (item.quantity * item.amount) }));
             const totalAmount = onlyAmounts.reduce((accumulator: number, currentValue: any) => accumulator + currentValue.amount, 0);
+            console.log(totalAmount, "totalAmount..")
             if (gst !== undefined) {
                 const newGst = totalAmount * gst / 100;
                 const finalValue = totalAmount + newGst;
+                console.log(finalValue, "finalValue..")
                 setCheckOutValue(finalValue)
                 setTotalAm(totalAmount)
                 setTableData(itemData)
