@@ -20,266 +20,144 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 import AddClientCard from '../../components/Invoice/AddClientCard/AddClientCard'
 
-
 const Invoice = () => {
-    const navigate = useNavigate()
-
-    const [open, setOpen] = useState(false);
-    const [editModal, setEditModal] = useState(false);
-    const [tandC, setTandC] = useState(false);
-    const handleTandC = () => setTandC(!tandC);
-    const [notesModal, setNotesModal] = useState(false);
-    const [contactModal, setContactModal] = useState(false);
-    const handleContactModal = () => setContactModal(!contactModal);
-    const [signModal, setSignModal] = useState(false);
+    const navigation = useNavigate()
+    const [clientModal, setClientModal] = useState(false)
+    const [addItemModal, setAddItemModal] = useState(false)
+    const [tandC, setTandC] = useState(false)
+    const [notesModal, setNotesModal] = useState(false)
+    const [contactModal, setContactModal] = useState(false)
+    const [signModal, setSignModal] = useState(false)
+    const handleClientModal = () => setClientModal(!clientModal)
+    const handleItemModal = () => setAddItemModal(!addItemModal)
+    const handleTandCModal = () => setTandC(!tandC)
+    const handleEditModal = () => { }
+    const handleClose = () => { setClientModal(false); setAddItemModal(false); setTandC(false); setNotesModal(false); setContactModal(false); setSignModal(false) }
+    const handleNotesModal = () => setNotesModal(!notesModal)
+    const handleContactModal = () => setContactModal(!contactModal)
     const handleSignatureModal = () => setSignModal(!signModal)
-
-    const handleNotesModal = () => setNotesModal(!notesModal);
-    const [inputData, setInputData] = useState({ item: "", amount: "", quantity: "", gst: "", });
-    const [tableData, setTableData] = useState([]);
-    const [selectedItem, setSelectedItem] = useState();
-    const [addItemModal, setAddModalItem] = useState(false);
-
-    const [clientData, setClientData] = useState<any>({
-        businessName: "", country: "", clientIndustry: "", city: "", gstNumber: "", panNumber: "", clientType: "", taxTreatment: "", addressContainer: "", streetAddress: "", state: "", zipCode: "", nickName: "", email: "", uniqueKey: "", phone: ""
-    })
-    const [tremValue, setTremValue] = useState<any>({ term: "" })
-    const [tremData, setTremData] = useState();
-    const [noteValue, setNoteValue] = useState<any>({ note: "" });
-    const [noteData, setNoteData] = useState();
-
-    const [invoiceNo, setInvoiceNo] = useState({ invoiceNo: "", date: "" })
-    const [clientList, setClientList] = useState([]);
-    const [businessName, setBusinessName] = useState([]);
-    const [businessAddress, setBusinessAddress] = useState([]);
-    const [checkoutValue, setCheckOutValue] = useState()
-    const [totalAm, setTotalAm] = useState();
-    const [constactInfo, setConstactInfo] = useState({ name: "", phone: "", email: '' });
-    const [constactData, setConstactData] = useState();
-
-    const [gts, setGst] = useState();
-
-    const handleClick = () => setOpen(!open);
-    const handleAddItem = () => setAddModalItem(!addItemModal);
-    const handleClose = () => { setOpen(false); setAddModalItem(false); setEditModal(false); setTandC(false); setNotesModal(false); setContactModal(false); setSignModal(false) };
-
-    const handleEditModal = async (idx: any) => {
-        setEditModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-        setSelectedItem(idx)
-        const res = await axios.get('https://hrms-server-ygpa.onrender.com/invoice');
-
-        if (res.status === 200) {
-            const resData = res.data.employeeData;
-            const filteredData = resData.filter((employee: any) => employee._id === idx);
-
-            setInputData({
-                item: filteredData[0].item,
-                amount: filteredData[0].amount,
-                quantity: filteredData[0].quantity,
-                gst: filteredData[0].gst,
-            });
-        } else {
-            console.error('Failed to fetch employee data');
-        }
-    };
-
-    const handleAddModal = (idx: any) => {
-        console.log(idx, "jkl")
-    }
+    const [invoiceValue, setInvoiceValue] = useState<any>({ invoiceNo: "", date: "" })
+    const [itemValue, setItemValue] = useState({ item: "", quantity: "", gst: "", amount: "" })
+    const [itemData, setItemData] = useState<any>([]);
+    const [tremValue, setTremValue] = useState({ term: '' })
+    const [termData, setTermData] = useState<any>([]);
+    const [noteValue, setNoteValue] = useState({ note: '' })
+    const [noteData, setNoteData] = useState<any>([]);
+    const [constactValue, setConstactValue] = useState({ name: '', email: "", phone: '' })
+    const [clientValue, setClientValue] = useState({ businessName: "", country: "", clientIndustry: "", city: "" })
+    const [clientDetails, setclientDetails] = useState<any>([]);
     const handleChangeInvoice = (e: any) => {
         const { name, value } = e.target;
-        setInvoiceNo({ ...invoiceNo, [name]: value })
-
+        setInvoiceValue({ ...invoiceValue, [name]: value })
     }
-    const handleChange = (e: any) => {
+    const handleChangeClientValue = (e: any) => {
         const { name, value } = e.target;
-        setInputData({ ...inputData, [name]: value })
+        setClientValue({ ...clientValue, [name]: value })
     }
-    const handleChangeClientForm = (e: any) => {
+    const handleChangeItem = (e: any) => {
         const { name, value } = e.target;
-        setClientData({ ...clientData, [name]: value })
+        setItemValue({ ...itemValue, [name]: value })
     }
     const handleChangeTerm = (e: any) => {
         const { name, value } = e.target;
         setTremValue({ ...tremValue, [name]: value })
     }
-    const handleChangeContact = (e: any) => {
-        const { name, value } = e.target;
-        setConstactInfo({ ...constactInfo, [name]: value })
-    }
-    const getData = async () => {
-        try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/invoice`)
-            const itemData = response.data.employeeData;
-            const findGst = itemData[0].gst;
-            setGst(findGst)
-            const onlyAmounts: any[] = itemData.map((item: any) => ({ quantity: item.quantity, amount: (item.quantity * item.amount) }));
-
-            const totalAmount = onlyAmounts.reduce((accumulator: number, currentValue: any) => accumulator + currentValue.amount, 0);
-            const newGst = totalAmount * findGst / 100
-            console.log(newGst, "newGst..")
-            const finalValue = totalAmount + newGst;
-
-            setCheckOutValue(finalValue)
-            setTotalAm(totalAmount)
-
-            setTableData(itemData)
-            console.log(totalAmount, "totalAmount..")
-        } catch (err) {
-            console.error(err)
-        }
-    };
-    const getClientData = async () => {
-        try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/addClient`)
-            const res = response.data.clientData;
-            if (Array.isArray(res) && res.length > 0) {
-                const lastBusinessName = res[res.length - 1].businessName;
-                const lastBusinessAddress = res[res.length - 1].country;
-                setBusinessName(lastBusinessName)
-                setBusinessAddress(lastBusinessAddress)
-            } else {
-                console.error("clientData is not an array or is empty");
-            }
-
-
-
-        } catch (err) {
-            console.error(err)
-        }
-    };
-    const handleCreate = async () => {
-        if (inputData.item === "" || inputData.quantity === "" || inputData.gst === "" || inputData.amount == "") {
-            toast.error("Please fill the all input field!")
-            return;
-        }
-        try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/invoice/create`, inputData)
-            await getData();
-            if (response.status === 200) {
-                toast.success("Your item added successfully!")
-            }
-
-        } catch (err) {
-            console.error(err)
-        } finally {
-            setOpen(false)
-        }
-
-    };
-    const handleEdit = async () => {
-        if (inputData.item === "" || inputData.quantity === "" || inputData.gst === "" || inputData.amount == "") {
-            toast.error("Please fill the all input field!")
-            return;
-        }
-        try {
-            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/invoice/${selectedItem}`, inputData);
-            await getData();
-            if (response.status === 200) {
-                toast.success("Your item updated successfully!")
-            } else {
-                toast.error("Something wronge!")
-            }
-        } catch (err) {
-            console.error(err)
-        }
-    };
-    const handleDelete = async (idx: any) => {
-        const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/invoice/${idx}`);
-        if (response.status === 200) {
-
-            const updatedEmployeeData = tableData.filter(
-                (employee: { _id: any; }) => employee._id !== idx
-            );
-
-            setTableData(updatedEmployeeData);
-            toast.success("Employee deleted successfully.");
-        } else {
-            toast.error(`Failed to delete employee. Server responded with status ${response.status}`);
-        }
-
-        await getData();
-    };
-    const handleCreateClient = async () => {
-        try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/addClient/create`, clientData)
-
-        } catch (err) {
-            console.error(err)
-
-        } finally {
-            setOpen(false)
-        }
-    }
-    const getTermsData = async () => {
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/term`)
-        setTremData(response.data.termsData)
-
-    }
-    const handleCrateTerm = async () => {
-        if (tremValue.term === '') {
-            toast.error("Please fill the input filed!")
-            return;
-        }
-        try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/term/create`, tremValue)
-            await getTermsData();
-            if (response.status === 200) {
-                toast.success("Your new terms & conditions added successfully")
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setTremValue("")
-        }
-
-    }
-    const handleChangeNote = (e: any) => {
-        const { name, value } = e.target;
+    const handleChangeNote = (a: any) => {
+        const { name, value } = a.target;
         setNoteValue({ ...noteValue, [name]: value })
     }
-    const getNoteData = async () => {
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/note`);
-        setNoteData(response.data.notesData)
+    const handleChangeContact = (e: any) => {
+        const { name, value } = e.target;
+        setConstactValue({ ...constactValue, [name]: value })
     }
-    const handleClickNotes = async () => {
-        if (noteValue.note === '') {
-            toast.error("Please fill the input filed!")
-            return;
-        }
+    const handleCreateClient = async () => {
+
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/note/create`, noteValue);
-            await getNoteData();
-            if (response.status === 200) {
-                toast.success("Your new note added successfully")
+            if (clientValue.businessName === "" || clientValue.city === "" || clientValue.country === "" || clientValue.clientIndustry === "") {
+                toast.error("Please fill client details!");
+                return;
             }
+            await setclientDetails(clientValue);
+            toast.success("Client added successfully!");
+            setClientModal(false)
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleCreateItem = async () => {
+        try {
+            if (itemValue.amount === '' || itemValue.gst === "" || itemValue.item === "" || itemValue.quantity === "") {
+                toast.error("Please all the input field!")
+                return;
+            }
+            const newItemData = itemValue;
+            await setItemData((prevData: any) => [...prevData, newItemData])
+            toast.success("Item add successfuly!")
+            setAddItemModal(false)
+        } catch (err) {
+            console.log(err)
+        }
+    };
+    const handleDeleteItem = () => { };
+    const handleCrateTerm = async () => {
+        try {
+            if (tremValue.term === "") {
+                toast.error("Please fill input field!")
+                return;
+            }
+            const newTermData = tremValue;
+            setTermData((prevData: any) => [...prevData, newTermData]);
+            toast.success("A new terms and conditions added successfully");
+            setTandC(false)
         } catch (err) {
             console.error(err)
         }
     };
-
-    const handleCreateContact = async () => {
-        if (constactInfo.name === '' || constactInfo.email === "" || constactInfo.phone === "") {
-            toast.error("Please fill the input filed!")
-            return;
-        }
+    const handleClickNotes = () => {
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/contactDetail/create`, constactInfo)
-            if (response.status === 200) {
-                toast.success("Your address added successfully")
+            if (noteValue.note === "") {
+                toast.error("Please fill input field!")
+                return;
             }
+            const newNoteData = noteValue;
+            setNoteData((prevData: any) => [...prevData, newNoteData])
+            toast.success("A new note added successfully");
 
+            setNotesModal(false)
         } catch (err) {
             console.log(err)
         }
-    }
+    };
 
-    useEffect(() => {
-        getData();
-        getClientData();
-        getTermsData();
-        getNoteData();
-    }, []);
+    const invoiceData = [{
+        invoice: invoiceValue, client: clientDetails, table: itemData, term: termData, note: noteData
+    }];
+
+    const handleSaveandContinue = async () => {
+        if (invoiceValue.invoiceNo === '' || invoiceValue.data) {
+            toast.error("Please fill invoice number and date")
+            return;
+        } else if (clientValue.businessName === '', clientValue.city === '', clientValue.country === '', clientValue.clientIndustry === '') {
+            toast.error("Please fill client details!")
+            return;
+        } else if (itemValue.amount === '', itemValue.gst === '', itemValue.item === '', itemValue.quantity === '') {
+            toast.error("Please fill item details!")
+            return;
+        } else if (tremValue.term === '') {
+            toast.error("Please terms and conditions!")
+            return;
+        } else if (noteValue.note === '') {
+            toast.error("Please additional note!")
+            return;
+        }
+        try {
+            localStorage.setItem("invoiceDetails", JSON.stringify(invoiceData))
+            await navigation('/invoice-preview')
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <Grid className={styles.invoiceContainer}>
@@ -287,7 +165,7 @@ const Invoice = () => {
             <Grid container className={styles.invoiceDetails}>
                 <Grid>
                     <InvoiceInfo
-                        data={invoiceNo}
+                        data={invoiceValue}
                         handleChange={handleChangeInvoice}
                     />
                 </Grid>
@@ -299,7 +177,7 @@ const Invoice = () => {
                 <Grid>
                     <BilledInfoCard
                         heading={'Your Details'}
-                        businessName={'OTUSONE LLC'}
+                        businessName={'OTUSONE LLP'}
                         address={'Noida, Up, India'}
                     />
                 </Grid>
@@ -312,30 +190,30 @@ const Invoice = () => {
                         /> :
                         <AddClientCard
                             heading={'Client Details'}
-                            handleClick={handleClick}
+                            handleClick={handleClientModal}
                         />
                     }
                 </Grid>
             </Grid>
             <Grid className={styles.invoiceTable}>
                 <InvoiceTable
-                    handleClick={handleAddItem}
-                    data={tableData}
+                    handleClick={handleItemModal}
+                    data={itemData}
                     handleEdit={handleEditModal}
-                    handleDelete={handleDelete}
+                    handleDelete={handleDeleteItem}
                 />
             </Grid>
             <Grid className={styles.checkout}>
-                <CheckoutCard
+                {/* <CheckoutCard
                     totalAm={totalAm}
                     gts={gts}
                     data={checkoutValue}
-                />
+                /> */}
             </Grid>
 
             <Grid className={styles.addtionalButton}>
                 <Box>
-                    <Grid display={"flex"} onClick={handleTandC}>
+                    <Grid display={"flex"} onClick={handleTandCModal}>
                         <Box><MdAdd fontSize={20} style={{ color: '#58024B' }} /></Box>
                         <Typography sx={{ paddingInlineStart: 1 }}>Add Terms & Conditions</Typography>
                     </Grid>
@@ -352,34 +230,34 @@ const Invoice = () => {
                         <Typography sx={{ paddingInlineStart: 1 }}>Add Signature</Typography>
                     </Grid>
                 </Box>
-
             </Grid>
             <Grid className={styles.acction}>
-                <CommonButton name={"Save as Draft"} onClick={(() => navigate('/'))} />
-                <CommonButton name={"Save and Continue"} onClick={(() => navigate('/invoice-preview'))} />
+                <CommonButton name={"Save as Draft"} onClick={(() => navigation('/'))} />
+                <CommonButton name={"Save and Continue"} onClick={handleSaveandContinue} />
             </Grid>
             <AddClientModal
-                open={open}
+                open={clientModal}
                 handleClose={handleClose}
-                inputData={clientData}
-                handleChange={handleChangeClientForm}
-                handleClick={handleCreateClient} />
+                inputData={clientValue}
+                handleChange={handleChangeClientValue}
+                handleClick={handleCreateClient}
+            />
             <ItemModule
                 open={addItemModal}
                 heading='Add New Item'
                 handleClose={handleClose}
-                inputData={inputData}
-                handleChange={handleChange}
-                handleClick={handleCreate}
+                inputData={itemValue}
+                handleChange={handleChangeItem}
+                handleClick={handleCreateItem}
             />
-            <ItemModule
+            {/* <ItemModule
                 open={editModal}
                 heading='Edit Item'
                 handleClose={handleClose}
                 inputData={inputData}
                 handleChange={handleChange}
                 handleClick={handleEdit}
-            />
+            /> */}
             <TermsConditionModal
                 heading={"Add Terms & Conditions"}
                 open={tandC}
@@ -387,23 +265,23 @@ const Invoice = () => {
                 tremValue={tremValue}
                 handleChange={handleChangeTerm}
                 handleClick={handleCrateTerm}
-                tremData={tremData}
+                tremData={undefined}
             />
             <NotesModal
                 open={notesModal}
                 heading={'Additional Notes'}
                 handleClose={handleClose}
                 noteValue={noteValue}
-                noteData={noteData}
+                noteData={undefined}
                 handleChange={handleChangeNote}
                 handleClick={handleClickNotes}
             />
             <ContactDetailsModal
                 open={contactModal}
                 handleClose={handleClose}
-                constactInfo={constactInfo}
+                constactInfo={constactValue}
                 handleChange={handleChangeContact}
-                handleClick={handleCreateContact}
+                handleClick={undefined}
             />
             <SignatureModal
                 open={signModal}

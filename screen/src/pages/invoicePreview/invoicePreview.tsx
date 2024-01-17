@@ -9,44 +9,52 @@ import { FaHandPointRight } from "react-icons/fa";
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import html2canvas from 'html2canvas';
 
-
-
 const InvoicePreview = () => {
     const myDetailsRef = useRef(null);
-
     const [tableData, setTableData] = useState([])
+    const [businessName, setBusinessName] = useState("")
     const [gst, setGst] = useState()
     const [checkoutValue, setCheckOutValue] = useState()
     const [totalAm, setTotalAm] = useState();
-    const [termData, setTremData] = useState([]);
-    const [noteData, setNoteData] = useState([]);
+    const [termData, setTremData] = useState<any>();
+    const [noteData, setNoteData] = useState<any>();
+
+    useEffect(() => {
+        const InvoiceDataStr: any = localStorage.getItem("invoiceDetails");
+        const InvoiceData = JSON.parse(InvoiceDataStr);
+        const client = InvoiceData[0].client;
+        const term = InvoiceData[0].term;
+        const note = InvoiceData[0].note;
+        const table = InvoiceData[0].table;
+        const tablegst = InvoiceData[0].table[0].gst;
+
+        setBusinessName(client.businessName);
+        setTremData(term)
+        setNoteData(note)
+        setTableData(table)
+        setGst(tablegst)
+    }, [])
 
     const getData = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/invoice`)
-            const itemData = response.data.employeeData;
-            const findGst = itemData[0].gst;
-            setGst(findGst)
+            const itemData = tableData;
             const onlyAmounts: any[] = itemData.map((item: any) => ({ quantity: item.quantity, amount: (item.quantity * item.amount) }));
             const totalAmount = onlyAmounts.reduce((accumulator: number, currentValue: any) => accumulator + currentValue.amount, 0);
-            const newGst = totalAmount * findGst / 100
-            console.log(newGst, "newGst..")
-            const finalValue = totalAmount + newGst;
-            setCheckOutValue(finalValue)
-            setTotalAm(totalAmount)
-            setTableData(itemData)
+            console.log(totalAmount, "totalAmount..")
+            if (gst !== undefined) {
+                const newGst = totalAmount * gst / 100;
+                const finalValue = totalAmount + newGst;
+                console.log(finalValue, "finalValue..")
+                setCheckOutValue(finalValue)
+                setTotalAm(totalAmount)
+                setTableData(itemData)
+            } else {
+                console.error('Error: gst is undefined');
+            }
         } catch (err) {
             console.error(err)
         }
     };
-    const getTermsData = async () => {
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/term`)
-        setTremData(response.data.termsData)
-    };
-    const getNoteData = async () => {
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/note`);
-        setNoteData(response.data.notesData)
-    }
     const handleDownload = () => {
         if (myDetailsRef.current) {
             html2canvas(myDetailsRef.current)
@@ -61,10 +69,10 @@ const InvoicePreview = () => {
                 });
         }
     }
+    console.log(checkoutValue, "checkoutValue..")
     useEffect(() => {
         getData();
-        getTermsData();
-        getNoteData();
+
     }, [])
     return (
         <Grid>
@@ -93,7 +101,7 @@ const InvoicePreview = () => {
                     <Box>
                         <BilledCard
                             heading={'Billed To'}
-                            name={''}
+                            name={businessName}
                             address={''} />
                     </Box>
                 </Grid>
@@ -119,7 +127,6 @@ const InvoicePreview = () => {
                                         </TableRow>
                                     )
                                 })}
-
                             </TableBody>
                         </Table>
                     </TableContainer>

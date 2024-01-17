@@ -72,7 +72,6 @@ const AddClientModal = ({ open, handleClose, inputData, handleChange, handleClic
                                     name={'country'}
                                     handleChange={handleChange}
                                 />
-
                             </Box>
                             <Box>
                                 <SelectField
@@ -90,9 +89,7 @@ const AddClientModal = ({ open, handleClose, inputData, handleChange, handleClic
                                     handleChange={handleChange}
                                     type={undefined}
                                 />
-
                             </Box>
-
                         </Box>
                     </AccordionDetails>
                 </Accordion>
