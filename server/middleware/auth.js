@@ -1,24 +1,80 @@
 const jwt = require("jsonwebtoken")
-const User = require("../models/user")
+// const User = require("../models/UserModel")
 
-
-const userAuth = async (req, res, next) => {
+// Auth 
+exports.Auth = async (req, res, next) => {
     try {
-        const token = req.header("Authorization").replace("Bearer ", "")
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await SuperAdmin.findOne({ _id: decoded._id });
-        if (!user) {
-            throw new Error()
-        }
-        req.token = token
-        req.user = user
-        next()
 
-    } catch (e) {
-        res.status(401).send({ error: "Please authenticate." })
+        //extract token
+        const token = req.cookies.token
+            || req.body.token
+            || req.header("Authorization").replace("Bearer ", "");
+        if (!token) {
+            return res.json({
+                success: false,
+                message: "token is invalid"
+            })
+        }
+        try {
+            const payload = verify(token, process.env.JWT_SECRET)
+            req.user = payload;
+
+        } catch (error) {
+            return res.status(401).json({
+                success: false,
+                error: error.message,
+                Message: "token is in valid"
+
+            })
+        }
+        next();
+
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: "error while verifying the token",
+            error: error.message
+        })
     }
 }
 
-module.exports={
-    userAuth:userAuth
+
+exports.isAdmin = async (req, res, next) => {
+    try {
+        if (req.user.role !== "admin") {
+            return res.status(401).json({
+                success: false,
+                message: 'This is a protected route for Admin only',
+            });
+        }
+
+        next();
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "error while the Authization "
+        })
+    }
+}
+
+
+
+exports.isUser = async (req, res, next) => {
+    try {
+        if (req.user.role !== "user") {
+            return res.status(401).json({
+                success: false,
+                message: 'This is a protected route for Admin only',
+            });
+        }
+
+        next();
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "error while the Authization "
+        })
+    }
 }

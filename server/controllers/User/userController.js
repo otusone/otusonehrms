@@ -1,98 +1,52 @@
-const User  =require("../models/user");
+const User = require("../../models/UserModel");
 
-exports.register=async(req,res,next)=>{
+
+
+exports.register=async(req,res)=>{
     try{
-        const{userNameserName,email,password,religion,gender,mobile,address,dateOfBirth}=req.body;
+        const{userName,email,password,role,mobile,gender,religion}=req.body;
+          console.log("userName",userName)
+          console.log("email",email)
+          console.log("password",password)
         const existingUser=await User.findOne({email});
-        if(existingUser){
-            return res.status(400).json({success:false,messaage:"Email already in use"});
-        }
+        if(existingUser){return res.status(400).json({success:false,message:"Email is Already Exist"})}
+
         const user=new User({
-            userName,
-            email,
-            password,
-            religion,
-            gender,
-            mobile,
-            address,
-            dateOfBirth,
+            userName,email,password,role,mobile,gender,religion
         });
-        const token = await user.generateAuthToken();
         await user.save();
-        res.Status(201).json({success:true,message :"User succsfully registerd",
-            data:userData,
-            token
-        });
-
-    }catch(error){
-        return res.status(500).json({ message: error.message || 'Internal server error. Please try again later.' });
-    }
-
-};
-
-exports.login=async(req,res,next)=>{
-    try{
-        const{email,password}=req.body;
-        const user=await User. findOne({email});
-        if(!user){
-            return res.status(401).json({
-                success:false,
-                message:"Invalid credentials"
-            });
-        }
-        // password match
-
-        const isMatch=await user.comparePassword(password);
-        if(isMatch){
-            return res.status(401).json({
-                success:false,
-                message:"invalid credentials"
-            });
-        }
-
-        //user is active
-        if(!user.isActive){
-            return res.status(403).json({
-                success:false,
-                message:"Account is deactivated"
-            });
-        }
-        //return user data
-        const userData=user.toObject();
-        delete userData.password;
-
-        res.join({
+        res.status(201).json({
             success:true,
-            data:userData,
-            token,
+            message:"Registration successful. Please check your email to verify your account.",
+            data:user              
+            
         });
-
     }catch(error){
-        next(error);
+       console.error("")
+       res.status(500).json({message:error.message || "Internal Server error . Please Try later"})
     }
 };
 
-//profile
 
-exports.getProfile=async(req,res,next)=>{
-    try{
-        const user=await User.findbyId(req.user._Id);
-        if(!user){
-            return res.status(400).json({
-                success:"false",
-                message:"User Not Found"
-            });
-        }
-        res.json({
-            success:true,
-            data:user,
-        })
-    }catch(error){
-        next(error);
-    }
-};
+// exports.getProfile=async(req,res,next)=>{
+//     try{
+//         const user=await User.findbyId(req.user._Id);
+//         if(!user){
+//             return res.status(400).json({
+//                 success:"false",
+//                 message:"User Not Found"
+//             });
+//         }
+//         res.json({
+//             success:true,
+//             data:user,
+//         })
+//     }catch(error){
+//         next(error);
+//     }
+// };
 
-//update profile
+
 
 exports.UpdateProfile=async(req,res,next)=>{
     try{
@@ -129,7 +83,7 @@ exports.UpdateProfile=async(req,res,next)=>{
     }
 }
 
-//delete user (soft delete)
+
 
 exports.deleteProfile=async(req,res,next)=>{
     try{
@@ -155,7 +109,7 @@ exports.deleteProfile=async(req,res,next)=>{
     }
 }
 
-//Admin-->get users
+
 
 exports.getAllUsers=async(req,res,next)=>{
     try{
@@ -170,7 +124,7 @@ exports.getAllUsers=async(req,res,next)=>{
     }
 };
 
-//Admin-->user by id 
+
 exports.getUserById=async(req,res,next)=>{
     try{
         const user=await User.findbyId(req.params.id);
@@ -190,7 +144,7 @@ exports.getUserById=async(req,res,next)=>{
 }
 
 
-// Admin--->Update any user
+
 
 exports.UpdateUser=async(req,res,next)=>{
     try{
@@ -228,7 +182,7 @@ exports.UpdateUser=async(req,res,next)=>{
 };
 
 
-//Admin-->delete permanent
+
 
 exports.deleteUser=async(req,res,next)=>{
     try{

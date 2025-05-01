@@ -1,5 +1,6 @@
 const mongoose =require("mongoose");
 const bcrypt=require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema=new mongoose.Schema({
     userName:{type:String,required:true,trim:true,},
@@ -12,6 +13,9 @@ const userSchema=new mongoose.Schema({
     dateOfBirth:{type:Date,requird:true,},
     isActive:{type:Boolean,default:true,},
     role:{type:String,enum:["user","admin"],default:"user",},
+    verified:{type:Boolean,default:false},
+    token:{type:String,},
+
 }, {
     versionKey: false,
     timestamps: true 
@@ -27,7 +31,7 @@ const userSchema=new mongoose.Schema({
   userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString(), }, process.env.JWT_SECRET, {
-      expiresIn: process.env.TOKEN_EXPIRE
+      expiresIn: '10day'
     })
     user.token = token
     await user.save()
