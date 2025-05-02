@@ -12,8 +12,12 @@ const user = require('./userRoutes');
 router.use('/user', user)
 
 
-const profile= require("./userRoutes");
-router.use("/user",user)
+// const profile= require("./userRoutes");
+// router.use("/user",user)
+
+
+
+
 
 
 module.exports = router;

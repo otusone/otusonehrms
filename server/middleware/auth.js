@@ -1,42 +1,40 @@
 const jwt = require("jsonwebtoken")
-// const User = require("../models/UserModel")
+const User = require("../models/UserModel")
 
-// Auth 
-exports.Auth = async (req, res, next) => {
+exports.userAuth = async (req, res, next) => {
     try {
-
-        //extract token
-        const token = req.cookies.token
-            || req.body.token
-            || req.header("Authorization").replace("Bearer ", "");
-        if (!token) {
-            return res.json({
-                success: false,
-                message: "token is invalid"
-            })
+        const token = req.header("Authorization").replace("Bearer ", "")
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const user = await User.findOne({ _id: decoded._id });
+        if (!user) {
+            throw new Error()
         }
-        try {
-            const payload = verify(token, process.env.JWT_SECRET)
-            req.user = payload;
+        req.token = token
+        req.user = user
+        next()
 
-        } catch (error) {
-            return res.status(401).json({
-                success: false,
-                error: error.message,
-                Message: "token is in valid"
-
-            })
-        }
-        next();
-
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            message: "error while verifying the token",
-            error: error.message
-        })
+    } catch (e) {
+        res.status(401).send({ error: "Please authenticate." })
     }
 }
+
+// module.exports=async(req,res)=>{
+//     try{
+//         const token=req.header("Authorization")?.replace("Bearer","");
+//         if(!token)throw new Error("No token Provded");
+
+//         const decoded=jwt.verify(token,process.env.JWT_SECRET);
+//         const user=await User.findOne({_id:decoded._id,token});
+
+//         if(!user )throw new Error("User not found");
+//         req.user=user;
+//         next();
+//     }catch(error){
+//         res.status(401).json({success:false,message:"unauthorized"});
+
+//     }
+// };
+
 
 
 exports.isAdmin = async (req, res, next) => {

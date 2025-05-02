@@ -112,8 +112,8 @@ exports.login = async (req, res) => {
     //     });/
 
     const token = await user.generateAuthToken();
-    user.tokens = user.tokens.concat({ token }); // Store in array
-    await user.save(); // Ensure this is awaited
+    user.token = user.token.concat({ token }); // Store in array
+    await user.save(); 
     
     return res.json({
         success: true,
@@ -134,50 +134,56 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.getProfile=async(req,res)=>{
-    try{
-        const token = req.header("Authorization")?.replace("Bearer ", "").trim();
-
-        if(!token){
-            return res.status(401).json({
-                success:false,
-                message:"Authentication required"
-            });
-        }
-
-        const user=await User.findOne({token});
-        if(!user){
-            return res.status(401).json({
-                success: false,
-                message: "Invalid authentication"
-
-            })
-        }
-
-        const profileData={
-            userName:user.userName,
-            email:user.email,
-            role:user.role,
-            mobile:user.mobile,
-            gender:user.gender,
-            religion:user.religion,
-            isVerified: user.isVerified,
-            createdAt: user.createdAt
-        };
-        return res.json({
-            success:true,
-            message:"profile reterived successfully",
-            data:profileData,
-
-        });
-    }catch (error) {
-        console.error("Update profile error:", error);
-        return res.status(500).json({
-            success: false,
-            message: error.message || "Internal Server Error",
-            error: error
-        });
+exports.getProfile = async (req, res) => {
+  try {
+    const {_id:userId} = req.user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+    res.status(200).json(user); 
+  } catch (err) {
+    console.error("Error fetching user profile:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
+exports.updateProfile=async(req,res)=>{
+    try{
+        const {_id:userId}=req.user
+        const user=await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({message:"User not Found"});
+        }
+        
+        if (req.body.password) {
+            user.password = await bcrypt.hash(req.body.password, 15);
+          }
+          await user.save();
+
+        res.status(200).json({
+            success: true,
+      message: "Profile updated successfully",
+      data: user
+        });
+    }catch(error){
+        console.error("Error fetching user Profile:",error);
+        res.status(500).json({message:error.message||"Internal Server Error"})
+    }
+}
+
+
+exports.deleteProfile=async(req,res)=>{
+    try{
+        const userId=req.user._id;
+        const deletedUser=await User.findByIdAndDelete(userId);
+        if(!deletedUser){
+            return res.status(404).json({success:false,message:"User Not Found"});
+        }
+        res.status(200).json({success:true,message:"Profile Deleted Successfully"})
+    }catch(error){
+        res.status(500).json({success:false,message:error.message||"Internal server error"});
+    }
+}
 
