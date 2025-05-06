@@ -41,7 +41,7 @@ exports.updateLeave = async (req, res) => {
       return res.status(400).json({ message: "Invalid leave ID" });
     }
 
-    // Now fetch the leave
+
     const leave = await Leave.findById(id);
 
     if (!leave) {

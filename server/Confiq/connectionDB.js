@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("dotenv").config(); // Fixed typo here
+require("dotenv").config(); 
 
 exports.connectDB = async () => {
     try {

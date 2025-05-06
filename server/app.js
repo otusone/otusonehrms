@@ -9,16 +9,10 @@ app.use(bodyParser.json());
 
 const fs=require("fs")
 require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 require("./confiq/connectionDB").connectDB();
-
-
 app.use("/api/v1/",routes);
-// app.use("api/v1/user",routes);
-// app.use("api/v1/admin",routes);
-
-// app.use("/api/v1/user",userRoutes);
 
 
 app.use((err,req,res,next)=>{console.error(err.stack);
@@ -39,3 +33,4 @@ console.log('File exists:', require('fs').existsSync(path.join(__dirname, 'route
 
 
 module.exports = app;
+
