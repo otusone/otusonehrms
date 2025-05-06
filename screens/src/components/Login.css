@@ -1,0 +1,19 @@
+.loginContainer {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  .loginFormContainer {
+    padding: 20px;
+    max-width: 400px;
+  }
+  
+  .inputFieldContainer {
+    margin-bottom: 20px;
+  }
+  
+  .commonButtonContainer {
+    margin-top: 20px;
+  }
+  
