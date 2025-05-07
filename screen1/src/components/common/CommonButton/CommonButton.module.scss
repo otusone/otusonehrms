@@ -1,0 +1,12 @@
+.commonButtonContainer {
+    button {
+        border: 1px solid #58024B;
+        color: #58024B;
+
+        &:hover {
+            border: 1px solid #58024B;
+            background-color: #58024B;
+            color: #ffffff;
+        }
+    }
+}

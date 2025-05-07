@@ -1,0 +1,23 @@
+.ticketCardContainer {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 0.5rem;
+    padding: 14%;
+
+    svg {
+        padding: 0.5rem;
+        background-color: #3EC9D6;
+        color: #ffffff;
+        border-radius: 0.25rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+        font-weight: 500;
+        padding-block: 1rem;
+    }
+
+    span {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+}

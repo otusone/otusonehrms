@@ -1,0 +1,46 @@
+{
+    "tableTitle": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE ID"
+        },
+        {
+            "id": 2,
+            "title": "EMPLOYEE"
+        },
+        {
+            "id": 3,
+            "title": "DATE"
+        },
+        {
+            "id": 4,
+            "title": "HOURS"
+        },
+        {
+            "id": 5,
+            "title": "REMARK"
+        },
+        {
+            "id": 6,
+            "title": "ACTION"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "emp_id": "EMP000001",
+            "name": "Alex",
+            "date": "10 Dec 2023",
+            "hours": "08:00",
+            "remark": "remark"
+        },
+        {
+            "id": 2,
+            "emp_id": "EMP000001",
+            "name": "John",
+            "date": "10 Dec 2023",
+            "hours": "08:00",
+            "remark": "remark"
+        }
+    ]
+}

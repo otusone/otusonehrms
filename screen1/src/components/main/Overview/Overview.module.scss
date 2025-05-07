@@ -1,0 +1,21 @@
+.overviewContainer {
+    // border: 2px solid yellow;
+
+    .overviewSidebar {
+        height: 100vh;
+        width: 18%;
+
+        @media screen and (max-width: 480px) {
+            width: 0%;
+            display: none;
+        }
+    }
+
+    .overviewRoutesPage {
+        width: 82%;
+
+        @media screen and (max-width: 480px) {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+.meetingScheduleContainer {
+    margin-block: 1.25rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 0.5rem;
+
+    >div:nth-child(1) {
+        padding-block-start: 2rem;
+    }
+}

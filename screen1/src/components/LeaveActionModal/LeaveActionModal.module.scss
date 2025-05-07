@@ -1,0 +1,27 @@
+.leaveActionModal {
+    border: 1px solid yellow;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 8%;
+    border-radius: 0.5rem;
+
+    hr {
+        margin-block-start: 1rem;
+        margin-block-end: 2rem;
+    }
+
+    .leaveDetails {}
+
+    .actionButton {
+        display: flex;
+        justify-content: right;
+        margin-block-start: 1rem;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+
+
+
+}

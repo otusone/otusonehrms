@@ -1,0 +1,28 @@
+.attendanceContainer {
+    // padding-inline: 2%;
+    margin-block-start: 3rem;
+    margin-block-end: 2rem;
+    height: 10rem;
+
+
+    .attendance {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        overflow: scroll;
+    }
+
+    table {
+
+        tr {
+
+            th {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+
+            td {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+        }
+    }
+}

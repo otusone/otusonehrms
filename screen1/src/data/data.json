@@ -1,0 +1,28 @@
+{
+    "meetingSchedule": [
+        {
+            "id": 1,
+            "title": "New Technology",
+            "date": "Mar 2, 2023",
+            "time": "3:20 PM"
+        },
+        {
+            "id": 2,
+            "title": "Team Meeting",
+            "date": "Mar 6, 2023",
+            "time": "5:00 PM"
+        },
+        {
+            "id": 3,
+            "title": "Event Related",
+            "date": "Mar 82, 2023",
+            "time": "2:25 PM"
+        },
+        {
+            "id": 4,
+            "title": "Company Rules",
+            "date": "Mar 11, 2023",
+            "time": "4:30 PM"
+        }
+    ]
+}

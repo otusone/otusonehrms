@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 2,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 3,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 4,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 5,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 6,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    },
+    {
+        "id": 7,
+        "emp_id": "EMP00001",
+        "name": "Sharry Lin",
+        "status": "Present",
+        "check_in": "08:00 AM",
+        "check_out": "05:00 PM"
+    }
+]

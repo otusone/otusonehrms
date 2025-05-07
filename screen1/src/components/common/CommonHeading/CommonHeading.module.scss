@@ -1,0 +1,18 @@
+.commonHeadingContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 5%;
+    margin-block-end: 2%;
+
+    >div {
+
+        svg {
+            background-color: #58024B;
+            margin-inline-start: 0.5rem;
+            color: #ffffff;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+    }
+}

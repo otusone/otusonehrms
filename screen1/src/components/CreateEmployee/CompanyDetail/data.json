@@ -1,0 +1,40 @@
+{
+    "branch": [
+        {
+            "id": 1,
+            "label": "Noida"
+        },
+        {
+            "id": 2,
+            "label": "Delhi"
+        },
+        {
+            "id": 2,
+            "label": "Gurgoan"
+        }
+    ],
+    "department": [
+        {
+            "id": 1,
+            "label": "IT Services"
+        }
+    ],
+    "designation": [
+        {
+            "id": 1,
+            "label": "Team Leader"
+        },
+        {
+            "id": 2,
+            "label": "Software Engineer"
+        },
+        {
+            "id": 2,
+            "label": "QA Engineer"
+        },
+        {
+            "id": 3,
+            "label": "Associat Software Engineer"
+        }
+    ]
+}

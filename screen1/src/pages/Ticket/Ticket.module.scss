@@ -1,0 +1,22 @@
+.ticketCardContainer {
+
+    .ticketCard {
+        display: flex;
+        padding-inline: 2%;
+
+
+        >div:nth-child(1) {
+            width: 70%;
+        }
+
+        >div:nth-child(2) {
+            width: 30%;
+            padding-inline-start: 1rem;
+
+        }
+    }
+
+    div:nth-child(2) {
+        padding-inline: 2%;
+    }
+}

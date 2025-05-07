@@ -1,0 +1,19 @@
+.invoiceTableContainer {
+    border-radius: 0.5rem;
+
+    >div:nth-child(2) {
+        border: 1px dashed #58024B;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+
+        >div {
+            display: flex;
+
+            svg {
+                margin: auto;
+            }
+        }
+
+    }
+}

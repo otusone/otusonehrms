@@ -1,0 +1,57 @@
+import React, { Fragment, useState } from 'react'
+import Overview from './components/main/Overview/Overview'
+import Login from './pages/Login/Login';
+import axios from 'axios'
+import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
+import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
+
+const App = () => {
+  const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('token') || '');
+  const [user, setUser] = useState<any>(localStorage.getItem('role') || '');
+  const [inputData, setInputData] = useState({ email: "", password: "" });
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value })
+  };
+
+  const handleLogin = () => {
+    axios.post('https://hrms-server-ygpa.onrender.com/employee/login', inputData)
+      .then((response) => {
+        const loginedUser = response.data;
+        const newToken = response.data.token;
+        const newRole = response.data.role;
+        const newEmail = response.data.email;
+        setIsLogin(newToken);
+        setUser(newRole);
+        localStorage.setItem("loginedUser", JSON.stringify(loginedUser));
+        localStorage.setItem('token', newToken);
+        localStorage.setItem('role', newRole);
+        localStorage.setItem('email', newEmail);
+
+        console.log(response, "response..")
+
+      })
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setIsLogin('')
+  };
+
+  return (
+    <Fragment>
+      <EmployeeDataContextProvider>
+        {IsLogin ?
+          <>
+            {user === "ADMIN" && <Overview handleLogout={handleLogout} />}
+            {user === "EMPLOYEE" && <EmpAttendancePage />}
+          </>
+          :
+          <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
+        }
+      </EmployeeDataContextProvider>
+    </Fragment>
+  )
+}
+
+export default App

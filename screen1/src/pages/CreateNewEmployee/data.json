@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "label": "Name"
+    },
+    {
+        "id": 2,
+        "label": "Email"
+    },
+    {
+        "id": 3,
+        "label": "Phone"
+    },
+    {
+        "id": 4,
+        "label": "Password"
+    }
+]

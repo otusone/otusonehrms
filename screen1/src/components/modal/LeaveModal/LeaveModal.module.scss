@@ -1,0 +1,64 @@
+.createLeaveModalContainer {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+
+
+    >div {
+        padding-inline: 5%;
+        padding-block: 5%;
+
+        >div:nth-child(1) {
+            >div {
+                width: 100%;
+
+                >div {
+                    margin: auto;
+                }
+
+                >div:nth-child(1) {
+                    padding-inline-end: 0.5rem;
+                }
+            }
+        }
+
+        >div:nth-child(2) {
+            width: 100%;
+            margin-block-start: 2rem;
+
+            >div {
+                margin-block: auto;
+                width: 100%;
+            }
+
+            >div:nth-child(1),
+            >div:nth-child(2) {
+                padding-inline-end: 0.5rem;
+            }
+
+        }
+
+        >div:nth-child(3) {
+            margin-block-start: 1rem;
+            width: 10rem;
+
+            >div>div {
+                margin: auto;
+            }
+        }
+
+        >div:nth-child(4) {
+            >div {
+                margin-block: 1.5rem;
+            }
+        }
+
+        div:nth-child(5) {
+            width: fit-content;
+            margin-inline-start: auto;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
+        }
+    }
+}

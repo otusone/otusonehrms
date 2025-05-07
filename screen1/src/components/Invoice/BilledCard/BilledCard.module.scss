@@ -1,0 +1,11 @@
+.billedCardContainer {
+    border: 0.5px solid #58024B;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    padding: 6%;
+    margin-block: 1rem;
+
+    >div:nth-child(2) {
+        margin-block: 1rem;
+    }
+}

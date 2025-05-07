@@ -1,0 +1,74 @@
+{
+    "tableTitle": [
+        {
+            "id": 1,
+            "title": "EMPLOYEE ID"
+        },
+        {
+            "id": 2,
+            "title": "EMPLOYEE"
+        },
+        {
+            "id": 3,
+            "title": "EMAIL"
+        },
+        {
+            "id": 4,
+            "title": "DATE"
+        },
+        {
+            "id": 5,
+            "title": "CLOCK IN"
+        },
+        {
+            "id": 6,
+            "title": "CLOCK OUT"
+        }
+    ],
+    "tableData": [
+        {
+            "id": 1,
+            "name": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 2,
+            "name": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 3,
+            "name": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        },
+        {
+            "id": 4,
+            "name": "Teresa R McRae",
+            "date": "Mar 2, 2022",
+            "status": "Present",
+            "clock_in": "9:00 AM",
+            "clock_out": "6:00 PM",
+            "late": "00:00:00",
+            "early_leaving": "00:00:00",
+            "overtime": "00:00:00"
+        }
+    ]
+}

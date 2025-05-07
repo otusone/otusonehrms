@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "emp_id": "EMP00001",
+        "name": "Anuj",
+        "leave_type": "CL",
+        "start_date": "20 Dec 2023",
+        "end_date": "24 Dec 2023",
+        "total_days": 4,
+        "leave_reason": "test",
+        "status": "Pending"
+    },
+    {
+        "id": 2,
+        "emp_id": "EMP00001",
+        "name": "Anuj",
+        "leave_type": "CL",
+        "start_date": "20 Dec 2023",
+        "end_date": "24 Dec 2023",
+        "total_days": 4,
+        "leave_reason": "test",
+        "status": "Pending"
+    },
+    {
+        "id": 3,
+        "emp_id": "EMP00001",
+        "name": "Anuj",
+        "leave_type": "CL",
+        "start_date": "20 Dec 2023",
+        "end_date": "24 Dec 2023",
+        "total_days": 4,
+        "leave_reason": "test",
+        "status": "Pending"
+    },
+    {
+        "id": 4,
+        "emp_id": "EMP00001",
+        "name": "Anuj",
+        "leave_type": "CL",
+        "start_date": "20 Dec 2023",
+        "end_date": "24 Dec 2023",
+        "total_days": 4,
+        "leave_reason": "test",
+        "status": "Pending"
+    },
+    {
+        "id": 5,
+        "emp_id": "EMP00001",
+        "name": "Anuj",
+        "leave_type": "CL",
+        "start_date": "20 Dec 2023",
+        "end_date": "24 Dec 2023",
+        "total_days": 4,
+        "leave_reason": "test",
+        "status": "Pending"
+    }
+]

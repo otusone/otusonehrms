@@ -1,0 +1,50 @@
+.commonTableContainer {
+    margin-block: 1.25rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 0.5rem;
+
+    .tableHead {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    table {
+
+        tr {
+
+            th {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+
+            td {
+                min-width: 1.5rem !important;
+                max-width: 2rem !important;
+            }
+        }
+    }
+
+    .tableAction {
+
+        svg {
+            color: #ffffff;
+            border-radius: 0.25rem;
+            padding: 0.35rem;
+            cursor: pointer;
+        }
+
+        svg:nth-child(1) {
+            background-color: #58024B;
+        }
+
+        svg:nth-child(2) {
+            background-color: #3EC9D6;
+            margin-inline: 0.5rem;
+        }
+
+        svg:nth-child(3) {
+            background-color: #FF3A6E;
+
+        }
+    }
+}

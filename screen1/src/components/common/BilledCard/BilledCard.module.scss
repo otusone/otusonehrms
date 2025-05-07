@@ -1,0 +1,20 @@
+.billedCardContainer {
+
+    h4 {
+        color: #58024B;
+    }
+
+    >div {
+        margin-block: 1rem;
+
+        h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-block: 0.25rem;
+        }
+
+        span {
+            font-weight: 500;
+        }
+    }
+}

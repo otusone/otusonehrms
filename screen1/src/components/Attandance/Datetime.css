@@ -1,0 +1,25 @@
+.dateconatiner{
+    display: flex;
+    flex-direction: column;
+}
+
+.datetimecontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .datecontainer {
+       
+        flex-direction: row ;
+    }
+
+    .datetimecontainer {
+       
+        flex-direction: column;
+        justify-content: initial; 
+        margin: 0;
+           }
+}
