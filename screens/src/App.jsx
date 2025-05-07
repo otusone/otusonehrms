@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Login from "./components/Login";
-import { Routes, Route } from 'react-router-dom'; 
+import Sidebar from "./components/sidebar/sidebar";
+import { Routes, Route } from 'react-router-dom';
 
-function App(){
-  return(
+function App() {
+  return (
     <div>
       <Routes>
-        <Route path="/" element={<Login/>}/>
+        <Route path="/" element={<Login />} />
+        <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
     </div>
   )
