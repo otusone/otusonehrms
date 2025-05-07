@@ -1,0 +1,61 @@
+.loginContainer {
+  background-image: linear-gradient(to right, #ffffff 70%, #A6145E 30%);
+  height: 100vh;
+}
+
+.loginContainer > div:nth-child(1) {
+  width: 20rem;
+  height: 10rem;
+}
+
+.loginContainer > div:nth-child(1) img {
+  width: 100%;
+  height: 100%;
+  margin-block-start: 10%;
+  margin-inline-start: 20%;
+}
+
+.loginContainer > div:nth-child(2) {
+  padding-inline: 10%;
+}
+
+.loginContainer > div:nth-child(2) > div:nth-child(1) {
+  width: 45%;
+  height: 15%;
+  margin-block-start: 6%;
+  border-radius: 0.5rem;
+}
+
+.loginContainer > div:nth-child(2) > div:nth-child(1) img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
+
+.loginFormContainer {
+  width: 400px;
+  height: 450px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  margin-block-start: -2.5rem;
+}
+
+.inputFieldContainer > div {
+  width: 100% !important;
+}
+
+.commonButtonContainer button {
+  border: 1px solid #58024B;
+  color: #58024B;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.commonButtonContainer button:hover {
+  border: 1px solid #58024B;
+  background-color: #58024B;
+  color: #ffffff;
+}

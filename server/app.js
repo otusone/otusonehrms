@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 const fs = require("fs")
 require("dotenv").config();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 require("./confiq/connectionDB").connectDB();
 
@@ -42,3 +42,4 @@ console.log('File exists:', require('fs').existsSync(path.join(__dirname, 'route
 
 
 module.exports = app;
+
