@@ -2,7 +2,7 @@ const Leave = require("../models/Leave");
 const mongoose = require("mongoose");
 
 
-const UserModel = require("../models/UserModel"); 
+const UserModel = require("../models/UserModel");
 
 exports.applyForLeave = async (req, res) => {
   try {
@@ -12,10 +12,10 @@ exports.applyForLeave = async (req, res) => {
     const user = await UserModel.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
- 
+
     const leave = new Leave({
       userId,
-      userName: user.userName, 
+      userName: user.userName,
       startDate,
       endDate,
       reason,
@@ -27,9 +27,6 @@ exports.applyForLeave = async (req, res) => {
     res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
-
-
-
 
 exports.updateLeave = async (req, res) => {
   try {
@@ -64,16 +61,51 @@ exports.updateLeave = async (req, res) => {
 };
 
 
-exports.deleteLeave=async(req,res)=>{
-  try{
+exports.deleteLeave = async (req, res) => {
+  try {
 
-    const{id}=req.params;
-    const deleted=await Leave.findByIdAndDelete(id);
-    if(!deleted)return res.status(404).json({message:"Leave not found"});
+    const { id } = req.params;
+    const deleted = await Leave.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ message: "Leave not found" });
 
-    res.status(200).json({message:"Leave deleted successfully"});
+    res.status(200).json({ message: "Leave deleted successfully" });
 
-  }catch(error){
-    res.status(500).json({message:error.message||"Internal server error"});
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
-}
+};
+
+exports.updateLeaveStatusByAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["Pending", "Approved", "Rejected"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status. Use 'Pending' or 'Approved' or 'Rejected'." });
+    }
+
+    const leave = await Leave.findById(id);
+    if (!leave) return res.status(404).json({ message: "Leave not found" });
+
+    leave.status = status;
+    await leave.save();
+
+    res.status(200).json({ message: `Leave ${status.toLowerCase()} successfully`, leave });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Internal Server Error" });
+  }
+};
+
+exports.getAllLeaves = async (req, res) => {
+  try {
+
+    const leaves = await Leave.find();
+
+    res.status(200).json({ success: true, leaves });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Internal Server Error" });
+  }
+};
+
+

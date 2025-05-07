@@ -51,7 +51,7 @@ exports.isAdmin = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "error while the Authization "
+            message: "error while the Authorization "
         })
     }
 }
@@ -72,7 +72,7 @@ exports.isUser = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "error while the Authization "
+            message: "error while the Authorization "
         })
     }
 }

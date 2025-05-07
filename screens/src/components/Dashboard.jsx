@@ -1,20 +1,6 @@
 import React from 'react';
 import './Dashboard.css';
-import {
-  Box,
-  Grid,
-  Typography,
-  Divider,
-  Modal,
-  TextField,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from '@mui/material';
+import {Box,Grid,Typography,Divider,Modal,TextField,Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from '@mui/material';
 import { AiOutlineTeam } from 'react-icons/ai';
 import { TbTicket } from 'react-icons/tb';
 import { MdAccountBalanceWallet, MdEdit, MdDelete } from 'react-icons/md';
@@ -22,6 +8,8 @@ import { RiHotspotLine } from 'react-icons/ri';
 import { RxCross2 } from 'react-icons/rx';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import Sidebar from './sidebar/sidebar';
+
 
 const CommonCard = ({ icon, heading, number, backgroundColor, color }) => (
   <Grid className="commonCardContainer">
@@ -162,6 +150,7 @@ const Calender = () => (
   </Grid>
 );
 
+
 const Dashboard = ({
   announcementData,
   handleCreate,
@@ -173,7 +162,8 @@ const Dashboard = ({
   editModal,
   handleModal,
   open,
-  handleDelete
+  handleDelete,
+  handleLogout 
 }) => {
   const data = [
     { id: 1, icon: <AiOutlineTeam />, heading: "Staff", number: 0, color: "#58024B" },
@@ -185,48 +175,51 @@ const Dashboard = ({
   ];
 
   return (
-    <Grid className="dashboardContainer">
-      <Typography variant='h2' fontWeight={500} fontSize={20}>Dashboard</Typography>
-      <Grid container spacing={2}>
-        {data.map((item) => (
-          <Grid key={item.id} xs={12} sm={6} md={4}>
-            <CommonCard {...item} backgroundColor={item.color} />
+    <div className="dashboardLayout" style={{display:"flex"}}>
+      <Sidebar  />
+      <Grid className="dashboardContainer">
+        <Typography variant='h2' fontWeight={500} fontSize={20}>Dashboard</Typography>
+        <Grid container spacing={2}>
+          {data.map((item) => (
+            <Grid item key={item.id} xs={12} sm={6} md={4}>
+              <CommonCard {...item} backgroundColor={item.color} />
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={2} className="dashboard2ndSection">
+          <Grid item xs={12} md={7}>
+            <MeetingSchedule
+              data={announcementData}
+              handleClick={handleModal}
+              handleEdit={handleEditModal}
+              handleDelete={handleDelete}
+            />
           </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={2} className="dashboard2ndSection">
-        <Grid xs={12} md={7}>
-          <MeetingSchedule
-            data={announcementData}
-            handleClick={handleModal}
-            handleEdit={handleEditModal}
-            handleDelete={handleDelete}
-          />
+          <Grid item xs={12} md={5}>
+            <Calender />
+          </Grid>
         </Grid>
-        <Grid xs={12} md={5}>
-          <Calender />
-        </Grid>
-      </Grid>
 
-      <AnnouncementModal
-        open={open}
-        name="Create"
-        heading="Create New Announcement"
-        handleClose={handleClose}
-        inputData={inputData}
-        handleChange={handleChange}
-        handleClick={handleCreate}
-      />
-      <AnnouncementModal
-        open={editModal}
-        name="Edit"
-        heading="Edit Announcement"
-        handleClose={handleClose}
-        inputData={inputData}
-        handleChange={handleChange}
-        handleClick={handleEdit}
-      />
-    </Grid>
+        <AnnouncementModal
+          open={open}
+          name="Create"
+          heading="Create New Announcement"
+          handleClose={handleClose}
+          inputData={inputData}
+          handleChange={handleChange}
+          handleClick={handleCreate}
+        />
+        <AnnouncementModal
+          open={editModal}
+          name="Edit"
+          heading="Edit Announcement"
+          handleClose={handleClose}
+          inputData={inputData}
+          handleChange={handleChange}
+          handleClick={handleEdit}
+        />
+      </Grid>
+    </div>
   );
 };
 
