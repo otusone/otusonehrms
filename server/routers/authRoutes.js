@@ -24,10 +24,10 @@ router.get("/getAllLeaves", adminAuth, getAllLeaves);
 
 //asset
 router.post("/asset", adminAuth, createAsset);
-// router.patch("/update-asset/:id", adminAuth, updateAsset);
+router.patch("/update-asset/:id", adminAuth, updateAsset);
 router.get("/get-asset", adminAuth, getAllAssets);
 router.get("/get-asset/:id", adminAuth, getAssetById);
-// router.delete("/delete-asset/:id", adminAuth, deleteAsset);
+router.delete("/delete-asset/:id", adminAuth, deleteAsset);
 
 
 module.exports = router;

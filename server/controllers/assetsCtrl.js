@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Asset = require("../models/assets");
 const UserModel = require("../models/UserModel");
 
@@ -31,20 +32,45 @@ exports.createAsset = async (req, res) => {
 
 exports.updateAsset = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { assets } = req.body;
+        const { id: assetId } = req.params;
+        const { userId, ...updatedFields } = req.body;
 
-        const asset = await Asset.findById(id);
-        if (!asset) return res.status(404).json({ message: "Asset record not found" });
+        if (!userId) {
+            return res.status(400).json({ message: "userId is required in request body" });
+        }
 
-        asset.assets = assets ?? asset.assets;
-        await asset.save();
+        const assetRecord = await Asset.findOne({
+            assignedTo: new mongoose.Types.ObjectId(userId),
+        });
 
-        res.status(200).json({ message: "Asset record updated", asset });
+        if (!assetRecord) {
+            return res.status(404).json({ message: "Asset record for user not found" });
+        }
+
+        const assetIndex = assetRecord.assets.findIndex(
+            (a) => a._id.toString() === assetId
+        );
+
+        if (assetIndex === -1) {
+            return res.status(404).json({ message: "Specific asset not found" });
+        }
+
+        assetRecord.assets[assetIndex] = {
+            ...assetRecord.assets[assetIndex]._doc,
+            ...updatedFields,
+        };
+
+        await assetRecord.save();
+
+        res.status(200).json({
+            message: "Asset updated successfully",
+            asset: assetRecord.assets[assetIndex],
+        });
     } catch (error) {
         res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 };
+
 
 
 exports.getAllAssets = async (req, res) => {
@@ -76,15 +102,39 @@ exports.getAssetById = async (req, res) => {
 
 exports.deleteAsset = async (req, res) => {
     try {
-        const { id } = req.params;
-        const asset = await Asset.findByIdAndDelete(id);
+        const { id: assetId } = req.params;
+        const { userId } = req.body;
 
-        if (!asset) return res.status(404).json({ message: "Asset not found" });
+        if (!userId) {
+            return res.status(400).json({ message: "userId is required in request body" });
+        }
 
-        res.status(200).json({ message: "Asset record deleted successfully" });
+        const assetRecord = await Asset.findOne({
+            assignedTo: new mongoose.Types.ObjectId(userId),
+        });
+
+        if (!assetRecord) {
+            return res.status(404).json({ message: "Asset record for user not found" });
+        }
+
+        const initialLength = assetRecord.assets.length;
+
+
+        assetRecord.assets = assetRecord.assets.filter(
+            (a) => a._id.toString() !== assetId
+        );
+
+        if (assetRecord.assets.length === initialLength) {
+            return res.status(404).json({ message: "Specific asset not found" });
+        }
+
+        await assetRecord.save();
+
+        res.status(200).json({ message: "Asset deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 };
+
 
 
