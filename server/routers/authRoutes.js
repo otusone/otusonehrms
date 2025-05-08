@@ -5,7 +5,7 @@ const { adminAuth } = require("../middleware/adminAuth");
 const { generateSalarySlip, deleteSalarySlip, updateSalarySlip } = require("../controllers/SalaryCtrl");
 const { updateLeaveStatusByAdmin, getAllLeaves } = require("../controllers/leaveCtrl");
 const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = require("../controllers/assetsCtrl");
-
+const employeeCtrl = require("../controllers/employeeCtrl");
 
 const router = express.Router();
 
@@ -29,5 +29,8 @@ router.get("/get-asset", adminAuth, getAllAssets);
 router.get("/get-asset/:id", adminAuth, getAssetById);
 router.delete("/delete-asset/:id", adminAuth, deleteAsset);
 
+
+//employee
+router.get("/get-employees", adminAuth, employeeCtrl.getAllEmployees);
 
 module.exports = router;
