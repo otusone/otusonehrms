@@ -1,0 +1,30 @@
+
+.invoiceTableContainer {
+    border-radius: 0.5rem;
+}
+
+.invoiceTableContainer > div:nth-child(2) {
+    border: 1px dashed #58024B;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.invoiceTableContainer > div:nth-child(2) > div {
+    display: flex;
+}
+
+.invoiceTableContainer > div:nth-child(2) > div svg {
+    margin: auto;
+}
+
+.commonButtonContainer button {
+    border: 1px solid #58024B;
+    color: #58024B;
+}
+
+.commonButtonContainer button:hover {
+    border: 1px solid #58024B;
+    background-color: #58024B;
+    color: #ffffff;
+};
