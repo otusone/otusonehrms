@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true, },
   mobile: { type: String, required: true, },
   address: { type: String, },
-  dateOfBirth: { type: Date, required: true, },
+  dateOfBirth: { type: Date, },
   isActive: { type: Boolean, default: true, },
   role: { type: String, enum: ["user", "admin"], default: "user", },
   verified: { type: Boolean, default: false },

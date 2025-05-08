@@ -12,15 +12,20 @@
   flex-direction: column;
   justify-content: space-between;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   transition: transform 0.3s ease;
 }
 
 .sidebarContainer img {
-  height: 7rem;
+  height: auto;
+  width: 100%;
+  /* max-height: 40%; */
+  max-width: 100%;
   padding: 1rem 2rem;
   object-fit: contain;
+  box-sizing: border-box;
 }
+
 
 .sidebarMenu {
   padding: 0 1rem;
@@ -64,7 +69,6 @@
   cursor: pointer;
 }
 
-/* Hamburger icon */
 .hamburger {
   display: none;
   position: fixed;
@@ -76,12 +80,26 @@
 }
 
 /* Media Queries */
+@media screen and (min-width: 769px) {
+  .sidebarContainer img {
+    max-height: 9rem;
+  }
+}
+
+
 @media screen and (max-width: 768px) {
   .sidebarContainer {
     width: 70%;
     transform: translateX(-100%);
     z-index: 999;
-  }
+  } 
+  
+    .sidebarContainer img {
+      /* margin-top: 15%; */
+      max-height: 30%;
+      padding: 2rem;
+    }
+  
 
   .sidebarContainer.open {
     transform: translateX(0);

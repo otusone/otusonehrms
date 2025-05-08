@@ -96,3 +96,4 @@ const Staff = ({ data, handleClick, handleAction, loading }) => {
 };
 
 export default Staff;
+
