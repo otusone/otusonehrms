@@ -1,0 +1,338 @@
+.dashboardContainer {
+    margin-left: 450px; 
+    padding: 2rem 3rem;
+    max-width: calc(100% - 250px);
+    width: 100%;
+}
+
+.dashboardContainer h2 {
+    padding-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.commonCardContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px;
+    height: 100%;
+    background: white;
+    transition: transform 0.3s ease;
+}
+
+.commonCardContainer:hover {
+    transform: translateY(-5px);
+}
+
+.commonCardContainer > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.commonCardContainer > div:nth-child(1) > div:first-child {
+    width: 5rem;
+    height: 5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.commonCardContainer h5 {
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.commonCardContainer p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.commonCardContainer > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.dashboard2ndSection {
+    margin-top: 3rem;
+}
+
+.meetingScheduleContainer,
+.calenderContainer {
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 35px 0px;
+    height: 100%;
+    background: white;
+}
+
+.headingTextContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.headingTextContainer h4 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.commonButtonContainer button {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 0.8rem;
+    border: 2px solid #58024B;
+    color: #58024B;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.commonButtonContainer button:hover {
+    background-color: #58024B;
+    color: white;
+}
+
+.inputFieldContainer {
+    margin-bottom: 1.5rem;
+}
+
+.inputFieldContainer label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.inputFieldContainer .MuiTextField-root {
+    width: 100%;
+}
+
+.inputFieldContainer .MuiInputBase-input {
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+
+/* Table styles */
+.tableContainer {
+    margin-top: 2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.tableContainer table {
+    width: 100%;
+}
+
+.tableContainer th {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    padding: 1.2rem !important;
+}
+
+.tableContainer td {
+    font-size: 1.1rem !important;
+    padding: 1rem !important;
+}
+
+.tableContainer svg {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+/* Calendar styles */
+.calenderContainer .fc {
+    height: 600px;
+}
+
+.calenderContainer .fc-header-toolbar {
+    margin-bottom: 1.5rem;
+}
+
+.calenderContainer .fc-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.calenderContainer .fc-daygrid-day-frame {
+    min-height: 80px;
+}
+
+/* Modal styles */
+.announcementModal {
+    padding: 3rem;
+    background-color: #fff;
+    border-radius: 1.5rem;
+    max-width: 800px;
+    margin: 5% auto;
+    outline: none;
+}
+
+.announcementModal > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.announcementModal h4 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.announcementModal svg {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.announcementModal hr {
+    margin: 1.5rem 0;
+}
+
+.announcementDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.announcementDetails > div {
+    flex: 1 1 45%;
+    min-width: 300px;
+}
+
+.announcementModal > div:last-child {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .dashboardContainer {
+        padding: 2rem;
+    }
+    
+    .commonCardContainer {
+        padding: 1.5rem;
+    }
+    
+    .commonCardContainer > div:nth-child(1) > div:first-child {
+        width: 4rem;
+        height: 4rem;
+        font-size: 2rem;
+    }
+    
+    .commonCardContainer h5 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboardContainer h2 {
+        font-size: 2rem;
+    }
+    
+    .headingTextContainer h4 {
+        font-size: 1.7rem;
+    }
+    
+    .commonCardContainer > div:nth-child(2) {
+        font-size: 2rem;
+    }
+    
+    .calenderContainer .fc {
+        height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboardContainer {
+        padding: 1.5rem;
+    }
+    
+    .commonCardContainer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .commonCardContainer > div:nth-child(1) > div:first-child {
+        margin-right: 1rem;
+    }
+    
+    .dashboard2ndSection {
+        margin-top: 2rem;
+    }
+    
+    .meetingScheduleContainer,
+    .calenderContainer {
+        padding: 1.5rem;
+    }
+    
+    .announcementModal {
+        padding: 2rem;
+    }
+    
+    .announcementDetails > div {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboardContainer h2 {
+        font-size: 1.8rem;
+    }
+    
+    .headingTextContainer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .commonCardContainer > div:nth-child(1) > div:first-child {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .commonCardContainer h5 {
+        font-size: 1.3rem;
+    }
+    
+    .commonCardContainer p {
+        font-size: 1rem;
+    }
+    
+    .commonCardContainer > div:nth-child(2) {
+        font-size: 1.8rem;
+    }
+    
+    .commonButtonContainer button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .tableContainer th,
+    .tableContainer td {
+        padding: 0.8rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .tableContainer svg {
+        font-size: 1.5rem;
+    }
+}

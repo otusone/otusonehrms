@@ -8,6 +8,8 @@ import { GrDocumentTime } from "react-icons/gr";
 import { PiNoteBold } from "react-icons/pi";
 
 const menuItems = [
+    { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/dashboard" },
+
     { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/" },
     { id: 2, icon: <AiOutlineTeam />, title: "Staff", link: "/user" },
     { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
