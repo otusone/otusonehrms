@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
     Typography,
@@ -17,7 +17,6 @@ import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 
-
 const Invoice = ({ 
     invoiceData = [], 
     data = {
@@ -34,6 +33,34 @@ const Invoice = ({
     handleEdit = () => {},
     handleDelete = () => {}
 }) => {
+    const [openModal, setOpenModal] = useState(false);
+    const [clientData, setClientData] = useState({
+        businessName: '',
+        address: ''
+    });
+    const [selectedClient, setSelectedClient] = useState(null);
+
+    const handleAddClient = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleClientSubmit = () => {
+        setSelectedClient(clientData);
+        setOpenModal(false);
+    };
+
+    const handleClientChange = (e) => {
+        const { name, value } = e.target;
+        setClientData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     return (
         <Box display="flex" minHeight="100vh">
             {/* Sidebar */}
@@ -74,21 +101,76 @@ const Invoice = ({
                         </Grid>
                     </Grid>
 
-                    {/* Billed By Section */}
+                    {/* Billing and Client Cards */}
                     <Grid container spacing={2} mb={3}>
-                        <Grid item xs={12}>
-                            <Typography variant="h5" fontSize={20} fontWeight={500}>
-                                {heading}
-                                <span style={{ fontSize: 15, color: "#617183", paddingInline: 5 }}>
-                                    (Your Details)
-                                </span>
-                            </Typography>
+                        {/* Billed By Card */}
+                        <Grid item xs={12} md={6}>
+                            <Box className="billedByContainer">
+                                <Typography variant='h5' fontSize={20} fontWeight={500}>
+                                    Billed By
+                                    <span style={{ fontSize: 15, color: "#617183", paddingInline: 5 }}>(Your Details)</span>
+                                </Typography>
+                                <Box className="billedCardContainer">
+                                    <Box display="flex" justifyContent="space-between">
+                                        <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
+                                            Business Name  <span style={{ color: "#000000", paddingInlineStart: 12 }}>Your Business</span>
+                                        </Typography>
+                                        <Typography sx={{ color: "#51618A", fontSize: 15 }}>
+                                            Address  <span style={{ color: "#000000", paddingInlineStart: 12 }}>Your Address</span>
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Box>
                         </Grid>
-                        <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
-                            <Typography variant="h5" fontSize={18} fontWeight={500}>
-                                Business details
-                            </Typography>
-                            {/* <CommonButton name={"Add New Client"} onClick={handleClick} /> */}
+
+                        {/* Billed To Card */}
+                        <Grid item xs={12} md={6}>
+                            <Box className="billedByContainer">
+                                <Typography variant='h5' fontSize={20} fontWeight={500}>
+                                    Billed To
+                                    <span style={{ fontSize: 15, color: "#617183", paddingInline: 5 }}>(Client Details)</span>
+                                </Typography>
+                                {selectedClient ? (
+                                    <Box className="billedCardContainer">
+                                        <Box display="flex" justifyContent="space-between">
+                                            <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
+                                            <MdEdit fontSize={20} cursor="pointer" onClick={handleAddClient} />
+                                        </Box>
+                                        <Box>
+                                            <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
+                                                Business Name  <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient.businessName}</span>
+                                            </Typography>
+                                            <Typography sx={{ color: "#51618A", fontSize: 15 }}>
+                                                Address  <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient.address}</span>
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                ) : (
+                                    <Box className="selectClientCardContainer">
+                                        <Typography textAlign="center">Select a Client/Business from list</Typography>
+                                        <Typography textAlign="center" marginBlock={2}>OR</Typography>
+                                        <Box display="flex" justifyContent="center">
+                                            <Button 
+                                                variant="outlined"
+                                                onClick={handleAddClient}
+                                                sx={{
+                                                    border: "1px solid #58024B",
+                                                    color: "#58024B",
+                                                    '&:hover': {
+                                                        backgroundColor: "#58024B",
+                                                        color: "#fff",
+                                                    }
+                                                }}
+                                            >
+                                                Add New Client
+                                            </Button>
+                                        </Box>
+                                    </Box>
+                                )}
+                            </Box>
                         </Grid>
                     </Grid>
 
@@ -151,7 +233,6 @@ const Invoice = ({
                         </Table>
                     </TableContainer>
 
-                    {/* Rest of your component remains the same... */}
                     {/* Add Item Button */}
                     <Box display="flex" justifyContent="center" mb={3}>
                         <Button
@@ -223,6 +304,83 @@ const Invoice = ({
                     </Box>
                 </Box>
             </Box>
+
+            {/* Add Client Modal */}
+            {openModal && (
+                <Box className="modalOverlay">
+                    <Box className="addClientModalContainer">
+                        <Box display="flex" justifyContent="space-between">
+                            <Typography variant='h5' fontSize={22} fontWeight={500}>Add New Client</Typography>
+                            <span className="closeIcon" onClick={handleCloseModal}>×</span>
+                        </Box>
+                        <Box className="modalDivider"></Box>
+                        
+                        <Box className="modalSection">
+                            <Typography variant='h5' fontSize={18} fontWeight={500}>
+                                Basic Information
+                            </Typography>
+                            <Box className="basicInfoContainer">
+                                <Box className="basicInfo">
+                                    <Box display="flex" justifyContent="center">
+                                        <MdAdd fontSize={26} />
+                                    </Box>
+                                    <Typography textAlign="center" marginBlock={1} fontSize={15}>Upload Logo</Typography>
+                                    <Typography textAlign="center" fontSize={14}>JPG or PNG, Dimensions 1080*1080 and file size upto 20MB</Typography>
+                                </Box>
+                                <Box>
+                                    <TextField
+                                        label="Business Name*"
+                                        name="businessName"
+                                        fullWidth
+                                        value={clientData.businessName}
+                                        onChange={handleClientChange}
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        label="Address"
+                                        name="address"
+                                        fullWidth
+                                        value={clientData.address}
+                                        onChange={handleClientChange}
+                                        margin="normal"
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        <Box className="modalActions">
+                            <Button 
+                                variant="outlined" 
+                                onClick={handleCloseModal}
+                                sx={{
+                                    color: "#58024B",
+                                    borderColor: "#58024B",
+                                    marginRight: 2,
+                                    '&:hover': {
+                                        backgroundColor: "#58024B",
+                                        color: "#fff",
+                                    }
+                                }}
+                            >
+                                Close
+                            </Button>
+                            <Button 
+                                variant="contained" 
+                                onClick={handleClientSubmit}
+                                sx={{
+                                    backgroundColor: "#58024B",
+                                    color: "#fff",
+                                    '&:hover': {
+                                        backgroundColor: "#450049",
+                                    }
+                                }}
+                            >
+                                Create
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            )}
         </Box>
     );
 };
