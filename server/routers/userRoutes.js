@@ -13,7 +13,7 @@ router.use(express.json());
 
 router.post("/register", register);
 router.post("/login", login);
-router.get('/profile', userAuth, userController.getProfile);
+router.get('/profile/:id', userAuth, userController.getProfile);
 router.patch("/updateprofile", userAuth, userController.updateProfile);
 router.delete("/deleteprofile", userAuth, userController.deleteProfile);
 router.post("/clockinattendance", userAuth, markClockIn);
