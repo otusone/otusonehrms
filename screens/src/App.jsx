@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Login from "./components/login/Login";
-import { Routes, Route } from 'react-router-dom'; 
 import Dashboard from "./components/Dashboard";
 import Sidebar from "./components/sidebar/sidebar";
 import Attendance from "./components/Attendance/Attendance";

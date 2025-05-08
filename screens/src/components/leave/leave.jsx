@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
     Box,
     Typography,
@@ -15,10 +16,64 @@ import {
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 
-const Leave = ({ leaveData, handleSearch, handleApprove, handleReject }) => {
+const Leave = () => {
+    const [leaveData, setLeaveData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        fetchLeaveData();
+    }, []);
+
+    const fetchLeaveData = async () => {
+        try {
+            const token = localStorage.getItem("authToken");
+
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+
+            const response = await axios.get(
+                "http://localhost:8000/api/v1/admin/getAllLeaves",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                setLeaveData(response.data.leaves);
+            }
+        } catch (error) {
+            console.error("Error fetching leave data:", error);
+        }
+    };
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value.toLowerCase());
+    };
+
+    const handleApprove = async (id) => {
+        console.log("Approving leave:", id);
+        // Add API call here
+    };
+
+    const handleReject = async (id) => {
+        console.log("Rejecting leave:", id);
+        // Add API call here
+    };
+
+    const filteredLeaves = () => {
+        return leaveData?.filter(
+            (leave) =>
+                leave.userName?.toLowerCase().includes(searchTerm) ||
+                leave.userId?.toLowerCase().includes(searchTerm)
+        );
+    };
+
     return (
         <Box display="flex" minHeight="100vh">
-            {/* Sidebar */}
             <Box
                 sx={{
                     width: { xs: "100%", md: "18%" },
@@ -29,12 +84,10 @@ const Leave = ({ leaveData, handleSearch, handleApprove, handleReject }) => {
                 <Sidebar />
             </Box>
 
-            {/* Main Content */}
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
 
                 <Box px={4} py={2}>
-                    {/* Title and Search */}
                     <Box
                         display="flex"
                         justifyContent="space-between"
@@ -53,7 +106,6 @@ const Leave = ({ leaveData, handleSearch, handleApprove, handleReject }) => {
                         />
                     </Box>
 
-                    {/* Table */}
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
                             <TableHead sx={{ bgcolor: "#56005b" }}>
@@ -69,14 +121,18 @@ const Leave = ({ leaveData, handleSearch, handleApprove, handleReject }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {leaveData?.length > 0 ? (
-                                    leaveData.map((leave) => (
+                                {filteredLeaves()?.length > 0 ? (
+                                    filteredLeaves().map((leave) => (
                                         <TableRow key={leave._id}>
-                                            <TableCell>{leave.employeeId}</TableCell>
-                                            <TableCell>{leave.employeeName}</TableCell>
-                                            <TableCell>{leave.leaveType}</TableCell>
-                                            <TableCell>{leave.startDate}</TableCell>
-                                            <TableCell>{leave.endDate}</TableCell>
+                                            <TableCell>{leave.userId}</TableCell>
+                                            <TableCell>{leave.userName}</TableCell>
+                                            <TableCell>-</TableCell>
+                                            <TableCell>
+                                                {new Date(leave.startDate).toLocaleDateString()}
+                                            </TableCell>
+                                            <TableCell>
+                                                {new Date(leave.endDate).toLocaleDateString()}
+                                            </TableCell>
                                             <TableCell>{leave.reason}</TableCell>
                                             <TableCell>{leave.status}</TableCell>
                                             <TableCell>
@@ -122,3 +178,4 @@ const Leave = ({ leaveData, handleSearch, handleApprove, handleReject }) => {
 };
 
 export default Leave;
+

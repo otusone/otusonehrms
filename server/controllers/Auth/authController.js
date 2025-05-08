@@ -1,111 +1,115 @@
-const mongoose=require("mongoose");
-const express =require("express");
-const router=express.Router();
-const bcrypt=require("bcryptjs");
+const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User=require("../../models/UserModel")
+const User = require("../../models/UserModel")
 require("dotenv").config();
-const JWT_SECRET=process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET
 
-exports.register=async(req,res)=>{
-    try{
-        const{userName,email,password,mobile,gender,religion,role}=req.body;
-        const existingUser=await User.findOne({email});
-        if(existingUser){return res.status(400).json({success:false,message:"Email is Already Exist"})}
+exports.register = async (req, res) => {
+    try {
+        const { userName, email, password, mobile, gender, religion, role } = req.body;
+        const existingUser = await User.findOne({ email });
+        if (existingUser) { return res.status(400).json({ success: false, message: "Email is Already Exist" }) }
 
-        const user=new User({
-            userName,email,password,role,mobile,gender,religion
+        const user = new User({
+            userName, email, password, role, mobile, gender, religion
         });
         // const role=req.body.role ||"user";
-        
+
         await user.save();
         res.status(201).json({
-            success:true,
-            message:"Registration successful. Please check your email to verify your account.",
-            data:user              
-            
+            success: true,
+            message: "Registration successful. Please check your email to verify your account.",
+            data: user
+
         });
-    }catch(error){
-       console.error("")
-       res.status(500).json({message:error.message || "Internal Server error . Please Try later"})
+    } catch (error) {
+        console.error("")
+        res.status(500).json({ message: error.message || "Internal Server error . Please Try later" })
     }
 };
 
-exports.resendVerification=async(req,res,next)=>{
-    try{
-        const {email}=req.body;
-        const user=await User.findOne({email});
-        if(!user){
+exports.resendVerification = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
             return res.status(404).json({
-                success:false,
-                message:"user not found"
+                success: false,
+                message: "user not found"
             });
         }
-        if(user.isVerified){
+        if (user.isVerified) {
             return res.status(400).json({
-                success:false,
-                message:"Email already verified"
+                success: false,
+                message: "Email already verified"
             });
         }
 
-        const verificationToken=user.generateVerificationToken();
+        const verificationToken = user.generateVerificationToken();
         await user.save();
 
 
-        
-        res.status(200).json({ 
+
+        res.status(200).json({
             success: true,
-            message: "Verification email resent successfully" 
+            message: "Verification email resent successfully"
         });
-    }catch(error){
+    } catch (error) {
         next(error);
     }
 };
 
 exports.login = async (req, res) => {
     try {
-        const { email, password} = req.body;
+        const { email, password } = req.body;
 
-        if(!email || !password)
-        {
-           return res.status(400).json({
-                 success: false,
-                 message: "field Require"
-            })
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Fields required",
+            });
         }
-        const user = await User.findOne({ email });
-        console.log("user",user)
 
-        if (!user) {
+        const userExist = await User.findOne({ email });
+
+        if (!userExist) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid credentials"
+                message: "User not found",
             });
         }
 
-        const isMatch= await bcrypt.compare(password,user.password);
-        if(!isMatch){
+        const isMatch = await bcrypt.compare(password, userExist.password);
+        if (!isMatch) {
             return res.status(401).json({
-                success:false,
-                message:"invalid Credentials"
+                success: false,
+                message: "Invalid credentials",
             });
         }
-    
-        const token=await user.generateAuthToken()
-        user.token=token
-        user.save();
-       return res.json({
+
+        // Assuming generateAuthToken is defined on user schema (document method)
+        const token = await userExist.generateAuthToken();
+
+        // Save token to user
+        userExist.token = token;
+        await userExist.save(); // ✅ save the document, not the model
+
+        return res.status(200).json({
             success: true,
             message: "Login successful",
-            data: user,
+            data: userExist,
             token,
         });
 
     } catch (error) {
+        console.error("Login error:", error);
         return res.status(500).json({
-            success: true,
-            message: error.message ||"internal server error",
-            error:error
+            success: false,
+            message: "Internal server error",
+            error: error.message,
         });
     }
 };
