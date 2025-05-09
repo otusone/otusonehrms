@@ -1,6 +1,6 @@
 import React from 'react';
 import './Dashboard.css';
-import {Box,Grid,Typography,Divider,Modal,TextField,Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from '@mui/material';
+import { Box, Grid, Typography, Divider, Modal, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { AiOutlineTeam } from 'react-icons/ai';
 import { TbTicket } from 'react-icons/tb';
 import { MdAccountBalanceWallet, MdEdit, MdDelete } from 'react-icons/md';
@@ -8,7 +8,7 @@ import { RiHotspotLine } from 'react-icons/ri';
 import { RxCross2 } from 'react-icons/rx';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import Sidebar from './sidebar/sidebar';
+import Sidebar from '../sidebar/sidebar';
 
 
 const CommonCard = ({ icon, heading, number, backgroundColor, color }) => (
@@ -163,7 +163,7 @@ const Dashboard = ({
   handleModal,
   open,
   handleDelete,
-  handleLogout 
+  handleLogout
 }) => {
   const data = [
     { id: 1, icon: <AiOutlineTeam />, heading: "Staff", number: 0, color: "#58024B" },
@@ -175,8 +175,8 @@ const Dashboard = ({
   ];
 
   return (
-    <div className="dashboardLayout" style={{display:"flex"}}>
-      <Sidebar  />
+    <div className="dashboardLayout" style={{ display: "flex" }}>
+      <Sidebar />
       <Grid className="dashboardContainer">
         <Typography variant='h2' fontWeight={500} fontSize={20}>Dashboard</Typography>
         <Grid container spacing={2}>

@@ -4,14 +4,16 @@ const User = require("../models/UserModel")
 
 exports.userAuth = async (req, res, next) => {
     try {
-        // const token = req.header("Authorization").replace("Bearer ", "")
         const token = req.header("Authorization")?.replace("Bearer ", "");
-        if (!token) return res.status(401).json({ error: "No token provided" });
+        if (!token) {
+            return res.status(401).json({ error: "No token provided" });
+        }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findOne({ _id: decoded._id });
+
         if (!user) {
-            throw new Error()
+            return res.status(401).json({ error: "User not found" });
         }
         req.token = token
         req.user = user
@@ -21,24 +23,6 @@ exports.userAuth = async (req, res, next) => {
         res.status(401).send({ error: "Please authenticate." })
     }
 }
-
-// module.exports=async(req,res)=>{
-//     try{
-//         const token=req.header("Authorization")?.replace("Bearer","");
-//         if(!token)throw new Error("No token Provded");
-
-//         const decoded=jwt.verify(token,process.env.JWT_SECRET);
-//         const user=await User.findOne({_id:decoded._id,token});
-
-//         if(!user )throw new Error("User not found");
-//         req.user=user;
-//         next();
-//     }catch(error){
-//         res.status(401).json({success:false,message:"unauthorized"});
-
-//     }
-// };
-
 
 
 exports.isAdmin = async (req, res, next) => {

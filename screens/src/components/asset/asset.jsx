@@ -125,9 +125,9 @@ const Employee = () => {
                 <Heading />
                 <Box px={4} py={2}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap">
-                        <Typography variant="h6">Manage Employee</Typography>
+                        <Typography variant="h6">Manage Assets</Typography>
                         <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ mt: { xs: 1, sm: 0 } }}>
-                            ADD EMPLOYEE
+                            ADD NEW ASSET
                         </Button>
                     </Box>
                     <Box display="flex" justifyContent="flex-end" mb={2}>

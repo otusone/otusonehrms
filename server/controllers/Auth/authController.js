@@ -90,12 +90,12 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Assuming generateAuthToken is defined on user schema (document method)
+
         const token = await userExist.generateAuthToken();
 
-        // Save token to user
+
         userExist.token = token;
-        await userExist.save(); // ✅ save the document, not the model
+        await userExist.save();
 
         return res.status(200).json({
             success: true,

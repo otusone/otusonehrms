@@ -75,7 +75,7 @@ exports.deleteLeave = async (req, res) => {
   }
 };
 
-exports.updateLeaveStatusByAdmin = async (req, res) => {
+exports.updateLeaveStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;

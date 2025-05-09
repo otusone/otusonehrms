@@ -55,14 +55,56 @@ const Leave = () => {
     };
 
     const handleApprove = async (id) => {
-        console.log("Approving leave:", id);
-        // Add API call here
+        const confirmed = window.confirm("Are you sure you want to approve this leave?");
+        if (!confirmed) return;
+        try {
+            const token = localStorage.getItem("authToken");
+            const response = await axios.patch(
+                `http://localhost:8000/api/v1/admin/leave/status/${id}`,
+                { status: "Approved" },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            fetchLeaveData();
+
+            // if (response.data.success) {
+            //     fetchLeaveData();
+            // }
+        } catch (error) {
+            console.error("Error approving leave:", error);
+        }
     };
 
     const handleReject = async (id) => {
-        console.log("Rejecting leave:", id);
-        // Add API call here
+        const confirmed = window.confirm("Are you sure you want to reject this leave?");
+        if (!confirmed) return;
+        try {
+            const token = localStorage.getItem("authToken");
+            const response = await axios.patch(
+                `http://localhost:8000/api/v1/admin/leave/status/${id}`,
+                { status: "Rejected" },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            fetchLeaveData();
+
+            // if (response.data.success) {
+            //     fetchLeaveData();
+            // }
+        } catch (error) {
+            console.error("Error rejecting leave:", error);
+        }
     };
+
 
     const filteredLeaves = () => {
         return leaveData?.filter(
@@ -108,11 +150,11 @@ const Leave = () => {
 
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024b" }}>
                                 <TableRow>
-                                    <TableCell sx={{ color: "#fff" }}>EMPLOYEE ID</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>EMPLOYEE</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>LEAVE TYPE</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE ID</TableCell> */}
+                                    <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>LEAVE TYPE</TableCell> */}
                                     <TableCell sx={{ color: "#fff" }}>START DATE</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>END DATE</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>LEAVE REASON</TableCell>
@@ -124,9 +166,9 @@ const Leave = () => {
                                 {filteredLeaves()?.length > 0 ? (
                                     filteredLeaves().map((leave) => (
                                         <TableRow key={leave._id}>
-                                            <TableCell>{leave.userId}</TableCell>
+                                            {/* <TableCell>{leave.userId}</TableCell> */}
                                             <TableCell>{leave.userName}</TableCell>
-                                            <TableCell>-</TableCell>
+                                            {/* <TableCell>-</TableCell> */}
                                             <TableCell>
                                                 {new Date(leave.startDate).toLocaleDateString()}
                                             </TableCell>

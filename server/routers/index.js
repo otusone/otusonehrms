@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User=require('../controllers/Auth/authController')
+const User = require('../controllers/Auth/authController')
 
 
 
@@ -10,13 +10,6 @@ router.use('/admin', admin)
 
 const user = require('./userRoutes');
 router.use('/user', user)
-
-
-// const profile= require("./userRoutes");
-// router.use("/user",user)
-
-
-
 
 
 
