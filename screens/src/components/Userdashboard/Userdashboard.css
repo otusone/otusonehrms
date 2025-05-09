@@ -1,0 +1,65 @@
+/* Add these styles to your existing Userdashboard.css */
+
+.sectionPaper {
+  padding: 3rem;
+  border-radius: 1rem;
+  height: 80%;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 35px 0px;
+}
+
+.attendanceLeaveContainer {
+  margin-top: 2rem;
+  margin-left: 200px !important;
+}
+
+.attendanceStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.attendanceStatus svg {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.leaveStatus {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.leaveStatus.approved {
+  background-color: rgba(111, 217, 67, 0.2);
+  color: #6FD943;
+}
+
+.leaveStatus.pending {
+  background-color: rgba(255, 165, 0, 0.2);
+  color: #FFA500;
+}
+
+.leaveStatus.rejected {
+  background-color: rgba(255, 58, 110, 0.2);
+  color: #FF3A6E;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sectionPaper {
+    padding: 1.5rem;
+  }
+  
+  .attendanceLeaveContainer {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .sectionPaper {
+    padding: 1rem;
+  }
+}
