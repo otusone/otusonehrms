@@ -6,18 +6,20 @@
 .dashboardContainer {
     flex: 1;
     padding: 2rem 3rem;
-    margin-left: 250px; /* Match this with sidebar width */
+    margin-left: 250px; 
     width: calc(100% - 250px);
     max-width: none;
 }
 
 .dashboardContainer h2 {
+    margin-left:155px;
     padding-bottom: 2rem;
     font-size: 2.5rem;
     color: #333;
 }
 
 .commonCardContainer {
+    margin-left:155px;
     display: flex;
     justify-content: space-between;
     padding: 2rem;
@@ -71,6 +73,7 @@
 
 .dashboard2ndSection {
     margin-top: 3rem;
+   
 }
 
 .meetingScheduleContainer {

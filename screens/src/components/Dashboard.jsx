@@ -186,7 +186,7 @@ const Dashboard = ({
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2} className="dashboard2ndSection">
+        <Grid container spacing={2} className="dashboard2ndSection" style={{marginLeft:"155px"}}>
           <Grid item xs={12} md={36}>
           {/* <Grid item xs={12} md={4}> */}
             <MeetingSchedule
