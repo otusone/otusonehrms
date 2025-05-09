@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/UserModel")
+const User = require("../../models/UserModel");
 require("dotenv").config();
 
 exports.register = async (req, res) => {
@@ -111,7 +111,7 @@ exports.login = async (req, res) => {
         //     });/
 
         const token = await user.generateAuthToken();
-        user.token = user.token.concat({ token }); // Store in array
+        user.token = user.token.concat({ token });
         await user.save();
 
         return res.json({
@@ -121,7 +121,7 @@ exports.login = async (req, res) => {
                 _id: user._id,
                 email: user.email
             },
-            token // Return the token
+            token
         });
 
     } catch (error) {

@@ -5,7 +5,7 @@ import './sidebar.css';
 import { AiOutlineHome, AiOutlineTeam, AiOutlineUser } from 'react-icons/ai';
 import { TbCalendarTime } from 'react-icons/tb';
 import { GrDocumentTime } from "react-icons/gr";
-import { PiNoteBold } from "react-icons/pi";
+import { PiNoteBold, PiBriefcaseBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const menuItems = [
@@ -14,7 +14,10 @@ const menuItems = [
     { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
-    { id: 6, icon: <PiNoteBold />, title: "Invoice", link: "/invoice" }
+    { id: 6, icon: <PiNoteBold />, title: "Invoice", link: "/invoice" },
+    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" }
+
+
 ];
 
 const Sidebar = ({ handleLogout }) => {
