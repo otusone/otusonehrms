@@ -309,7 +309,7 @@ const Invoice = ({
                             <span className="closeIcon" onClick={handleCloseModal}>×</span>
                         </Box>
                         <Box className="modalDivider"></Box>
-
+                        
                         <Box className="modalSection">
                             <Typography variant='h5' fontSize={18} fontWeight={500}>
                                 Basic Information
