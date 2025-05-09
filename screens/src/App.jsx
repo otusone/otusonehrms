@@ -8,6 +8,8 @@ import Heading from "./components/headingProfile/heading";
 import Employee from "./components/employee/employee";
 import Leave from "./components/leave/leave";
 import Asset from "./components/asset/asset";
+import Invoice from "./components/Invoice/invoice";
+
 
 
 
@@ -25,6 +27,7 @@ function App() {
         <Route path="/employee" element={<Employee />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/manage-leave" element={<Leave />} />
+        <Route path="/invoice" element={<Invoice />} />
         <Route path="/asset" element={<Asset />} />
 
 
