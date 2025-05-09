@@ -6,13 +6,14 @@ const userSchema = new mongoose.Schema({
   userName: { type: String, required: true, trim: true, },
   email: { type: String, required: true, trim: true, },
   password: { type: String, required: true, minlength: 6 },
-  religion: { type: String, trim: true, required: true, },
+  designation: { type: String, required: true, trim: true },
+  religion: { type: String, trim: true },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true, },
   mobile: { type: String, required: true, },
   address: { type: String, },
   dateOfBirth: { type: Date, },
   isActive: { type: Boolean, default: true, },
-  role: { type: String, enum: ["user", "admin"], default: "user", },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
   verified: { type: Boolean, default: false },
   token: { type: String, },
 
@@ -37,6 +38,7 @@ userSchema.methods.generateAuthToken = async function () {
   await user.save()
   return token
 }
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -50,11 +52,6 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-
-userSchema.pre("save", function (next) {
-  this.updateAt = Date.now();
-  next();
-});
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
