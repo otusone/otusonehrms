@@ -66,8 +66,17 @@ const Employee = () => {
     };
 
     const handleDelete = async (id) => {
+        console.log("User ID:", id);
+
+        const confirm = window.confirm("Are you sure you want to delete this asset?");
+        if (!confirm) return;
         try {
-            await axios.delete(`http://localhost:8000/api/v1/delete-employee/${id}`);
+
+            const token = localStorage.getItem("authToken");
+            const res = await axios.delete(`http://localhost:8000/api/v1/admin/delete-employee/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            alert("Employee deleted successfully.");
             fetchEmployees();
         } catch (err) {
             console.error("Failed to delete employee", err);
@@ -105,9 +114,9 @@ const Employee = () => {
     const handleSubmit = async () => {
         try {
             if (editingEmployee) {
-                await axios.patch(`http://localhost:8000/api/v1/update-employee/${editingEmployee._id}`, formData);
+                await axios.patch(`http://localhost:8000/api/v1/admin/update-employee/${editingEmployee._id}`, formData);
             } else {
-                await axios.post("http://localhost:8000/api/v1/create-employee", formData);
+                await axios.post("http://localhost:8000/api/v1/admin/create-employee", formData);
             }
             handleClose();
             fetchEmployees();

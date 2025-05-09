@@ -8,7 +8,7 @@ require("dotenv").config();
 
 exports.register = async (req, res) => {
     try {
-        const { userName, email, password, mobile, dateOfBirth, gender, religion, role } = req.body;
+        const { userName, email, password, designation, mobile, dateOfBirth, gender, religion, role } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) { return res.status(400).json({ success: false, message: "Email is Already Exist" }) }
 
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 15);
 
         const user = new User({
-            userName, email, password, role, mobile, dateOfBirth, gender, religion
+            userName, email, password, designation, role, mobile, dateOfBirth, gender, religion
         });
         // const role=req.body.role ||"user";
 
