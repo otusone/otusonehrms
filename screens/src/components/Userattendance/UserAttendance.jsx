@@ -281,7 +281,7 @@ const UserAttendance = () => {
                 shrink: true,
               }}
               inputProps={{
-                step: 300 // 5 min
+                step: 300 
               }}
             />
             
@@ -314,7 +314,6 @@ const UserAttendance = () => {
         </Box>
       </Modal>
 
-      {/* Notification Snackbar */}
       <Snackbar
         open={notification.open}
         autoHideDuration={6000}
