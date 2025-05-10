@@ -27,12 +27,16 @@ const Asset = () => {
 
     const fetchEmployees = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees");
+            const token = localStorage.getItem("authToken");
+            const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setEmployees(res.data.employees);
         } catch (err) {
             console.error("Failed to fetch employees", err);
         }
     };
+
 
     const fetchAssets = async () => {
         try {
@@ -118,8 +122,8 @@ const Asset = () => {
     };
 
     const handleDelete = async (assetId, userId) => {
-        //console.log("Deleting asset with ID:", assetId);
-        //console.log("User ID:", userId);
+        console.log("Deleting asset with ID:", assetId);
+        console.log("User ID:", userId);
 
         const confirm = window.confirm("Are you sure you want to delete this asset?");
         if (!confirm) return;
@@ -231,7 +235,7 @@ const Asset = () => {
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#00204a" }}>
+                            <TableHead sx={{ bgcolor: "#56005b" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>

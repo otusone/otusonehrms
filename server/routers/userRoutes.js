@@ -15,7 +15,7 @@ router.post("/login", login);
 
 //profile
 router.get('/profile/:id', userAuth, userController.getProfile);
-router.patch("/updateprofile", userAuth, userController.updateProfile);
+router.patch("/updateprofile/:id", userAuth, userController.updateProfile);
 router.delete("/deleteprofile", userAuth, userController.deleteProfile);
 //attendance
 router.post("/clockinattendance", userAuth, markClockIn);

@@ -30,6 +30,7 @@ const Employee = () => {
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
+        password: "12345678",
         designation: "",
         dateOfBirth: "",
         address: "",
@@ -66,14 +67,11 @@ const Employee = () => {
     };
 
     const handleDelete = async (id) => {
-        console.log("User ID:", id);
-
-        const confirm = window.confirm("Are you sure you want to delete this asset?");
+        const confirm = window.confirm("Are you sure you want to delete this employee?");
         if (!confirm) return;
         try {
-
             const token = localStorage.getItem("authToken");
-            const res = await axios.delete(`http://localhost:8000/api/v1/admin/delete-employee/${id}`, {
+            await axios.delete(`http://localhost:8000/api/v1/admin/delete-employee/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Employee deleted successfully.");
@@ -91,6 +89,7 @@ const Employee = () => {
             setFormData({
                 userName: "",
                 email: "",
+                password: "12345678",
                 designation: "",
                 dateOfBirth: "",
                 address: "",
@@ -113,10 +112,26 @@ const Employee = () => {
 
     const handleSubmit = async () => {
         try {
+            const token = localStorage.getItem("authToken");
             if (editingEmployee) {
-                await axios.patch(`http://localhost:8000/api/v1/admin/update-employee/${editingEmployee._id}`, formData);
+                const { password, ...updatedData } = formData;
+                await axios.patch(
+                    `http://localhost:8000/api/v1/admin/update-employee/${editingEmployee._id}`,
+                    updatedData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
             } else {
-                await axios.post("http://localhost:8000/api/v1/admin/create-employee", formData);
+                await axios.post("http://localhost:8000/api/v1/admin/add-employee", formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
             }
             handleClose();
             fetchEmployees();
@@ -193,6 +208,17 @@ const Employee = () => {
                         <DialogContent>
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
+                            {!editingEmployee && (
+                                <TextField
+                                    margin="dense"
+                                    label="Password"
+                                    fullWidth
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                            )}
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />

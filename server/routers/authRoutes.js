@@ -5,6 +5,8 @@ const { generateSalarySlip, deleteSalarySlip, updateSalarySlip } = require("../c
 const { updateLeaveStatus, getAllLeaves } = require("../controllers/leaveCtrl");
 const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = require("../controllers/assetsCtrl");
 const employeeController = require("../controllers/employeeCtrl");
+const staffController = require("../controllers/staffCtrl");
+
 
 
 const router = express.Router();
@@ -31,11 +33,13 @@ router.delete("/delete-asset/:id", userAuth, isAdmin, deleteAsset);
 
 
 //employee
-router.get("/get-employees", employeeController.getAllEmployees);
-router.post("/add-employee", employeeController.addEmployee);
-router.patch("/update-employee/:id", employeeController.updateEmployee);
-router.delete("/delete-employee/:id", employeeController.deleteEmployee);
+router.get("/get-employees", userAuth, isAdmin, employeeController.getAllEmployees);
+router.post("/add-employee", userAuth, isAdmin, employeeController.addEmployee);
+router.patch("/update-employee/:id", userAuth, isAdmin, employeeController.updateEmployee);
+router.delete("/delete-employee/:id", userAuth, isAdmin, employeeController.deleteEmployee);
 
+//staff
+router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
 
 
 
