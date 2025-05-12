@@ -36,14 +36,14 @@ const CommonCard = ({ icon, heading, number, backgroundColor, color }) => (
       </Box>
     </Box>
     <Box>
-      <Typography style={{ color }} variant='h5' fontSize={21}>{number}</Typography>
+      <Typography style={{ color }} variant='h5'>{number}</Typography>
     </Box>
   </Grid>
 );
 
 const HeadingText = ({ heading, name, handleClick, IsAction }) => (
   <Grid className="headingTextContainer">
-    <Typography variant='h4' fontWeight={500} fontSize={25}>{heading}</Typography>
+    <Typography variant='h4' fontWeight={500}>{heading}</Typography>
     {IsAction && <CommonButton name={name} onClick={handleClick} />}
   </Grid>
 );
@@ -82,15 +82,15 @@ const AnnouncementModal = ({
   heading,
   handleClick
 }) => (
-  <Modal open={open} sx={{ width: 600, height: 'fit-content', margin: "auto" }}>
+  <Modal open={open}>
     <Grid className="announcementModal">
       <Box>
-        <Typography variant='h4' fontSize={22} fontWeight={500}>{heading}</Typography>
+        <Typography variant='h4' fontWeight={500}>{heading}</Typography>
         <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
       </Box>
       <Divider />
       <Grid container className="announcementDetails">
-        <Grid xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <InputField
             label='Title'
             name='title'
@@ -109,7 +109,7 @@ const AnnouncementModal = ({
             rows={4}
           />
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <InputField
             label='Start Date'
             name='start_date'
@@ -137,74 +137,84 @@ const AnnouncementModal = ({
 const LeaveModal = ({
   open,
   handleClose,
-  leaveData,
+  leaveData = {},
   handleLeaveChange,
   handleLeaveSubmit,
   isEdit = false
-}) => (
-  <Modal open={open} sx={{ width: 600, height: 'fit-content', margin: "auto" }}>
-    <Grid className="announcementModal" style={{marginLeft:"500px"}}>
-      <Box style={{marginLeft:"500px"}}>
-        <Typography variant='h4' fontSize={22} fontWeight={500}>
-          {isEdit ? 'Edit Leave Request' : 'Apply for Leave'}
-        </Typography>
-        <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
-      </Box>
-      <Divider />
-      <Grid container spacing={2} className="announcementDetails" style={{marginLeft:"500px"}}>
-        <Grid item xs={12}>
-          <InputField
-            label='Leave Type'
-            name='leaveType'
-            placeholder='Select Leave Type'
-            // value={leaveData.leaveType}
-            handleChange={handleLeaveChange}
-            type='text'
-          />
+}) => {
+  // Set default values if leaveData is undefined or null
+  const {
+    leaveType = '',
+    startDate = '',
+    endDate = '',
+    reason = ''
+  } = leaveData;
+
+  return (
+    <Modal open={open}>
+      <Grid className="announcementModal">
+        <Box>
+          <Typography variant='h4' fontWeight={500}>
+            {isEdit ? 'Edit Leave Request' : 'Apply for Leave'}
+          </Typography>
+          <RxCross2 fontSize={22} cursor={"pointer"} onClick={handleClose} />
+        </Box>
+        <Divider />
+        <Grid container spacing={2} className="announcementDetails">
+          <Grid item xs={12}>
+            <InputField
+              label='Leave Type'
+              name='leaveType'
+              placeholder='Select Leave Type'
+              value={leaveType}
+              handleChange={handleLeaveChange}
+              type='text'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputField
+              label='Start Date'
+              name='startDate'
+              value={startDate}
+              handleChange={handleLeaveChange}
+              type='date'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputField
+              label='End Date'
+              name='endDate'
+              value={endDate}
+              handleChange={handleLeaveChange}
+              type='date'
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              label='Reason'
+              name='reason'
+              placeholder='Enter reason for leave'
+              value={reason}
+              handleChange={handleLeaveChange}
+              type='text'
+              multiline
+              rows={4}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <InputField
-            label='Start Date'
-            name='startDate'
-            // value={leaveData.startDate}
-            handleChange={handleLeaveChange}
-            type='date'
+        <Box>
+          <CommonButton name="Cancel" onClick={handleClose} />
+          <CommonButton
+            name={isEdit ? 'Update' : 'Submit'}
+            onClick={handleLeaveSubmit}
+            variant="contained"
+            color="#58024B"
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <InputField
-            label='End Date'
-            name='endDate'
-            // value={leaveData.endDate}
-            handleChange={handleLeaveChange}
-            type='date'
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <InputField
-            label='Reason'
-            name='reason'
-            placeholder='Enter reason for leave'
-            // value={leaveData.reason}
-            handleChange={handleLeaveChange}
-            type='text'
-            multiline
-            rows={4}
-          />
-        </Grid>
+        </Box>
       </Grid>
-      <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-        <CommonButton name="Cancel" onClick={handleClose} />
-        <CommonButton
-          name={isEdit ? 'Update' : 'Submit'}
-          onClick={handleLeaveSubmit}
-          variant="contained"
-          color="#58024B"
-        />
-      </Box>
-    </Grid>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 // Main Components
 const AttendanceStatus = ({ status }) => {
@@ -232,9 +242,9 @@ const AttendanceStatus = ({ status }) => {
   }
 
   return (
-    <Box display="flex" alignItems="center">
-      <Box style={{ color, marginRight: '0.5rem' }}>{icon}</Box>
-      <Typography>{status}</Typography>
+    <Box className="attendanceStatus">
+      <Box style={{ color }}>{icon}</Box>
+      <Typography variant="h5">{status}</Typography>
     </Box>
   );
 };
@@ -242,7 +252,7 @@ const AttendanceStatus = ({ status }) => {
 const MeetingSchedule = ({ data, handleClick, handleEdit, handleDelete }) => (
   <Grid className="meetingScheduleContainer">
     <HeadingText heading='Announcement List' IsAction={true} name='Create' handleClick={handleClick} />
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="tableContainer">
       <Table>
         <TableHead style={{ backgroundColor: "#58024B" }}>
           <TableRow>
@@ -292,21 +302,20 @@ const Calender = () => (
         center: 'title',
         right: 'dayGridMonth,dayGridWeek,dayGridDay'
       }}
-      height="100%"
     />
   </Grid>
 );
 
 const LeaveAndAttendanceSection = ({
   attendanceData,
-  leaveData = [],  // Default to empty array if undefined
+  leaveData = [],
   handleMarkAttendance,
   handleApplyLeave,
   handleEditLeave,
   handleCancelLeave
 }) => {
   return (
-    <Grid container spacing={3} className="attendanceLeaveContainer" style={{marginLeft:"200px"}}>
+    <Grid container spacing={3} className="attendanceLeaveContainer">
       <Grid item xs={12} md={6}>
         <Paper elevation={3} className="sectionPaper">
           <HeadingText heading="Today's Attendance" />
@@ -338,7 +347,7 @@ const LeaveAndAttendanceSection = ({
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Paper elevation={3} className="sectionPaper" style={{marginLeft:"250px"}}>
+        <Paper elevation={3} className="sectionPaper">
           <HeadingText heading="My Leave Requests" IsAction={true} name="Apply Leave" handleClick={handleApplyLeave} />
           <TableContainer>
             <Table>
@@ -356,11 +365,7 @@ const LeaveAndAttendanceSection = ({
                     <TableCell>{leave.leaveType}</TableCell>
                     <TableCell>{leave.startDate} to {leave.endDate}</TableCell>
                     <TableCell>
-                      <Box style={{ 
-                        color: leave.status === 'Approved' ? '#6FD943' : 
-                              leave.status === 'Rejected' ? '#FF3A6E' : '#FFA500',
-                        fontWeight: 'bold'
-                      }}>
+                      <Box className={`leaveStatus ${leave.status.toLowerCase()}`}>
                         {leave.status}
                       </Box>
                     </TableCell>
@@ -394,31 +399,32 @@ const LeaveAndAttendanceSection = ({
 };
 
 // Main Dashboard Component
-const Dashboard = ({
-  announcementData,
-  handleCreate,
-  handleEdit,
-  inputData,
-  handleChange,
-  handleEditModal,
-  handleClose,
-  editModal,
-  handleModal,
-  open,
-  handleDelete,
-  // Leave and Attendance props
-  attendanceData,
-  leaveData = [],  // Default to empty array if undefined
-  handleMarkAttendance,
-  handleApplyLeave,
-  leaveModalOpen,
-  handleLeaveClose,
-  leaveFormData,
-  handleLeaveChange,
-  handleLeaveSubmit,
-  handleEditLeave,
-  handleCancelLeave
-}) => {
+const Dashboard = () => {
+  // State for announcements
+  const [announcementData, setAnnouncementData] = React.useState([]);
+  const [inputData, setInputData] = React.useState({
+    title: '',
+    description: '',
+    start_date: '',
+    start_time: ''
+  });
+  const [editModal, setEditModal] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [editingId, setEditingId] = React.useState(null);
+
+  // State for attendance and leave
+  const [attendanceData, setAttendanceData] = React.useState({});
+  const [leaveData, setLeaveData] = React.useState([]);
+  const [leaveModalOpen, setLeaveModalOpen] = React.useState(false);
+  const [leaveFormData, setLeaveFormData] = React.useState({
+    leaveType: '',
+    startDate: '',
+    endDate: '',
+    reason: ''
+  });
+  const [editingLeaveId, setEditingLeaveId] = React.useState(null);
+
+  // Sample data for cards
   const data = [
     { id: 1, icon: <AiOutlineTeam />, heading: "Team", number: 5, color: "#58024B" },
     { id: 2, icon: <TbTicket />, heading: "Tickets", number: 3, color: "#3EC9D6" },
@@ -428,30 +434,163 @@ const Dashboard = ({
     { id: 6, icon: <AiOutlineCalendar />, heading: "Leaves Remaining", number: 18, color: "#58024B" },
   ];
 
+  // Announcement handlers
+  const handleModal = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setEditModal(false);
+    setInputData({
+      title: '',
+      description: '',
+      start_date: '',
+      start_time: ''
+    });
+    setEditingId(null);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleCreate = () => {
+    // Add your create logic here
+    const newAnnouncement = {
+      ...inputData,
+      _id: Date.now().toString()
+    };
+    setAnnouncementData([...announcementData, newAnnouncement]);
+    handleClose();
+  };
+
+  const handleEditModal = (id) => {
+    const announcementToEdit = announcementData.find(item => item._id === id);
+    if (announcementToEdit) {
+      setInputData(announcementToEdit);
+      setEditingId(id);
+      setEditModal(true);
+    }
+  };
+
+  const handleEdit = () => {
+    // Add your edit logic here
+    setAnnouncementData(announcementData.map(item => 
+      item._id === editingId ? { ...inputData, _id: editingId } : item
+    ));
+    handleClose();
+  };
+
+  const handleDelete = (id) => {
+    // Add your delete logic here
+    setAnnouncementData(announcementData.filter(item => item._id !== id));
+  };
+
+  // Leave handlers
+  const handleApplyLeave = () => {
+    setLeaveFormData({
+      leaveType: '',
+      startDate: '',
+      endDate: '',
+      reason: ''
+    });
+    setEditingLeaveId(null);
+    setLeaveModalOpen(true);
+  };
+
+  const handleLeaveClose = () => {
+    setLeaveModalOpen(false);
+    setLeaveFormData({
+      leaveType: '',
+      startDate: '',
+      endDate: '',
+      reason: ''
+    });
+    setEditingLeaveId(null);
+  };
+
+  const handleLeaveChange = (e) => {
+    const { name, value } = e.target;
+    setLeaveFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleLeaveSubmit = () => {
+    if (editingLeaveId) {
+      // Update existing leave
+      setLeaveData(leaveData.map(leave => 
+        leave.id === editingLeaveId ? { ...leaveFormData, id: editingLeaveId } : leave
+      ));
+    } else {
+      // Add new leave
+      setLeaveData([...leaveData, {
+        ...leaveFormData,
+        id: Date.now().toString(),
+        status: 'Pending'
+      }]);
+    }
+    handleLeaveClose();
+  };
+
+  const handleEditLeave = (leave) => {
+    setLeaveFormData({
+      leaveType: leave.leaveType,
+      startDate: leave.startDate,
+      endDate: leave.endDate,
+      reason: leave.reason
+    });
+    setEditingLeaveId(leave.id);
+    setLeaveModalOpen(true);
+  };
+
+  const handleCancelLeave = (id) => {
+    setLeaveData(leaveData.filter(leave => leave.id !== id));
+  };
+
+  // Attendance handler
+  const handleMarkAttendance = () => {
+    setAttendanceData({
+      status: 'Present',
+      timestamp: new Date().toISOString()
+    });
+  };
+
   return (
-    <div className="dashboardLayout" style={{ display: "flex" }}>
+    <div className="dashboardLayout">
       <Sidebar />
-      <Grid className="dashboardContainer">
-        <Typography variant='h2' fontWeight={500} fontSize={20}>Employee Dashboard</Typography>
+      <Grid container className="dashboardContainer">
+        <Grid item xs={12}>
+          <Typography variant='h2' fontWeight={500} mb={3}>Employee Dashboard</Typography>
+        </Grid>
+        
+        {/* Stats Cards */}
         <Grid container spacing={2}>
           {data.map((item) => (
-            <Grid item key={item.id} xs={12} sm={6} md={4}>
+            <Grid item key={item.id} xs={6} sm={4} md={4} lg={2}>
               <CommonCard {...item} backgroundColor={item.color} />
             </Grid>
           ))}
         </Grid>
 
-        <LeaveAndAttendanceSection
-          attendanceData={attendanceData}
-          leaveData={leaveData}
-          handleMarkAttendance={handleMarkAttendance}
-          handleApplyLeave={handleApplyLeave}
-          handleEditLeave={handleEditLeave}
-          handleCancelLeave={handleCancelLeave}
-        />
+        {/* Attendance and Leave Section */}
+        <Grid item xs={12} style={{marginLeft:"400px"}}>
+          <LeaveAndAttendanceSection
+            attendanceData={attendanceData}
+            leaveData={leaveData}
+            handleMarkAttendance={handleMarkAttendance}
+            handleApplyLeave={handleApplyLeave}
+            handleEditLeave={handleEditLeave}
+            handleCancelLeave={handleCancelLeave}
+          />
+        </Grid>
         
-        <Grid container spacing={2} className="dashboard2ndSection">
-          <Grid item xs={12} md={8}>
+        {/* Announcement and Calendar Section */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={8} style={{marginLeft:"200px", paddingTop:"30px"}}>
             <MeetingSchedule
               data={announcementData}
               handleClick={handleModal}
@@ -459,11 +598,14 @@ const Dashboard = ({
               handleDelete={handleDelete}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <Calender />
+          <Grid item xs={12} md={4} style={{ paddingTop:"30px"}}>
+            <Paper elevation={3} className="sectionPaper">
+              <Calender />
+            </Paper>
           </Grid>
         </Grid>
 
+        {/* Modals */}
         <AnnouncementModal
           open={open}
           name="Create"
@@ -489,6 +631,7 @@ const Dashboard = ({
           leaveData={leaveFormData}
           handleLeaveChange={handleLeaveChange}
           handleLeaveSubmit={handleLeaveSubmit}
+          isEdit={!!editingLeaveId}
         />
       </Grid>
     </div>

@@ -15,7 +15,7 @@ const menuItems = [
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
     { id: 6, icon: <PiNoteBold />, title: "Invoice", link: "/invoice" },
-    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" }
+   
 
 
 ];
