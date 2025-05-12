@@ -1,112 +1,120 @@
-import React, { useState } from 'react';
-import Sidebar from "../sidebar/sidebar";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
-  Modal,
   Box,
   Typography,
-  Divider,
   TextField,
-  Button
-} from '@mui/material';
-import { RxCross1 } from 'react-icons/rx';
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from "@mui/material";
+import Sidebar from "../sidebar/sidebar";
+import Heading from "../headingProfile/heading";
 
-function Attendance() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [rows, setRows] = useState([]);
-  const [form, setForm] = useState({
-    emp_id: "",
-    employee: "",
-    date: "",
-    hours: "",
-    remark: ""
-  });
+const Attendance = () => {
+  const [attendance, setAttendance] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
+  const fetchAttendance = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axios.get("http://localhost:8000/api/v1/admin/get-attendance", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+      const attendanceArray = res.data?.data || [];
+
+      const enrichedAttendance = attendanceArray.map(item => ({
+        ...item,
+        userDetails: item.userId, 
+      }));
+      
+      setAttendance(enrichedAttendance);
+      
+    } catch (err) {
+      console.error("Failed to fetch attendance", err);
+      setAttendance([]); 
+    }
+  };
+  
+  useEffect(() => {
+    fetchAttendance();
+  }, []);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const handleSubmit = () => {
-    const newRow = {
-      Emp_ID: form.emp_id,
-      Name: form.employee,
-      Date: form.date,
-      Clock_In: form.hours, // Simplified; you can adjust to match your actual logic
-      Clock_Out: "", // Placeholder for now
-      Status: form.remark || "Present",
-    };
-
-    setRows([...rows, newRow]);
-    handleClose();
-    setForm({ emp_id: "", employee: "", date: "", hours: "", remark: "" });
-  };
+  const filteredAttendance = attendance.filter(
+    (a) =>
+      (a.userDetails?.userName || "").toLowerCase().includes(searchTerm) 
+  );
 
   return (
-    <div className="app">
-      <div className="sidebar">
+    <Box display="flex" minHeight="100vh">
+      <Box sx={{ width: { xs: "100%", md: "18%" }, borderRight: "1px solid #eee", bgcolor: "#fff" }}>
         <Sidebar />
-      </div>
+      </Box>
 
-      <div className="main">
-        <Button variant="contained" onClick={handleOpen}>Open Attendance Modal</Button>
+      <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
+        <Heading />
+        <Box px={4} py={2}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <Typography variant="h6">Attendance Records</Typography>
+            <TextField placeholder="Search..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
+          </Box>
 
-        <Modal open={modalOpen}>
-          <div className="modalBox">
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="h6">Attendance Form</Typography>
-              <RxCross1 onClick={handleClose} style={{ cursor: "pointer" }} fontSize={25} />
-            </Box>
+          <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
+            <Table>
+              <TableHead sx={{ bgcolor: "#56005b" }}>
+                <TableRow>
+                  <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredAttendance.length > 0 ? (
+                  filteredAttendance.map((a, index) => (
+                    <TableRow key={a._id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{a.userDetails?.userName}</TableCell>
+                      <TableCell>{a.userDetails?.email || "N/A"}</TableCell>
+                      <TableCell>{a.clockIn ? new Date(a.clockIn).toLocaleString() : "N/A"}</TableCell>
+                      <TableCell>{a.clockOut ? new Date(a.clockOut).toLocaleString() : "N/A"}</TableCell>
+                      <TableCell>
+                          {a.clockInLocation? `${a.clockInLocation.latitude}, ${a.clockInLocation.longitude}`: "N/A"}</TableCell>
 
-            <Divider style={{ margin: '1rem 0' }} />
+                      <TableCell>{a.clockOutLocation? `${a.clockOutLocation.latitude}, ${a.clockOutLocation.longitude}`: "N/A"}</TableCell>
 
-            <Box display="flex" gap={2} marginBottom={2}>
-              <TextField fullWidth label="Employee ID" name="emp_id" placeholder="EMP000001" value={form.emp_id} onChange={handleChange} />
-              <TextField fullWidth label="Employee Name" name="employee" placeholder="John Deo" value={form.employee} onChange={handleChange} />
-            </Box>
-
-            <Box display="flex" gap={2} marginBottom={2}>
-              <TextField fullWidth label="Date" name="date" type="date" InputLabelProps={{ shrink: true }} value={form.date} onChange={handleChange} />
-              <TextField fullWidth label="Hours" name="hours" type="number" placeholder="8" value={form.hours} onChange={handleChange} />
-            </Box>
-
-            <TextField fullWidth label="Remark" name="remark" placeholder="Write remark here!" value={form.remark} onChange={handleChange} />
-
-            <Box display="flex" justifyContent="flex-end" gap={2} marginTop={2}>
-              <Button variant="outlined" onClick={handleClose}>Cancel</Button>
-              <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-            </Box>
-          </div>
-        </Modal>
-
-        <table className="att-table">
-          <thead>
-            <tr>
-              <th>Emp ID</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Clock In</th>
-              <th>Clock Out</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, idx) => (
-              <tr key={idx}>
-                <td>{row.Emp_ID}</td>
-                <td>{row.Name}</td>
-                <td>{row.Date}</td>
-                <td>{row.Clock_In}</td>
-                <td>{row.Clock_Out}</td>
-                <td>{row.Status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                      <TableCell>{a.workingHours || 0}</TableCell>
+                      <TableCell>{a.date}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">No attendance records found.</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Box>
+    </Box>
   );
-}
+};
 
 export default Attendance;

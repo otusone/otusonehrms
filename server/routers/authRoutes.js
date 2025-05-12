@@ -1,11 +1,13 @@
 const express = require("express");
 const { register, login } = require("../controllers/Auth/authController");
 const { userAuth, isAdmin } = require("../middleware/auth");
-const { generateSalarySlip, deleteSalarySlip, updateSalarySlip } = require("../controllers/SalaryCtrl");
+const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
 const { updateLeaveStatus, getAllLeaves } = require("../controllers/leaveCtrl");
 const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = require("../controllers/assetsCtrl");
 const employeeController = require("../controllers/employeeCtrl");
 const staffController = require("../controllers/staffCtrl");
+const attendanceController = require("../controllers/attendanceCtrl");
+
 
 
 
@@ -19,6 +21,7 @@ router.post("/login", login);
 router.post("/salary-slip", userAuth, isAdmin, generateSalarySlip);
 router.patch("/update-salary-slip/:id", userAuth, isAdmin, updateSalarySlip);
 router.delete("/delete-slip/:id", userAuth, isAdmin, deleteSalarySlip);
+router.get("/get-salary-slip", userAuth, isAdmin, getAllSalarySlips );
 
 //leave
 router.patch("/leave/status/:id", userAuth, isAdmin, updateLeaveStatus);
@@ -40,6 +43,10 @@ router.delete("/delete-employee/:id", userAuth, isAdmin, employeeController.dele
 
 //staff
 router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
+
+//attendance
+router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
+
 
 
 

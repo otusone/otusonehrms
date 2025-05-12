@@ -73,3 +73,23 @@ exports.deleteSalarySlip = async (req, res) => {
         res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 }
+
+exports.getAllSalarySlips = async (req, res) => {
+    try {
+      const slips = await SalarySlip.find()
+        .populate("userId", "userName email")
+        .sort({ createdAt: -1 });
+  
+      res.status(200).json({
+        success: true,
+        message: "All salary slips fetched successfully",
+        data: slips, 
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message || "Internal Server Error",
+      });
+    }
+  };
+  

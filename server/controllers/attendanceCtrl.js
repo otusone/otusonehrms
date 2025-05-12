@@ -120,4 +120,25 @@ exports.getMonthlyReport = async (req, res) => {
       });
     }
   };
+
+
+  exports.getAllAttendance = async (req, res) => {
+    try {
+      const attendanceList = await Attendance.find()
+        .populate("userId", "userName email") 
+        .sort({ createdAt: -1 });
+  
+      res.status(200).json({
+        success: true,
+        message: "All attendance records fetched successfully",
+        data: attendanceList,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message || "Internal server error",
+      });
+    }
+  };
+  
   
