@@ -1,43 +1,98 @@
-import React, { useState } from 'react';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+
+// Public
 import Login from "./components/login/Login";
+
+// Admin Components
 import Dashboard from "./components/Dashboard/Dashboard";
-import Sidebar from "./components/sidebar/sidebar";
-import Attendance from "./components/Attendance/Attendance";
 import Staff from "./components/staff/staff";
-import Heading from "./components/headingProfile/heading";
 import Employee from "./components/employee/employee";
+import Attendance from "./components/Attendance/Attendance";
 import Leave from "./components/leave/leave";
 import Asset from "./components/asset/asset";
 import Invoice from "./components/Invoice/invoice";
 import Salaryslip from "./components/salarySlip/salarySlip";
 
+// User Components
+import UserDashboard from "./components/userDashboard/Userdashboard";
+import UserAttendance from "./components/Userattendance/userAttendance";
+import UserProfile from "./components/UserProfile/UserProfile";
+import UserLeave from "./components/userLeave/userLeave";
+import UserAsset from "./components/UserAsset/UserAsset";
 
-
-
-
-import { Routes, Route } from 'react-router-dom';
+// Fallback
+const Unauthorized = () => <h1>Unauthorized Access</h1>;
 
 function App() {
   return (
-    <div>
-      <Routes>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
 
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        {/* <Route path="/sidebar" element={<Sidebar />} /> */}
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/employee" element={<Employee />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/manage-leave" element={<Leave />} />
-        <Route path="/invoice" element={<Invoice />} />
-        <Route path="/asset" element={<Asset />} />
-        <Route path="/salary-slip" element={<Salaryslip />} />
+      {/* Admin Protected Routes */}
+      <Route
+        path="/dashboard"
+        element={<ProtectedRoute allowedRoles={['admin']}><Dashboard /></ProtectedRoute>}
+      />
+      <Route
+        path="/staff"
+        element={<ProtectedRoute allowedRoles={['admin']}><Staff /></ProtectedRoute>}
+      />
+      <Route
+        path="/employee"
+        element={<ProtectedRoute allowedRoles={['admin']}><Employee /></ProtectedRoute>}
+      />
+      <Route
+        path="/attendance"
+        element={<ProtectedRoute allowedRoles={['admin']}><Attendance /></ProtectedRoute>}
+      />
+      <Route
+        path="/manage-leave"
+        element={<ProtectedRoute allowedRoles={['admin']}><Leave /></ProtectedRoute>}
+      />
+      <Route
+        path="/invoice"
+        element={<ProtectedRoute allowedRoles={['admin']}><Invoice /></ProtectedRoute>}
+      />
+      <Route
+        path="/asset"
+        element={<ProtectedRoute allowedRoles={['admin']}><Asset /></ProtectedRoute>}
+      />
+      <Route
+        path="/salary-slip"
+        element={<ProtectedRoute allowedRoles={['admin']}><Salaryslip /></ProtectedRoute>}
+      />
 
+      {/* User Protected Routes */}
+      <Route
+        path="/user-dashboard"
+        element={<ProtectedRoute allowedRoles={['user']}><UserDashboard /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-attendance"
+        element={<ProtectedRoute allowedRoles={['user']}><UserAttendance /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-profile"
+        element={<ProtectedRoute allowedRoles={['user']}><UserProfile /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-leave"
+        element={<ProtectedRoute allowedRoles={['user']}><UserLeave /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-asset"
+        element={<ProtectedRoute allowedRoles={['user']}><UserAsset /></ProtectedRoute>}
+      />
 
-
-
-      </Routes>
-    </div>
-  )
+      {/* Catch-all */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
 }
+
 export default App;

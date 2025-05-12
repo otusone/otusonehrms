@@ -1,17 +1,25 @@
+.dashboardLayout {
+    display: flex;
+    min-height: 100vh;
+}
+
 .dashboardContainer {
-    margin-left: 450px; 
+    flex: 1;
     padding: 2rem 3rem;
-    max-width: calc(100% - 250px);
-    width: 100%;
+    margin-left: 250px; 
+    width: calc(100% - 250px);
+    max-width: none;
 }
 
 .dashboardContainer h2 {
+    margin-left:155px;
     padding-bottom: 2rem;
     font-size: 2.5rem;
     color: #333;
 }
 
 .commonCardContainer {
+    margin-left:155px;
     display: flex;
     justify-content: space-between;
     padding: 2rem;
@@ -65,15 +73,25 @@
 
 .dashboard2ndSection {
     margin-top: 3rem;
+   
 }
 
-.meetingScheduleContainer,
+.meetingScheduleContainer {
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 35px 0px;
+    height: 100%;
+    background: white;
+    width: 100%;
+}
+
 .calenderContainer {
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 35px 0px;
     height: 100%;
     background: white;
+    width: 100%;
 }
 
 .headingTextContainer {
@@ -181,7 +199,7 @@
 
 .announcementModal > div:first-child {
     display: flex;
-    justify-content: space-between;
+    justify-content: space;
     align-items: center;
     margin-bottom: 1.5rem;
 }
@@ -241,6 +259,12 @@
 }
 
 @media (max-width: 992px) {
+    .dashboardContainer {
+        margin-left: 0;
+        width: 100%;
+        padding: 1.5rem;
+    }
+    
     .dashboardContainer h2 {
         font-size: 2rem;
     }
