@@ -6,6 +6,7 @@ const { updateLeaveStatus, getAllLeaves } = require("../controllers/leaveCtrl");
 const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = require("../controllers/assetsCtrl");
 const employeeController = require("../controllers/employeeCtrl");
 const staffController = require("../controllers/staffCtrl");
+const attendanceController = require("../controllers/attendanceCtrl");
 
 
 
@@ -40,6 +41,9 @@ router.delete("/delete-employee/:id", userAuth, isAdmin, employeeController.dele
 
 //staff
 router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
+
+//attendance
+router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
 
 
 

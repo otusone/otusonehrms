@@ -115,29 +115,7 @@ const Staff = () => {
             </Table>
           </TableContainer>
 
-          {/* Add Staff Dialog */}
-          {/* <Dialog open={open} onClose={handleClose} fullWidth>
-            <DialogTitle>Add Staff</DialogTitle>
-            <DialogContent>
-              <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
-              <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
-              <TextField margin="dense" label="Password" type="password" fullWidth name="password" value={formData.password} onChange={handleChange} />
-              <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
-              <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
-              <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
-              <TextField margin="dense" label="Gender" fullWidth name="gender" value={formData.gender} onChange={handleChange} select>
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
-              </TextField>
-              <TextField margin="dense" label="Religion" fullWidth name="religion" value={formData.religion} onChange={handleChange} />
-              <TextField margin="dense" label="Mobile No." fullWidth name="mobile" value={formData.mobile} onChange={handleChange} />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleSubmit} variant="contained" color="primary">Add</Button>
-            </DialogActions>
-          </Dialog> */}
+
         </Box>
       </Box>
     </Box>

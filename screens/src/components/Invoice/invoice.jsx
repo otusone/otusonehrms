@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-    Box,
-    Typography,
-    TextField,
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Grid
-} from "@mui/material";
+import { Box, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
 import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
@@ -111,22 +98,24 @@ const Invoice = ({
                                     <span style={{ fontSize: 15, color: "#617183", paddingInline: 5 }}>(Your Details)</span>
                                 </Typography>
                                 <Box className="billedCardContainer">
-                                    <Box display="flex" justifyContent="space-between">
-                                        <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
-                                    </Box>
-                                    <Box>
-                                        <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
-                                            Business Name  <span style={{ color: "#000000", paddingInlineStart: 12 }}>Your Business</span>
+                                    <Box display="flex" flexDirection="column" gap={1} style={{
+                                        border: "1px solid #58024B",
+                                        borderRadius: "8px",
+                                        padding: "16px",
+                                        bgcolor: "#ffffff"
+                                    }}>
+                                        <Typography variant='body1' sx={{ color: "#51618A", fontSize: 15 }}>
+                                            <strong>Business Name:</strong> Your Business
                                         </Typography>
-                                        <Typography sx={{ color: "#51618A", fontSize: 15 }}>
-                                            Address  <span style={{ color: "#000000", paddingInlineStart: 12 }}>Your Address</span>
+                                        <Typography variant='body1' sx={{ color: "#51618A", fontSize: 15 }}>
+                                            <strong>Address:</strong> Your Address
                                         </Typography>
                                     </Box>
                                 </Box>
                             </Box>
                         </Grid>
 
-                        {/* Billed To Card */}
+
                         <Grid item xs={12} md={6}>
                             <Box className="billedByContainer">
                                 <Typography variant='h5' fontSize={20} fontWeight={500}>
@@ -139,12 +128,18 @@ const Invoice = ({
                                             <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
                                             <MdEdit fontSize={20} cursor="pointer" onClick={handleAddClient} />
                                         </Box>
-                                        <Box>
+                                        <Box sx={{
+                                            border: "1px solid #58024B",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            bgcolor: "#ffffff",
+                                            marginTop: 2
+                                        }}>
                                             <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
-                                                Business Name  <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient.businessName}</span>
+                                                Business Name <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.businessName || '-'}</span>
                                             </Typography>
                                             <Typography sx={{ color: "#51618A", fontSize: 15 }}>
-                                                Address  <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient.address}</span>
+                                                Address <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.address || '-'}</span>
                                             </Typography>
                                         </Box>
                                     </Box>
