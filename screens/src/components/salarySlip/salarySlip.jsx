@@ -1,0 +1,243 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Modal,
+  MenuItem
+} from "@mui/material";
+import Sidebar from "../sidebar/sidebar";
+import Heading from "../headingProfile/heading";
+
+const SalarySlip = () => {
+  const [slips, setSlips] = useState([]);
+  const [filterText, setFilterText] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [formData, setFormData] = useState({
+    userId: "",
+    month: "",
+    basicSalary: "",
+    hra: "",
+    allowances: "",
+    deductions: "",
+  });
+  const [users, setUsers] = useState([]);
+
+  const fetchAllSlips = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axios.get("http://localhost:8000/api/v1/admin/get-salary-slip", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSlips(res.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch slips", err);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsers(res.data.employees || []);
+    } catch (err) {
+      console.error("Failed to fetch users", err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("authToken");
+      const payload = {
+        ...formData,
+        basicSalary: Number(formData.basicSalary),
+        hra: Number(formData.hra),
+        allowances: Number(formData.allowances),
+        deductions: Number(formData.deductions),
+      };
+      await axios.post("http://localhost:8000/api/v1/admin/salary-slip", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setFormData({ userId: "", month: "", basicSalary: "", hra: "", allowances: "", deductions: "" });
+      setOpenModal(false);
+      fetchAllSlips();
+    } catch (err) {
+      console.error("Failed to generate slip", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  useEffect(() => {
+    fetchAllSlips();
+    fetchUsers();
+  }, []);
+
+  const filteredSlips = slips.filter(
+    (s) =>
+      s.userId?.userName?.toLowerCase().includes(filterText) ||
+      s.userId?.email?.toLowerCase().includes(filterText)
+  );
+
+  return (
+    <Box display="flex" minHeight="100vh">
+      <Box sx={{ width: { xs: "100%", md: "18%" }, bgcolor: "#fff", borderRight: "1px solid #ddd" }}>
+        <Sidebar />
+      </Box>
+
+      <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
+        <Heading />
+        <Box p={3}>
+          <Typography variant="h6" mb={2}>Salary Slip Management</Typography>
+
+          {/* Top Controls */}
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "right", mb: 2 }}>
+            <Button
+              variant="contained"
+              onClick={() => setOpenModal(true)}
+            //   disabled={!selectedUserId}
+            >
+              Generate Salary Slip
+            </Button>
+
+            {/* <TextField
+              select
+              label="Select Employee"
+              value={selectedUserId}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              size="small"
+              sx={{ minWidth: 200 }}
+            >
+              {users.map((u) => (
+                <MenuItem key={u._id} value={u._id}>
+                  {u.userName || u.email}
+                </MenuItem>
+              ))}
+            </TextField> */}
+
+            <TextField
+              label="Filter by Name or Email"
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{ flexGrow: 1, minWidth: 200 }}
+              onChange={(e) => setFilterText(e.target.value.toLowerCase())}
+            />
+          </Box>
+
+          {/* Table */}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead sx={{ bgcolor: "#56005b" }}>
+                <TableRow>
+                  <TableCell sx={{ color: "#fff" }}>Employee</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Email</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Month</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Basic</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>HRA</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Allowances</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Deductions</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Net Salary</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredSlips.map((s) => (
+                  <TableRow key={s._id}>
+                    <TableCell>{s.userId?.userName || "-"}</TableCell>
+                    <TableCell>{s.userId?.email || "-"}</TableCell>
+                    <TableCell>{s.month}</TableCell>
+                    <TableCell>{s.basicSalary}</TableCell>
+                    <TableCell>{s.hra}</TableCell>
+                    <TableCell>{s.allowances}</TableCell>
+                    <TableCell>{s.deductions}</TableCell>
+                    <TableCell>{s.netSalary}</TableCell>
+                  </TableRow>
+                ))}
+                {filteredSlips.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">No salary slips found.</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Box>
+
+      {/* Modal */}
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+            bgcolor: "#fff", p: 4, width: 400, boxShadow: 24, borderRadius: 2
+          }}
+        >
+          <Typography variant="h6" mb={2}>Generate Salary Slip</Typography>
+          <TextField
+            select
+            fullWidth
+            label="Select Employee"
+            name="userId"
+            value={formData.userId}
+            onChange={handleChange}
+            margin="normal"
+            required
+            size="small"
+          >
+            {users.map((u) => (
+              <MenuItem key={u._id} value={u._id}>
+                {u.userName || u.email}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            fullWidth label="Month" name="month" value={formData.month}
+            onChange={handleChange} margin="normal" required size="small"
+          />
+          <TextField
+            fullWidth label="Basic Salary" name="basicSalary" type="number"
+            value={formData.basicSalary} onChange={handleChange}
+            margin="normal" required size="small"
+          />
+          <TextField
+            fullWidth label="HRA" name="hra" type="number"
+            value={formData.hra} onChange={handleChange}
+            margin="normal" required size="small"
+          />
+          <TextField
+            fullWidth label="Allowances" name="allowances" type="number"
+            value={formData.allowances} onChange={handleChange}
+            margin="normal" required size="small"
+          />
+          <TextField
+            fullWidth label="Deductions" name="deductions" type="number"
+            value={formData.deductions} onChange={handleChange}
+            margin="normal" required size="small"
+          />
+          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+            Submit
+          </Button>
+        </Box>
+      </Modal>
+    </Box>
+  );
+};
+
+export default SalarySlip;

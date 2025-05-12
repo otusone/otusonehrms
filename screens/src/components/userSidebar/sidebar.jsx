@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './sidebar.css';
 
+
 import { AiOutlineHome, AiOutlineTeam, AiOutlineUser } from 'react-icons/ai';
 import { TbCalendarTime } from 'react-icons/tb';
 import { GrDocumentTime } from "react-icons/gr";
@@ -9,13 +10,13 @@ import { PiNoteBold, PiBriefcaseBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const menuItems = [
-    { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/dashboard" },
-    { id: 2, icon: <AiOutlineTeam />, title: "Staff", link: "/staff" },
-    { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
-    { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
-    { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
-    { id: 6, icon: <PiNoteBold />, title: "Salary Slip", link: "/salary-slip" },
-    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" }
+    { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/user-dashboard" },
+    // { id: 2, icon: <AiOutlineTeam />, title: "Staff", link: "/staff" },
+    // { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
+    { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/user-attendance" },
+    { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/user-leave" },
+    { id: 6, icon: <PiNoteBold />, title: "Salary Slip", link: "/user-salary-slip" },
+    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/user-asset" }
 
 
 ];

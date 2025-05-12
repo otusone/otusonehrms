@@ -133,10 +133,11 @@ exports.getMonthlyReport = async (req, res) => {
   }
 };
 
+
 exports.getAllAttendance = async (req, res) => {
   try {
     const attendanceList = await Attendance.find()
-      .populate("userId", "name email")
+      .populate("userId", "userName email")
       .sort({ createdAt: -1 });
 
     res.status(200).json({

@@ -28,16 +28,20 @@ const Attendance = () => {
         },
       });
 
-      // Safely handle the case where data might be undefined
-      const attendanceArray = res.data?.attendance || [];
+      const attendanceArray = res.data?.data || [];
 
-      setAttendance(attendanceArray);
+      const enrichedAttendance = attendanceArray.map(item => ({
+        ...item,
+        userDetails: item.userId,
+      }));
+
+      setAttendance(enrichedAttendance);
+
     } catch (err) {
       console.error("Failed to fetch attendance", err);
-      setAttendance([]); // fallback in case of error
+      setAttendance([]);
     }
   };
-
 
   useEffect(() => {
     fetchAttendance();
@@ -49,8 +53,7 @@ const Attendance = () => {
 
   const filteredAttendance = attendance.filter(
     (a) =>
-      (a.userName || "").toLowerCase().includes(searchTerm) ||
-      (a.userId || "").toLowerCase().includes(searchTerm)
+      (a.userDetails?.userName || "").toLowerCase().includes(searchTerm)
   );
 
   return (
@@ -72,10 +75,12 @@ const Attendance = () => {
               <TableHead sx={{ bgcolor: "#56005b" }}>
                 <TableRow>
                   <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE ID</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>NAME</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
                   <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
                   <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                 </TableRow>
@@ -85,10 +90,15 @@ const Attendance = () => {
                   filteredAttendance.map((a, index) => (
                     <TableRow key={a._id}>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{a.userId}</TableCell>
-                      <TableCell>{a.userName || "N/A"}</TableCell>
+                      <TableCell>{a.userDetails?.userName}</TableCell>
+                      <TableCell>{a.userDetails?.email || "N/A"}</TableCell>
                       <TableCell>{a.clockIn ? new Date(a.clockIn).toLocaleString() : "N/A"}</TableCell>
                       <TableCell>{a.clockOut ? new Date(a.clockOut).toLocaleString() : "N/A"}</TableCell>
+                      <TableCell>
+                        {a.clockInLocation ? `${a.clockInLocation.latitude}, ${a.clockInLocation.longitude}` : "N/A"}</TableCell>
+
+                      <TableCell>{a.clockOutLocation ? `${a.clockOutLocation.latitude}, ${a.clockOutLocation.longitude}` : "N/A"}</TableCell>
+
                       <TableCell>{a.workingHours || 0}</TableCell>
                       <TableCell>{a.date}</TableCell>
                     </TableRow>
