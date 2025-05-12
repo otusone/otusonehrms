@@ -1,39 +1,45 @@
-import React, { useState } from 'react';
+import React, { Fragment } from 'react';
+import { Routes, Route } from "react-router-dom";
 import Login from "./components/login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Sidebar from "./components/sidebar/sidebar";
 import Attendance from "./components/Attendance/Attendance";
 import Staff from "./components/staff/staff";
-import Heading from "./components/headingProfile/heading";
 import Employee from "./components/employee/employee";
 import Leave from "./components/leave/leave";
 import Asset from "./components/asset/asset";
-import Invoice from "./components/Invoice/invoice";
+import Invoice from "./components/Invoice/Invoice";
+import SignUp from "./components/login/SignUp";
+import Applyforleave from "./components/leave/Applyforleave";
+import Userasset from "./components/UserAsset/Userasset";
+import Userdashboard from "./components/Userdashboard/Userdashboard";
+import UserProfile from "./components/profile/UserProfile";
+import UserAttendance from "./components/Userattendance/UserAttendance";
 
-
-
-
-import { Routes, Route } from 'react-router-dom';
-
-function App() {
-  return (
-    <div>
-      <Routes>
-
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        {/* <Route path="/sidebar" element={<Sidebar />} /> */}
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/employee" element={<Employee />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/manage-leave" element={<Leave />} />
-        <Route path="/invoice" element={<Invoice />} />
-        <Route path="/asset" element={<Asset />} />
-
-
-
-      </Routes>
-    </div>
-  )
+const RoutesPage = () => {
+    return (
+        <Fragment>
+            <Routes>
+                <Route path='/' element={<Login />} />
+                <Route path='/staff' element={<Staff />} />
+                <Route path='/employee' element={<Employee />} />
+                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/attendance' element={<Attendance />} />
+                <Route path='/manage-leave' element={<Leave />} />
+                <Route path='/attendance' element={<Attendance />} />
+                <Route path='/asset' element={<Asset />} />
+                <Route path='invoice' element={<Invoice />} />
+                <Route path='/signup' element={<SignUp />} />
+                <Route path="/applyforleave" element={<Applyforleave />} />
+                <Route path="/userasset" element={<Userasset />} />
+                <Route path="/userdashboard" element={<Userdashboard />} />
+                <Route path="/userprofile" element={<UserProfile />} />
+                <Route path="/userattendance" element={<UserAttendance/>}/>
+            </Routes>
+        </Fragment>
+    )
 }
-export default App;
+
+export default RoutesPage;
+
+
+

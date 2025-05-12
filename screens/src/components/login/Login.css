@@ -59,3 +59,47 @@
   background-color: #58024B;
   color: #ffffff;
 }
+
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+  .loginContainer {
+    background-image: none;
+    background-color: white;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .logoContainer {
+    width: 150px;
+    height: 80px;
+    margin: 10px auto;
+  }
+  
+  .mainContent {
+    padding: 10px;
+  }
+  
+  .loginFormContainer {
+    width: 100%;
+    padding: 20px;
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+/* Tablet specific styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .loginContainer {
+    background-image: linear-gradient(to right, #ffffff 60%, #A6145E 40%);
+  }
+  
+  .imageContainer {
+    width: 40%;
+    min-width: 250px;
+  }
+  
+  .loginFormContainer {
+    width: 350px;
+  }
+}

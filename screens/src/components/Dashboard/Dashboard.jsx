@@ -186,8 +186,9 @@ const Dashboard = ({
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2} className="dashboard2ndSection">
-          <Grid item xs={12} md={7}>
+        <Grid container spacing={2} className="dashboard2ndSection" style={{marginLeft:"155px"}}>
+          <Grid item xs={12} md={36}>
+          {/* <Grid item xs={12} md={4}> */}
             <MeetingSchedule
               data={announcementData}
               handleClick={handleModal}
@@ -195,7 +196,7 @@ const Dashboard = ({
               handleDelete={handleDelete}
             />
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={24}>
             <Calender />
           </Grid>
         </Grid>
