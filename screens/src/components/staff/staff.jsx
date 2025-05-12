@@ -21,100 +21,38 @@ import {
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 
-const Employee = () => {
-  const [employees, setEmployees] = useState([]);
-  const [filteredEmployees, setFilteredEmployees] = useState([]);
+const Staff = () => {
+  const [staff, setStaff] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState(null);
-  const [formData, setFormData] = useState({
-    userName: "",
-    email: "",
-    designation: "",
-    dateOfBirth: "",
-    address: "",
-    gender: "",
-    religion: "",
-    mobile: ""
-  });
 
-  const fetchEmployees = async () => {
+  const fetchStaff = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+      const res = await axios.get("http://localhost:8000/api/v1/admin/get-staff", {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setEmployees(res.data.employees);
-      setFilteredEmployees(res.data.employees);
+      setStaff(res.data.employees);
     } catch (err) {
-      console.error("Failed to fetch employees", err);
+      console.error("Failed to fetch staff", err);
     }
   };
 
   useEffect(() => {
-    fetchEmployees();
+    fetchStaff();
   }, []);
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
-    const filtered = employees.filter(emp =>
-      emp.userName.toLowerCase().includes(value) ||
-      emp.email.toLowerCase().includes(value)
-    );
-    setFilteredEmployees(filtered);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8000/api/v1/delete-employee/${id}`);
-      fetchEmployees();
-    } catch (err) {
-      console.error("Failed to delete employee", err);
-    }
-  };
 
-  const handleOpen = (employee = null) => {
-    setEditingEmployee(employee);
-    if (employee) {
-      setFormData({ ...employee });
-    } else {
-      setFormData({
-        userName: "",
-        email: "",
-        designation: "",
-        dateOfBirth: "",
-        address: "",
-        gender: "",
-        religion: "",
-        mobile: ""
-      });
-    }
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-    setEditingEmployee(null);
-  };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      if (editingEmployee) {
-        await axios.patch(`http://localhost:8000/api/v1/update-employee/${editingEmployee._id}`, formData);
-      } else {
-        await axios.post("http://localhost:8000/api/v1/create-employee", formData);
-      }
-      handleClose();
-      fetchEmployees();
-    } catch (err) {
-      console.error("Failed to submit employee data", err);
-    }
-  };
+  const filteredStaff = staff.filter((emp) =>
+    emp.userName.toLowerCase().includes(searchTerm) || emp.email.toLowerCase().includes(searchTerm)
+  );
 
   return (
     <Box display="flex" minHeight="100vh">
@@ -125,10 +63,10 @@ const Employee = () => {
         <Heading />
         <Box px={4} py={2}>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap">
-            <Typography variant="h6">Staff</Typography>
-            <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ mt: { xs: 1, sm: 0 } }}>
-              ADD EMPLOYEE
-            </Button>
+            <Typography variant="h6">Staff Directory</Typography>
+            {/* <Button variant="outlined" color="primary" onClick={handleOpen} sx={{ mt: { xs: 1, sm: 0 } }}>
+              ADD STAFF
+            </Button> */}
           </Box>
           <Box display="flex" justifyContent="flex-end" mb={2}>
             <TextField placeholder="Search..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
@@ -138,52 +76,52 @@ const Employee = () => {
               <TableHead sx={{ bgcolor: "#56005b" }}>
                 <TableRow>
                   <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>NAME</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>ROLE</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>DOB</TableCell>
                   <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>DATE OF BIRTH</TableCell>
                   <TableCell sx={{ color: "#fff" }}>ADDRESS</TableCell>
                   <TableCell sx={{ color: "#fff" }}>GENDER</TableCell>
                   <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>MOBILE NO.</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>MOBILE</TableCell>
+
+
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredEmployees.length > 0 ? (
-                  filteredEmployees.map((emp, index) => (
+                {filteredStaff.length > 0 ? (
+                  filteredStaff.map((emp, index) => (
                     <TableRow key={emp._id}>
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{emp.userName}</TableCell>
                       <TableCell>{emp.email}</TableCell>
-                      <TableCell>{emp.designation}</TableCell>
+                      <TableCell>{emp.role}</TableCell>
                       <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
+                      <TableCell>{emp.designation}</TableCell>
                       <TableCell>{emp.address || "N/A"}</TableCell>
                       <TableCell>{emp.gender}</TableCell>
                       <TableCell>{emp.religion}</TableCell>
                       <TableCell>{emp.mobile}</TableCell>
-                      <TableCell>
-                        <Box display="flex" gap={1}>
-                          <Button variant="outlined" color="primary" size="small" onClick={() => handleOpen(emp)}>Update</Button>
-                          <Button variant="outlined" color="error" size="small" onClick={() => handleDelete(emp._id)}>Delete</Button>
-                        </Box>
-                      </TableCell>
+
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={10} align="center">No employees found.</TableCell>
+                    <TableCell colSpan={9} align="center">No staff found.</TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
 
-          <Dialog open={open} onClose={handleClose} fullWidth>
-            <DialogTitle>{editingEmployee ? "Update Employee" : "Add Employee"}</DialogTitle>
+          {/* Add Staff Dialog */}
+          {/* <Dialog open={open} onClose={handleClose} fullWidth>
+            <DialogTitle>Add Staff</DialogTitle>
             <DialogContent>
               <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
               <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
+              <TextField margin="dense" label="Password" type="password" fullWidth name="password" value={formData.password} onChange={handleChange} />
               <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
               <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
               <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
@@ -197,13 +135,13 @@ const Employee = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button>
+              <Button onClick={handleSubmit} variant="contained" color="primary">Add</Button>
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default Employee;
+export default Staff;

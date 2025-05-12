@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const bcrypt = require('bcryptjs');
 
 exports.getAllEmployees = async (req, res) => {
     try {
@@ -17,11 +18,14 @@ exports.getAllEmployees = async (req, res) => {
     }
 };
 
+
+
 exports.addEmployee = async (req, res) => {
     try {
         const {
             userName,
             email,
+            password,
             designation,
             dateOfBirth,
             address,
@@ -32,19 +36,26 @@ exports.addEmployee = async (req, res) => {
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ success: false, message: "Employee with this email already exists" });
+            return res.status(400).json({
+                success: false,
+                message: "Employee with this email already exists"
+            });
         }
+
+
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newEmployee = new User({
             userName,
             email,
+            password: hashedPassword,
             designation,
             dateOfBirth,
             address,
             gender,
             religion,
             mobile,
-            role: "user",
+            role: "user"
         });
 
         await newEmployee.save();
@@ -63,6 +74,7 @@ exports.addEmployee = async (req, res) => {
         });
     }
 };
+
 
 
 exports.updateEmployee = async (req, res) => {

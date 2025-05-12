@@ -9,12 +9,12 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 exports.register = async (req, res) => {
     try {
-        const { userName, email, password, mobile, gender, religion, role } = req.body;
+        const { userName, email, password, designation, mobile, address, gender, religion, role } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) { return res.status(400).json({ success: false, message: "Email is Already Exist" }) }
 
         const user = new User({
-            userName, email, password, role, mobile, gender, religion
+            userName, email, password, designation, role, mobile, address, gender, religion
         });
         // const role=req.body.role ||"user";
 

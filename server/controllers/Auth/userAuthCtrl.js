@@ -8,16 +8,14 @@ require("dotenv").config();
 
 exports.register = async (req, res) => {
     try {
-        const { userName, email, password, mobile, dateOfBirth, gender, religion, role } = req.body;
+        const { userName, email, password, designation, mobile, address, dateOfBirth, gender, religion, role } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) { return res.status(400).json({ success: false, message: "Email is Already Exist" }) }
-
-
 
         const hashedPassword = await bcrypt.hash(password, 15);
 
         const user = new User({
-            userName, email, password, role, mobile, dateOfBirth, gender, religion
+            userName, email, password, designation, role, mobile, address, dateOfBirth, gender, religion
         });
         // const role=req.body.role ||"user";
 
@@ -135,7 +133,7 @@ exports.login = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
     try {
-        const { _id: userId } = req.user
+        const { id: userId } = req.params;
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -147,30 +145,37 @@ exports.getProfile = async (req, res) => {
     }
 };
 
+
 exports.updateProfile = async (req, res) => {
     try {
-        const { _id: userId } = req.user
-        const user = await User.findById(userId);
+        const { id: userId } = req.params;
+        console.log("Received userId:", userId);
 
+        let user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ message: "User not Found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
-        if (req.body.password) {
-            user.password = await bcrypt.hash(req.body.password, 15);
+        const updates = { ...req.body };
+
+
+        if (updates.password) {
+            updates.password = await bcrypt.hash(updates.password, 15);
         }
-        await user.save();
+
+
+        user = await User.findByIdAndUpdate(userId, updates, { new: true });
 
         res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            data: user
+            data: user,
         });
     } catch (error) {
-        console.error("Error fetching user Profile:", error);
-        res.status(500).json({ message: error.message || "Internal Server Error" })
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
     }
-}
+};
 
 
 exports.deleteProfile = async (req, res) => {
