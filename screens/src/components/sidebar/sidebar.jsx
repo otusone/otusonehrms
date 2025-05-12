@@ -14,7 +14,7 @@ const menuItems = [
     { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
-    { id: 6, icon: <PiNoteBold />, title: "Invoice", link: "/invoice" },
+    { id: 6, icon: <PiNoteBold />, title: "Salary Slip", link: "/salary-slip" },
     { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" }
 
 

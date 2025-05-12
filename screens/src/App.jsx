@@ -9,6 +9,8 @@ import Employee from "./components/employee/employee";
 import Leave from "./components/leave/leave";
 import Asset from "./components/asset/asset";
 import Invoice from "./components/Invoice/invoice";
+import Salaryslip from "./components/salarySlip/salarySlip";
+
 
 
 
@@ -29,6 +31,8 @@ function App() {
         <Route path="/manage-leave" element={<Leave />} />
         <Route path="/invoice" element={<Invoice />} />
         <Route path="/asset" element={<Asset />} />
+        <Route path="/salary-slip" element={<Salaryslip />} />
+
 
 
 
