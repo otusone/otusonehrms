@@ -23,7 +23,7 @@ import { RiHotspotLine } from 'react-icons/ri';
 import { RxCross2 } from 'react-icons/rx';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import Sidebar from '../sidebar/sidebar';
+import UserSidebar from '../UserSidebar/userSidebar';
 
 // Common Components
 const CommonCard = ({ icon, heading, number, backgroundColor, color }) => (
@@ -561,7 +561,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboardLayout">
-      <Sidebar />
+      <UserSidebar />
       <Grid container className="dashboardContainer">
         <Grid item xs={12}>
           <Typography variant='h2' fontWeight={500} mb={3}>Employee Dashboard</Typography>

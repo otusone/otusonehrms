@@ -1,7 +1,19 @@
 /* Base Styles */
+.user-profile-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.profile-main-content {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 250px; /* Adjust based on your sidebar width */
+}
+
 .profile-container {
     max-width: 1200px;
-    margin: 2rem auto;
+    margin: 0 auto;
     padding: 2rem;
     background: #ffffff;
     border-radius: 12px;
@@ -303,6 +315,13 @@
 }
 
 /* Responsive Styles */
+@media (max-width: 1200px) {
+    .profile-main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
 @media (max-width: 992px) {
     .profile-content {
         flex-direction: column;
@@ -311,6 +330,16 @@
     .profile-sidebar {
         order: -1;
         margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1rem;
+    }
+    
+    .profile-form, .profile-sidebar {
+        padding: 1.5rem;
     }
 }
 
@@ -328,5 +357,15 @@
     .profile-status {
         margin-left: 0;
         margin-top: 1rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .edit-btn,
+    .update-btn,
+    .cancel-btn {
+        width: 100%;
     }
 }

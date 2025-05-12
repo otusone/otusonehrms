@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./SignUp.css";
+import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const SignUp = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate =useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -80,6 +82,7 @@ const SignUp = () => {
         setIsSubmitting(false);
         // Here you would typically redirect or show success message
         alert('Account created successfully!');
+        navigate("/");
       }, 1500);
     }
   };
@@ -310,7 +313,7 @@ const SignUp = () => {
           </button>
           
           <div className="login-link">
-            Already have an account? <a href="/login">Log in</a>
+            Already have an account? <a href="/">Log in</a>
           </div>
         </form>
       </div>

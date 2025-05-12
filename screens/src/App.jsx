@@ -14,6 +14,8 @@ import Userasset from "./components/UserAsset/Userasset";
 import Userdashboard from "./components/Userdashboard/Userdashboard";
 import UserProfile from "./components/profile/UserProfile";
 import UserAttendance from "./components/Userattendance/UserAttendance";
+import UserSidebar from "./components/UserSidebar/userSidebar";
+
 
 const RoutesPage = () => {
     return (
@@ -34,6 +36,7 @@ const RoutesPage = () => {
                 <Route path="/userdashboard" element={<Userdashboard />} />
                 <Route path="/userprofile" element={<UserProfile />} />
                 <Route path="/userattendance" element={<UserAttendance/>}/>
+                <Route path="/UserSidebar" element={<UserSidebar/>}/>
             </Routes>
         </Fragment>
     )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Box,Typography,Button,TextField,TableContainer,Table,TableHead,TableRow,TableCell,TableBody,Paper,Dialog,DialogTitle,DialogContent,DialogActions,MenuItem} from "@mui/material";
-import Sidebar from "../sidebar/sidebar";
+import UserSidebar from "../UserSidebar/userSidebar";
 import Heading from "../headingProfile/heading";
 
 const Employee = () => {
@@ -59,7 +59,7 @@ const Employee = () => {
     return (
         <Box display="flex" minHeight="100vh">
             <Box sx={{ width: { xs: "100%", md: "18%" }, borderRight: { md: "1px solid #eee" }, bgcolor: "#fff" }}>
-                <Sidebar />
+                <UserSidebar />
             </Box>
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />

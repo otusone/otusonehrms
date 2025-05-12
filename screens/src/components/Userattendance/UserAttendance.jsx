@@ -17,7 +17,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import Sidebar from "../sidebar/sidebar";
+import UserSidebar from "../UserSidebar/userSidebar";
 import Heading from "../headingProfile/heading";
 
 const UserAttendance = () => {
@@ -153,7 +153,7 @@ const UserAttendance = () => {
           bgcolor: "#fff",
         }}
       >
-        <Sidebar />
+        <UserSidebar />
       </Box>
 
       <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>

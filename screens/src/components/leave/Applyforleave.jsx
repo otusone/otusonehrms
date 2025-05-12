@@ -20,7 +20,7 @@ import {
   Snackbar,
   Alert
 } from "@mui/material";
-import Sidebar from "../sidebar/sidebar";
+import UserSidebar from '../UserSidebar/userSidebar';
 import Heading from "../headingProfile/heading";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -110,7 +110,7 @@ const Applyforleave = () => {
                     width: { xs: "100%", md: "18%" }, borderRight: { md: "1px solid #eee" }, bgcolor: "#fff",
                 }}
             >
-                <Sidebar />
+                <UserSidebar />
             </Box>
 
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>

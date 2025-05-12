@@ -86,7 +86,7 @@ const Login = () => {
                         </div>
                     </Box>
                     <Typography style={{ color: "#BC125E", cursor: "pointer" }}>
-                        Forgot Your Password?
+                        Forgot Your Password? New User <a href="/signup">SignUp</a>
                     </Typography>
                     <div className="commonButtonContainer">
                         <Button onClick={handleLogin} variant='outlined'>

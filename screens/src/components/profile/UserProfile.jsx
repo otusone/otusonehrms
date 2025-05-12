@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./UserProfile.css";
+import UserSidebar from '../UserSidebar/UserSidebar';
 
-const UserProfile = () => {
+function UserProfile() {
     // Sample user data - in a real app, this would come from an API or context
     const sampleUser = {
         userName: "john_doe",
@@ -128,216 +129,213 @@ const UserProfile = () => {
     };
 
     return (
-        <div className="profile-container">
-            <ToastContainer />
-            <div className="profile-header">
-                <img src="/assets/logo.png" alt="OTUSONE Logo" className="logo" />
-                <h1>User Profile</h1>
-                <div className="profile-status">
-                    <span className={`status-badge ${formData.role === 'admin' ? 'admin' : 'user'}`}>
-                        {formData.role === 'admin' ? 'Administrator' : 'Standard User'}
-                    </span>
-                </div>
-            </div>
-            
-            <div className="profile-content">
-                <form onSubmit={handleSubmit} className="profile-form">
-                    <div className="form-section">
-                        <h2>Basic Information</h2>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="userName">Username*</label>
-                                <input
-                                    type="text"
-                                    id="userName"
-                                    name="userName"
-                                    value={formData.userName}
-                                    onChange={handleChange}
-                                    className={errors.userName ? 'error' : ''}
-                                    disabled={!isEditing}
-                                />
-                                {errors.userName && <span className="error-message">{errors.userName}</span>}
-                            </div>
-                            
-                            <div className="form-group">
-                                <label htmlFor="email">Email*</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className={errors.email ? 'error' : ''}
-                                    disabled={!isEditing}
-                                />
-                                {errors.email && <span className="error-message">{errors.email}</span>}
-                            </div>
-                        </div>
-                        
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="password">Password*</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className={errors.password ? 'error' : ''}
-                                    disabled={!isEditing}
-                                />
-                                {errors.password && <span className="error-message">{errors.password}</span>}
-                            </div>
-                            
-                            <div className="form-group">
-                                <label htmlFor="designation">Designation*</label>
-                                <input
-                                    type="text"
-                                    id="designation"
-                                    name="designation"
-                                    value={formData.designation}
-                                    onChange={handleChange}
-                                    className={errors.designation ? 'error' : ''}
-                                    disabled={!isEditing}
-                                />
-                                {errors.designation && <span className="error-message">{errors.designation}</span>}
-                            </div>
+        <div className="user-profile-container">
+            <UserSidebar />
+            <div className="profile-main-content">
+                <ToastContainer />
+                <div className="profile-container">
+                    <div className="profile-header">
+                        <img src="/assets/logo.png" alt="OTUSONE Logo" className="logo" />
+                        <h1>User Profile</h1>
+                        <div className="profile-status">
+                            <span className={`status-badge ${formData.role === 'admin' ? 'admin' : 'user'}`}>
+                                {formData.role === 'admin' ? 'Administrator' : 'Standard User'}
+                            </span>
                         </div>
                     </div>
-                    
-                    <div className="form-section">
-                        <h2>Personal Details</h2>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="gender">Gender*</label>
-                                <select
-                                    id="gender"
-                                    name="gender"
-                                    value={formData.gender}
-                                    onChange={handleChange}
-                                    className={errors.gender ? 'error' : ''}
-                                    disabled={!isEditing}
-                                >
-                                    <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                {errors.gender && <span className="error-message">{errors.gender}</span>}
+
+                    <div className="profile-content">
+                        <form onSubmit={handleSubmit} className="profile-form">
+                            <div className="form-section">
+                                <h2>Basic Information</h2>
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="userName">Username*</label>
+                                        <input
+                                            type="text"
+                                            id="userName"
+                                            name="userName"
+                                            value={formData.userName}
+                                            onChange={handleChange}
+                                            className={errors.userName ? 'error' : ''}
+                                            disabled={!isEditing} />
+                                        {errors.userName && <span className="error-message">{errors.userName}</span>}
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email*</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            className={errors.email ? 'error' : ''}
+                                            disabled={!isEditing} />
+                                        {errors.email && <span className="error-message">{errors.email}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="password">Password*</label>
+                                        <input
+                                            type="password"
+                                            id="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            className={errors.password ? 'error' : ''}
+                                            disabled={!isEditing} />
+                                        {errors.password && <span className="error-message">{errors.password}</span>}
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="designation">Designation*</label>
+                                        <input
+                                            type="text"
+                                            id="designation"
+                                            name="designation"
+                                            value={formData.designation}
+                                            onChange={handleChange}
+                                            className={errors.designation ? 'error' : ''}
+                                            disabled={!isEditing} />
+                                        {errors.designation && <span className="error-message">{errors.designation}</span>}
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div className="form-group">
-                                <label htmlFor="mobile">Mobile Number*</label>
-                                <input
-                                    type="tel"
-                                    id="mobile"
-                                    name="mobile"
-                                    value={formData.mobile}
-                                    onChange={handleChange}
-                                    className={errors.mobile ? 'error' : ''}
-                                    disabled={!isEditing}
-                                />
-                                {errors.mobile && <span className="error-message">{errors.mobile}</span>}
+
+                            <div className="form-section">
+                                <h2>Personal Details</h2>
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="gender">Gender*</label>
+                                        <select
+                                            id="gender"
+                                            name="gender"
+                                            value={formData.gender}
+                                            onChange={handleChange}
+                                            className={errors.gender ? 'error' : ''}
+                                            disabled={!isEditing}
+                                        >
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        {errors.gender && <span className="error-message">{errors.gender}</span>}
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="mobile">Mobile Number*</label>
+                                        <input
+                                            type="tel"
+                                            id="mobile"
+                                            name="mobile"
+                                            value={formData.mobile}
+                                            onChange={handleChange}
+                                            className={errors.mobile ? 'error' : ''}
+                                            disabled={!isEditing} />
+                                        {errors.mobile && <span className="error-message">{errors.mobile}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="religion">Religion</label>
+                                        <input
+                                            type="text"
+                                            id="religion"
+                                            name="religion"
+                                            value={formData.religion}
+                                            onChange={handleChange}
+                                            disabled={!isEditing} />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="dateOfBirth">Date of Birth</label>
+                                        <input
+                                            type="date"
+                                            id="dateOfBirth"
+                                            name="dateOfBirth"
+                                            value={formData.dateOfBirth}
+                                            onChange={handleChange}
+                                            disabled={!isEditing} />
+                                    </div>
+                                </div>
+
+                                <div className="form-group full-width">
+                                    <label htmlFor="address">Address</label>
+                                    <textarea
+                                        id="address"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        rows="3"
+                                        disabled={!isEditing} />
+                                </div>
+                            </div>
+
+                            {isEditing ? (
+                                <div className="form-actions">
+                                    <button type="button" className="cancel-btn" onClick={handleCancel}>
+                                        Cancel
+                                    </button>
+                                    <button type="submit" className="update-btn">
+                                        Update Profile
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="form-actions">
+                                    <button type="button" className="edit-btn" onClick={handleEdit}>
+                                        Edit Profile
+                                    </button>
+                                </div>
+                            )}
+                        </form>
+
+                        <div className="profile-sidebar">
+                            <div className="profile-avatar">
+                                <div className="avatar-placeholder">
+                                    <span>{formData.userName.charAt(0).toUpperCase()}</span>
+                                </div>
+                                {isEditing && (
+                                    <button className="avatar-upload-btn">
+                                        Change Photo
+                                    </button>
+                                )}
+                            </div>
+
+                            <div className="profile-stats">
+                                <h3>Account Information</h3>
+                                <div className="stat-item">
+                                    <span className="stat-label">Member Since</span>
+                                    <span className="stat-value">Jan 2023</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Last Updated</span>
+                                    <span className="stat-value">Today</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Account Status</span>
+                                    <span className="stat-value active">Active</span>
+                                </div>
+                            </div>
+
+                            <div className="profile-actions">
+                                <button className="action-btn change-password">
+                                    Change Password
+                                </button>
+                                <button className="action-btn deactivate">
+                                    Deactivate Account
+                                </button>
                             </div>
                         </div>
-                        
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="religion">Religion</label>
-                                <input
-                                    type="text"
-                                    id="religion"
-                                    name="religion"
-                                    value={formData.religion}
-                                    onChange={handleChange}
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                            
-                            <div className="form-group">
-                                <label htmlFor="dateOfBirth">Date of Birth</label>
-                                <input
-                                    type="date"
-                                    id="dateOfBirth"
-                                    name="dateOfBirth"
-                                    value={formData.dateOfBirth}
-                                    onChange={handleChange}
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                        </div>
-                        
-                        <div className="form-group full-width">
-                            <label htmlFor="address">Address</label>
-                            <textarea
-                                id="address"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                rows="3"
-                                disabled={!isEditing}
-                            />
-                        </div>
-                    </div>
-                    
-                    {isEditing ? (
-                        <div className="form-actions">
-                            <button type="button" className="cancel-btn" onClick={handleCancel}>
-                                Cancel
-                            </button>
-                            <button type="submit" className="update-btn">
-                                Update Profile
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="form-actions">
-                            <button type="button" className="edit-btn" onClick={handleEdit}>
-                                Edit Profile
-                            </button>
-                        </div>
-                    )}
-                </form>
-                
-                <div className="profile-sidebar">
-                    <div className="profile-avatar">
-                        <div className="avatar-placeholder">
-                            <span>{formData.userName.charAt(0).toUpperCase()}</span>
-                        </div>
-                        {isEditing && (
-                            <button className="avatar-upload-btn">
-                                Change Photo
-                            </button>
-                        )}
-                    </div>
-                    
-                    <div className="profile-stats">
-                        <h3>Account Information</h3>
-                        <div className="stat-item">
-                            <span className="stat-label">Member Since</span>
-                            <span className="stat-value">Jan 2023</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Last Updated</span>
-                            <span className="stat-value">Today</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Account Status</span>
-                            <span className="stat-value active">Active</span>
-                        </div>
-                    </div>
-                    
-                    <div className="profile-actions">
-                        <button className="action-btn change-password">
-                            Change Password
-                        </button>
-                        <button className="action-btn deactivate">
-                            Deactivate Account
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default UserProfile;
