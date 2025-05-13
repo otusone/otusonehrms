@@ -17,27 +17,40 @@ const userSchema = new mongoose.Schema({
   verified: { type: Boolean, default: false },
   token: { type: String, },
 
+  // Fields for OTP verification
+  otp: { type: String }, // Store OTP here
+  otpExpires: { type: Date }, // Store OTP expiration time
+
 }, {
   versionKey: false,
   timestamps: true
 });
 
 userSchema.methods.toJSON = function () {
-  const user = this
-  const userObject = user.toObject()
-  delete userObject.password
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
   return userObject;
 }
 
 userSchema.methods.generateAuthToken = async function () {
-  const user = this
+  const user = this;
   const token = jwt.sign({ _id: user._id.toString(), }, process.env.JWT_SECRET, {
-    expiresIn: '10day'
-  })
-  user.token = token
-  await user.save()
-  return token
-}
+    expiresIn: '10days'
+  });
+  user.token = token;
+  await user.save();
+  return token;
+};
+
+userSchema.methods.generateVerificationToken = function () {
+  const token = jwt.sign(
+    { id: this._id },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }  // Token expires in 1 hour
+  );
+  return token;
+};
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -46,17 +59,14 @@ userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
-
   } catch (err) {
     next(err);
   }
 });
 
-
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
-
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

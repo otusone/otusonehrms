@@ -184,3 +184,16 @@ exports.deleteUser = async (req, res, next) => {
 }
 
 
+const jwt = require('jsonwebtoken'); 
+
+UserSchema.methods.generateVerificationToken = function () {
+    const token = jwt.sign(
+        { id: this._id },
+        process.env.JWT_SECRET,   
+        { expiresIn: '1h' }       
+    );
+    return token;
+};
+
+
+

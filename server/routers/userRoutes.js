@@ -1,20 +1,25 @@
 const express = require("express");
-const { register, login } = require("../controllers/Auth/userAuthCtrl");
+const { register, login,resendVerification } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { markClockIn, markClockOut, getAtendanceByDate, getMonthlyReport } = require("../controllers/attendanceCtrl");
 const { userAuth, isUser } = require("../middleware/auth");
 const { applyForLeave, updateLeave, deleteLeave } = require("../controllers/leaveCtrl");
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const router = express.Router();
+const otpCtrl = require('../controllers/otpCtrl');
 
 router.use(express.json());
 
 
 router.post("/register", register);
 router.post("/login", login);
+router.post('/otpgeneration', otpCtrl.generateOTP);
 
+
+router.post('/otpverify', otpCtrl.verifyOTP);
 //profile
 router.get('/profile/:id', userAuth, userController.getProfile);
+router.post("/resendverification",userController.resendVerification);
 router.patch("/updateprofile", userAuth, userController.updateProfile);
 router.delete("/deleteprofile", userAuth, userController.deleteProfile);
 //attendance

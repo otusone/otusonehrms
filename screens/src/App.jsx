@@ -15,6 +15,9 @@ import Userdashboard from "./components/Userdashboard/Userdashboard";
 import UserProfile from "./components/profile/UserProfile";
 import UserAttendance from "./components/Userattendance/UserAttendance";
 import UserSidebar from "./components/UserSidebar/userSidebar";
+import ForgotPassword from './components/login/ForgotPassword';
+import VerifyOTP from './components/login/VerifyOTP';
+import ResetPassword from './components/login/ResetPassword';
 
 
 const RoutesPage = () => {
@@ -37,6 +40,9 @@ const RoutesPage = () => {
                 <Route path="/userprofile" element={<UserProfile />} />
                 <Route path="/userattendance" element={<UserAttendance/>}/>
                 <Route path="/UserSidebar" element={<UserSidebar/>}/>
+                <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+                <Route path="/verifyotp" element={<VerifyOTP/>}/>
+                <Route path="/resetpassword" element={<ResetPassword/>}/>
             </Routes>
         </Fragment>
     )

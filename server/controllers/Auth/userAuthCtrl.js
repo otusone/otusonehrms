@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
 require("dotenv").config();
+const sendEmail = require("../../utils/sendEmail");
+
 
 exports.register = async (req, res) => {
     try {
@@ -37,11 +39,15 @@ exports.register = async (req, res) => {
 exports.resendVerification = async (req, res, next) => {
     try {
         const { email } = req.body;
+        console.log("Email received:", email);
+
         const user = await User.findOne({ email });
+        console.log("User found:", user);
+
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: "user not found"
+                message: "User not found"
             });
         }
 
@@ -52,25 +58,33 @@ exports.resendVerification = async (req, res, next) => {
             });
         }
 
+        // Generate new verification token
         const verificationToken = user.generateVerificationToken();
-        await user.save();
+        console.log("Generated verification token:", verificationToken);
 
-
-        // const verificationToken = generateToken(user._id, user.role);
         user.verificationToken = verificationToken;
         await user.save();
+        
+        // Send verification email
+        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+        console.log("Verification URL:", verificationUrl);
 
-
-
+        await sendEmail({
+            email: user.email,
+            subject: 'Resend: Verify Your Email',
+            message: `Please click on the link to verify your email: ${verificationUrl}`
+        });
 
         res.status(200).json({
             success: true,
             message: "Verification email resent successfully"
         });
     } catch (error) {
+        console.error("Error during resendVerification:", error.message);
         next(error);
     }
 };
+
 
 exports.login = async (req, res) => {
     try {
