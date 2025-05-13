@@ -29,6 +29,15 @@ const UserAttendance = () => {
     message: "",
     severity: "success",
   });
+  const [clockOutModal, setClockOutModal] = useState(false);
+  const [selectedAttendanceId, setSelectedAttendanceId] = useState(null);
+  const [clockOutForm, setClockOutForm] = useState({
+    date: new Date().toISOString().split("T")[0],
+    clockOut: "",
+    latitude: "",
+    longitude: "",
+  });
+
 
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -40,6 +49,28 @@ const UserAttendance = () => {
   useEffect(() => {
     fetchAttendanceData();
   }, []);
+
+  useEffect(() => {
+    if (openModal) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData((prev) => ({
+            ...prev,
+            latitude: position.coords.latitude.toString(),
+            longitude: position.coords.longitude.toString(),
+          }));
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          setNotification({
+            open: true,
+            message: "Unable to get location. Please allow location access.",
+            severity: "error",
+          });
+        }
+      );
+    }
+  }, [openModal]);
 
   const fetchAttendanceData = async () => {
     try {
@@ -76,8 +107,7 @@ const UserAttendance = () => {
   const filteredAttendance = () => {
     return attendanceData?.filter(
       (attendance) =>
-        attendance.userId?.userName?.toLowerCase().includes(searchTerm) ||
-        attendance.userId?.email?.toLowerCase().includes(searchTerm)
+        attendance.date?.toLowerCase().includes(searchTerm)
     );
   };
 
@@ -146,6 +176,71 @@ const UserAttendance = () => {
     }
   };
 
+  const handleOpenClockOutModal = (attendanceId) => {
+    setSelectedAttendanceId(attendanceId);
+    setClockOutModal(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setClockOutForm((prev) => ({
+          ...prev,
+          latitude: position.coords.latitude.toString(),
+          longitude: position.coords.longitude.toString(),
+        }));
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        setNotification({
+          open: true,
+          message: "Unable to get location. Please allow location access.",
+          severity: "error",
+        });
+      }
+    );
+  };
+
+  const handleClockOutSubmit = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
+      if (!token || !userId || !selectedAttendanceId) return;
+
+      const requestBody = {
+        userId,
+        date: clockOutForm.date,
+        clockOut: clockOutForm.clockOut,
+        clockOutLocation: {
+          latitude: parseFloat(clockOutForm.latitude),
+          longitude: parseFloat(clockOutForm.longitude),
+        },
+      };
+
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/clockoutattendance/${selectedAttendanceId}`,
+        requestBody,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.success) {
+        setNotification({
+          open: true,
+          message: "Clock-out marked successfully!",
+          severity: "success",
+        });
+        setClockOutModal(false);
+        fetchAttendanceData();
+      }
+    } catch (error) {
+      console.error("Clock-out error:", error);
+      setNotification({
+        open: true,
+        message: "Failed to mark clock-out.",
+        severity: "error",
+      });
+    }
+  };
+
+
   const handleCloseNotification = () => {
     setNotification((prev) => ({ ...prev, open: false }));
   };
@@ -195,22 +290,24 @@ const UserAttendance = () => {
             <Table>
               <TableHead sx={{ bgcolor: "#56005b" }}>
                 <TableRow>
-                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
                   <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
                   <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
                 {filteredAttendance()?.length > 0 ? (
                   filteredAttendance().map((attendance) => (
                     <TableRow key={attendance._id}>
-                      <TableCell>{attendance.userId?.userName || "-"}</TableCell>
-                      <TableCell>{attendance.userId?.email || "-"}</TableCell>
+                      {/* <TableCell>{attendance.userId?.userName || "-"}</TableCell>
+                      <TableCell>{attendance.userId?.email || "-"}</TableCell> */}
                       <TableCell>{attendance.clockIn || "-"}</TableCell>
                       <TableCell>
                         {attendance.clockInLocation
@@ -225,6 +322,19 @@ const UserAttendance = () => {
                           ? `Lat: ${attendance.clockOutLocation.latitude}, Lng: ${attendance.clockOutLocation.longitude}`
                           : "-"}
                       </TableCell>
+                      {!attendance.clockOut && (
+                        <TableCell colSpan={8} align="center">
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => handleOpenClockOutModal(attendance._id)}
+                            sx={{ color: "#56005b", borderColor: "#56005b" }}
+                          >
+                            Mark Clock Out
+                          </Button>
+                        </TableCell>
+                      )}
+
                     </TableRow>
                   ))
                 ) : (
@@ -321,6 +431,86 @@ const UserAttendance = () => {
           </Box>
         </Box>
       </Modal>
+
+      <Modal
+        open={clockOutModal}
+        onClose={() => setClockOutModal(false)}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Box
+          sx={{
+            width: 500,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Mark Clock Out
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+
+          <TextField
+            fullWidth
+            label="Date"
+            type="date"
+            name="date"
+            value={clockOutForm.date}
+            onChange={(e) => setClockOutForm({ ...clockOutForm, date: e.target.value })}
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
+            fullWidth
+            label="Clock Out Time"
+            type="time"
+            name="clockOut"
+            value={clockOutForm.clockOut}
+            onChange={(e) => setClockOutForm({ ...clockOutForm, clockOut: e.target.value })}
+            margin="normal"
+            inputProps={{ step: 300 }}
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
+            fullWidth
+            label="Latitude"
+            name="latitude"
+            value={clockOutForm.latitude}
+            onChange={(e) => setClockOutForm({ ...clockOutForm, latitude: e.target.value })}
+            margin="normal"
+          />
+
+          <TextField
+            fullWidth
+            label="Longitude"
+            name="longitude"
+            value={clockOutForm.longitude}
+            onChange={(e) => setClockOutForm({ ...clockOutForm, longitude: e.target.value })}
+            margin="normal"
+          />
+
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+            <Button
+              variant="outlined"
+              onClick={() => setClockOutModal(false)}
+              sx={{ color: "#56005b", borderColor: "#56005b" }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleClockOutSubmit}
+              sx={{ bgcolor: "#56005b", "&:hover": { bgcolor: "#7a007f" } }}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
 
       <Snackbar
         open={notification.open}

@@ -1,362 +1,66 @@
-/* Base styles */
-.dashboardLayout {
-    display: flex;
-    min-height: 100vh;
-    width: 100%;
-    background-color: #f5f5f5;
-  }
-  
-  .dashboardContainer {
-    flex: 1;
+.dashboardContainer {
+    margin-inline: 2%;
+}
+
+.dashboardContainer h2 {
+    padding-block: 2rem;
+}
+
+.commonCard {
     padding: 1.5rem;
-    overflow-x: hidden;
-  }
-  
-  /* Common Card */
-  .commonCardContainer {
-    background: white;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .commonCardContainer > div:first-child {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .commonCardContainer > div:first-child > div:first-child {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 10px;
     color: white;
-  }
-  
-  .commonCardContainer > div:first-child > div:first-child svg {
-    font-size: 1.5rem;
-  }
-  
-  .commonCardContainer > div:first-child > div:last-child p:first-child {
-    font-size: 0.875rem;
-    color: #666;
-  }
-  
-  .commonCardContainer > div:first-child > div:last-child p:last-child {
-    font-weight: 500;
-    font-size: 1rem;
-  }
-  
-  .commonCardContainer > div:last-child p {
-    font-weight: 600;
-    font-size: 1.25rem;
-  }
-  
-  /* Section Paper */
-  .sectionPaper {
-    padding: 1.5rem;
-    border-radius: 1rem;
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    height: 100%;
-  }
-  
-  /* Attendance and Leave Container */
-  .attendanceLeaveContainer {
-    margin-top: 2rem;
-    width: 100%;
-  }
-  
-  /* Table styles */
-  .tableContainer {
-    overflow-x: auto;
-    margin-top: 1rem;
-  }
-  
-  .tableContainer table {
-    min-width: 600px;
-  }
-  
-  /* Calendar container */
-  .calenderContainer {
-    height: 100%;
-  }
-  
-  .calenderContainer .fc {
-    height: 400px;
-  }
-  
-  /* Modal styles */
-  .announcementModal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 600px;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    outline: none;
-  }
-  
-  .announcementModal > div:first-child {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .announcementDetails {
-    margin: 1.5rem 0;
-  }
-  
-  .announcementModal > div:last-child {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-  
-  /* Leave status badges */
-  .leaveStatus {
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    justify-content: space-between;
+}
+
+.commonCard .icon {
+    font-size: 2rem;
+}
+
+.commonCard .content h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.commonCard .content p {
+    margin: 0.25rem 0 0;
+    font-size: 1.3rem;
     font-weight: bold;
-    text-align: center;
-    display: inline-block;
-  }
-  
-  .leaveStatus.approved {
-    background-color: rgba(111, 217, 67, 0.2);
-    color: #6FD943;
-  }
-  
-  .leaveStatus.pending {
-    background-color: rgba(255, 165, 0, 0.2);
-    color: #FFA500;
-  }
-  
-  .leaveStatus.rejected {
-    background-color: rgba(255, 58, 110, 0.2);
-    color: #FF3A6E;
-  }
-  
-  /* Heading styles */
-  .headingTextContainer {
+}
+
+.dashboard2ndSection > div {
+    margin-top: 1.25rem;
+}
+
+/* Meeting Schedule Section */
+.meetingScheduleContainer {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.meetingScheduleContainer .headingSection {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  /* Button styles */
-  .commonButtonContainer button {
-    text-transform: none;
-    font-weight: 500;
+    padding-block-start: 2rem;
+}
+
+.createBtn {
+    padding: 0.5rem 1rem;
+    background-color: #58024B;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Calendar Styling */
+.calendarContainer {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 0.5rem;
-    padding: 0.5rem 1.5rem;
-  }
-  
-  /* Input field styles */
-  .inputFieldContainer {
-    margin-bottom: 1rem;
-  }
-  
-  .inputFieldContainer p {
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  /* Attendance status */
-  .attendanceStatus {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0;
-  }
-  
-  .attendanceStatus svg {
-    font-size: 2.5rem;
-    margin-right: 1rem;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .dashboardContainer {
-      padding: 1rem;
-    }
-    
-    .commonCardContainer {
-      padding: 1rem;
-    }
-    
-    .sectionPaper {
-      padding: 1rem;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .dashboardContainer {
-      padding: 2rem;
-    }
-    
-    .sectionPaper {
-      padding: 2rem;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .dashboardContainer {
-      padding: 2.5rem;
-    }
-    
-    .sectionPaper {
-      padding: 2.5rem;
-    }
-  }
-  
-  /* FullCalendar adjustments */
-  .fc-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .fc-toolbar-title {
-    font-size: 1.25rem !important;
-  }
-  
-  @media (min-width: 768px) {
-    .fc-toolbar {
-      flex-direction: row;
-      align-items: center;
-    }
-    
-    .fc-toolbar-title {
-      font-size: 1.5rem !important;
-    }
-  }
-  /* Add these media queries to your existing Userdashboard.css */
-  
-  @media (max-width: 992px) {
-    /* Adjust card sizes and layout */
-    .commonCardContainer > div:first-child > div:first-child {
-      width: 40px;
-      height: 40px;
-    }
-    
-    .commonCardContainer > div:first-child > div:first-child svg {
-      font-size: 1.2rem;
-    }
-    
-    .commonCardContainer > div:last-child p {
-      font-size: 1.1rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    /* Further reduce icon sizes and adjust layout */
-    .commonCardContainer {
-      padding: 1rem;
-    }
-    
-    .commonCardContainer > div:first-child > div:first-child {
-      width: 35px;
-      height: 35px;
-    }
-    
-    .commonCardContainer > div:first-child > div:first-child svg {
-      font-size: 1rem;
-    }
-    
-    .commonCardContainer > div:first-child > div:last-child p:first-child {
-      font-size: 0.75rem;
-    }
-    
-    .commonCardContainer > div:first-child > div:last-child p:last-child {
-      font-size: 0.875rem;
-    }
-    
-    .commonCardContainer > div:last-child p {
-      font-size: 1rem;
-    }
-    
-    /* Adjust table actions */
-    .tableContainer table td:last-child {
-      white-space: nowrap;
-    }
-    
-    .tableContainer table td:last-child svg {
-      font-size: 1rem;
-      margin-right: 5px;
-    }
-    
-    /* Adjust attendance status */
-    .attendanceStatus svg {
-      font-size: 1.8rem;
-      margin-right: 0.5rem;
-    }
-    
-    /* Modal adjustments */
-    .announcementModal {
-      padding: 1rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    /* Mobile-specific adjustments */
-    .commonCardContainer > div:first-child {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-    
-    .commonCardContainer > div:first-child > div:first-child {
-      width: 30px;
-      height: 30px;
-    }
-    
-    .commonCardContainer > div:first-child > div:first-child svg {
-      font-size: 0.875rem;
-    }
-    
-    /* Stack attendance status on mobile */
-    .attendanceStatus {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .attendanceStatus svg {
-      margin-right: 0;
-      margin-bottom: 0.5rem;
-      font-size: 1.5rem;
-    }
-    
-    /* Adjust table actions for mobile */
-    .tableContainer table td:last-child svg {
-      font-size: 0.875rem;
-      margin-right: 3px;
-    }
-    
-    /* FullCalendar mobile adjustments */
-    .fc-toolbar {
-      flex-direction: column;
-    }
-    
-    .fc-toolbar .fc-left,
-    .fc-toolbar .fc-right {
-      margin-top: 0.5rem;
-    }
-    
-    .fc-toolbar-title {
-      font-size: 1rem !important;
-    }
-  }
+    margin-block-start: 1.25rem;
+    padding: 1rem;
+}

@@ -16,7 +16,7 @@ import Invoice from "./components/Invoice/invoice";
 import Salaryslip from "./components/salarySlip/salarySlip";
 
 // User Components
-import UserDashboard from "./components/userDashboard/Userdashboard";
+import UserDashboard from "./components/UserDashboard/UserDashboard.jsx";
 import UserAttendance from "./components/Userattendance/userAttendance";
 import UserProfile from "./components/UserProfile/UserProfile";
 import UserLeave from "./components/userLeave/userLeave";

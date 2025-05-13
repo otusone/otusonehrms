@@ -1,14 +1,36 @@
 const Attendance = require("../models/attendance");
+const mongoose = require("mongoose");
 
 exports.markClockIn = async (req, res) => {
   try {
     const { userId, clockIn, date, clockInLocation } = req.body;
 
-    // Convert clockIn (like "14:56") into ISO format using `date`
+    if (!userId || !clockIn || !date || !clockInLocation?.latitude || !clockInLocation?.longitude) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: userId, clockIn, date, or clockInLocation",
+      });
+    }
+
     const clockInDateTime = new Date(`${date}T${clockIn}:00Z`);
 
+    if (isNaN(clockInDateTime.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid date or clockIn time format",
+      });
+    }
+
+    const existing = await Attendance.findOne({ userId, date });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        message: "Attendance already marked for this user on this date",
+      });
+    }
+
     const attendance = new Attendance({
-      userId: mongoose.Types.ObjectId(userId),
+      userId: new mongoose.Types.ObjectId(userId),
       clockIn: clockInDateTime,
       date,
       clockInLocation: {
@@ -21,36 +43,73 @@ exports.markClockIn = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Attendance marked for Clock In successfully",
+      message: "Clock-in marked successfully",
       data: attendance,
     });
   } catch (error) {
-    console.error("❌ Clock-in Error:", error);
+    console.error("Clock-in Error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Internal server error",
-      stack: error.stack,
     });
   }
 };
+
 
 
 exports.markClockOut = async (req, res) => {
   try {
     const { id } = req.params;
     const { userId, clockOut, date, clockOutLocation } = req.body;
-    const attendance = await Attendance.findByIdAndUpdate(id, { clockOut, clockOutLocation }, { new: true });
+
+    if (!clockOut || !date || !clockOutLocation?.latitude || !clockOutLocation?.longitude) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: clockOut, date, or clockOutLocation",
+      });
+    }
+
+    const clockOutDateTime = new Date(`${date}T${clockOut}:00Z`);
+    if (isNaN(clockOutDateTime.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid date or clockOut time format",
+      });
+    }
+
+    const attendance = await Attendance.findByIdAndUpdate(
+      id,
+      {
+        clockOut: clockOutDateTime,
+        clockOutLocation: {
+          latitude: Number(clockOutLocation.latitude),
+          longitude: Number(clockOutLocation.longitude),
+        },
+      },
+      { new: true }
+    );
 
     if (!attendance) {
-      return res.status(404).json({ success: false, message: "ClockOut Attendance record not found" });
+      return res.status(404).json({
+        success: false,
+        message: "ClockOut Attendance record not found",
+      });
     }
-    res.status(200).json({ success: true, message: " ClockOut Attendence recorded successfully", data: attendance });
+
+    res.status(200).json({
+      success: true,
+      message: "ClockOut Attendance recorded successfully",
+      data: attendance,
+    });
   } catch (error) {
+    console.error("Clock-out Error:", error); // <== Add logging
     res.status(500).json({
-      success: false, message: error.message || "Invalid Server Error"
-    })
+      success: false,
+      message: error.message || "Invalid Server Error",
+    });
   }
-}
+};
+
 
 
 
