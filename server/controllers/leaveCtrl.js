@@ -108,4 +108,13 @@ exports.getAllLeaves = async (req, res) => {
   }
 };
 
+exports.getMyLeaves = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const leaves = await Leave.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, leaves });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Internal Server Error" });
+  }
+};
 

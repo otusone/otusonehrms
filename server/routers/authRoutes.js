@@ -1,5 +1,6 @@
 const express = require("express");
-const { register, login } = require("../controllers/Auth/authController");
+const { register, login } = require("../controllers/Auth/userAuthCtrl");
+const userController = require("../controllers/Auth/userAuthCtrl");
 const { userAuth, isAdmin } = require("../middleware/auth");
 const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
 const { updateLeaveStatus, getAllLeaves } = require("../controllers/leaveCtrl");
@@ -16,6 +17,11 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+
+//profile
+router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);
+router.patch("/updateprofile/:id", userAuth, isAdmin, userController.updateProfile);
+router.delete("/deleteprofile", userAuth, isAdmin, userController.deleteProfile);
 
 //salary-slip
 router.post("/salary-slip", userAuth, isAdmin, generateSalarySlip);

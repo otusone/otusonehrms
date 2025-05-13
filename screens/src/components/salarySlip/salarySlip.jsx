@@ -96,46 +96,25 @@ const SalarySlip = () => {
 
   return (
     <Box display="flex" minHeight="100vh">
-      <Box sx={{ width: { xs: "100%", md: "18%" }, bgcolor: "#fff", borderRight: "1px solid #ddd" }}>
+      <Box sx={{ width: { xs: "100%", md: "18%" }, bgcolor: "#fff", borderRight: "1px solid #eee" }}>
         <Sidebar />
       </Box>
 
       <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
         <Heading />
-        <Box p={3}>
-          <Typography variant="h6" mb={2}>Salary Slip Management</Typography>
-
-          {/* Top Controls */}
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "right", mb: 2 }}>
-            <Button
-              variant="contained"
-              onClick={() => setOpenModal(true)}
-            //   disabled={!selectedUserId}
-            >
+        <Box px={4} py={2}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 2, alignItems: "center", mb: 2 }}>
+            <Typography variant="h6" mb={2}>Salary Slip Management</Typography>
+            <Button variant="outlined" onClick={() => setOpenModal(true)}>
               Generate Salary Slip
             </Button>
-
-            {/* <TextField
-              select
-              label="Select Employee"
-              value={selectedUserId}
-              onChange={(e) => setSelectedUserId(e.target.value)}
-              size="small"
-              sx={{ minWidth: 200 }}
-            >
-              {users.map((u) => (
-                <MenuItem key={u._id} value={u._id}>
-                  {u.userName || u.email}
-                </MenuItem>
-              ))}
-            </TextField> */}
-
+          </Box>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
             <TextField
               label="Filter by Name or Email"
               variant="outlined"
               size="small"
-              fullWidth
-              sx={{ flexGrow: 1, minWidth: 200 }}
+              sx={{ width: "250px" }}
               onChange={(e) => setFilterText(e.target.value.toLowerCase())}
             />
           </Box>

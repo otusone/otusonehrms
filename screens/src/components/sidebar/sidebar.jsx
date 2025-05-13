@@ -20,10 +20,15 @@ const menuItems = [
 
 ];
 
-const Sidebar = ({ handleLogout }) => {
+const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+    };
 
     return (
         <>

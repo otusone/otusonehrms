@@ -21,6 +21,8 @@ import UserAttendance from "./components/Userattendance/userAttendance";
 import UserProfile from "./components/UserProfile/UserProfile";
 import UserLeave from "./components/userLeave/userLeave";
 import UserAsset from "./components/UserAsset/UserAsset";
+import UserSalary from "./components/UserSalary/usersalary.jsx";
+
 
 // Fallback
 const Unauthorized = () => <h1>Unauthorized Access</h1>;
@@ -87,6 +89,10 @@ function App() {
       <Route
         path="/user-asset"
         element={<ProtectedRoute allowedRoles={['user']}><UserAsset /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-salary-slip"
+        element={<ProtectedRoute allowedRoles={['user']}><UserSalary /></ProtectedRoute>}
       />
 
       {/* Catch-all */}

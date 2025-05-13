@@ -4,11 +4,17 @@ exports.markClockIn = async (req, res) => {
   try {
     const { userId, clockIn, date, clockInLocation } = req.body;
 
+    // Convert clockIn (like "14:56") into ISO format using `date`
+    const clockInDateTime = new Date(`${date}T${clockIn}:00Z`);
+
     const attendance = new Attendance({
-      userId,
-      clockIn,
+      userId: mongoose.Types.ObjectId(userId),
+      clockIn: clockInDateTime,
       date,
-      clockInLocation,
+      clockInLocation: {
+        latitude: Number(clockInLocation.latitude),
+        longitude: Number(clockInLocation.longitude),
+      }
     });
 
     await attendance.save();
@@ -19,9 +25,11 @@ exports.markClockIn = async (req, res) => {
       data: attendance,
     });
   } catch (error) {
+    console.error("❌ Clock-in Error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Internal server error",
+      stack: error.stack,
     });
   }
 };
@@ -153,3 +161,38 @@ exports.getAllAttendance = async (req, res) => {
   }
 };
 
+
+exports.getAttendanceByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required in the request params",
+      });
+    }
+
+    const attendanceRecords = await Attendance.find({ userId })
+      .populate("userId", "userName email")
+      .sort({ date: -1 });
+
+    if (!attendanceRecords || attendanceRecords.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No attendance records found for this user",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Attendance records fetched successfully",
+      data: attendanceRecords,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};

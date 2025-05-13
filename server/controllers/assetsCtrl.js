@@ -137,4 +137,30 @@ exports.deleteAsset = async (req, res) => {
 };
 
 
+exports.getAssetsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const assetDoc = await Asset.findOne({ assignedTo: userId }).populate("assignedTo", "userName email");
+        // console.log("User ID:", userId);
+        // console.log("Asset Document:", assetDoc);
+
+
+        if (!assetDoc || !assetDoc.assets || assetDoc.assets.length === 0) {
+            return res.status(404).json({ message: "No assets found for this user" });
+        }
+
+
+        res.status(200).json({
+            message: "Assets fetched successfully",
+            data: assetDoc.assets,
+            assignedTo: assetDoc.assignedTo,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message || "Internal Server Error" });
+    }
+};
+
+
+
 

@@ -29,10 +29,12 @@ const UserAttendance = () => {
     message: "",
     severity: "success",
   });
+
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split("T")[0],
     clockIn: "",
-    clockInLocation: "",
+    latitude: "",
+    longitude: "",
   });
 
   useEffect(() => {
@@ -42,10 +44,11 @@ const UserAttendance = () => {
   const fetchAttendanceData = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      if (!token) return;
+      const userId = localStorage.getItem("userId");
+      if (!token || !userId) return;
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-attendance",
+        `http://localhost:8000/api/v1/user/attendance/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,9 +56,14 @@ const UserAttendance = () => {
         }
       );
 
-      if (response.data.success) {
-        setAttendanceData(response.data.attendance);
-      }
+      const attendanceArray = response.data?.data || [];
+
+      const enrichedAttendance = attendanceArray.map((item) => ({
+        ...item,
+        userDetails: item.userId,
+      }));
+
+      setAttendanceData(enrichedAttendance);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -73,16 +81,15 @@ const UserAttendance = () => {
     );
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
+  const handleOpenModal = () => setOpenModal(true);
 
   const handleCloseModal = () => {
     setOpenModal(false);
     setFormData({
       date: new Date().toISOString().split("T")[0],
       clockIn: "",
-      clockInLocation: "",
+      latitude: "",
+      longitude: "",
     });
   };
 
@@ -97,11 +104,22 @@ const UserAttendance = () => {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      if (!token) return;
+      const userId = localStorage.getItem("userId");
+      if (!token || !userId) return;
+
+      const requestBody = {
+        date: formData.date,
+        clockIn: formData.clockIn,
+        clockInLocation: {
+          latitude: parseFloat(formData.latitude),
+          longitude: parseFloat(formData.longitude),
+        },
+        userId,
+      };
 
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/mark-attendance",
-        formData,
+        "http://localhost:8000/api/v1/user/clockinattendance",
+        requestBody,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -155,17 +173,12 @@ const UserAttendance = () => {
             mb={2}
             flexWrap="wrap"
           >
-            <Typography variant="h6" sx={{ mb: { xs: 1, sm: 0 } }}>
-              User Attendance
-            </Typography>
+            <Typography variant="h6">User Attendance</Typography>
             <Box display="flex" gap={2}>
               <Button
                 variant="contained"
                 onClick={handleOpenModal}
-                sx={{
-                  bgcolor: "#56005b",
-                  "&:hover": { bgcolor: "#7a007f" },
-                }}
+                sx={{ bgcolor: "#56005b", "&:hover": { bgcolor: "#7a007f" } }}
               >
                 Mark Attendance
               </Button>
@@ -199,11 +212,19 @@ const UserAttendance = () => {
                       <TableCell>{attendance.userId?.userName || "-"}</TableCell>
                       <TableCell>{attendance.userId?.email || "-"}</TableCell>
                       <TableCell>{attendance.clockIn || "-"}</TableCell>
-                      <TableCell>{attendance.clockInLocation || "-"}</TableCell>
+                      <TableCell>
+                        {attendance.clockInLocation
+                          ? `Lat: ${attendance.clockInLocation.latitude}, Lng: ${attendance.clockInLocation.longitude}`
+                          : "-"}
+                      </TableCell>
                       <TableCell>{attendance.workingHours || "-"}</TableCell>
                       <TableCell>{attendance.date}</TableCell>
                       <TableCell>{attendance.clockOut || "-"}</TableCell>
-                      <TableCell>{attendance.clockOutLocation || "-"}</TableCell>
+                      <TableCell>
+                        {attendance.clockOutLocation
+                          ? `Lat: ${attendance.clockOutLocation.latitude}, Lng: ${attendance.clockOutLocation.longitude}`
+                          : "-"}
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (
@@ -219,7 +240,7 @@ const UserAttendance = () => {
         </Box>
       </Box>
 
-      {/* Mark Attendance Modal */}
+      {/* Modal */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -234,7 +255,7 @@ const UserAttendance = () => {
             borderRadius: 2,
           }}
         >
-          <Typography variant="h6" component="h2" mb={2}>
+          <Typography variant="h6" mb={2}>
             Mark Your Attendance
           </Typography>
           <Divider sx={{ mb: 3 }} />
@@ -265,9 +286,18 @@ const UserAttendance = () => {
 
             <TextField
               fullWidth
-              label="Clock In Location"
-              name="clockInLocation"
-              value={formData.clockInLocation}
+              label="Latitude"
+              name="latitude"
+              value={formData.latitude}
+              onChange={handleChange}
+              margin="normal"
+            />
+
+            <TextField
+              fullWidth
+              label="Longitude"
+              name="longitude"
+              value={formData.longitude}
               onChange={handleChange}
               margin="normal"
             />

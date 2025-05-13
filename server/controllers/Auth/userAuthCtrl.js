@@ -133,70 +133,70 @@ exports.resendVerification = async (req, res, next) => {
 
 
 exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    // Check for required fields
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Email and password are required",
-      });
+        // Check for required fields
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required",
+            });
+        }
+
+        // Find user by email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials",
+            });
+        }
+
+        // Validate password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials",
+            });
+        }
+
+        // Generate token
+        const token = await user.generateAuthToken(); // assumes method is defined in your User model
+        user.token = token; // Optional: save current token (you can remove this if unused)
+        await user.save();
+
+
+        return res.status(200).json({
+            success: true,
+            message: "Login successful",
+            data: {
+                _id: user._id,
+                userName: user.userName,
+                email: user.email,
+                designation: user.designation,
+                religion: user.religion,
+                gender: user.gender,
+                mobile: user.mobile,
+                isActive: user.isActive,
+                role: user.role,
+                verified: user.verified,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+                token: token,
+            },
+            token,
+        });
+
+    } catch (error) {
+        console.error("Login error:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error",
+        });
     }
-
-    // Find user by email
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
-    }
-
-    // Validate password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
-    }
-
-    // Generate token
-    const token = await user.generateAuthToken(); // assumes method is defined in your User model
-    user.token = token; // Optional: save current token (you can remove this if unused)
-    await user.save();
-
-    
-    return res.status(200).json({
-      success: true,
-      message: "Login successful",
-      data: {
-        _id: user._id,
-        userName: user.userName,
-        email: user.email,
-        designation: user.designation,
-        religion: user.religion,
-        gender: user.gender,
-        mobile: user.mobile,
-        isActive: user.isActive,
-        role: user.role,
-        verified: user.verified,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        token: token,
-      },
-      token,
-    });
-
-  } catch (error) {
-    console.error("Login error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Internal server error",
-    });
-  }
 };
 
 

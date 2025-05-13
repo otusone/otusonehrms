@@ -321,11 +321,11 @@ const LeaveAndAttendanceSection = ({
           <HeadingText heading="Today's Attendance" />
           <Box textAlign="center" py={4}>
             <Typography variant="h6" gutterBottom>
-              {new Date().toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+              {new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
               })}
             </Typography>
             <Box my={3}>
@@ -335,10 +335,10 @@ const LeaveAndAttendanceSection = ({
               <AttendanceStatus status={attendanceData?.status || 'Not Marked'} />
             </Box>
             <Box mt={4}>
-              <CommonButton 
-                name="Mark Attendance" 
-                onClick={handleMarkAttendance} 
-                variant="contained" 
+              <CommonButton
+                name="Mark Attendance"
+                onClick={handleMarkAttendance}
+                variant="contained"
                 color="#58024B"
               />
             </Box>
@@ -372,17 +372,17 @@ const LeaveAndAttendanceSection = ({
                     <TableCell>
                       {leave.status === 'Pending' && (
                         <>
-                          <MdEdit 
-                            fontSize={22} 
-                            cursor={"pointer"} 
-                            style={{ color: "#3EC8D5", marginRight: '10px' }} 
-                            onClick={() => handleEditLeave(leave)} 
+                          <MdEdit
+                            fontSize={22}
+                            cursor={"pointer"}
+                            style={{ color: "#3EC8D5", marginRight: '10px' }}
+                            onClick={() => handleEditLeave(leave)}
                           />
-                          <MdDelete 
-                            fontSize={22} 
-                            cursor={"pointer"} 
-                            style={{ color: "#FF3A6E" }} 
-                            onClick={() => handleCancelLeave(leave.id)} 
+                          <MdDelete
+                            fontSize={22}
+                            cursor={"pointer"}
+                            style={{ color: "#FF3A6E" }}
+                            onClick={() => handleCancelLeave(leave.id)}
                           />
                         </>
                       )}
@@ -477,7 +477,7 @@ const Dashboard = () => {
 
   const handleEdit = () => {
     // Add your edit logic here
-    setAnnouncementData(announcementData.map(item => 
+    setAnnouncementData(announcementData.map(item =>
       item._id === editingId ? { ...inputData, _id: editingId } : item
     ));
     handleClose();
@@ -522,7 +522,7 @@ const Dashboard = () => {
   const handleLeaveSubmit = () => {
     if (editingLeaveId) {
       // Update existing leave
-      setLeaveData(leaveData.map(leave => 
+      setLeaveData(leaveData.map(leave =>
         leave.id === editingLeaveId ? { ...leaveFormData, id: editingLeaveId } : leave
       ));
     } else {
@@ -566,7 +566,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Typography variant='h2' fontWeight={500} mb={3}>Employee Dashboard</Typography>
         </Grid>
-        
+
         {/* Stats Cards */}
         <Grid container spacing={2}>
           {data.map((item) => (
@@ -577,7 +577,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* Attendance and Leave Section */}
-        <Grid item xs={12} style={{marginLeft:"400px"}}>
+        <Grid item xs={12} style={{ marginLeft: "400px" }}>
           <LeaveAndAttendanceSection
             attendanceData={attendanceData}
             leaveData={leaveData}
@@ -587,10 +587,10 @@ const Dashboard = () => {
             handleCancelLeave={handleCancelLeave}
           />
         </Grid>
-        
+
         {/* Announcement and Calendar Section */}
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8} style={{marginLeft:"200px", paddingTop:"30px"}}>
+          <Grid item xs={12} md={8} style={{ marginLeft: "200px", paddingTop: "30px" }}>
             <MeetingSchedule
               data={announcementData}
               handleClick={handleModal}
@@ -598,7 +598,7 @@ const Dashboard = () => {
               handleDelete={handleDelete}
             />
           </Grid>
-          <Grid item xs={12} md={4} style={{ paddingTop:"30px"}}>
+          <Grid item xs={12} md={4} style={{ paddingTop: "30px" }}>
             <Paper elevation={3} className="sectionPaper">
               <Calender />
             </Paper>
@@ -624,7 +624,7 @@ const Dashboard = () => {
           handleChange={handleChange}
           handleClick={handleEdit}
         />
-        
+
         <LeaveModal
           open={leaveModalOpen}
           handleClose={handleLeaveClose}

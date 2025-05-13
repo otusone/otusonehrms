@@ -48,9 +48,12 @@ const Login = () => {
 
         localStorage.setItem('authToken', token);
         localStorage.setItem('authUser', JSON.stringify(data));
+        localStorage.setItem('userId', data._id);
 
         // Store user in Redux
         dispatch(setUser(data));
+
+
 
         // Navigate based on role
         if (data.role === 'admin') {

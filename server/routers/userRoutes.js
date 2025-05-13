@@ -1,10 +1,11 @@
 const express = require("express");
 const { register, login } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
-const { markClockIn, markClockOut, getAtendanceByDate, getMonthlyReport, getAllAttendance } = require("../controllers/attendanceCtrl");
+const { markClockIn, markClockOut, getAtendanceByDate, getMonthlyReport, getAllAttendance, getAttendanceByUserId } = require("../controllers/attendanceCtrl");
 const { userAuth, isUser } = require("../middleware/auth");
-const { applyForLeave, updateLeave, deleteLeave } = require("../controllers/leaveCtrl");
+const { applyForLeave, updateLeave, deleteLeave, getMyLeaves } = require("../controllers/leaveCtrl");
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
+const { getAssetsByUserId } = require("../controllers/assetsCtrl");
 const router = express.Router();
 
 router.use(express.json());
@@ -23,14 +24,20 @@ router.patch("/clockoutattendance/:id", userAuth, markClockOut);
 router.get("/attendance-list", userAuth, getAtendanceByDate);
 router.get("/attendance-report", userAuth, getMonthlyReport);
 router.get("/get-attendance", getAllAttendance);
+router.get("/attendance/:userId", getAttendanceByUserId);
+
 
 //leave
 router.post("/leave", userAuth, applyForLeave);
 router.patch("/leave/:id", userAuth, updateLeave);
 router.delete("/delete-leave/:id", userAuth, deleteLeave);
+router.get("/my-leaves", userAuth, getMyLeaves);
+
 //salary-slip
 router.get("/get-salary-slip/:userId", userAuth, getSalarySlipsByUser);
 
+//asset
+router.get("/get-asset/:userId", userAuth, getAssetsByUserId);
 
 
 
