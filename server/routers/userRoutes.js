@@ -36,6 +36,7 @@ router.get("/my-leaves", userAuth, getMyLeaves);
 //salary-slip
 router.get("/get-salary-slip/:userId", userAuth, getSalarySlipsByUser);
 
+
 //asset
 router.get("/get-asset/:userId", userAuth, getAssetsByUserId);
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import {
-    Box, Typography, TextField, TableContainer, Table,
+    Box, Typography, TextField, TableContainer, Table, Button,
     TableHead, TableRow, TableCell, TableBody, Paper
 } from "@mui/material";
 import Sidebar from "../userSidebar/sidebar";
@@ -11,6 +13,78 @@ const UserSalary = () => {
     const [salarySlips, setSalarySlips] = useState([]);
     const [filteredSlips, setFilteredSlips] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+
+
+    const convertToWords = (num) => {
+        const a = [
+            '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+            'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen',
+            'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+        ];
+        const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        if ((num = num.toString()).length > 9) return 'Overflow';
+        let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{3})$/);
+        if (!n) return;
+        let str = '';
+        str += (Number(n[1]) !== 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
+        str += (Number(n[2]) !== 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
+        str += (Number(n[3]) !== 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
+        str += (Number(n[4]) !== 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' ' : '';
+        return str.trim();
+    };
+
+
+    const handleDownloadSlip = (slip) => {
+        const doc = new jsPDF();
+
+        const netPay = (
+            Number(slip.basicSalary || 0) +
+            Number(slip.hra || 0) +
+            Number(slip.allowances || 0) -
+            Number(slip.deductions || 0)
+        ).toFixed(2);
+
+        doc.setFontSize(14);
+        doc.text("OTUSONE LLP", 14, 20);
+        doc.setFontSize(11);
+        doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", 14, 27);
+
+        doc.setFontSize(13);
+        doc.text(`Payslip for the Month of ${slip.month}`, 14, 37);
+
+        autoTable(doc, {
+            startY: 45,
+            head: [["Employee Pay Summary"]],
+            body: [],
+            theme: "plain"
+        });
+
+        autoTable(doc, {
+            startY: 55,
+            body: [
+                ["Employee Name", slip.userId?.userName || "-"],
+                ["Email", slip.userId?.email || "-"],
+                ["Pay Month", slip.month],
+                ["Basic Salary", `₹${slip.basicSalary}`],
+                ["HRA", `₹${slip.hra}`],
+                ["Allowances", `₹${slip.allowances}`],
+                ["Deductions", `₹${slip.deductions}`],
+                ["Net Salary", `₹${netPay}`],
+            ],
+            theme: "grid",
+            styles: { halign: 'left' },
+        });
+
+        doc.text(`Total Net Payable ₹${netPay} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 10);
+
+        doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 30);
+        doc.text("HR HEAD", 14, doc.lastAutoTable.finalY + 35);
+        doc.text("Email: hr@otusone.com", 14, doc.lastAutoTable.finalY + 42);
+        doc.text("Website: www.otusone.com", 14, doc.lastAutoTable.finalY + 47);
+
+        doc.save(`${slip.month}-${slip.userId?.userName || "Employee"}-salary-slip.pdf`);
+    };
 
     const fetchUserSalarySlips = async () => {
         try {
@@ -75,6 +149,8 @@ const UserSalary = () => {
                                     <TableCell sx={{ color: "#fff" }}>ALLOWANCES</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DEDUCTIONS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>NET SALARY</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>DOWNLOAD</TableCell>
+
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -88,6 +164,12 @@ const UserSalary = () => {
                                             <TableCell>{slip.allowances}</TableCell>
                                             <TableCell>{slip.deductions}</TableCell>
                                             <TableCell>{slip.netSalary}</TableCell>
+                                            <TableCell>
+                                                <Button variant="outlined" size="small" onClick={() => handleDownloadSlip(slip)}>
+                                                    Download
+                                                </Button>
+                                            </TableCell>
+
                                         </TableRow>
                                     ))
                                 ) : (

@@ -44,7 +44,7 @@ exports.getSalarySlipsByUser = async (req, res) => {
     try {
         const { userId } = req.params;
 
-        const slips = await SalarySlip.find({ userId }).sort({ createdAt: -1 });
+        const slips = await SalarySlip.find({ userId }).sort({ createdAt: -1 }).populate("userId", "userName email");;
 
         if (!slips || slips.length === 0) {
             return res.status(404).json({ message: "No salary slips found for this user" });
@@ -76,20 +76,20 @@ exports.deleteSalarySlip = async (req, res) => {
 
 exports.getAllSalarySlips = async (req, res) => {
     try {
-      const slips = await SalarySlip.find()
-        .populate("userId", "userName email")
-        .sort({ createdAt: -1 });
-  
-      res.status(200).json({
-        success: true,
-        message: "All salary slips fetched successfully",
-        data: slips, 
-      });
+        const slips = await SalarySlip.find()
+            .populate("userId", "userName email")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            message: "All salary slips fetched successfully",
+            data: slips,
+        });
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message || "Internal Server Error",
-      });
+        res.status(500).json({
+            success: false,
+            message: error.message || "Internal Server Error",
+        });
     }
-  };
-  
+};
+
