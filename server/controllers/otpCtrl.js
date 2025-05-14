@@ -35,15 +35,20 @@ exports.generateOTP = async (req, res) => {
     try {
         const { email } = req.body;
 
+
         // Validate Email
         if (!email) {
             return res.status(400).json({ success: false, message: 'Email is required' });
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email, role: 'admin' });
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Admin user not found' 
+      });
+    }
+
 
         // Generate OTP (6 digits) and set expiry time
         const otp = crypto.randomInt(100000, 999999).toString();
@@ -95,4 +100,34 @@ exports.verifyOTP = async (req, res) => {
         console.error(error.message);
         res.status(500).json({ success: false, message: error.message || 'Internal Server Error' });
     }
+};
+
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email, role: 'admin' });
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Admin user not found' 
+      });
+    }
+
+    user.password = password;
+    await user.save();
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'Password reset successfully' 
+    });
+
+  } catch (error) {
+    console.error('Password Reset Error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || 'Internal server error' 
+    });
+  }
 };

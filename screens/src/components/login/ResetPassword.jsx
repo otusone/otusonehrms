@@ -26,7 +26,7 @@ const ResetPassword = () => {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/user/resendverification', {
+            const response = await axios.post('http://localhost:8000/api/v1/user/passwordreset', {
                 email,
                 password
             });
@@ -34,7 +34,7 @@ const ResetPassword = () => {
             if (response.data.success) {
                 setSuccess(true);
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/');
                 }, 2000);
             } else {
                 throw new Error(response.data.message || "Password reset failed");

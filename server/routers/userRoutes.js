@@ -7,6 +7,7 @@ const { applyForLeave, updateLeave, deleteLeave } = require("../controllers/leav
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const router = express.Router();
 const otpCtrl = require('../controllers/otpCtrl');
+const adminAuth = require("../middleware/adminAuth"); 
 
 router.use(express.json());
 
@@ -14,6 +15,7 @@ router.use(express.json());
 router.post("/register", register);
 router.post("/login", login);
 router.post('/otpgeneration', otpCtrl.generateOTP);
+router.post("/passwordreset",adminAuth,otpCtrl.resetPassword);
 
 
 router.post('/otpverify', otpCtrl.verifyOTP);
