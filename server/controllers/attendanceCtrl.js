@@ -62,12 +62,14 @@ exports.markClockOut = async (req, res) => {
     const { id } = req.params;
     const { userId, clockOut, date, clockOutLocation } = req.body;
 
+
     if (!clockOut || !date || !clockOutLocation?.latitude || !clockOutLocation?.longitude) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields: clockOut, date, or clockOutLocation",
       });
     }
+
 
     const clockOutDateTime = new Date(`${date}T${clockOut}:00Z`);
     if (isNaN(clockOutDateTime.getTime())) {
@@ -77,18 +79,8 @@ exports.markClockOut = async (req, res) => {
       });
     }
 
-    const attendance = await Attendance.findByIdAndUpdate(
-      id,
-      {
-        clockOut: clockOutDateTime,
-        clockOutLocation: {
-          latitude: Number(clockOutLocation.latitude),
-          longitude: Number(clockOutLocation.longitude),
-        },
-      },
-      { new: true }
-    );
 
+    const attendance = await Attendance.findById(id);
     if (!attendance) {
       return res.status(404).json({
         success: false,
@@ -96,19 +88,43 @@ exports.markClockOut = async (req, res) => {
       });
     }
 
+
+    const clockInDateTime = new Date(attendance.clockIn);
+
+
+    const workingMilliseconds = clockOutDateTime - clockInDateTime;
+
+
+    const workingHours = (workingMilliseconds / (1000 * 60 * 60)).toFixed(2);
+
+
+    const updatedAttendance = await Attendance.findByIdAndUpdate(
+      id,
+      {
+        clockOut: clockOutDateTime,
+        clockOutLocation: {
+          latitude: Number(clockOutLocation.latitude),
+          longitude: Number(clockOutLocation.longitude),
+        },
+        workingHours: workingHours,
+      },
+      { new: true }
+    );
+
     res.status(200).json({
       success: true,
       message: "ClockOut Attendance recorded successfully",
-      data: attendance,
+      data: updatedAttendance,
     });
   } catch (error) {
-    console.error("Clock-out Error:", error); // <== Add logging
+    console.error("Clock-out Error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Invalid Server Error",
     });
   }
 };
+
 
 
 

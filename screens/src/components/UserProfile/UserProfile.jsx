@@ -139,7 +139,7 @@ const UserProfile = () => {
                     </span>
                 </div>
             </div>
-            
+
             <div className="profile-content">
                 <form onSubmit={handleSubmit} className="profile-form">
                     <div className="form-section">
@@ -158,7 +158,7 @@ const UserProfile = () => {
                                 />
                                 {errors.userName && <span className="error-message">{errors.userName}</span>}
                             </div>
-                            
+
                             <div className="form-group">
                                 <label htmlFor="email">Email*</label>
                                 <input
@@ -173,7 +173,7 @@ const UserProfile = () => {
                                 {errors.email && <span className="error-message">{errors.email}</span>}
                             </div>
                         </div>
-                        
+
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="password">Password*</label>
@@ -188,7 +188,7 @@ const UserProfile = () => {
                                 />
                                 {errors.password && <span className="error-message">{errors.password}</span>}
                             </div>
-                            
+
                             <div className="form-group">
                                 <label htmlFor="designation">Designation*</label>
                                 <input
@@ -202,9 +202,23 @@ const UserProfile = () => {
                                 />
                                 {errors.designation && <span className="error-message">{errors.designation}</span>}
                             </div>
+
+                            <div className="form-group">
+                                <label htmlFor="dateOfJoining">dateOfJoining*</label>
+                                <input
+                                    type="text"
+                                    id="dateOfJoining"
+                                    name="dateOfJoining"
+                                    value={formData.dateOfJoining}
+                                    onChange={handleChange}
+                                    className={errors.dateOfJoining ? 'error' : ''}
+                                    disabled={!isEditing}
+                                />
+                                {errors.dateOfJoining && <span className="error-message">{errors.dateOfJoining}</span>}
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div className="form-section">
                         <h2>Personal Details</h2>
                         <div className="form-row">
@@ -225,7 +239,7 @@ const UserProfile = () => {
                                 </select>
                                 {errors.gender && <span className="error-message">{errors.gender}</span>}
                             </div>
-                            
+
                             <div className="form-group">
                                 <label htmlFor="mobile">Mobile Number*</label>
                                 <input
@@ -240,7 +254,7 @@ const UserProfile = () => {
                                 {errors.mobile && <span className="error-message">{errors.mobile}</span>}
                             </div>
                         </div>
-                        
+
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="religion">Religion</label>
@@ -253,7 +267,7 @@ const UserProfile = () => {
                                     disabled={!isEditing}
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label htmlFor="dateOfBirth">Date of Birth</label>
                                 <input
@@ -266,7 +280,7 @@ const UserProfile = () => {
                                 />
                             </div>
                         </div>
-                        
+
                         <div className="form-group full-width">
                             <label htmlFor="address">Address</label>
                             <textarea
@@ -279,7 +293,7 @@ const UserProfile = () => {
                             />
                         </div>
                     </div>
-                    
+
                     {isEditing ? (
                         <div className="form-actions">
                             <button type="button" className="cancel-btn" onClick={handleCancel}>
@@ -297,7 +311,7 @@ const UserProfile = () => {
                         </div>
                     )}
                 </form>
-                
+
                 <div className="profile-sidebar">
                     <div className="profile-avatar">
                         <div className="avatar-placeholder">
@@ -309,7 +323,7 @@ const UserProfile = () => {
                             </button>
                         )}
                     </div>
-                    
+
                     <div className="profile-stats">
                         <h3>Account Information</h3>
                         <div className="stat-item">
@@ -325,7 +339,7 @@ const UserProfile = () => {
                             <span className="stat-value active">Active</span>
                         </div>
                     </div>
-                    
+
                     <div className="profile-actions">
                         <button className="action-btn change-password">
                             Change Password

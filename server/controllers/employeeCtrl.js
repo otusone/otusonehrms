@@ -19,7 +19,6 @@ exports.getAllEmployees = async (req, res) => {
 };
 
 
-
 exports.addEmployee = async (req, res) => {
     try {
         const {
@@ -27,6 +26,7 @@ exports.addEmployee = async (req, res) => {
             email,
             password,
             designation,
+            dateOfJoining,
             dateOfBirth,
             address,
             gender,
@@ -42,14 +42,19 @@ exports.addEmployee = async (req, res) => {
             });
         }
 
-
-        const hashedPassword = await bcrypt.hash(password, 10);
+        if (!password) {
+            return res.status(400).json({
+                success: false,
+                message: "Password is required"
+            });
+        }
 
         const newEmployee = new User({
             userName,
             email,
-            password: hashedPassword,
+            password,
             designation,
+            dateOfJoining,
             dateOfBirth,
             address,
             gender,
@@ -76,16 +81,19 @@ exports.addEmployee = async (req, res) => {
 };
 
 
-
 exports.updateEmployee = async (req, res) => {
     try {
         const { id } = req.params;
+        const updatedData = { ...req.body };
+        if (updatedData.password) {
+            updatedData.password = await bcrypt.hash(updatedData.password, 10);
+        } else {
+            delete updatedData.password;
+        }
 
         const updatedEmployee = await User.findByIdAndUpdate(
             id,
-            {
-                $set: req.body
-            },
+            { $set: updatedData },
             { new: true }
         );
 

@@ -38,12 +38,7 @@ const UserSalary = () => {
     const handleDownloadSlip = (slip) => {
         const doc = new jsPDF();
 
-        const netPay = (
-            Number(slip.basicSalary || 0) +
-            Number(slip.hra || 0) +
-            Number(slip.allowances || 0) -
-            Number(slip.deductions || 0)
-        ).toFixed(2);
+        const netPay = Number(slip.netSalary).toFixed(2);
 
         doc.setFontSize(14);
         doc.text("OTUSONE LLP", 14, 20);
@@ -53,38 +48,60 @@ const UserSalary = () => {
         doc.setFontSize(13);
         doc.text(`Payslip for the Month of ${slip.month}`, 14, 37);
 
+        // Summary
         autoTable(doc, {
             startY: 45,
-            head: [["Employee Pay Summary"]],
-            body: [],
-            theme: "plain"
-        });
-
-        autoTable(doc, {
-            startY: 55,
             body: [
-                ["Employee Name", slip.userId?.userName || "-"],
-                ["Email", slip.userId?.email || "-"],
-                ["Pay Month", slip.month],
-                ["Basic Salary", `₹${slip.basicSalary}`],
-                ["HRA", `₹${slip.hra}`],
-                ["Allowances", `₹${slip.allowances}`],
-                ["Deductions", `₹${slip.deductions}`],
-                ["Net Salary", `₹${netPay}`],
+                ["Employee Name", slip.userName || "-"],
+                ["Employee Ref.", slip.employeeRef || "-"],
+                ["Designation", slip.designation || "-"],
+                ["Date of Joining", slip.dateOfJoining || "-"],
+                ["Pay Month", `${slip.month} | Paid Days: ${slip.paidDays} | LOP Days: ${slip.lopDays}`],
+                ["Pay Date", slip.payDate || "-"],
             ],
             theme: "grid",
-            styles: { halign: 'left' },
+            styles: { halign: "left" },
         });
 
-        doc.text(`Total Net Payable ₹${netPay} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 10);
+        // Earnings & Deductions
+        autoTable(doc, {
+            startY: doc.lastAutoTable.finalY + 10,
+            head: [["EARNINGS", "AMOUNT", "DEDUCTIONS", "AMOUNT"]],
+            body: [
+                ["Basic Salary", `₹${slip.basicSalary}`, "PF", `₹${slip.pf}`],
+                ["Allowances", `₹${slip.allowances}`, "TDS", `₹${slip.tds}`],
+                ["Other Benefits", `₹${slip.otherBenefits}`, "Other Deduction", `₹${slip.otherDeductions}`],
+                ["Gross Earnings", `₹${slip.grossEarnings}`, "Total Deductions", `₹${slip.totalDeductions}`],
+            ],
+            styles: { halign: "left" },
+        });
 
-        doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 30);
-        doc.text("HR HEAD", 14, doc.lastAutoTable.finalY + 35);
-        doc.text("Email: hr@otusone.com", 14, doc.lastAutoTable.finalY + 42);
-        doc.text("Website: www.otusone.com", 14, doc.lastAutoTable.finalY + 47);
+        // Reimbursements
+        autoTable(doc, {
+            startY: doc.lastAutoTable.finalY + 10,
+            head: [["REIMBURSEMENTS", "AMOUNT"]],
+            body: [
+                ["Reimbursement 1", `₹${slip.reimbursement1}`],
+                ["Reimbursement 2", `₹${slip.reimbursement2}`],
+                ["Total Reimbursements", `₹${slip.totalReimbursements}`],
+            ],
+            styles: { halign: "left" },
+        });
 
-        doc.save(`${slip.month}-${slip.userId?.userName || "Employee"}-salary-slip.pdf`);
+        // Net Pay
+        doc.setFontSize(12);
+        doc.text(`Total Net Payable      ₹${netPay}`, 14, doc.lastAutoTable.finalY + 15);
+        doc.text(`Total Net Payable ₹${netPay} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 25);
+
+        // Footer
+        doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 45);
+        doc.text("HR HEAD", 14, doc.lastAutoTable.finalY + 50);
+        doc.text("Email: hr@otusone.com", 14, doc.lastAutoTable.finalY + 57);
+        doc.text("Website: www.otusone.com", 14, doc.lastAutoTable.finalY + 62);
+
+        doc.save(`${slip.month}-${slip.userName || "Employee"}-salary-slip.pdf`);
     };
+
 
     const fetchUserSalarySlips = async () => {
         try {

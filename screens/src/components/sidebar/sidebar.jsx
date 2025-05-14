@@ -10,7 +10,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 const menuItems = [
     { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/dashboard" },
-    { id: 2, icon: <AiOutlineTeam />, title: "Staff", link: "/staff" },
+    //{ id: 2, icon: <AiOutlineTeam />, title: "Staff", link: "/staff" },
     { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },

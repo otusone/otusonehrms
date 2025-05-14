@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
+var bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
 require("dotenv").config();
 
 exports.register = async (req, res) => {
     try {
-        const { userName, email, password, designation, mobile, address, dateOfBirth, gender, religion, role } = req.body;
+        const { userName, email, password, designation, dateOfJoining, mobile, address, dateOfBirth, gender, religion, role } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) { return res.status(400).json({ success: false, message: "Email is Already Exist" }) }
 
-        const hashedPassword = await bcrypt.hash(password, 15);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new User({
-            userName, email, password, designation, role, mobile, address, dateOfBirth, gender, religion
+            userName, email, password, designation, dateOfJoining, role, mobile, address, dateOfBirth, gender, religion
         });
         // const role=req.body.role ||"user";
 
@@ -70,73 +70,12 @@ exports.resendVerification = async (req, res, next) => {
     }
 };
 
-// exports.login = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-
-//         if (!email || !password) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "field Require"
-//             })
-//         }
-
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(401).json({
-//                 success: false,
-//                 message: "Invalid credentials"
-//             });
-//         }
-//         console.log("user", user)
-
-//         const isMatch = await bcrypt.compare(password, user.password);
-//         if (!isMatch) {
-//             return res.status(401).json({
-//                 success: false,
-//                 message: "invalid Credentials"
-//             });
-//         }
-
-//         //     const token=await user.generateAuthToken()
-//         //     user.token=token
-//         //     user.save();
-//         //    return res.json({
-//         //         success: true,
-//         //         message: "Login successful",
-//         //         data: user,
-//         //         token,
-//         //     });/
-
-//         const token = await user.generateAuthToken();
-//         user.token = user.token.concat({ token });
-//         await user.save();
-
-//         return res.json({
-//             success: true,
-//             message: "Login successful",
-//             data: {
-//                 _id: user._id,
-//                 email: user.email
-//             },
-//             token
-//         });
-
-//     } catch (error) {
-//         return res.status(500).json({
-//             success: true,
-//             message: error.message || "internal Server Error",
-//             error: error
-//         });
-//     }
-// };
-
 
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Check for required fields
+
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
@@ -144,28 +83,35 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Find user by email
+
         const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid credentials",
+                message: "User Not Found",
             });
         }
 
-        // Validate password
-        const isMatch = await bcrypt.compare(password, user.password);
+        let isMatch
+        try {
+            isMatch = await bcrypt.compare(password, user.password);
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
         if (!isMatch) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid credentials",
+                message: "Password doesn't match",
             });
         }
 
-        // Generate token
-        const token = await user.generateAuthToken(); // assumes method is defined in your User model
-        user.token = token; // Optional: save current token (you can remove this if unused)
+
+        const token = await user.generateAuthToken();
+        user.token = token;
         await user.save();
 
 
@@ -177,6 +123,7 @@ exports.login = async (req, res) => {
                 userName: user.userName,
                 email: user.email,
                 designation: user.designation,
+                dateOfJoining: user.dateOfJoining,
                 religion: user.religion,
                 gender: user.gender,
                 mobile: user.mobile,
@@ -229,7 +176,7 @@ exports.updateProfile = async (req, res) => {
 
 
         if (updates.password) {
-            updates.password = await bcrypt.hash(updates.password, 15);
+            updates.password = await bcrypt.hash(updates.password, 10);
         }
 
 

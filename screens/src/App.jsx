@@ -40,10 +40,10 @@ function App() {
         path="/dashboard"
         element={<ProtectedRoute allowedRoles={['admin']}><Dashboard /></ProtectedRoute>}
       />
-      <Route
+      {/* <Route
         path="/staff"
         element={<ProtectedRoute allowedRoles={['admin']}><Staff /></ProtectedRoute>}
-      />
+      /> */}
       <Route
         path="/employee"
         element={<ProtectedRoute allowedRoles={['admin']}><Employee /></ProtectedRoute>}

@@ -30,7 +30,7 @@ const Employee = () => {
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
-        password: "12345678",
+        password: "",
         designation: "",
         dateOfBirth: "",
         address: "",
@@ -89,7 +89,7 @@ const Employee = () => {
             setFormData({
                 userName: "",
                 email: "",
-                password: "12345678",
+                password: "",
                 designation: "",
                 dateOfBirth: "",
                 address: "",
@@ -114,7 +114,7 @@ const Employee = () => {
         try {
             const token = localStorage.getItem("authToken");
             if (editingEmployee) {
-                const { password, ...updatedData } = formData;
+                const { _id, ...updatedData } = formData;
                 await axios.patch(
                     `http://localhost:8000/api/v1/admin/update-employee/${editingEmployee._id}`,
                     updatedData,
@@ -208,17 +208,7 @@ const Employee = () => {
                         <DialogContent>
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
-                            {!editingEmployee && (
-                                <TextField
-                                    margin="dense"
-                                    label="Password"
-                                    fullWidth
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                />
-                            )}
+                            <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />

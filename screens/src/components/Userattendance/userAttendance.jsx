@@ -322,8 +322,8 @@ const UserAttendance = () => {
                           ? `Lat: ${attendance.clockOutLocation.latitude}, Lng: ${attendance.clockOutLocation.longitude}`
                           : "-"}
                       </TableCell>
-                      {!attendance.clockOut && (
-                        <TableCell colSpan={8} align="center">
+                      <TableCell>
+                        {!attendance.clockOut ? (
                           <Button
                             variant="outlined"
                             size="small"
@@ -332,9 +332,10 @@ const UserAttendance = () => {
                           >
                             Mark Clock Out
                           </Button>
-                        </TableCell>
-                      )}
-
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (
