@@ -235,7 +235,7 @@ const Asset = () => {
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>

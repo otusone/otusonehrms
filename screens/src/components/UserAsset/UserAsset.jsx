@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import Sidebar from "../userSidebar/sidebar";
-import Heading from "../headingProfile/heading";
+import Heading from "../userHeading/heading";
 
 const UserAsset = () => {
     const [assets, setAssets] = useState([]);
@@ -84,7 +84,7 @@ const UserAsset = () => {
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ASSET NAME</TableCell>

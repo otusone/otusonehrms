@@ -17,79 +17,86 @@ const Dashboard = ({
   editModal, handleModal, open, handleDelete
 }) => {
 
-  const [employeeCount, setEmployeeCount] = useState(0);
+  const [todaysAttendance, setTodaysAttendance] = useState([]);
   const [todaysLeaveCount, setTodaysLeaveCount] = useState(0);
   const [pendingLeaveCount, setPendingLeaveCount] = useState(0);
   const [assignedAssetCount, setAssignedAssetCount] = useState(0);
-  const [todaysAttendance, setTodaysAttendance] = useState([]);
-
+  const [dateOfJoining, setDateOfJoining] = useState("N/A");
 
   const data = [
-    { id: 1, icon: <AiOutlineTeam />, heading: "Staff", number: employeeCount, color: "#58024B" },
-    { id: 2, icon: <TbTicket />, heading: "Active Leaves", number: todaysLeaveCount, color: "#3EC9D6" },
+    { id: 1, icon: <AiOutlineTeam />, heading: "Joining Date", number: dateOfJoining, color: "#58024B" },
+    { id: 2, icon: <TbTicket />, heading: "This Month Leaves", number: todaysLeaveCount, color: "#3EC9D6" },
     { id: 3, icon: <MdAccountBalanceWallet />, heading: "Pending Leaves", number: pendingLeaveCount, color: "#6FD943" },
     { id: 4, icon: <RiHotspotLine />, heading: "Assigned Assets", number: assignedAssetCount, color: "#3EC9D6" },
   ];
 
 
+
   useEffect(() => {
     const fetchDashboardStats = async () => {
       const token = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
       const headers = { Authorization: `Bearer ${token}` };
 
       try {
         const [
-          employeesRes,
+          profileRes,
           leavesRes,
           assetsRes,
           attendanceRes
         ] = await Promise.all([
-          axios.get("http://localhost:8000/api/v1/admin/get-employees", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/getAllLeaves", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/get-asset", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/get-attendance", { headers })
+          axios.get(`http://localhost:8000/api/v1/user/profile/${userId}`, { headers }),
+          axios.get("http://localhost:8000/api/v1/user/my-leaves", { headers }),
+          axios.get(`http://localhost:8000/api/v1/user/get-asset/${userId}`, { headers }),
+          // axios.get(`http://localhost:8000/api/v1/user/get-attendance/${userId}`, { headers })
         ]);
 
-        const employees = employeesRes.data.employees || [];
+        const profile = profileRes.data;
         const leaves = leavesRes.data.leaves || [];
-        const assets = assetsRes.data.data || [];
-        const attendance = attendanceRes.data.data || [];
+        const assets = assetsRes?.data?.data || [];
+        //const attendance = attendanceRes.data.data || [];
+        console.log(profile);
 
-        // Get today's date in YYYY-MM-DD format
+        const joiningDate = profile.dateOfJoining ? new Date(profile.dateOfJoining).toLocaleDateString() : "N/A";
+
+
         const today = new Date();
-        const todayString = today.toISOString().split('T')[0];  // "2025-05-14"
+        const thisMonth = today.getMonth();
+        const thisYear = today.getFullYear();
 
-        // Filter attendance based on today's date
-        const todaysAttendance = attendance.filter(item => item.date === todayString);
 
-        console.log("Filtered Today's Attendance:", todaysAttendance);
-
-        const activeTodayLeaves = leaves.filter((leave) => {
-          const start = new Date(leave.startDate);
-          const end = new Date(leave.endDate);
-          return start <= today && end >= today;
+        const leavesThisMonth = leaves.filter((leave) => {
+          const leaveDate = new Date(leave.startDate);
+          return leaveDate.getMonth() === thisMonth && leaveDate.getFullYear() === thisYear;
         });
 
+
         const pendingLeaves = leaves.filter((leave) => leave.status === "Pending");
+        const totalAssets = assets.length;
 
-        const totalAssets = assets.reduce((count, item) => {
-          return count + (item.assets?.length || 0);
-        }, 0);
 
-        setEmployeeCount(employees.length);
-        setTodaysLeaveCount(activeTodayLeaves.length);
+
+        // const todayString = today.toISOString().split('T')[0];
+        // const todaysAttendance = attendance.filter(item => item.date === todayString);
+
+        setDateOfJoining(joiningDate);
+        setTodaysLeaveCount(leavesThisMonth.length);
         setPendingLeaveCount(pendingLeaves.length);
         setAssignedAssetCount(totalAssets);
-        setTodaysAttendance(todaysAttendance);  // Storing today's attendance in state
+        //setTodaysAttendance(todaysAttendance);
+
+        console.log("Date of Joining:", joiningDate);
+        console.log("Leaves This Month:", leavesThisMonth);
+        console.log("Pending Leaves:", pendingLeaves);
+
       } catch (err) {
         console.error("Error loading dashboard stats", err);
       }
     };
 
-
-
     fetchDashboardStats();
   }, []);
+
 
 
 
@@ -120,8 +127,8 @@ const Dashboard = ({
             </Grid>
           </Grid>
 
-          <Grid container spacing={3} className="dashboard2ndSection" sx={{ width: "100%" }}>
-            <Grid item sm={7}>
+          <Grid container spacing={3} className="dashboard2ndSection" >
+            {/* <Grid item sm={7}>
               <div className="meetingScheduleContainer">
                 <div className="headingSection">
                   <h2>Today's Attendance List</h2>
@@ -168,25 +175,26 @@ const Dashboard = ({
                   </Table>
                 </TableContainer>
               </div>
-            </Grid>
+            </Grid> */}
 
-            {/* <Grid item sm={5}>
-              <div className="calendarContainer">
+            <Grid item xs={10}>
+              <div className="calendarContainer enhancedCalendar" style={{ width: "70%" }}>
                 <FullCalendar
                   plugins={[dayGridPlugin]}
                   initialView="dayGridMonth"
+                  height="auto"
                 />
               </div>
-            </Grid> */}
+            </Grid>
           </Grid>
 
-          {/* You can use any modal package here. For simplicity, use native prompt as placeholder */}
+          {/* You can use any modal package here. For simplicity, use native prompt as placeholder
           {open && (
             alert("Open Create Modal - Hook up a proper modal component here.")
           )}
           {editModal && (
             alert("Open Edit Modal - Hook up a proper modal component here.")
-          )}
+          )} */}
         </Grid>
       </Box>
     </Box>

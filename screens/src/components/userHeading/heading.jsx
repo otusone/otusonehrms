@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Heading.css';
 import { Typography, IconButton, Modal, Box, TextField, Button, MenuItem } from '@mui/material';
 import { FaUserCircle } from 'react-icons/fa';
-import { MdManageAccounts } from 'react-icons/md';
+//import { MdManageAccounts } from 'react-icons/md';
+import { MdAdminPanelSettings } from "react-icons/md";
 import axios from 'axios';
 
 const Heading = () => {
@@ -76,7 +77,7 @@ const Heading = () => {
     return (
         <div className="heading-container">
             <div className="left-section">
-                <FaUserCircle className="user-icon" />
+                <MdAdminPanelSettings className="user-icon" />
                 <div>
                     <Typography variant="h6" className="welcome-text">
                         Welcome, {userData.userName || "User"}
@@ -88,7 +89,7 @@ const Heading = () => {
             </div>
 
             <IconButton onClick={() => setOpen(true)}>
-                <MdManageAccounts className="profile-icon" />
+                <FaUserCircle className="user-icon" />
             </IconButton>
 
             {/* Modal for full profile form */}
@@ -106,6 +107,27 @@ const Heading = () => {
                     <TextField fullWidth label="Designation" name="designation" value={userData.designation || ''} onChange={handleChange} sx={{ mb: 2 }} />
                     <TextField fullWidth label="Religion" name="religion" value={userData.religion || ''} onChange={handleChange} sx={{ mb: 2 }} />
 
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="Date of Birth"
+                        name="dateOfBirth"
+                        value={userData.dateOfBirth ? new Date(userData.dateOfBirth).toISOString().split("T")[0] : ''}
+                        onChange={handleChange}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                    />
+
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="Date of Joining"
+                        name="dateOfJoining"
+                        value={userData.dateOfJoining ? new Date(userData.dateOfJoining).toISOString().split("T")[0] : ''}
+                        onChange={handleChange}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                    />
                     <TextField
                         select
                         fullWidth

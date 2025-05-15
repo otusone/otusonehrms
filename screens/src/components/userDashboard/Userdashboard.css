@@ -64,3 +64,41 @@
     margin-block-start: 1.25rem;
     padding: 1rem;
 }
+
+
+.enhancedCalendar {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.enhancedCalendar:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 768px) {
+  .commonCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .commonCard .icon {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+.dashboardContainer h2,
+.dashboardContainer .MuiTypography-root {
+  padding-block: 1rem;
+  color: #333;
+}
+
+
+.commonCard {
+  margin-top: 1rem;
+}
+

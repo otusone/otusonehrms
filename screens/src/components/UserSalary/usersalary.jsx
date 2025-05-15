@@ -7,7 +7,7 @@ import {
     TableHead, TableRow, TableCell, TableBody, Paper
 } from "@mui/material";
 import Sidebar from "../userSidebar/sidebar";
-import Heading from "../headingProfile/heading";
+import Heading from "../userHeading/heading";
 
 const UserSalary = () => {
     const [salarySlips, setSalarySlips] = useState([]);
@@ -23,6 +23,7 @@ const UserSalary = () => {
         ];
         const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
+        num = Math.floor(Number(num));
         if ((num = num.toString()).length > 9) return 'Overflow';
         let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{3})$/);
         if (!n) return;
@@ -35,24 +36,29 @@ const UserSalary = () => {
     };
 
 
+
     const handleDownloadSlip = (slip) => {
         const doc = new jsPDF();
 
-        const netPay = Number(slip.netSalary).toFixed(2);
+        const netPay = Math.floor(Number(slip.netSalary));
+        const netPayFormatted = Number(slip.netSalary).toFixed(2);
 
-        doc.setFontSize(14);
-        doc.text("OTUSONE LLP", 14, 20);
+
+        doc.setFont("times", "normal");
+        doc.setFontSize(16);
+        doc.text("OTUSONE LLP", doc.internal.pageSize.getWidth() / 2, 20, { align: "center" });
         doc.setFontSize(11);
-        doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", 14, 27);
-
+        doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", doc.internal.pageSize.getWidth() / 2, 27, { align: "center" });
         doc.setFontSize(13);
-        doc.text(`Payslip for the Month of ${slip.month}`, 14, 37);
+        doc.text(`Payslip for the Month of ${slip.month}`, doc.internal.pageSize.getWidth() / 2, 37, { align: "center" });
 
-        // Summary
+
+
         autoTable(doc, {
             startY: 45,
             body: [
                 ["Employee Name", slip.userName || "-"],
+                ["Employee Email", slip.email || "-"],
                 ["Employee Ref.", slip.employeeRef || "-"],
                 ["Designation", slip.designation || "-"],
                 ["Date of Joining", slip.dateOfJoining || "-"],
@@ -60,10 +66,11 @@ const UserSalary = () => {
                 ["Pay Date", slip.payDate || "-"],
             ],
             theme: "grid",
+            font: "times",
             styles: { halign: "left" },
         });
 
-        // Earnings & Deductions
+
         autoTable(doc, {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["EARNINGS", "AMOUNT", "DEDUCTIONS", "AMOUNT"]],
@@ -73,10 +80,11 @@ const UserSalary = () => {
                 ["Other Benefits", `₹${slip.otherBenefits}`, "Other Deduction", `₹${slip.otherDeductions}`],
                 ["Gross Earnings", `₹${slip.grossEarnings}`, "Total Deductions", `₹${slip.totalDeductions}`],
             ],
+            font: "times",
             styles: { halign: "left" },
         });
 
-        // Reimbursements
+
         autoTable(doc, {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["REIMBURSEMENTS", "AMOUNT"]],
@@ -85,21 +93,24 @@ const UserSalary = () => {
                 ["Reimbursement 2", `₹${slip.reimbursement2}`],
                 ["Total Reimbursements", `₹${slip.totalReimbursements}`],
             ],
+            font: "times",
             styles: { halign: "left" },
         });
 
-        // Net Pay
+        doc.setFont("Times", "normal");
         doc.setFontSize(12);
-        doc.text(`Total Net Payable      ₹${netPay}`, 14, doc.lastAutoTable.finalY + 15);
-        doc.text(`Total Net Payable ₹${netPay} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 25);
+        doc.text(`Total Net Payable: ₹${netPay}`, 14, doc.lastAutoTable.finalY + 15);
+        doc.text(`Total Net Payable: ₹${netPayFormatted} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 25);
 
-        // Footer
+        doc.setFont("times", "normal");
         doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 45);
         doc.text("HR HEAD", 14, doc.lastAutoTable.finalY + 50);
         doc.text("Email: hr@otusone.com", 14, doc.lastAutoTable.finalY + 57);
         doc.text("Website: www.otusone.com", 14, doc.lastAutoTable.finalY + 62);
 
-        doc.save(`${slip.month}-${slip.userName || "Employee"}-salary-slip.pdf`);
+        doc.save(`${slip.month}-${slip.user?.name || "Employee"}-salary-slip.pdf`);
+
+
     };
 
 
@@ -157,14 +168,21 @@ const UserSalary = () => {
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>MONTH</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>PAID DAYS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>BASIC SALARY</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>HRA</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ALLOWANCES</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>DEDUCTIONS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>OTHER BENEFITS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>GROSS EARNINGS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>PF</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>TDS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>OTHER DEDUCTIONS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>TOTAL DEDUCTIONS</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 1</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 2</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>NET SALARY</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DOWNLOAD</TableCell>
 
@@ -176,10 +194,17 @@ const UserSalary = () => {
                                         <TableRow key={slip._id}>
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{slip.month}</TableCell>
+                                            <TableCell>{slip.paidDays}</TableCell>
                                             <TableCell>{slip.basicSalary}</TableCell>
-                                            <TableCell>{slip.hra}</TableCell>
                                             <TableCell>{slip.allowances}</TableCell>
-                                            <TableCell>{slip.deductions}</TableCell>
+                                            <TableCell>{slip.otherBenefits}</TableCell>
+                                            <TableCell>{slip.grossEarnings}</TableCell>
+                                            <TableCell>{slip.pf}</TableCell>
+                                            <TableCell>{slip.tds}</TableCell>
+                                            <TableCell>{slip.otherDeductions}</TableCell>
+                                            <TableCell>{slip.totalDeductions}</TableCell>
+                                            <TableCell>{slip.reimbursements1}</TableCell>
+                                            <TableCell>{slip.reimbursements2}</TableCell>
                                             <TableCell>{slip.netSalary}</TableCell>
                                             <TableCell>
                                                 <Button variant="outlined" size="small" onClick={() => handleDownloadSlip(slip)}>

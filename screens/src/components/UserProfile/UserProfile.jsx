@@ -4,17 +4,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./UserProfile.css";
 
 const UserProfile = () => {
-    // Sample user data - in a real app, this would come from an API or context
+
     const sampleUser = {
         userName: "john_doe",
         email: "john@example.com",
         password: "password123",
+        dateOfJoining: "2023-06-15",
         designation: "Software Engineer",
+        dateOfBirth: "1990-01-01",
         religion: "Christian",
         gender: "Male",
         mobile: "1234567890",
         address: "123 Main St, New York, NY",
-        dateOfBirth: "1990-01-01",
         role: "user"
     };
 

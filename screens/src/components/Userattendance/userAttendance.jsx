@@ -273,7 +273,7 @@ const UserAttendance = () => {
               <Button
                 variant="contained"
                 onClick={handleOpenModal}
-                sx={{ bgcolor: "#56005b", "&:hover": { bgcolor: "#7a007f" } }}
+                sx={{ bgcolor: "#58024B", "&:hover": { bgcolor: "#7a007f" } }}
               >
                 Mark Attendance
               </Button>
@@ -288,7 +288,7 @@ const UserAttendance = () => {
 
           <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
             <Table>
-              <TableHead sx={{ bgcolor: "#56005b" }}>
+              <TableHead sx={{ bgcolor: "#58024B" }}>
                 <TableRow>
                   {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell> */}
@@ -328,7 +328,7 @@ const UserAttendance = () => {
                             variant="outlined"
                             size="small"
                             onClick={() => handleOpenClockOutModal(attendance._id)}
-                            sx={{ color: "#56005b", borderColor: "#56005b" }}
+                            sx={{ color: "#58024B", borderColor: "#58024B" }}
                           >
                             Mark Clock Out
                           </Button>
@@ -417,14 +417,14 @@ const UserAttendance = () => {
               <Button
                 variant="outlined"
                 onClick={handleCloseModal}
-                sx={{ color: "#56005b", borderColor: "#56005b" }}
+                sx={{ color: "#58024B", borderColor: "#58024B" }}
               >
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                sx={{ bgcolor: "#56005b", "&:hover": { bgcolor: "#7a007f" } }}
+                sx={{ bgcolor: "#58024B", "&:hover": { bgcolor: "#7a007f" } }}
               >
                 Submit
               </Button>
@@ -497,14 +497,14 @@ const UserAttendance = () => {
             <Button
               variant="outlined"
               onClick={() => setClockOutModal(false)}
-              sx={{ color: "#56005b", borderColor: "#56005b" }}
+              sx={{ color: "#58024B", borderColor: "#58024B" }}
             >
               Cancel
             </Button>
             <Button
               variant="contained"
               onClick={handleClockOutSubmit}
-              sx={{ bgcolor: "#56005b", "&:hover": { bgcolor: "#7a007f" } }}
+              sx={{ bgcolor: "#58024B", "&:hover": { bgcolor: "#7a007f" } }}
             >
               Submit
             </Button>

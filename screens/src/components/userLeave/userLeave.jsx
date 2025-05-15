@@ -131,7 +131,7 @@ const UserLeave = () => {
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                         <Typography variant="h6">My Leaves</Typography>
                         <Box display="flex" gap={2}>
-                            <Button variant="contained" onClick={() => handleOpenForm()} sx={{ bgcolor: "#56005b" }}>
+                            <Button variant="contained" onClick={() => handleOpenForm()} sx={{ bgcolor: "#58024B" }}>
                                 Apply Leave
                             </Button>
                             {/* <TextField placeholder="Search..." size="small" onChange={handleSearch} /> */}
@@ -140,7 +140,7 @@ const UserLeave = () => {
 
                     <TableContainer component={Paper}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>Start</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>End</TableCell>
@@ -181,7 +181,7 @@ const UserLeave = () => {
 
                 {/* Form Modal */}
                 <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm">
-                    <DialogTitle sx={{ bgcolor: "#56005b", color: "#fff" }}>
+                    <DialogTitle sx={{ bgcolor: "#58024B", color: "#fff" }}>
                         {leaveForm.id ? "Update Leave" : "Apply for Leave"}
                     </DialogTitle>
                     <DialogContent>
@@ -216,7 +216,7 @@ const UserLeave = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseForm}>Cancel</Button>
-                        <Button onClick={handleSubmit} variant="contained" sx={{ bgcolor: "#56005b" }}>
+                        <Button onClick={handleSubmit} variant="contained" sx={{ bgcolor: "#58024B" }}>
                             {leaveForm.id ? "Update" : "Submit"}
                         </Button>
                     </DialogActions>

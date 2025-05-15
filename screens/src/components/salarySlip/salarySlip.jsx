@@ -33,7 +33,6 @@ const SalarySlip = () => {
     paidDays: "",
     lopDays: "",
     basicSalary: "",
-    hra: "",
     allowances: "",
     otherBenefits: "",
     grossEarnings: "",
@@ -73,6 +72,20 @@ const SalarySlip = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this salary slip?")) return;
+    try {
+      const token = localStorage.getItem("authToken");
+      await axios.delete(`http://localhost:8000/api/v1/admin/delete-slip/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchAllSlips();
+    } catch (err) {
+      console.error("Failed to delete salary slip", err);
+    }
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -80,7 +93,7 @@ const SalarySlip = () => {
       const payload = {
         ...formData,
         basicSalary: Number(formData.basicSalary),
-        hra: Number(formData.hra),
+        //hra: Number(formData.hra),
         allowances: Number(formData.allowances),
         otherBenefits: Number(formData.otherBenefits),
         grossEarnings: Number(formData.grossEarnings),
@@ -110,7 +123,7 @@ const SalarySlip = () => {
         paidDays: "",
         lopDays: "",
         basicSalary: "",
-        hra: "",
+        //hra: "",
         allowances: "",
         otherBenefits: "",
         grossEarnings: "",
@@ -175,39 +188,86 @@ const SalarySlip = () => {
           {/* Table */}
           <TableContainer component={Paper}>
             <Table>
-              <TableHead sx={{ bgcolor: "#56005b" }}>
+              <TableHead sx={{ bgcolor: "#58024B" }}>
                 <TableRow>
                   <TableCell sx={{ color: "#fff" }}>Employee</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Email</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Month</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Pay Date</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Employee Ref.</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Designation</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Basic</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>HRA</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>HRA</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Allowances</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Deductions</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>Deductions</TableCell> */}
+                  <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>LOP Days</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Other Benefits</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Gross Earnings</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>PF</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>TDS</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Other Deductions</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Total Deductions</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Reimbursement 1</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Reimbursement 2</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Total Reimbursements</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Net Salary</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Action</TableCell>
+
+
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {filteredSlips.map((s) => (
                   <TableRow key={s._id}>
                     <TableCell>{s.userId?.userName || "-"}</TableCell>
                     <TableCell>{s.userId?.email || "-"}</TableCell>
                     <TableCell>{s.month}</TableCell>
+                    <TableCell>{s.payDate?.substring(0, 10)}</TableCell>
+                    <TableCell>{s.employeeRef}</TableCell>
+                    <TableCell>{s.designation}</TableCell>
+                    <TableCell>{s.dateOfJoining?.substring(0, 10)}</TableCell>
                     <TableCell>{s.basicSalary}</TableCell>
-                    <TableCell>{s.hra}</TableCell>
+                    {/* <TableCell>{s.hra}</TableCell> */}
                     <TableCell>{s.allowances}</TableCell>
-                    <TableCell>{s.deductions}</TableCell>
+
+                    <TableCell>{s.paidDays}</TableCell>
+                    <TableCell>{s.lopDays}</TableCell>
+                    <TableCell>{s.otherBenefits}</TableCell>
+                    <TableCell>{s.grossEarnings}</TableCell>
+                    <TableCell>{s.pf}</TableCell>
+                    <TableCell>{s.tds}</TableCell>
+                    <TableCell>{s.otherDeductions}</TableCell>
+                    <TableCell>{s.totalDeductions}</TableCell>
+                    <TableCell>{s.reimbursement1}</TableCell>
+                    <TableCell>{s.reimbursement2}</TableCell>
+                    <TableCell>{s.totalReimbursements}</TableCell>
                     <TableCell>{s.netSalary}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        onClick={() => handleDelete(s._id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+
+
                   </TableRow>
                 ))}
                 {filteredSlips.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={8} align="center">No salary slips found.</TableCell>
+                    <TableCell colSpan={23} align="center">No salary slips found.</TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
+
         </Box>
       </Box>
 
@@ -257,7 +317,7 @@ const SalarySlip = () => {
             >
               {users.map((u) => (
                 <MenuItem key={u._id} value={u._id}>
-                  {u.userName || u.email}
+                  {u.email}
                 </MenuItem>
               ))}
             </TextField>
@@ -265,9 +325,9 @@ const SalarySlip = () => {
 
             <TextField fullWidth label="Month" name="month" value={formData.month} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Basic Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="HRA" name="hra" type="number" value={formData.hra} onChange={handleChange} margin="normal" required size="small" />
+            {/* <TextField fullWidth label="HRA" name="hra" type="number" value={formData.hra} onChange={handleChange} margin="normal" required size="small" /> */}
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Deductions" name="deductions" type="number" value={formData.deductions} onChange={handleChange} margin="normal" required size="small" />
+            {/* <TextField fullWidth label="Deductions" name="deductions" type="number" value={formData.deductions} onChange={handleChange} margin="normal" required size="small" /> */}
             <TextField fullWidth label="Employee Ref." name="employeeRef" value={formData.employeeRef} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Designation" name="designation" value={formData.designation} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
@@ -285,9 +345,17 @@ const SalarySlip = () => {
             <TextField fullWidth label="Total Reimbursements" name="totalReimbursements" type="number" value={formData.totalReimbursements} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Net Salary" name="netSalary" type="number" value={formData.netSalary} onChange={handleChange} margin="normal" required size="small" />
 
-            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mt: 2 }}
+            >
               Submit
             </Button>
+
+
+
           </Box>
         </Box>
       </Modal>

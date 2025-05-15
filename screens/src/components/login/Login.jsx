@@ -119,9 +119,9 @@ const Login = () => {
               </Typography>
             )}
 
-            <Typography style={{ color: '#BC125E', cursor: 'pointer', marginTop: 8 }}>
+            {/* <Typography style={{ color: '#BC125E', cursor: 'pointer', marginTop: 8 }}>
               Forgot Your Password?
-            </Typography>
+            </Typography> */}
 
             <div className="commonButtonContainer" style={{ marginTop: 16 }}>
               <Button type="submit" variant="outlined" disabled={loading}>

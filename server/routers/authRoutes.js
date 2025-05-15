@@ -24,7 +24,7 @@ router.patch("/updateprofile/:id", userAuth, isAdmin, userController.updateProfi
 router.delete("/deleteprofile", userAuth, isAdmin, userController.deleteProfile);
 
 //salary-slip
-//router.post("/salary-slip", userAuth, isAdmin, generateSalarySlip);
+router.post("/salary-slip", userAuth, isAdmin, generateSalarySlip);
 router.patch("/update-salary-slip/:id", userAuth, isAdmin, updateSalarySlip);
 router.delete("/delete-slip/:id", userAuth, isAdmin, deleteSalarySlip);
 router.get("/get-salary-slip", userAuth, isAdmin, getAllSalarySlips);

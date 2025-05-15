@@ -31,6 +31,7 @@ const Employee = () => {
         userName: "",
         email: "",
         password: "",
+        dateOfJoining: "",
         designation: "",
         dateOfBirth: "",
         address: "",
@@ -91,6 +92,7 @@ const Employee = () => {
                 email: "",
                 password: "",
                 designation: "",
+                dateOfJoining: "",
                 dateOfBirth: "",
                 address: "",
                 gender: "",
@@ -159,11 +161,12 @@ const Employee = () => {
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
-                            <TableHead sx={{ bgcolor: "#56005b" }}>
+                            <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>DATE OF JOINING</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF BIRTH</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ADDRESS</TableCell>
@@ -180,6 +183,7 @@ const Employee = () => {
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{emp.userName}</TableCell>
                                             <TableCell>{emp.email}</TableCell>
+                                            <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.designation}</TableCell>
                                             <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.address || "N/A"}</TableCell>
@@ -209,6 +213,7 @@ const Employee = () => {
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
                             <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />
+                            <TextField margin="dense" label="Date of Joining" fullWidth type="date" name="dateOfJoining" InputLabelProps={{ shrink: true }} value={formData.dateOfJoining} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
