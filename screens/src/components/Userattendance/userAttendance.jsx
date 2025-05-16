@@ -53,6 +53,17 @@ const UserAttendance = () => {
 
   useEffect(() => {
     if (openModal) {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const currentTime = `${hours}:${minutes}`;
+      setFormData((prev) => ({
+        ...prev,
+        clockIn: currentTime,
+        latitude: '',
+        longitude: '',
+      }));
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setFormData((prev) => ({
@@ -181,6 +192,17 @@ const UserAttendance = () => {
     setSelectedAttendanceId(attendanceId);
     setClockOutModal(true);
 
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+    setClockOutForm((prev) => ({
+      ...prev,
+      clockOut: currentTime,
+      latitude: '',
+      longitude: '',
+    }));
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setClockOutForm((prev) => ({
@@ -293,10 +315,10 @@ const UserAttendance = () => {
                 <TableRow>
                   {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell> */}
+                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
                   <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
                   <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
@@ -307,8 +329,7 @@ const UserAttendance = () => {
                 {filteredAttendance()?.length > 0 ? (
                   filteredAttendance().map((attendance) => (
                     <TableRow key={attendance._id}>
-                      {/* <TableCell>{attendance.userId?.userName || "-"}</TableCell>
-                      <TableCell>{attendance.userId?.email || "-"}</TableCell> */}
+                      <TableCell>{attendance.date}</TableCell>
                       <TableCell>{attendance.clockIn || "-"}</TableCell>
                       <TableCell>
                         {attendance.clockInLocation
@@ -316,7 +337,6 @@ const UserAttendance = () => {
                           : "-"}
                       </TableCell>
                       <TableCell>{attendance.workingHours || "-"}</TableCell>
-                      <TableCell>{attendance.date}</TableCell>
                       <TableCell>{attendance.clockOut || "-"}</TableCell>
                       <TableCell>
                         {attendance.clockOutLocation
@@ -379,8 +399,8 @@ const UserAttendance = () => {
               type="date"
               name="date"
               value={formData.date}
-              onChange={handleChange}
               margin="normal"
+              readOnly
               InputLabelProps={{ shrink: true }}
             />
 
@@ -390,8 +410,8 @@ const UserAttendance = () => {
               type="time"
               name="clockIn"
               value={formData.clockIn}
-              onChange={handleChange}
               margin="normal"
+              readOnly
               InputLabelProps={{ shrink: true }}
               inputProps={{ step: 300 }}
             />
@@ -401,7 +421,6 @@ const UserAttendance = () => {
               label="Latitude"
               name="latitude"
               value={formData.latitude}
-              onChange={handleChange}
               margin="normal"
             />
 
@@ -410,7 +429,7 @@ const UserAttendance = () => {
               label="Longitude"
               name="longitude"
               value={formData.longitude}
-              onChange={handleChange}
+              // onChange={handleChange}
               margin="normal"
             />
 
@@ -459,7 +478,7 @@ const UserAttendance = () => {
             type="date"
             name="date"
             value={clockOutForm.date}
-            onChange={(e) => setClockOutForm({ ...clockOutForm, date: e.target.value })}
+            //onChange={(e) => setClockOutForm({ ...clockOutForm, date: e.target.value })}
             margin="normal"
             InputLabelProps={{ shrink: true }}
           />
@@ -470,7 +489,7 @@ const UserAttendance = () => {
             type="time"
             name="clockOut"
             value={clockOutForm.clockOut}
-            onChange={(e) => setClockOutForm({ ...clockOutForm, clockOut: e.target.value })}
+            //onChange={(e) => setClockOutForm({ ...clockOutForm, clockOut: e.target.value })}
             margin="normal"
             inputProps={{ step: 300 }}
             InputLabelProps={{ shrink: true }}
@@ -481,7 +500,7 @@ const UserAttendance = () => {
             label="Latitude"
             name="latitude"
             value={clockOutForm.latitude}
-            onChange={(e) => setClockOutForm({ ...clockOutForm, latitude: e.target.value })}
+            //onChange={(e) => setClockOutForm({ ...clockOutForm, latitude: e.target.value })}
             margin="normal"
           />
 
@@ -490,7 +509,7 @@ const UserAttendance = () => {
             label="Longitude"
             name="longitude"
             value={clockOutForm.longitude}
-            onChange={(e) => setClockOutForm({ ...clockOutForm, longitude: e.target.value })}
+            //onChange={(e) => setClockOutForm({ ...clockOutForm, longitude: e.target.value })}
             margin="normal"
           />
 

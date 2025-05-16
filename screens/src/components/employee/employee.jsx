@@ -29,6 +29,7 @@ const Employee = () => {
     const [open, setOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
     const [formData, setFormData] = useState({
+        employeeId: "",
         userName: "",
         email: "",
         password: "",
@@ -83,12 +84,31 @@ const Employee = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        return new Date(dateString).toISOString().split("T")[0]; // "YYYY-MM-DD"
+    };
+
     const handleOpen = (employee = null) => {
         setEditingEmployee(employee);
         if (employee) {
-            setFormData({ ...employee });
+            //setFormData({ ...employee });
+            setFormData({
+                employeeId: employee.employeeId || "",
+                userName: employee.userName || "",
+                email: employee.email || "",
+                password: employee.password || "",
+                designation: employee.designation || "",
+                dateOfJoining: formatDate(employee.dateOfJoining),
+                dateOfBirth: formatDate(employee.dateOfBirth),
+                address: employee.address || "",
+                gender: employee.gender || "",
+                religion: employee.religion || "",
+                mobile: employee.mobile || "",
+            });
         } else {
             setFormData({
+                employeeId: "",
                 userName: "",
                 email: "",
                 password: "",
@@ -158,14 +178,15 @@ const Employee = () => {
                         </Button>
                     </Box>
                     <Box display="flex" justifyContent="flex-end" mb={2}>
-                        <TextField placeholder="Search..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
+                        <TextField placeholder="Search by Name or Email..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
                             <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>EMPLOYEE ID</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>NAME</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF JOINING</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
@@ -182,6 +203,7 @@ const Employee = () => {
                                     filteredEmployees.map((emp, index) => (
                                         <TableRow key={emp._id}>
                                             <TableCell>{index + 1}</TableCell>
+                                            <TableCell>{emp.employeeId}</TableCell>
                                             <TableCell>{emp.userName}</TableCell>
                                             <TableCell>{emp.email}</TableCell>
                                             <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
@@ -211,6 +233,7 @@ const Employee = () => {
                     <Dialog open={open} onClose={handleClose} fullWidth>
                         <DialogTitle>{editingEmployee ? "Update Employee" : "Add Employee"}</DialogTitle>
                         <DialogContent>
+                            <TextField margin="dense" label="Employee ID" fullWidth name="ID" value={formData.employeeId} onChange={handleChange} />
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
                             <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />

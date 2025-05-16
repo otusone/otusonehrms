@@ -23,13 +23,9 @@ const SalarySlip = () => {
   const [slips, setSlips] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState("");
   const [formData, setFormData] = useState({
     userId: "",
     month: "",
-    employeeRef: "",
-    designation: "",
-    dateOfJoining: "",
     payDate: "",
     paidDays: "",
     lopDays: "",
@@ -117,14 +113,10 @@ const SalarySlip = () => {
       setFormData({
         userId: "",
         month: "",
-        employeeRef: "",
-        designation: "",
-        dateOfJoining: "",
         payDate: "",
         paidDays: "",
         lopDays: "",
         basicSalary: "",
-        //hra: "",
         allowances: "",
         otherBenefits: "",
         grossEarnings: "",
@@ -186,20 +178,20 @@ const SalarySlip = () => {
             />
           </Box>
 
-          {/* Table */}
+
           <TableContainer component={Paper}>
             <Table>
               <TableHead sx={{ bgcolor: "#58024B" }}>
                 <TableRow>
-                  <TableCell sx={{ color: "#fff" }}>Employee</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>S. No.</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Employee ID</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Name</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Email</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Month</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Pay Date</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Employee Ref.</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Designation</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Basic</TableCell>
-                  {/* <TableCell sx={{ color: "#fff" }}>HRA</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Allowances</TableCell>
                   {/* <TableCell sx={{ color: "#fff" }}>Deductions</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
@@ -221,19 +213,18 @@ const SalarySlip = () => {
               </TableHead>
 
               <TableBody>
-                {filteredSlips.map((s) => (
+                {filteredSlips.map((s, index) => (
                   <TableRow key={s._id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{s.userId?.employeeId || "-"}</TableCell>
                     <TableCell>{s.userId?.userName || "-"}</TableCell>
                     <TableCell>{s.userId?.email || "-"}</TableCell>
                     <TableCell>{s.month}</TableCell>
                     <TableCell>{s.payDate?.substring(0, 10)}</TableCell>
-                    <TableCell>{s.employeeRef}</TableCell>
-                    <TableCell>{s.designation}</TableCell>
-                    <TableCell>{s.dateOfJoining?.substring(0, 10)}</TableCell>
+                    <TableCell>{s.userId?.designation}</TableCell>
+                    <TableCell>{s.userId?.dateOfJoining?.substring(0, 10)}</TableCell>
                     <TableCell>{s.basicSalary}</TableCell>
-                    {/* <TableCell>{s.hra}</TableCell> */}
                     <TableCell>{s.allowances}</TableCell>
-
                     <TableCell>{s.paidDays}</TableCell>
                     <TableCell>{s.lopDays}</TableCell>
                     <TableCell>{s.otherBenefits}</TableCell>
@@ -272,7 +263,7 @@ const SalarySlip = () => {
         </Box>
       </Box>
 
-      {/* Modal */}
+
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box
           sx={{
@@ -293,7 +284,7 @@ const SalarySlip = () => {
             Generate Salary Slip
           </Typography>
 
-          {/* Scrollable content */}
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -304,7 +295,7 @@ const SalarySlip = () => {
               flexGrow: 1,
             }}
           >
-            {/* Place all TextFields here */}
+
             <TextField
               select
               fullWidth
@@ -326,12 +317,8 @@ const SalarySlip = () => {
 
             <TextField fullWidth label="Month" name="month" value={formData.month} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Basic Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
-            {/* <TextField fullWidth label="HRA" name="hra" type="number" value={formData.hra} onChange={handleChange} margin="normal" required size="small" /> */}
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" required size="small" />
-            {/* <TextField fullWidth label="Deductions" name="deductions" type="number" value={formData.deductions} onChange={handleChange} margin="normal" required size="small" /> */}
-            <TextField fullWidth label="Employee Ref." name="employeeRef" value={formData.employeeRef} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Designation" name="designation" value={formData.designation} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
+            {/* <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} /> */}
             <TextField fullWidth label="Pay Date" name="payDate" type="date" value={formData.payDate} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
             <TextField fullWidth label="Paid Days" name="paidDays" type="number" value={formData.paidDays} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="LOP Days" name="lopDays" type="number" value={formData.lopDays} onChange={handleChange} margin="normal" required size="small" />
@@ -354,9 +341,6 @@ const SalarySlip = () => {
             >
               Submit
             </Button>
-
-
-
           </Box>
         </Box>
       </Modal>

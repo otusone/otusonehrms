@@ -18,12 +18,12 @@ const mongoose = require("mongoose");
 
 const salarySlipSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    employeeId: { type: String },
     userName: { type: String, required: true },
     email: { type: String, required: true, trim: true, },
     month: { type: String, required: true },
-    employeeRef: { type: String, required: true },
     designation: { type: String, required: true },
-    dateOfJoining: { type: String, required: true },
+    dateOfJoining: { type: Date, required: true },
     payDate: { type: String, required: true },
     paidDays: { type: Number, required: true },
     lopDays: { type: Number, required: true },

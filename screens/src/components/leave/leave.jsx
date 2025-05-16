@@ -153,6 +153,7 @@ const Leave = () => {
                         <Table>
                             <TableHead sx={{ bgcolor: "#58024b" }}>
                                 <TableRow>
+                                    <TableCell sx={{ color: "#fff" }}>S.No</TableCell>
                                     {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE ID</TableCell> */}
                                     <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
                                     {/* <TableCell sx={{ color: "#fff" }}>LEAVE TYPE</TableCell> */}
@@ -165,8 +166,9 @@ const Leave = () => {
                             </TableHead>
                             <TableBody>
                                 {filteredLeaves()?.length > 0 ? (
-                                    filteredLeaves().map((leave) => (
+                                    filteredLeaves().map((leave, index) => (
                                         <TableRow key={leave._id}>
+                                            <TableCell>{index + 1}</TableCell>
                                             {/* <TableCell>{leave.userId}</TableCell> */}
                                             <TableCell>{leave.userName}</TableCell>
                                             {/* <TableCell>-</TableCell> */}

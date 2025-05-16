@@ -22,6 +22,7 @@ exports.getAllEmployees = async (req, res) => {
 exports.addEmployee = async (req, res) => {
     try {
         const {
+            employeeId,
             userName,
             email,
             password,
@@ -50,6 +51,7 @@ exports.addEmployee = async (req, res) => {
         }
 
         const newEmployee = new User({
+            employeeId,
             userName,
             email,
             password,

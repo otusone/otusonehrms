@@ -6,9 +6,6 @@ exports.generateSalarySlip = async (req, res) => {
         const {
             userId,
             month,
-            employeeRef,
-            designation,
-            dateOfJoining,
             payDate,
             paidDays,
             lopDays,
@@ -55,12 +52,12 @@ exports.generateSalarySlip = async (req, res) => {
 
         const slip = new SalarySlip({
             userId,
+            employeeId: user.employeeId,
             userName: user.userName,
             email: user.email,
             month,
-            employeeRef,
-            designation,
-            dateOfJoining,
+            designation: user.designation,
+            dateOfJoining: user.dateOfJoining,
             payDate,
             paidDays,
             lopDays,
@@ -98,9 +95,6 @@ exports.updateSalarySlip = async (req, res) => {
         const {
             userId,
             month,
-            employeeRef,
-            designation,
-            dateOfJoining,
             payDate,
             paidDays,
             lopDays,
@@ -127,9 +121,6 @@ exports.updateSalarySlip = async (req, res) => {
 
         slip.userId = userId ?? slip.userId;
         slip.month = month ?? slip.month;
-        slip.employeeRef = employeeRef ?? slip.employeeRef;
-        slip.designation = designation ?? slip.designation;
-        slip.dateOfJoining = dateOfJoining ?? slip.dateOfJoining;
         slip.payDate = payDate ?? slip.payDate;
         slip.paidDays = paidDays ?? slip.paidDays;
         slip.lopDays = lopDays ?? slip.lopDays;
@@ -169,7 +160,7 @@ exports.getSalarySlipsByUser = async (req, res) => {
     try {
         const { userId } = req.params;
 
-        const slips = await SalarySlip.find({ userId }).sort({ createdAt: -1 }).populate("userId", "userName email designation dateOfJoining");
+        const slips = await SalarySlip.find({ userId }).sort({ createdAt: -1 }).populate("userId", "employeeId userName email designation dateOfJoining");
 
         if (!slips || slips.length === 0) {
             return res.status(404).json({ message: "No salary slips found for this user" });
@@ -202,7 +193,7 @@ exports.deleteSalarySlip = async (req, res) => {
 exports.getAllSalarySlips = async (req, res) => {
     try {
         const slips = await SalarySlip.find()
-            .populate("userId", "userName email")
+            .populate("userId", "employeeId userName email designation dateOfJoining")
             .sort({ createdAt: -1 });
 
         res.status(200).json({

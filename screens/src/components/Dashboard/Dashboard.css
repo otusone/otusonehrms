@@ -17,6 +17,7 @@
 
 .commonCard .icon {
     font-size: 2rem;
+    margin-right: 1rem;
 }
 
 .commonCard .content h3 {
@@ -28,6 +29,8 @@
     margin: 0.25rem 0 0;
     font-size: 1.3rem;
     font-weight: bold;
+    display:flex;
+    justify-content: center;
 }
 
 .dashboard2ndSection > div {

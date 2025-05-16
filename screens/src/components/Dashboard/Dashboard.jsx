@@ -58,9 +58,9 @@ const Dashboard = ({
 
         // Get today's date in YYYY-MM-DD format
         const today = new Date();
-        const todayString = today.toISOString().split('T')[0];  // "2025-05-14"
+        const todayString = today.toISOString().split('T')[0];
 
-        // Filter attendance based on today's date
+
         const todaysAttendance = attendance.filter(item => item.date === todayString);
 
         console.log("Filtered Today's Attendance:", todaysAttendance);
@@ -81,7 +81,7 @@ const Dashboard = ({
         setTodaysLeaveCount(activeTodayLeaves.length);
         setPendingLeaveCount(pendingLeaves.length);
         setAssignedAssetCount(totalAssets);
-        setTodaysAttendance(todaysAttendance);  // Storing today's attendance in state
+        setTodaysAttendance(todaysAttendance);
       } catch (err) {
         console.error("Error loading dashboard stats", err);
       }
@@ -132,7 +132,7 @@ const Dashboard = ({
                     <TableHead style={{ backgroundColor: "#58024B" }}>
                       <TableRow>
                         <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
+                        <TableCell sx={{ color: "#fff" }}>Name</TableCell>
                         <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
@@ -146,8 +146,8 @@ const Dashboard = ({
                       {Array.isArray(todaysAttendance) && todaysAttendance.map((item, index) => (
                         <TableRow key={item._id}>
                           <TableCell>{index + 1}</TableCell>
-                          <TableCell>{item.userDetails?.userName}</TableCell>
-                          <TableCell>{item.userDetails?.email || "N/A"}</TableCell>
+                          <TableCell>{item.userId?.userName}</TableCell>
+                          <TableCell>{item.userId?.email || "N/A"}</TableCell>
                           <TableCell>{item.clockIn ? new Date(item.clockIn).toLocaleString() : "N/A"}</TableCell>
                           <TableCell>{item.clockOut ? new Date(item.clockOut).toLocaleString() : "N/A"}</TableCell>
                           <TableCell>

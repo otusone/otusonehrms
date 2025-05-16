@@ -60,7 +60,7 @@ const UserSalary = () => {
             body: [
                 ["Employee Name", slip.userName || "-"],
                 ["Employee Email", slip.email || "-"],
-                ["Employee Ref.", slip.employeeRef || "-"],
+                ["Employee Id.", slip.employeeId || "-"],
                 ["Designation", slip.designation || "-"],
                 ["Date of Joining", slip.dateOfJoining || "-"],
                 ["Pay Month", `${slip.month} | Paid Days: ${slip.paidDays} | LOP Days: ${slip.lopDays}`],
@@ -98,10 +98,17 @@ const UserSalary = () => {
             styles: { halign: "left" },
         });
 
-        doc.setFont("Times", "normal");
-        doc.setFontSize(12);
-        doc.text(`Total Net Payable: ₹${netPay}`, 14, doc.lastAutoTable.finalY + 15);
-        doc.text(`Total Net Payable: ₹${netPayFormatted} (${convertToWords(netPay)} only)`, 14, doc.lastAutoTable.finalY + 25);
+
+
+        autoTable(doc, {
+            startY: doc.lastAutoTable.finalY + 10,
+            head: [["NET PAYABLE", "AMOUNT"]],
+            body: [
+                ["Total Net Payable", `₹${netPayFormatted} (${convertToWords(netPay)} only)`],
+            ],
+            font: "times",
+            styles: { halign: "left", fontStyle: "bold" },
+        });
 
         doc.setFont("times", "normal");
         doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 45);
