@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
   Box,
   Typography,
@@ -29,7 +30,7 @@ const Staff = () => {
   const fetchStaff = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:8000/api/v1/admin/get-staff", {
+      const res = await axiosInstance.get("/admin/get-staff", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStaff(res.data.employees);

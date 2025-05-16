@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './UserDashboard.css';
 import axios from 'axios';
+import axiosInstance from '../../utils/baseurl';
 import { Box, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { AiOutlineTeam } from 'react-icons/ai';
 import { TbTicket } from 'react-icons/tb';
@@ -45,10 +46,10 @@ const Dashboard = ({
           assetsRes,
           attendanceRes
         ] = await Promise.all([
-          axios.get(`http://localhost:8000/api/v1/user/profile/${userId}`, { headers }),
-          axios.get("http://localhost:8000/api/v1/user/my-leaves", { headers }),
-          axios.get(`http://localhost:8000/api/v1/user/get-asset/${userId}`, { headers }),
-          // axios.get(`http://localhost:8000/api/v1/user/get-attendance/${userId}`, { headers })
+          axiosInstance.get(`/user/profile/${userId}`, { headers }),
+          axiosInstance.get("/user/my-leaves", { headers }),
+          axiosInstance.get(`/user/get-asset/${userId}`, { headers }),
+          // axiosInstance.get(`/user/get-attendance/${userId}`, { headers })
         ]);
 
         const profile = profileRes.data;

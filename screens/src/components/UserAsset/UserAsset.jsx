@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
     Box, Typography, TextField, TableContainer, Table,
     TableHead, TableRow, TableCell, TableBody, Paper
@@ -23,14 +24,16 @@ const UserAsset = () => {
                 return;
             }
 
-            const res = await axios.get(`http://localhost:8000/api/v1/user/get-asset/${userId}`, {
+            const res = await axiosInstance.get(`/user/get-asset/${userId}`, {
 
                 headers: { Authorization: `Bearer ${token}` }
             });
 
+            const assignedToDetails = res.data.assignedTo;
+
             const userAssets = res.data.data.map(item => ({
                 ...item,
-                assignedToDetails: item.assignedTo
+                assignedToDetails: assignedToDetails
             }));
             setAssets(userAssets);
             setFilteredAssets(userAssets);

@@ -5,6 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 //import { MdManageAccounts } from 'react-icons/md';
 import { MdAdminPanelSettings } from "react-icons/md";
 import axios from 'axios';
+import axiosInstance from '../../utils/baseurl';
 
 const Heading = () => {
     const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ const Heading = () => {
                 return;
             }
 
-            const res = await axios.get(`http://localhost:8000/api/v1/user/profile/${userId}`, {
+            const res = await axiosInstance.get(`/user/profile/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -58,7 +59,7 @@ const Heading = () => {
                 console.error("No token found");
                 return;
             }
-            const res = await axios.patch(`http://localhost:8000/api/v1/user/updateprofile/${userId}`, userData, {
+            const res = await axiosInstance.patch(`/user/updateprofile/${userId}`, userData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

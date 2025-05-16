@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
@@ -124,7 +125,7 @@ const UserSalary = () => {
                 return;
             }
 
-            const res = await axios.get(`http://localhost:8000/api/v1/user/get-salary-slip/${userId}`, {
+            const res = await axiosInstance.get(`/user/get-salary-slip/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

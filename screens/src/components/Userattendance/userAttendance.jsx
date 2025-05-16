@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
   Box,
   Typography,
@@ -78,8 +79,8 @@ const UserAttendance = () => {
       const userId = localStorage.getItem("userId");
       if (!token || !userId) return;
 
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/user/attendance/${userId}`,
+      const response = await axiosInstance.get(
+        `/user/attendance/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -147,8 +148,8 @@ const UserAttendance = () => {
         userId,
       };
 
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/user/clockinattendance",
+      const response = await axiosInstance.post(
+        "/user/clockinattendance",
         requestBody,
         {
           headers: {
@@ -215,8 +216,8 @@ const UserAttendance = () => {
         },
       };
 
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/clockoutattendance/${selectedAttendanceId}`,
+      const response = await axiosInstance.patch(
+        `/user/clockoutattendance/${selectedAttendanceId}`,
         requestBody,
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
     Box,
     Typography,
@@ -33,8 +34,8 @@ const Leave = () => {
                 return;
             }
 
-            const response = await axios.get(
-                "http://localhost:8000/api/v1/admin/getAllLeaves",
+            const response = await axiosInstance.get(
+                "/admin/getAllLeaves",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -59,8 +60,8 @@ const Leave = () => {
         if (!confirmed) return;
         try {
             const token = localStorage.getItem("authToken");
-            const response = await axios.patch(
-                `http://localhost:8000/api/v1/admin/leave/status/${id}`,
+            const response = await axiosInstance.patch(
+                `/admin/leave/status/${id}`,
                 { status: "Approved" },
                 {
                     headers: {
@@ -84,8 +85,8 @@ const Leave = () => {
         if (!confirmed) return;
         try {
             const token = localStorage.getItem("authToken");
-            const response = await axios.patch(
-                `http://localhost:8000/api/v1/admin/leave/status/${id}`,
+            const response = await axiosInstance.patch(
+                `/admin/leave/status/${id}`,
                 { status: "Rejected" },
                 {
                     headers: {

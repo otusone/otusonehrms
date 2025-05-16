@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
     Box, Typography, Button, TextField, TableContainer, Table,
     TableHead, TableRow, TableCell, TableBody, Paper,
@@ -28,7 +29,7 @@ const Asset = () => {
     const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem("authToken");
-            const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+            const res = await axiosInstance.get("/admin/get-employees", {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEmployees(res.data.employees);
@@ -41,7 +42,7 @@ const Asset = () => {
     const fetchAssets = async () => {
         try {
             const token = localStorage.getItem("authToken");
-            const res = await axios.get("http://localhost:8000/api/v1/admin/get-asset/", {
+            const res = await axiosInstance.get("/admin/get-asset/", {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -131,7 +132,7 @@ const Asset = () => {
         try {
             const token = localStorage.getItem("authToken");
 
-            await axios.delete(`http://localhost:8000/api/v1/admin/delete-asset/${assetId}`, {
+            await axiosInstance.delete(`/admin/delete-asset/${assetId}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 data: { userId },
             });
@@ -166,8 +167,8 @@ const Asset = () => {
 
             if (assetId) {
                 // Update existing asset
-                await axios.patch(
-                    `http://localhost:8000/api/v1/admin/update-asset/${assetId}`,
+                await axiosInstance.patch(
+                    `/admin/update-asset/${assetId}`,
                     {
                         userId: employeeId,
                         assetName,
@@ -184,9 +185,9 @@ const Asset = () => {
                     }
                 );
             } else {
-                // Create new asset
-                await axios.post(
-                    "http://localhost:8000/api/v1/admin/asset/",
+
+                await axiosInstance.post(
+                    "/admin/asset/",
                     {
                         assignedTo: employeeId,
                         assets: [

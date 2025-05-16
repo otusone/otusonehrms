@@ -1,11 +1,8 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute.jsx";
-
-// Public
 import Login from "./components/login/Login";
 
-// Admin Components
 import Dashboard from "./components/Dashboard/Dashboard";
 import Staff from "./components/staff/staff";
 import Employee from "./components/employee/employee";
@@ -15,7 +12,6 @@ import Asset from "./components/asset/asset";
 import Invoice from "./components/Invoice/invoice";
 import Salaryslip from "./components/salarySlip/salarySlip";
 
-// User Components
 import UserDashboard from "./components/UserDashboard/UserDashboard.jsx";
 import UserAttendance from "./components/Userattendance/userAttendance";
 import UserProfile from "./components/UserProfile/UserProfile";
@@ -24,18 +20,15 @@ import UserAsset from "./components/UserAsset/UserAsset";
 import UserSalary from "./components/UserSalary/usersalary.jsx";
 
 
-// Fallback
-const Unauthorized = () => <h1>Unauthorized Access</h1>;
+
 
 function App() {
   return (
     <Routes>
-      {/* Public Routes */}
+
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
-      {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
 
-      {/* Admin Protected Routes */}
       <Route
         path="/dashboard"
         element={<ProtectedRoute allowedRoles={['admin']}><Dashboard /></ProtectedRoute>}
@@ -69,7 +62,7 @@ function App() {
         element={<ProtectedRoute allowedRoles={['admin']}><Salaryslip /></ProtectedRoute>}
       />
 
-      {/* User Protected Routes */}
+
       <Route
         path="/user-dashboard"
         element={<ProtectedRoute allowedRoles={['user']}><UserDashboard /></ProtectedRoute>}
@@ -95,7 +88,7 @@ function App() {
         element={<ProtectedRoute allowedRoles={['user']}><UserSalary /></ProtectedRoute>}
       />
 
-      {/* Catch-all */}
+
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

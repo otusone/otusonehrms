@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
     Box,
     Typography,
@@ -43,7 +44,7 @@ const Employee = () => {
     const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem("authToken");
-            const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+            const res = await axiosInstance.get("/admin/get-employees", {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEmployees(res.data.employees);
@@ -72,7 +73,7 @@ const Employee = () => {
         if (!confirm) return;
         try {
             const token = localStorage.getItem("authToken");
-            await axios.delete(`http://localhost:8000/api/v1/admin/delete-employee/${id}`, {
+            await axiosInstance.delete(`/admin/delete-employee/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Employee deleted successfully.");
@@ -117,8 +118,8 @@ const Employee = () => {
             const token = localStorage.getItem("authToken");
             if (editingEmployee) {
                 const { _id, ...updatedData } = formData;
-                await axios.patch(
-                    `http://localhost:8000/api/v1/admin/update-employee/${editingEmployee._id}`,
+                await axiosInstance.patch(
+                    `/admin/update-employee/${editingEmployee._id}`,
                     updatedData,
                     {
                         headers: {
@@ -128,7 +129,7 @@ const Employee = () => {
                     }
                 );
             } else {
-                await axios.post("http://localhost:8000/api/v1/admin/add-employee", formData, {
+                await axiosInstance.post("/admin/add-employee", formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",

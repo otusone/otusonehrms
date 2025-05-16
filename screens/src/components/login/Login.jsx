@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../slices/authSlice'; // Make sure this path is correct
+import { setUser } from '../../slices/authSlice';
 import axios from 'axios';
+import axiosInstance from '../../utils/baseurl';
 import {
   Box,
   Grid,
@@ -38,7 +39,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/user/login', {
+      const response = await axiosInstance.post('/user/login', {
         email: inputData.email,
         password: inputData.password,
       });
@@ -50,12 +51,12 @@ const Login = () => {
         localStorage.setItem('authUser', JSON.stringify(data));
         localStorage.setItem('userId', data._id);
 
-        // Store user in Redux
+
         dispatch(setUser(data));
 
 
 
-        // Navigate based on role
+
         if (data.role === 'admin') {
           navigate('/dashboard');
         } else if (data.role === 'user') {

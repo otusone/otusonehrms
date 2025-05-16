@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
   Box,
   Typography,
@@ -51,7 +52,7 @@ const SalarySlip = () => {
   const fetchAllSlips = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:8000/api/v1/admin/get-salary-slip", {
+      const res = await axiosInstance.get("/admin/get-salary-slip", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSlips(res.data.data || []);
@@ -63,7 +64,7 @@ const SalarySlip = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:8000/api/v1/admin/get-employees", {
+      const res = await axiosInstance.get("/admin/get-employees", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data.employees || []);
@@ -76,7 +77,7 @@ const SalarySlip = () => {
     if (!window.confirm("Are you sure you want to delete this salary slip?")) return;
     try {
       const token = localStorage.getItem("authToken");
-      await axios.delete(`http://localhost:8000/api/v1/admin/delete-slip/${id}`, {
+      await axiosInstance.delete(`/admin/delete-slip/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAllSlips();
@@ -109,7 +110,7 @@ const SalarySlip = () => {
         lopDays: Number(formData.lopDays),
       };
 
-      await axios.post("http://localhost:8000/api/v1/admin/salary-slip", payload, {
+      await axiosInstance.post("/admin/salary-slip", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

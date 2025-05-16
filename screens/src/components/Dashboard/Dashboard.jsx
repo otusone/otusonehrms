@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import axios from 'axios';
+import axiosInstance from '../../utils/baseurl';
 import { Box, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { AiOutlineTeam } from 'react-icons/ai';
 import { TbTicket } from 'react-icons/tb';
@@ -44,10 +45,10 @@ const Dashboard = ({
           assetsRes,
           attendanceRes
         ] = await Promise.all([
-          axios.get("http://localhost:8000/api/v1/admin/get-employees", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/getAllLeaves", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/get-asset", { headers }),
-          axios.get("http://localhost:8000/api/v1/admin/get-attendance", { headers })
+          axiosInstance.get("/admin/get-employees", { headers }),
+          axiosInstance.get("/admin/getAllLeaves", { headers }),
+          axiosInstance.get("/admin/get-asset", { headers }),
+          axiosInstance.get("/admin/get-attendance", { headers })
         ]);
 
         const employees = employeesRes.data.employees || [];

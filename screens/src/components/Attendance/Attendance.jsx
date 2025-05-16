@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 import {
   Box,
   Typography,
@@ -22,7 +23,7 @@ const Attendance = () => {
   const fetchAttendance = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:8000/api/v1/admin/get-attendance", {
+      const res = await axiosInstance.get("/admin/get-attendance", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

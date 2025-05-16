@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import axios from "axios";
+import axiosInstance from '../../utils/baseurl';
 
 const UserLeave = () => {
     const [leaveData, setLeaveData] = useState([]);
@@ -31,7 +32,7 @@ const UserLeave = () => {
     const fetchUserLeaves = async () => {
         try {
             const token = localStorage.getItem("authToken");
-            const res = await axios.get('http://localhost:8000/api/v1/user/my-leaves', {
+            const res = await axiosInstance.get('/user/my-leaves', {
                 headers: { Authorization: `Bearer ${token}` },
             });
             if (res.data.success) setLeaveData(res.data.leaves);
@@ -84,12 +85,12 @@ const UserLeave = () => {
 
         try {
             if (leaveForm.id) {
-                await axios.patch(`http://localhost:8000/api/v1/user/leave/${leaveForm.id}`, payload, {
+                await axiosInstance.patch(`/user/leave/${leaveForm.id}`, payload, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setNotification({ open: true, message: "Leave updated!", severity: "success" });
             } else {
-                await axios.post(`http://localhost:8000/api/v1/user/leave`, payload, {
+                await axiosInstance.post(`/user/leave`, payload, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setNotification({ open: true, message: "Leave submitted!", severity: "success" });
@@ -106,7 +107,7 @@ const UserLeave = () => {
         if (!window.confirm("Delete this leave?")) return;
         try {
             const token = localStorage.getItem("authToken");
-            await axios.delete(`http://localhost:8000/api/v1/user/delete-leave/${id}`, {
+            await axiosInstance.delete(`/user/delete-leave/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setNotification({ open: true, message: "Leave deleted", severity: "info" });
