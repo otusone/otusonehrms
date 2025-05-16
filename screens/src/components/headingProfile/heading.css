@@ -31,19 +31,20 @@
   }
   
   /* Responsive */
-  @media (max-width: 600px) {
-    .heading-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .left-section {
-      flex-direction: row;
-      gap: 0.5rem;
-    }
-  
-    .user-icon {
-      font-size: 2rem;
-    }
+ /* Responsive */
+@media (max-width: 768px) {
+  .heading-container {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 3.5rem; /* Added this to push heading down */
   }
-  
+
+  .left-section {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .user-icon {
+    font-size: 2rem;
+  }
+}
