@@ -1,3 +1,8 @@
+.dashboardLayout {
+    display: flex;
+    min-height: 100vh;
+}
+
 .dashboardContainer {
     margin-inline: 2%;
 }

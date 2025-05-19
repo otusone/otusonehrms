@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { Box, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
+import {Box,Typography,TextField,Button,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Grid} from "@mui/material";
 import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 
-const Invoice = ({
-    invoiceData = [],
+const Invoice = ({ 
+    invoiceData = [], 
     data = {
         invoiceNo: '',
         date: '',
         items: []
     },
     heading = "Invoice Details",
-    handleSearch = () => { },
-    handleApprove = () => { },
-    handleReject = () => { },
-    handleChange = () => { },
-    handleClick = () => { },
-    handleEdit = () => { },
-    handleDelete = () => { }
+    handleSearch = () => {},
+    handleApprove = () => {},
+    handleReject = () => {},
+    handleChange = () => {},
+    handleClick = () => {},
+    handleEdit = () => {},
+    handleDelete = () => {}
 }) => {
     const [openModal, setOpenModal] = useState(false);
     const [clientData, setClientData] = useState({
@@ -68,22 +68,22 @@ const Invoice = ({
                     <Grid container spacing={2} mb={3}>
                         <Grid item xs={12} md={6}>
                             <Typography variant="body1" mb={1}>Invoice No*</Typography>
-                            <TextField
+                            <TextField 
                                 fullWidth
-                                placeholder='00001'
-                                name='invoiceNo'
-                                value={data?.invoiceNo || ''}
-                                onChange={handleChange}
+                                placeholder='00001' 
+                                name='invoiceNo' 
+                                value={data?.invoiceNo || ''} 
+                                onChange={handleChange} 
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Typography variant="body1" mb={1}>Invoice Date *</Typography>
-                            <TextField
+                            <TextField 
                                 fullWidth
-                                type='date'
-                                name='date'
-                                value={data?.date || ''}
-                                onChange={handleChange}
+                                type='date' 
+                                name='date' 
+                                value={data?.date || ''} 
+                                onChange={handleChange} 
                             />
                         </Grid>
                     </Grid>
@@ -92,13 +92,13 @@ const Invoice = ({
                     <Grid container spacing={2} mb={3}>
                         {/* Billed By Card */}
                         <Grid item xs={12} md={6}>
-                            <Box className="billedByContainer">
+                        <Box className="billedByContainer">
                                 <Typography variant='h5' fontSize={20} fontWeight={500}>
                                     Billed By
                                     <span style={{ fontSize: 15, color: "#617183", paddingInline: 5 }}>(Your Details)</span>
                                 </Typography>
                                 <Box className="billedCardContainer">
-                                    <Box display="flex" flexDirection="column" gap={1} style={{
+                                    <Box display="flex" flexDirection="column" gap={1} style={{ 
                                         border: "1px solid #58024B",
                                         borderRadius: "8px",
                                         padding: "16px",
@@ -109,15 +109,13 @@ const Invoice = ({
                                         </Typography>
                                         <Typography variant='body1' sx={{ color: "#51618A", fontSize: 15 }}>
                                             <strong>Address:</strong> Your Address
-                                            <Typography variant='body1' sx={{ color: "#51618A", fontSize: 15 }}>
-                                                <strong>Address:</strong> Your Address
-                                            </Typography>
+                                        </Typography>
                                     </Box>
                                 </Box>
                             </Box>
                         </Grid>
 
-
+                        
                         <Grid item xs={12} md={6}>
                             <Box className="billedByContainer">
                                 <Typography variant='h5' fontSize={20} fontWeight={500}>
@@ -126,31 +124,31 @@ const Invoice = ({
                                 </Typography>
                                 {selectedClient ? (
                                     <Box className="billedCardContainer">
-                                        <Box display="flex" justifyContent="space-between">
-                                            <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
-                                            <MdEdit fontSize={20} cursor="pointer" onClick={handleAddClient} />
-                                        </Box>
-                                        <Box sx={{
-                                            border: "1px solid #58024B",
-                                            borderRadius: "8px",
-                                            padding: "16px",
-                                            bgcolor: "#ffffff",
-                                            marginTop: 2
-                                        }}>
-                                            <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
-                                                Business Name <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.businessName || '-'}</span>
-                                            </Typography>
-                                            <Typography sx={{ color: "#51618A", fontSize: 15 }}>
-                                                Address <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.address || '-'}</span>
-                                            </Typography>
-                                        </Box>
+                                    <Box display="flex" justifyContent="space-between">
+                                        <Typography variant='h6' fontSize={18} fontWeight={500}>Business details</Typography>
+                                        <MdEdit fontSize={20} cursor="pointer" onClick={handleAddClient} />
                                     </Box>
+                                    <Box sx={{
+                                        border: "1px solid #58024B",
+                                        borderRadius: "8px",
+                                        padding: "16px",
+                                        bgcolor: "#ffffff",
+                                        marginTop: 2
+                                    }}>
+                                        <Typography sx={{ color: "#51618A", fontSize: 15, paddingBlock: 1 }}>
+                                            Business Name <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.businessName || '-'}</span>
+                                        </Typography>
+                                        <Typography sx={{ color: "#51618A", fontSize: 15 }}>
+                                            Address <span style={{ color: "#000000", paddingInlineStart: 12 }}>{selectedClient?.address || '-'}</span>
+                                        </Typography>
+                                    </Box>
+                                </Box>
                                 ) : (
                                     <Box className="selectClientCardContainer">
                                         <Typography textAlign="center">Select a Client/Business from list</Typography>
                                         <Typography textAlign="center" marginBlock={2}>OR</Typography>
                                         <Box display="flex" justifyContent="center">
-                                            <Button
+                                            <Button 
                                                 variant="outlined"
                                                 onClick={handleAddClient}
                                                 sx={{
@@ -205,16 +203,16 @@ const Invoice = ({
                                             <TableCell sx={{ textAlign: "center" }}>{item.gst ? `${item.gst}%` : '-'}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{item.amount ? `Rs.${item.amount}/-` : '-'}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>
-                                                <MdEdit
-                                                    fontSize={20}
-                                                    cursor="pointer"
-                                                    onClick={() => handleEdit(item._id)}
+                                                <MdEdit 
+                                                    fontSize={20} 
+                                                    cursor="pointer" 
+                                                    onClick={() => handleEdit(item._id)} 
                                                     style={{ marginRight: 10 }}
                                                 />
-                                                <MdDelete
-                                                    fontSize={20}
-                                                    cursor="pointer"
-                                                    onClick={() => handleDelete(item._id)}
+                                                <MdDelete 
+                                                    fontSize={20} 
+                                                    cursor="pointer" 
+                                                    onClick={() => handleDelete(item._id)} 
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -311,7 +309,7 @@ const Invoice = ({
                             <span className="closeIcon" onClick={handleCloseModal}>×</span>
                         </Box>
                         <Box className="modalDivider"></Box>
-
+                        
                         <Box className="modalSection">
                             <Typography variant='h5' fontSize={18} fontWeight={500}>
                                 Basic Information
@@ -346,8 +344,8 @@ const Invoice = ({
                         </Box>
 
                         <Box className="modalActions">
-                            <Button
-                                variant="outlined"
+                            <Button 
+                                variant="outlined" 
                                 onClick={handleCloseModal}
                                 sx={{
                                     color: "#58024B",
@@ -361,8 +359,8 @@ const Invoice = ({
                             >
                                 Close
                             </Button>
-                            <Button
-                                variant="contained"
+                            <Button 
+                                variant="contained" 
                                 onClick={handleClientSubmit}
                                 sx={{
                                     backgroundColor: "#58024B",
