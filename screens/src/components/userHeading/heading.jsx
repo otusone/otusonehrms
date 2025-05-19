@@ -96,9 +96,16 @@ const Heading = () => {
             {/* Modal for full profile form */}
             <Modal open={open} onClose={() => setOpen(false)}>
                 <Box sx={{
-                    position: 'absolute', top: '50%', left: '50%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    bgcolor: 'background.paper', p: 4, borderRadius: 2, width: 450, maxHeight: '90vh', overflowY: 'auto'
+                    bgcolor: 'background.paper',
+                    p: { xs: 2, sm: 3, md: 4 },
+                    borderRadius: 2,
+                    width: { xs: '90vw', sm: 400, md: 450 },
+                    maxHeight: '80vh',
+                    overflowY: 'auto'
                 }}>
                     <Typography variant="h6" gutterBottom>Edit Profile</Typography>
 
@@ -130,6 +137,7 @@ const Heading = () => {
                         InputLabelProps={{ shrink: true }}
                         sx={{ mb: 2 }}
                     />
+
                     <TextField
                         select
                         fullWidth
@@ -155,6 +163,7 @@ const Heading = () => {
 
                     <Button fullWidth variant="contained" onClick={handleUpdate}>Update</Button>
                 </Box>
+
             </Modal>
         </div>
     );

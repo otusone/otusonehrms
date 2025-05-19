@@ -39,7 +39,7 @@
     margin-top: 1.25rem;
 }
 
-/* Meeting Schedule Section */
+
 .meetingScheduleContainer {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 0.5rem;
@@ -62,7 +62,7 @@
     cursor: pointer;
 }
 
-/* Calendar Styling */
+
 .calendarContainer {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 0.5rem;

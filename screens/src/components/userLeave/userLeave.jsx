@@ -123,13 +123,13 @@ const UserLeave = () => {
 
     return (
         <Box display="flex" minHeight="100vh">
-            <Box sx={{ width: { xs: "100%", md: "18%" }, borderRight: "1px solid #eee" }}>
+            <Box sx={{ width: { xs: "0%", md: "18%" }, borderRight: "1px solid #eee" }}>
                 <Sidebar />
             </Box>
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} >
                         <Typography variant="h6">My Leaves</Typography>
                         <Box display="flex" gap={2}>
                             <Button variant="contained" onClick={() => handleOpenForm()} sx={{ bgcolor: "#58024B" }}>
@@ -230,7 +230,7 @@ const UserLeave = () => {
                     </Alert>
                 </Snackbar>
             </Box>
-        </Box>
+        </Box >
     );
 };
 

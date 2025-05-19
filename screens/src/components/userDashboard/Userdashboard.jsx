@@ -103,13 +103,20 @@ const Dashboard = ({
 
   return (
     <Box display="flex" minHeight="100vh">
-      <Box sx={{ width: { xs: "100%", md: "18%" }, bgcolor: "#fff", borderRight: "1px solid #eee" }}>
+      <Box
+        sx={{
+          width: { md: "18%" },
+          borderRight: { md: "1px solid #eee" },
+          bgcolor: "#fff",
+        }}
+      >
         <Sidebar />
       </Box>
 
       <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
         <Heading />
-        <Grid className="dashboardContainer">
+        <Grid className="dashboardContainer" sx={{ ml: { xs: 5, md: 3 } }}
+        >
           <Grid>
             <Typography variant="h2" fontWeight={500} fontSize={20}>Dashboard</Typography>
 
@@ -129,55 +136,6 @@ const Dashboard = ({
           </Grid>
 
           <Grid container spacing={3} className="dashboard2ndSection" >
-            {/* <Grid item sm={7}>
-              <div className="meetingScheduleContainer">
-                <div className="headingSection">
-                  <h2>Today's Attendance List</h2>
-                </div>
-                <TableContainer>
-                  <Table>
-                    <TableHead style={{ backgroundColor: "#58024B" }}>
-                      <TableRow>
-                        <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Array.isArray(todaysAttendance) && todaysAttendance.map((item, index) => (
-                        <TableRow key={item._id}>
-                          <TableCell>{index + 1}</TableCell>
-                          <TableCell>{item.userDetails?.userName}</TableCell>
-                          <TableCell>{item.userDetails?.email || "N/A"}</TableCell>
-                          <TableCell>{item.clockIn ? new Date(item.clockIn).toLocaleString() : "N/A"}</TableCell>
-                          <TableCell>{item.clockOut ? new Date(item.clockOut).toLocaleString() : "N/A"}</TableCell>
-                          <TableCell>
-                            {item.clockInLocation
-                              ? `${item.clockInLocation.latitude}, ${item.clockInLocation.longitude}`
-                              : "N/A"}
-                          </TableCell>
-                          <TableCell>
-                            {item.clockOutLocation
-                              ? `${item.clockOutLocation.latitude}, ${item.clockOutLocation.longitude}`
-                              : "N/A"}
-                          </TableCell>
-                          <TableCell>{item.workingHours || 0}</TableCell>
-                          <TableCell>{item.date}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-
-                  </Table>
-                </TableContainer>
-              </div>
-            </Grid> */}
-
             <Grid item xs={10}>
               <div className="calendarContainer enhancedCalendar" style={{ width: "70%" }}>
                 <FullCalendar
@@ -189,16 +147,10 @@ const Dashboard = ({
             </Grid>
           </Grid>
 
-          {/* You can use any modal package here. For simplicity, use native prompt as placeholder
-          {open && (
-            alert("Open Create Modal - Hook up a proper modal component here.")
-          )}
-          {editModal && (
-            alert("Open Edit Modal - Hook up a proper modal component here.")
-          )} */}
+
         </Grid>
       </Box>
-    </Box>
+    </Box >
   );
 };
 

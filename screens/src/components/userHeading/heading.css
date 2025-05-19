@@ -34,7 +34,7 @@
   @media (max-width: 600px) {
     .heading-container {
       flex-direction: column;
-      align-items: flex-start;
+      
     }
   
     .left-section {
