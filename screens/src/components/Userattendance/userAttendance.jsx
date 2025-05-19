@@ -272,7 +272,7 @@ const UserAttendance = () => {
     <Box display="flex" minHeight="100vh">
       <Box
         sx={{
-          width: { xs: "100%", md: "18%" },
+          width: { xs: "0%", md: "18%" },
           borderRight: { md: "1px solid #eee" },
           bgcolor: "#fff",
         }}

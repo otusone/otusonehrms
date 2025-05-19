@@ -134,6 +134,13 @@ const Employee = () => {
     };
 
     const handleSubmit = async () => {
+        const requiredFields = ["userName", "email", "password", "designation", "gender", "mobile"];
+        const missingFields = requiredFields.filter(field => !formData[field]?.trim());
+
+        if (missingFields.length > 0) {
+            alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
+            return;
+        }
         try {
             const token = localStorage.getItem("authToken");
             if (editingEmployee) {
@@ -155,11 +162,22 @@ const Employee = () => {
                         "Content-Type": "application/json",
                     },
                 });
+                alert("Employee added successfully!");
             }
             handleClose();
             fetchEmployees();
         } catch (err) {
             console.error("Failed to submit employee data", err);
+            if (
+                err.response &&
+                err.response.data &&
+                err.response.data.message &&
+                err.response.data.message.toLowerCase().includes("email")
+            ) {
+                alert("An employee with this email already exists!");
+            } else {
+                alert("An error occurred while submitting employee data. Please try again.");
+            }
         }
     };
 
@@ -233,7 +251,7 @@ const Employee = () => {
                     <Dialog open={open} onClose={handleClose} fullWidth>
                         <DialogTitle>{editingEmployee ? "Update Employee" : "Add Employee"}</DialogTitle>
                         <DialogContent>
-                            <TextField margin="dense" label="Employee ID" fullWidth name="ID" value={formData.employeeId} onChange={handleChange} />
+                            <TextField margin="dense" label="Employee ID" fullWidth name="employeeId" value={formData.employeeId} onChange={handleChange} />
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
                             <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />

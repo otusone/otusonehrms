@@ -122,11 +122,13 @@ const Dashboard = ({
 
             <Grid container spacing={2}>
               {data.map(item => (
-                <Grid item sm={4} key={item.id}>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
                   <div className="commonCard" style={{ backgroundColor: item.color }}>
-                    <div className="icon">{item.icon}</div>
-                    <div className="content">
+                    <div className="header">
+                      <div className="icon">{item.icon}</div>
                       <h3>{item.heading}</h3>
+                    </div>
+                    <div className="content">
                       <p>{item.number}</p>
                     </div>
                   </div>

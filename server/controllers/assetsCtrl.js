@@ -129,6 +129,11 @@ exports.deleteAsset = async (req, res) => {
         }
 
         await assetRecord.save();
+        if (assetRecord.assets.length === 0) {
+            await UserModel.findByIdAndDelete(userId);
+            await Asset.deleteOne({ assignedTo: userId });
+        }
+
 
         res.status(200).json({ message: "Asset deleted successfully" });
     } catch (error) {

@@ -132,8 +132,11 @@ const SalarySlip = () => {
 
       setOpenModal(false);
       fetchAllSlips();
+      alert("Successfully submitted the form!");
+
     } catch (err) {
       console.error("Failed to generate slip", err);
+      alert("Error in submitting the form!");
     }
   };
 

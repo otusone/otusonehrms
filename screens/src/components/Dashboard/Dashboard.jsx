@@ -68,8 +68,9 @@ const Dashboard = ({
         const activeTodayLeaves = leaves.filter((leave) => {
           const start = new Date(leave.startDate);
           const end = new Date(leave.endDate);
-          return start <= today && end >= today;
+          return start <= today && end >= today && leave.status === "approved";
         });
+
 
         const pendingLeaves = leaves.filter((leave) => leave.status === "Pending");
 
@@ -110,12 +111,15 @@ const Dashboard = ({
               {data.map(item => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
                   <div className="commonCard" style={{ backgroundColor: item.color }}>
-                    <div className="icon">{item.icon}</div>
-                    <div className="content">
+                    <div className="header">
+                      <div className="icon">{item.icon}</div>
                       <h3>{item.heading}</h3>
+                    </div>
+                    <div className="content">
                       <p>{item.number}</p>
                     </div>
                   </div>
+
                 </Grid>
               ))}
             </Grid>

@@ -15,9 +15,16 @@
     justify-content: space-between;
 }
 
+.commonCard .header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  /* margin-bottom: 0.5rem; */
+}
+
 .commonCard .icon {
     font-size: 2rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 .commonCard .content h3 {

@@ -94,6 +94,7 @@ const Attendance = () => {
               alignItems="center"
               mb={2}
             >
+              {/* <Typography variant="h6">Attendance Records</Typography> */}
               <Typography variant="h6">Attendance Records</Typography>
               <Box
                 display="flex"
@@ -101,31 +102,33 @@ const Attendance = () => {
                 flexWrap="wrap"
                 justifyContent="flex-start"
               >
-                <Button
-                  variant={filter === "all" ? "contained" : "outlined"}
-                  onClick={() => setFilter("all")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    fontSize: { xs: "0.7rem", sm: "0.875rem" },
-                    flex: { xs: "1 1 48%", sm: "0 0 auto" },
-                  }}
-                >
-                  All Attendance
-                </Button>
+                <Box sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}>
+                  <Button
+                    variant={filter === "all" ? "contained" : "outlined"}
+                    onClick={() => setFilter("all")}
+                    size="small"
+                    fullWidth
+                    sx={{
+                      fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                    }}
+                  >
+                    All Attendance
+                  </Button>
+                </Box>
 
-                <Button
-                  variant={filter === "today" ? "contained" : "outlined"}
-                  onClick={() => setFilter("today")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    fontSize: { xs: "0.7rem", sm: "0.875rem" },
-                    flex: { xs: "1 1 48%", sm: "0 0 auto" },
-                  }}
-                >
-                  Today Only
-                </Button>
+                <Box sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}>
+                  <Button
+                    variant={filter === "today" ? "contained" : "outlined"}
+                    onClick={() => setFilter("today")}
+                    size="small"
+                    fullWidth
+                    sx={{
+                      fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                    }}
+                  >
+                    Today Only
+                  </Button>
+                </Box>
               </Box>
 
             </Box>

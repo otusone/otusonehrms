@@ -93,7 +93,7 @@ const Heading = () => {
                 <FaUserCircle className="user-icon" />
             </IconButton>
 
-            {/* Modal for full profile form */}
+
             <Modal open={open} onClose={() => setOpen(false)}>
                 <Box sx={{
                     position: 'absolute',

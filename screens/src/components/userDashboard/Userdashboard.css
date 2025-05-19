@@ -15,11 +15,29 @@
     justify-content: space-between;
 }
 
-.commonCard .icon {
-    font-size: 2rem;
-    margin-right: 1rem;
-
+.commonCard {
+  padding: 1.5rem;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column; /* Make it a column layout overall */
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
+
+.commonCard .header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.commonCard .icon {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+
 
 .commonCard .content h3 {
     margin: 0;
@@ -29,10 +47,17 @@
     justify-content: center;
 }
 
+.commonCard .content h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
 .commonCard .content p {
     margin: 0.25rem 0 0;
     font-size: 1.3rem;
     font-weight: bold;
+    display:flex;
+    justify-content: center;
 }
 
 .dashboard2ndSection > div {

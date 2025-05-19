@@ -158,7 +158,7 @@ const UserSalary = () => {
 
     return (
         <Box display="flex" minHeight="100vh">
-            <Box sx={{ width: { xs: "100%", md: "18%" }, borderRight: { md: "1px solid #eee" }, bgcolor: "#fff" }}>
+            <Box sx={{ width: { xs: "0%", md: "18%" }, borderRight: { md: "1px solid #eee" }, bgcolor: "#fff" }}>
                 <Sidebar />
             </Box>
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
