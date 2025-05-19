@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-require("./confiq/connectionDB").connectDB();
+require("./Confiq/connectionDB").connectDB();
 
 
 app.use("/api/v1/", routes);
