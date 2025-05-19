@@ -109,20 +109,23 @@ const Dashboard = ({
 
             <Grid container spacing={2}>
               {data.map(item => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-                  <div className="commonCard" style={{ backgroundColor: item.color }}>
-                    <div className="header">
-                      <div className="icon">{item.icon}</div>
-                      <h3>{item.heading}</h3>
-                    </div>
-                    <div className="content">
-                      <p>{item.number}</p>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} style={{ display: 'flex' }}>
+                  <div className="commonCardWrapper">
+                    <div className="commonCard" style={{ backgroundColor: item.color }}>
+                      <div className="header">
+                        <div className="icon">{item.icon}</div>
+                        <h3>{item.heading}</h3>
+                      </div>
+                      <div className="content">
+                        <p>{item.number}</p>
+                      </div>
                     </div>
                   </div>
-
                 </Grid>
               ))}
             </Grid>
+
+
           </Grid>
 
           <Grid container spacing={3} className="dashboard2ndSection" sx={{ width: "100%" }}>
