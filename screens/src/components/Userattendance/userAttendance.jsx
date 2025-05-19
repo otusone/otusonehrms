@@ -290,13 +290,21 @@ const UserAttendance = () => {
             alignItems="center"
             mb={2}
             flexWrap="wrap"
+            gap={2}
           >
             <Typography variant="h6">User Attendance</Typography>
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={1} flexWrap="wrap">
               <Button
                 variant="contained"
                 onClick={handleOpenModal}
-                sx={{ bgcolor: "#58024B", "&:hover": { bgcolor: "#7a007f" } }}
+                sx={{
+                  bgcolor: "#58024B",
+                  fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                  px: { xs: 1.5, sm: 2 },
+                  py: { xs: 0.5, sm: 1 },
+                  minWidth: "unset",
+                  "&:hover": { bgcolor: "#7a007f" },
+                }}
               >
                 Mark Attendance
               </Button>
@@ -304,7 +312,10 @@ const UserAttendance = () => {
                 placeholder="Search..."
                 size="small"
                 onChange={handleSearch}
-                sx={{ width: "250px" }}
+                sx={{
+                  width: { xs: "100%", sm: "250px" },
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
               />
             </Box>
           </Box>

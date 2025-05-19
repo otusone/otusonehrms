@@ -108,7 +108,7 @@ const Dashboard = ({
 
             <Grid container spacing={2}>
               {data.map(item => (
-                <Grid item sm={4} key={item.id}>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
                   <div className="commonCard" style={{ backgroundColor: item.color }}>
                     <div className="icon">{item.icon}</div>
                     <div className="content">
@@ -127,7 +127,7 @@ const Dashboard = ({
                 <div className="headingSection">
                   <h2>Today's Attendance List</h2>
                 </div>
-                <TableContainer>
+                <TableContainer sx={{ overflowX: 'auto' }}>
                   <Table>
                     <TableHead style={{ backgroundColor: "#58024B" }}>
                       <TableRow>

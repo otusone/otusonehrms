@@ -162,13 +162,13 @@ const SalarySlip = () => {
       <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
         <Heading />
         <Box px={4} py={2}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 2, alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "center", mb: 2 }}>
             <Typography variant="h6" mb={2}>Salary Slip Management</Typography>
             <Button variant="outlined" onClick={() => setOpenModal(true)}>
               Generate Salary Slip
             </Button>
           </Box>
-          <Box display="flex" justifyContent="flex-end" mb={2}>
+          <Box display="flex" justifyContent={{ xs: "flex-start", sm: "flex-end" }} mb={2}>
             <TextField
               label="Filter by Name or Email"
               variant="outlined"
@@ -271,7 +271,7 @@ const SalarySlip = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 500,
+            width: { xs: '90vw', sm: 500 },
             maxHeight: "90vh",
             bgcolor: "#fff",
             boxShadow: 24,

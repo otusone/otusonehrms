@@ -14,6 +14,7 @@
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   transition: transform 0.3s ease;
+  overflow-y: auto; /* ADD THIS LINE */
 }
 
 .sidebarContainer img {
@@ -93,6 +94,7 @@
     width: 70%;
     transform: translateX(-100%);
     z-index: 999;
+    
   } 
   
     .sidebarContainer img {
@@ -109,4 +111,7 @@
   .hamburger {
     display: block;
   }
+
+  
 }
+
