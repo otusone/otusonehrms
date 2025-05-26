@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
+    InputAdornment,
+    IconButton,
     Box,
     Typography,
     Button,
@@ -28,6 +31,8 @@ const Employee = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [confirmationOpen, setConfirmationOpen] = useState(false);
     const [formData, setFormData] = useState({
         employeeId: "",
         userName: "",
@@ -35,12 +40,19 @@ const Employee = () => {
         password: "",
         dateOfJoining: "",
         designation: "",
+        monthlySalary: "",
         dateOfBirth: "",
         address: "",
         gender: "",
-        religion: "",
-        mobile: ""
+        // religion: "",
+        mobile: "",
+        emergencyContact: "",
     });
+
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     const fetchEmployees = async () => {
         try {
@@ -99,12 +111,14 @@ const Employee = () => {
                 email: employee.email || "",
                 password: employee.password || "",
                 designation: employee.designation || "",
+                monthlySalary: employee.monthlySalary || "",
                 dateOfJoining: formatDate(employee.dateOfJoining),
                 dateOfBirth: formatDate(employee.dateOfBirth),
                 address: employee.address || "",
                 gender: employee.gender || "",
-                religion: employee.religion || "",
+                // religion: employee.religion || "",
                 mobile: employee.mobile || "",
+                emergencyContact: employee.emergencyContact || "",
             });
         } else {
             setFormData({
@@ -114,11 +128,13 @@ const Employee = () => {
                 password: "",
                 designation: "",
                 dateOfJoining: "",
+                monthlySalary: "",
                 dateOfBirth: "",
                 address: "",
                 gender: "",
-                religion: "",
-                mobile: ""
+                // religion: "",
+                mobile: "",
+                emergencyContact: "",
             });
         }
         setOpen(true);
@@ -208,11 +224,13 @@ const Employee = () => {
                                     <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF JOINING</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF BIRTH</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ADDRESS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>GENDER</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell> */}
                                     <TableCell sx={{ color: "#fff" }}>MOBILE NO.</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>EMERGENCY CONTACT NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -226,11 +244,14 @@ const Employee = () => {
                                             <TableCell>{emp.email}</TableCell>
                                             <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.designation}</TableCell>
+                                            <TableCell>{emp.monthlySalary}</TableCell>
                                             <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.address || "N/A"}</TableCell>
                                             <TableCell>{emp.gender}</TableCell>
-                                            <TableCell>{emp.religion}</TableCell>
+                                            {/* <TableCell>{emp.religion}</TableCell> */}
                                             <TableCell>{emp.mobile}</TableCell>
+                                            <TableCell>{emp.emergencyContact}</TableCell>
+
                                             <TableCell>
                                                 <Box display="flex" gap={1}>
                                                     <Button variant="outlined" color="primary" size="small" onClick={() => handleOpen(emp)}>Update</Button>
@@ -254,9 +275,28 @@ const Employee = () => {
                             <TextField margin="dense" label="Employee ID" fullWidth name="employeeId" value={formData.employeeId} onChange={handleChange} />
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
-                            <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />
+                            {/* <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} /> */}
+                            <TextField
+                                margin="dense"
+                                label="Password"
+                                fullWidth
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={togglePasswordVisibility} edge="end">
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
                             <TextField margin="dense" label="Date of Joining" fullWidth type="date" name="dateOfJoining" InputLabelProps={{ shrink: true }} value={formData.dateOfJoining} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
+                            <TextField margin="dense" label="Monthly Salary" fullWidth name="monthlySalary" value={formData.monthlySalary} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
                             <TextField margin="dense" label="Gender" fullWidth name="gender" value={formData.gender} onChange={handleChange} select>
@@ -264,14 +304,46 @@ const Employee = () => {
                                 <MenuItem value="Female">Female</MenuItem>
                                 <MenuItem value="Other">Other</MenuItem>
                             </TextField>
-                            <TextField margin="dense" label="Religion" fullWidth name="religion" value={formData.religion} onChange={handleChange} />
+                            {/* <TextField margin="dense" label="Religion" fullWidth name="religion" value={formData.religion} onChange={handleChange} /> */}
                             <TextField margin="dense" label="Mobile No." fullWidth name="mobile" value={formData.mobile} onChange={handleChange} />
+                            <TextField margin="dense" label="Emergency Contact No." fullWidth name="emergencyContact" value={formData.emergencyContact} onChange={handleChange} />
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
-                            <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button>
+                            {/* <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button> */}
+                            <Button
+                                onClick={() => setConfirmationOpen(true)}
+                                variant="contained"
+                                color="primary"
+                            >
+                                {editingEmployee ? "Update" : "Add"}
+                            </Button>
+
                         </DialogActions>
                     </Dialog>
+
+                    <Dialog open={confirmationOpen} onClose={() => setConfirmationOpen(false)}>
+                        <DialogTitle>Confirm Submission</DialogTitle>
+                        <DialogContent>
+                            <p><strong>Email:</strong> {formData.email}</p>
+                            <p><strong>Password:</strong> {formData.password}</p>
+                            <p>Are you sure you want to proceed?</p>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setConfirmationOpen(false)}>Cancel</Button>
+                            <Button
+                                onClick={() => {
+                                    setConfirmationOpen(false);
+                                    handleSubmit();
+                                }}
+                                variant="contained"
+                                color="primary"
+                            >
+                                Confirm
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </Box>
             </Box>
         </Box>

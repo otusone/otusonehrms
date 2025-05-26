@@ -112,10 +112,6 @@ const Heading = () => {
                     <TextField fullWidth label="Employee Id" name="employeeId" value={userData.employeeId || ''} onChange={handleChange} sx={{ mb: 2 }} />
                     <TextField fullWidth label="Name" name="userName" value={userData.userName || ''} onChange={handleChange} sx={{ mb: 2 }} />
                     <TextField fullWidth label="Email" name="email" value={userData.email || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Mobile" name="mobile" value={userData.mobile || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Designation" name="designation" value={userData.designation || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Religion" name="religion" value={userData.religion || ''} onChange={handleChange} sx={{ mb: 2 }} />
-
                     <TextField
                         fullWidth
                         type="date"
@@ -126,6 +122,11 @@ const Heading = () => {
                         InputLabelProps={{ shrink: true }}
                         sx={{ mb: 2 }}
                     />
+                    <TextField fullWidth label="Mobile" name="mobile" value={userData.mobile || ''} onChange={handleChange} sx={{ mb: 2 }} />
+                    <TextField fullWidth label="Emergency Conatct No." name="emergencyContact" value={userData.emergencyContact || ''} onChange={handleChange} sx={{ mb: 2 }} />
+                    <TextField fullWidth label="Designation" name="designation" value={userData.designation || ''} onChange={handleChange} sx={{ mb: 2 }} />
+                    <TextField fullWidth label="Monthly Salary" name="Monthly Salary" value={userData.monthlySalary || ''} onChange={handleChange} sx={{ mb: 2 }} />
+                    {/* <TextField fullWidth label="Religion" name="religion" value={userData.religion || ''} onChange={handleChange} sx={{ mb: 2 }} /> */}
 
                     <TextField
                         fullWidth
@@ -161,7 +162,7 @@ const Heading = () => {
                         sx={{ mb: 2 }}
                     />
 
-                    <Button fullWidth variant="contained" onClick={handleUpdate}>Update</Button>
+                    {/* <Button fullWidth variant="contained" onClick={handleUpdate}>Update</Button> */}
                 </Box>
 
             </Modal>

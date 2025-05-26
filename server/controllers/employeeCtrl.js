@@ -1,4 +1,8 @@
 const User = require("../models/UserModel");
+const Attendance = require('../models/attendance');
+const Asset = require('../models/assets');
+const Leave = require('../models/leave');
+const Salary = require('../models/salarySlip');
 const bcrypt = require('bcryptjs');
 
 exports.getAllEmployees = async (req, res) => {
@@ -28,11 +32,12 @@ exports.addEmployee = async (req, res) => {
             password,
             designation,
             dateOfJoining,
+            monthlySalary,
             dateOfBirth,
             address,
             gender,
-            religion,
-            mobile
+            mobile,
+            emergencyContact
         } = req.body;
 
         const existingUser = await User.findOne({ email });
@@ -57,11 +62,12 @@ exports.addEmployee = async (req, res) => {
             password,
             designation,
             dateOfJoining,
+            monthlySalary,
             dateOfBirth,
             address,
             gender,
-            religion,
             mobile,
+            emergencyContact,
             role: "user"
         });
 
@@ -133,6 +139,14 @@ exports.deleteEmployee = async (req, res) => {
                 message: "Employee not found"
             });
         }
+
+        await Promise.all([
+            Attendance.deleteMany({ employeeId: id }),
+            Asset.deleteMany({ employeeId: id }),
+            Leave.deleteMany({ employeeId: id }),
+            Salary.deleteMany({ employeeId: id }),
+        ]);
+
 
         res.status(200).json({
             success: true,

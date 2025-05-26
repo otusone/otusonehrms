@@ -16,12 +16,15 @@ const Asset = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredAssets, setFilteredAssets] = useState([]);
     const [open, setOpen] = useState(false);
+    const [viewAsset, setViewAsset] = useState(null);
+    const [viewOpen, setViewOpen] = useState(false);
     const [formData, setFormData] = useState({
         employeeId: "",
         assetName: "",
         assetType: "",
         assignedStartDate: "",
-        assignedEndDate: "",
+        //assignedEndDate: "",
+        status: "",
         remarks: ""
     });
     const [employees, setEmployees] = useState([]);
@@ -85,7 +88,8 @@ const Asset = () => {
             assetName: "",
             assetType: "",
             assignedStartDate: "",
-            assignedEndDate: "",
+            //assignedEndDate: "",
+            status: "",
             remarks: ""
         });
         setOpen(true);
@@ -100,13 +104,8 @@ const Asset = () => {
     };
 
     const handleView = (asset) => {
-        alert(`
-            Asset: ${asset.assetName}
-            Type: ${asset.assetType}
-            From: ${new Date(asset.assignedStartDate).toLocaleDateString()}
-            To: ${new Date(asset.assignedEndDate).toLocaleDateString()}
-            Remarks: ${asset.remarks}
-        `);
+        setViewAsset(asset);
+        setViewOpen(true);
     };
 
     const handleEdit = (asset, employeeId) => {
@@ -115,7 +114,8 @@ const Asset = () => {
             assetName: asset.assetName,
             assetType: asset.assetType,
             assignedStartDate: asset.assignedStartDate.split("T")[0],
-            assignedEndDate: asset.assignedEndDate.split("T")[0],
+            //assignedEndDate: asset.assignedEndDate.split("T")[0],
+            status: asset.status,
             remarks: asset.remarks,
             assetId: asset._id,
         });
@@ -153,14 +153,15 @@ const Asset = () => {
                 assetName,
                 assetType,
                 assignedStartDate,
-                assignedEndDate,
+                //assignedEndDate,
+                status,
                 remarks,
                 assetId,
             } = formData;
 
             const token = localStorage.getItem("authToken");
 
-            if (!employeeId || !assetName || !assetType || !assignedStartDate || !assignedEndDate) {
+            if (!employeeId || !assetName || !assetType || !assignedStartDate || !status) {
                 alert("Please fill in all required fields.");
                 return;
             }
@@ -174,7 +175,8 @@ const Asset = () => {
                         assetName,
                         assetType,
                         assignedStartDate,
-                        assignedEndDate,
+                        //assignedEndDate,
+                        status,
                         remarks,
                     },
                     {
@@ -195,7 +197,8 @@ const Asset = () => {
                                 assetName,
                                 assetType,
                                 assignedStartDate,
-                                assignedEndDate,
+                                //assignedEndDate,
+                                status,
                                 remarks,
                             }
                         ]
@@ -264,9 +267,13 @@ const Asset = () => {
                                                                 <FaTrash style={{ cursor: "pointer", color: "red" }} onClick={() => handleDelete(asset._id, item.assignedTo._id)} />
                                                             </Box>
                                                         </Box>
-                                                        <Typography variant="caption">
+                                                        {/* <Typography variant="caption">
                                                             From: {new Date(asset.assignedStartDate).toLocaleDateString()} - To: {new Date(asset.assignedEndDate).toLocaleDateString()}
-                                                        </Typography><br />
+                                                        </Typography><br /> */}
+                                                        <Typography variant="body2" style={{ flex: 0.6 }}>
+                                                            <strong>{asset.status}</strong>
+                                                        </Typography>
+
                                                         <Typography variant="caption">Remarks: {asset.remarks}</Typography>
                                                     </Box>
 
@@ -296,7 +303,11 @@ const Asset = () => {
                             <TextField margin="dense" label="Asset Name" fullWidth name="assetName" value={formData.assetName} onChange={handleChange} />
                             <TextField margin="dense" label="Asset Type" fullWidth name="assetType" value={formData.assetType} onChange={handleChange} />
                             <TextField margin="dense" label="Start Date" fullWidth type="date" name="assignedStartDate" InputLabelProps={{ shrink: true }} value={formData.assignedStartDate} onChange={handleChange} />
-                            <TextField margin="dense" label="End Date" fullWidth type="date" name="assignedEndDate" InputLabelProps={{ shrink: true }} value={formData.assignedEndDate} onChange={handleChange} />
+                            {/* <TextField margin="dense" label="End Date" fullWidth type="date" name="assignedEndDate" InputLabelProps={{ shrink: true }} value={formData.assignedEndDate} onChange={handleChange} /> */}
+                            <TextField margin="dense" label="Status" fullWidth name="status" value={formData.status} onChange={handleChange} select>
+                                <MenuItem value="Assigned">Assigned</MenuItem>
+                                <MenuItem value="Returned">Returned</MenuItem>
+                            </TextField>
                             <TextField margin="dense" label="Remarks" fullWidth name="remarks" value={formData.remarks} onChange={handleChange} />
                         </DialogContent>
                         <DialogActions>
@@ -304,6 +315,52 @@ const Asset = () => {
                             <Button onClick={handleSubmit} variant="contained" color="primary">Assign</Button>
                         </DialogActions>
                     </Dialog>
+
+                    <Dialog open={viewOpen} onClose={() => setViewOpen(false)} fullWidth>
+                        <DialogTitle>Asset Details</DialogTitle>
+                        <DialogContent dividers>
+                            <TextField
+                                label="Asset Name"
+                                fullWidth
+                                margin="dense"
+                                value={viewAsset?.assetName || ""}
+                                InputProps={{ readOnly: true }}
+                            />
+                            <TextField
+                                label="Asset Type"
+                                fullWidth
+                                margin="dense"
+                                value={viewAsset?.assetType || ""}
+                                InputProps={{ readOnly: true }}
+                            />
+                            <TextField
+                                label="Assigned From"
+                                fullWidth
+                                margin="dense"
+                                value={viewAsset?.assignedStartDate ? new Date(viewAsset.assignedStartDate).toLocaleDateString() : ""}
+                                InputProps={{ readOnly: true }}
+                            />
+                            <TextField
+                                label="Status"
+                                fullWidth
+                                margin="dense"
+                                value={viewAsset?.status || ""}
+                                InputProps={{ readOnly: true }}
+                            />
+                            <TextField
+                                label="Remarks"
+                                fullWidth
+                                margin="dense"
+                                multiline
+                                value={viewAsset?.remarks || ""}
+                                InputProps={{ readOnly: true }}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setViewOpen(false)} color="primary">Close</Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </Box>
             </Box>
         </Box>
