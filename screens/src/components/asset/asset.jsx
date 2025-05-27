@@ -271,7 +271,7 @@ const Asset = () => {
                                                             From: {new Date(asset.assignedStartDate).toLocaleDateString()} - To: {new Date(asset.assignedEndDate).toLocaleDateString()}
                                                         </Typography><br /> */}
                                                         <Typography variant="body2" style={{ flex: 0.6 }}>
-                                                            <strong>{asset.status}</strong>
+                                                            Status: <strong>{asset.status}</strong>
                                                         </Typography>
 
                                                         <Typography variant="caption">Remarks: {asset.remarks}</Typography>

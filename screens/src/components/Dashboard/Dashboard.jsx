@@ -11,6 +11,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = ({
   announcementData, handleCreate, handleEdit, inputData,
@@ -23,13 +24,15 @@ const Dashboard = ({
   const [pendingLeaveCount, setPendingLeaveCount] = useState(0);
   const [assignedAssetCount, setAssignedAssetCount] = useState(0);
   const [todaysAttendance, setTodaysAttendance] = useState([]);
+  const navigate = useNavigate();
+
 
 
   const data = [
-    { id: 1, icon: <AiOutlineTeam />, heading: "Staff", number: employeeCount, color: "#58024B" },
-    { id: 2, icon: <TbTicket />, heading: "Active Leaves", number: todaysLeaveCount, color: "#3EC9D6" },
-    { id: 3, icon: <MdAccountBalanceWallet />, heading: "Pending Leaves", number: pendingLeaveCount, color: "#6FD943" },
-    { id: 4, icon: <RiHotspotLine />, heading: "Assigned Assets", number: assignedAssetCount, color: "#3EC9D6" },
+    { id: 1, icon: <AiOutlineTeam />, heading: "Staff", number: employeeCount, color: "#58024B", path: "/employee" },
+    { id: 2, icon: <TbTicket />, heading: "Active Leaves", number: todaysLeaveCount, color: "#3EC9D6", path: "/manage-leave" },
+    { id: 3, icon: <MdAccountBalanceWallet />, heading: "Pending Leaves", number: pendingLeaveCount, color: "#6FD943", path: "/manage-leave?status=pending" },
+    { id: 4, icon: <RiHotspotLine />, heading: "Assigned Assets", number: assignedAssetCount, color: "#3EC9D6", path: "/asset" },
   ];
 
 
@@ -65,11 +68,16 @@ const Dashboard = ({
 
         console.log("Filtered Today's Attendance:", todaysAttendance);
 
+        const formatDate = (date) => new Date(date).toISOString().split("T")[0];
+
         const activeTodayLeaves = leaves.filter((leave) => {
-          const start = new Date(leave.startDate);
-          const end = new Date(leave.endDate);
-          return start <= today && end >= today && leave.status === "approved";
+          const start = formatDate(leave.startDate);
+          const end = formatDate(leave.endDate);
+          const todayFormatted = formatDate(today);
+
+          return start <= todayFormatted && end >= todayFormatted && leave.status.toLowerCase() === "approved";
         });
+
 
 
         const pendingLeaves = leaves.filter((leave) => leave.status === "Pending");
@@ -110,7 +118,11 @@ const Dashboard = ({
             <Grid container spacing={2}>
               {data.map(item => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} style={{ display: 'flex' }}>
-                  <div className="commonCardWrapper">
+                  <div
+                    className="commonCardWrapper"
+                    onClick={() => navigate(item.path)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div className="commonCard" style={{ backgroundColor: item.color }}>
                       <div className="header">
                         <div className="icon">{item.icon}</div>
@@ -122,6 +134,7 @@ const Dashboard = ({
                     </div>
                   </div>
                 </Grid>
+
               ))}
             </Grid>
 
@@ -141,12 +154,12 @@ const Dashboard = ({
                         <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                         <TableCell sx={{ color: "#fff" }}>Name</TableCell>
                         <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                        <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
                         <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
                         <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -155,8 +168,36 @@ const Dashboard = ({
                           <TableCell>{index + 1}</TableCell>
                           <TableCell>{item.userId?.userName}</TableCell>
                           <TableCell>{item.userId?.email || "N/A"}</TableCell>
-                          <TableCell>{item.clockIn ? new Date(item.clockIn).toLocaleString() : "N/A"}</TableCell>
-                          <TableCell>{item.clockOut ? new Date(item.clockOut).toLocaleString() : "N/A"}</TableCell>
+                          <TableCell>
+                            {item.date
+                              ? new Date(item.date).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric"
+                              })
+                              : "-"}
+                          </TableCell>
+                          <TableCell>
+                            {item.clockIn
+                              ? new Date(item.clockIn.replace("Z", "")).toLocaleString("en-IN", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true
+                              })
+                              : "-"}
+                          </TableCell>
+
+                          <TableCell>
+                            {item.clockOut
+                              ? new Date(item.clockOut.replace("Z", "")).toLocaleString("en-IN", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true
+                              })
+                              : "-"}
+                          </TableCell>
+
+
                           <TableCell>
                             {item.clockInLocation
                               ? `${item.clockInLocation.latitude}, ${item.clockInLocation.longitude}`
@@ -168,7 +209,7 @@ const Dashboard = ({
                               : "N/A"}
                           </TableCell>
                           <TableCell>{item.workingHours || 0}</TableCell>
-                          <TableCell>{item.date}</TableCell>
+
                         </TableRow>
                       ))}
                     </TableBody>
@@ -178,17 +219,8 @@ const Dashboard = ({
               </div>
             </Grid>
 
-            {/* <Grid item sm={5}>
-              <div className="calendarContainer">
-                <FullCalendar
-                  plugins={[dayGridPlugin]}
-                  initialView="dayGridMonth"
-                />
-              </div>
-            </Grid> */}
           </Grid>
 
-          {/* You can use any modal package here. For simplicity, use native prompt as placeholder */}
           {open && (
             alert("Open Create Modal - Hook up a proper modal component here.")
           )}

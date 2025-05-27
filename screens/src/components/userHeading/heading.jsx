@@ -6,11 +6,20 @@ import { FaUserCircle } from 'react-icons/fa';
 import { MdAdminPanelSettings } from "react-icons/md";
 import axios from 'axios';
 import axiosInstance from '../../utils/baseurl';
+import { useNavigate } from 'react-router-dom';
+
 
 const Heading = () => {
     const [open, setOpen] = useState(false);
     const [userData, setUserData] = useState({});
     const userId = localStorage.getItem("userId");
+
+    const navigate = useNavigate();
+
+    <IconButton onClick={() => navigate('/profile')}>
+        <FaUserCircle className="user-icon" />
+    </IconButton>
+
 
     const today = new Date().toLocaleDateString('en-US', {
         weekday: 'short',
@@ -89,12 +98,17 @@ const Heading = () => {
                 </div>
             </div>
 
-            <IconButton onClick={() => setOpen(true)}>
+            <IconButton onClick={() => navigate('/user-profile')}>
                 <FaUserCircle className="user-icon" />
             </IconButton>
 
 
-            <Modal open={open} onClose={() => setOpen(false)}>
+            {/* <IconButton onClick={() => setOpen(true)}>
+                <FaUserCircle className="user-icon" />
+            </IconButton> */}
+
+
+            {/* <Modal open={open} onClose={() => setOpen(false)}>
                 <Box sx={{
                     position: 'absolute',
                     top: '50%',
@@ -128,7 +142,7 @@ const Heading = () => {
                     <TextField fullWidth label="Monthly Salary" name="Monthly Salary" value={userData.monthlySalary || ''} onChange={handleChange} sx={{ mb: 2 }} />
                     {/* <TextField fullWidth label="Religion" name="religion" value={userData.religion || ''} onChange={handleChange} sx={{ mb: 2 }} /> */}
 
-                    <TextField
+            {/* <TextField
                         fullWidth
                         type="date"
                         label="Date of Joining"
@@ -163,9 +177,9 @@ const Heading = () => {
                     />
 
                     {/* <Button fullWidth variant="contained" onClick={handleUpdate}>Update</Button> */}
-                </Box>
+            {/* </Box>
 
-            </Modal>
+            </Modal> */}
         </div>
     );
 };

@@ -32,7 +32,9 @@ const Employee = () => {
     const [open, setOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const [confirmationOpen, setConfirmationOpen] = useState(false);
+    const [showCredentials, setShowCredentials] = useState(false);
+    const [submittedCredentials, setSubmittedCredentials] = useState({ employeeId: "", email: "", password: "" });
+
     const [formData, setFormData] = useState({
         employeeId: "",
         userName: "",
@@ -149,16 +151,22 @@ const Employee = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+
     const handleSubmit = async () => {
-        const requiredFields = ["userName", "email", "password", "designation", "gender", "mobile"];
+        const requiredFields = editingEmployee
+            ? ["userName", "email", "designation", "gender", "mobile"]
+            : ["userName", "email", "password", "designation", "gender", "mobile"];
+
         const missingFields = requiredFields.filter(field => !formData[field]?.trim());
 
         if (missingFields.length > 0) {
             alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
             return;
         }
+
         try {
             const token = localStorage.getItem("authToken");
+
             if (editingEmployee) {
                 const { _id, ...updatedData } = formData;
                 await axiosInstance.patch(
@@ -172,14 +180,21 @@ const Employee = () => {
                     }
                 );
             } else {
-                await axiosInstance.post("/admin/add-employee", formData, {
+                const response = await axiosInstance.post("/admin/add-employee", formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });
-                alert("Employee added successfully!");
+
+                setSubmittedCredentials({
+                    employeeId: formData.employeeId,
+                    email: formData.email,
+                    password: formData.password,
+                });
+                setShowCredentials(true);
             }
+
             handleClose();
             fetchEmployees();
         } catch (err) {
@@ -310,39 +325,26 @@ const Employee = () => {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
-                            {/* <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button> */}
-                            <Button
-                                onClick={() => setConfirmationOpen(true)}
-                                variant="contained"
-                                color="primary"
-                            >
-                                {editingEmployee ? "Update" : "Add"}
-                            </Button>
+                            <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button>
 
                         </DialogActions>
                     </Dialog>
 
-                    <Dialog open={confirmationOpen} onClose={() => setConfirmationOpen(false)}>
-                        <DialogTitle>Confirm Submission</DialogTitle>
+
+                    <Dialog open={showCredentials} onClose={() => setShowCredentials(false)}>
+                        <DialogTitle>Employee Created Successfully</DialogTitle>
                         <DialogContent>
-                            <p><strong>Email:</strong> {formData.email}</p>
-                            <p><strong>Password:</strong> {formData.password}</p>
-                            <p>Are you sure you want to proceed?</p>
+                            <p><strong>Employee ID:</strong> {submittedCredentials.employeeId}</p>
+                            <p><strong>Email:</strong> {submittedCredentials.email}</p>
+                            <p><strong>Password:</strong> {submittedCredentials.password}</p>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={() => setConfirmationOpen(false)}>Cancel</Button>
-                            <Button
-                                onClick={() => {
-                                    setConfirmationOpen(false);
-                                    handleSubmit();
-                                }}
-                                variant="contained"
-                                color="primary"
-                            >
-                                Confirm
+                            <Button onClick={() => setShowCredentials(false)} color="primary">
+                                Close
                             </Button>
                         </DialogActions>
                     </Dialog>
+
 
                 </Box>
             </Box>

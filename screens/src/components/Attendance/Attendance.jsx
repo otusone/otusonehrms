@@ -16,6 +16,9 @@ import {
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 
+
+
+
 const Attendance = () => {
   const [attendance, setAttendance] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +54,7 @@ const Attendance = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
+
   const isToday = (dateString) => {
     const today = new Date();
     const date = new Date(dateString);
@@ -67,7 +71,7 @@ const Attendance = () => {
       .includes(searchTerm);
 
     const matchesFilter =
-      filter === "all" ? true : isToday(a.clockIn || a.clockOut || a.date);
+      filter === "all" ? true : isToday(a.clockIn || a.clockOut);
 
     return matchesSearch && matchesFilter;
   });
@@ -134,7 +138,7 @@ const Attendance = () => {
             </Box>
             <Box display="flex" justifyContent="flex-end" mb={2}>
               <TextField
-                placeholder="Search..."
+                placeholder="Search By Name..."
                 size="small"
                 value={searchTerm}
                 onChange={handleSearch}
@@ -151,16 +155,17 @@ const Attendance = () => {
                   <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
                   <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
                   <TableCell sx={{ color: "#fff" }}>
                     CLOCK IN LOCATION
                   </TableCell>
+                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
                   <TableCell sx={{ color: "#fff" }}>
                     CLOCK OUT LOCATION
                   </TableCell>
                   <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -171,27 +176,47 @@ const Attendance = () => {
                       <TableCell>{a.userDetails?.userName}</TableCell>
                       <TableCell>{a.userDetails?.email || "N/A"}</TableCell>
                       <TableCell>
+                        {a.date
+                          ? new Date(a.date).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric"
+                          })
+                          : "-"}
+                      </TableCell>
+                      <TableCell>
                         {a.clockIn
-                          ? new Date(a.clockIn).toLocaleString()
-                          : "N/A"}
+                          ? new Date(a.clockIn.replace("Z", "")).toLocaleString("en-IN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                          })
+                          : "-"}
+                      </TableCell>
+
+
+
+                      <TableCell>
+                        {a.clockInLocation
+                          ? `Lat: ${a.clockInLocation.latitude}, Lng: ${a.clockInLocation.longitude}`
+                          : "-"}
                       </TableCell>
                       <TableCell>
                         {a.clockOut
-                          ? new Date(a.clockOut).toLocaleString()
-                          : "N/A"}
+                          ? new Date(a.clockOut.replace("Z", "")).toLocaleString("en-IN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                          })
+                          : "-"}
                       </TableCell>
-                      <TableCell>
-                        {a.clockInLocation
-                          ? `${a.clockInLocation.latitude}, ${a.clockInLocation.longitude}`
-                          : "N/A"}
-                      </TableCell>
+
                       <TableCell>
                         {a.clockOutLocation
-                          ? `${a.clockOutLocation.latitude}, ${a.clockOutLocation.longitude}`
+                          ? `Lat: ${a.clockOutLocation.latitude}, Lng: ${a.clockOutLocation.longitude}`
                           : "N/A"}
                       </TableCell>
                       <TableCell>{a.workingHours || 0}</TableCell>
-                      <TableCell>{a.date}</TableCell>
                     </TableRow>
                   ))
                 ) : (
