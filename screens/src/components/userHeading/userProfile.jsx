@@ -72,14 +72,15 @@ const UserProfile = () => {
                             <Paper
                                 elevation={3}
                                 sx={{
-                                    flex: 1,
+                                    flex: { xs: "unset", md: 1 },
+                                    width: { xs: "100%", md: "auto" },
                                     p: 3,
                                     borderRadius: 3,
                                     textAlign: "center",
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
-                                    alignSelf: "flex-start", // Prevents stretching to full height
+                                    alignSelf: { xs: "center", md: "flex-start" },
                                 }}
                             >
                                 <Box
@@ -139,64 +140,6 @@ const UserProfile = () => {
                             {/* Right - Form in Cards */}
                             <Box sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 3 }}>
 
-                                {/* Card 1 - Basic Info
-                                <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Basic Information
-                                    </Typography>
-                                    <TextField
-                                        fullWidth
-                                        label="EmployeeId"
-                                        name="employeeId"
-                                        value={userData.employeeId || ""}
-                                        //onChange={handleChange}
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        label="Name"
-                                        name="userName"
-                                        value={userData.userName || ""}
-                                        //onChange={handleChange}
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        label="Email"
-                                        name="email"
-                                        value={userData.email || ""}
-                                        //onChange={handleChange}
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        type="date"
-                                        label="Date of Birth"
-                                        name="dateOfBirth"
-                                        value={
-                                            userData.dateOfBirth
-                                                ? new Date(userData.dateOfBirth).toISOString().split("T")[0]
-                                                : ""
-                                        }
-                                        //onChange={handleChange}
-                                        InputLabelProps={{ shrink: true }}
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        select
-                                        fullWidth
-                                        label="Gender"
-                                        name="gender"
-                                        value={userData.gender || ""}
-                                        //onChange={handleChange}
-                                        sx={{ mb: 2 }}
-                                    >
-                                        <MenuItem value="Male">Male</MenuItem>
-                                        <MenuItem value="Female">Female</MenuItem>
-                                        <MenuItem value="Other">Other</MenuItem>
-                                    </TextField>
-                                </Paper> */}
-
                                 {/* Card 2 - Contact Details */}
                                 <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
                                     <Typography variant="subtitle1" gutterBottom>
@@ -207,7 +150,7 @@ const UserProfile = () => {
                                         label="Mobile"
                                         name="mobile"
                                         value={userData.mobile || ""}
-                                        // onChange={handleChange}
+
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -215,7 +158,7 @@ const UserProfile = () => {
                                         label="Emergency Contact No."
                                         name="emergencyContact"
                                         value={userData.emergencyContact || ""}
-                                        //onChange={handleChange}
+
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -223,7 +166,7 @@ const UserProfile = () => {
                                         label="Address"
                                         name="address"
                                         value={userData.address || ""}
-                                        //onChange={handleChange}
+
                                         sx={{ mb: 2 }}
                                     />
                                 </Paper>
@@ -238,7 +181,7 @@ const UserProfile = () => {
                                         label="Designation"
                                         name="designation"
                                         value={userData.designation || ""}
-                                        //onChange={handleChange}
+
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -246,7 +189,7 @@ const UserProfile = () => {
                                         label="Monthly Salary"
                                         name="monthlySalary"
                                         value={userData.monthlySalary || ""}
-                                        // onChange={handleChange}
+
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -259,7 +202,7 @@ const UserProfile = () => {
                                                 ? new Date(userData.dateOfJoining).toISOString().split("T")[0]
                                                 : ""
                                         }
-                                        //   onChange={handleChange}
+
                                         InputLabelProps={{ shrink: true }}
                                         sx={{ mb: 2 }}
                                     />
