@@ -164,15 +164,17 @@ const UserSalary = () => {
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Typography variant="h6" mb={2}>My Salary Details</Typography>
-                    <Box display="flex" justifyContent="flex-end" mb={2}>
-                        <TextField
-                            placeholder="Search by month..."
-                            size="small"
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            sx={{ width: "300px" }}
-                        />
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} >
+                        <Typography variant="h6" mb={2}>My Salary Details</Typography>
+                        <Box display="flex" gap={2}>
+                            <TextField
+                                placeholder="Search by month..."
+                                size="small"
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                sx={{ width: "300px" }}
+                            />
+                        </Box>
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>

@@ -107,6 +107,7 @@ const Login = () => {
                 value={inputData.email}
                 placeholder="example@gmail.com"
                 onChange={handleChange}
+                sx={{ mb: 2 }}
                 required
               />
             </div>

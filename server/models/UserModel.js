@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   employeeId: { type: String, trim: true, },
   designation: { type: String, required: true, trim: true },
   dateOfJoining: { type: Date },
-  monthlySalary: { type: Number },
+  monthlySalary: { type: Number, required: true },
   // religion: { type: String, trim: true },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true, },
   dateOfBirth: { type: Date, },
