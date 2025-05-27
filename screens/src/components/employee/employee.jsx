@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
+    InputAdornment,
+    IconButton,
     Box,
     Typography,
     Button,
@@ -28,6 +31,10 @@ const Employee = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showCredentials, setShowCredentials] = useState(false);
+    const [submittedCredentials, setSubmittedCredentials] = useState({ employeeId: "", email: "", password: "" });
+
     const [formData, setFormData] = useState({
         employeeId: "",
         userName: "",
@@ -35,12 +42,19 @@ const Employee = () => {
         password: "",
         dateOfJoining: "",
         designation: "",
+        monthlySalary: "",
         dateOfBirth: "",
         address: "",
         gender: "",
-        religion: "",
-        mobile: ""
+        // religion: "",
+        mobile: "",
+        emergencyContact: "",
     });
+
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     const fetchEmployees = async () => {
         try {
@@ -99,12 +113,14 @@ const Employee = () => {
                 email: employee.email || "",
                 password: employee.password || "",
                 designation: employee.designation || "",
+                monthlySalary: employee.monthlySalary || "",
                 dateOfJoining: formatDate(employee.dateOfJoining),
                 dateOfBirth: formatDate(employee.dateOfBirth),
                 address: employee.address || "",
                 gender: employee.gender || "",
-                religion: employee.religion || "",
+                // religion: employee.religion || "",
                 mobile: employee.mobile || "",
+                emergencyContact: employee.emergencyContact || "",
             });
         } else {
             setFormData({
@@ -114,11 +130,13 @@ const Employee = () => {
                 password: "",
                 designation: "",
                 dateOfJoining: "",
+                monthlySalary: "",
                 dateOfBirth: "",
                 address: "",
                 gender: "",
-                religion: "",
-                mobile: ""
+                // religion: "",
+                mobile: "",
+                emergencyContact: "",
             });
         }
         setOpen(true);
@@ -133,16 +151,22 @@ const Employee = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+
     const handleSubmit = async () => {
-        const requiredFields = ["userName", "email", "password", "designation", "gender", "mobile"];
+        const requiredFields = editingEmployee
+            ? ["userName", "email", "designation", "gender", "mobile"]
+            : ["userName", "email", "password", "designation", "gender", "mobile"];
+
         const missingFields = requiredFields.filter(field => !formData[field]?.trim());
 
         if (missingFields.length > 0) {
             alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
             return;
         }
+
         try {
             const token = localStorage.getItem("authToken");
+
             if (editingEmployee) {
                 const { _id, ...updatedData } = formData;
                 await axiosInstance.patch(
@@ -156,14 +180,21 @@ const Employee = () => {
                     }
                 );
             } else {
-                await axiosInstance.post("/admin/add-employee", formData, {
+                const response = await axiosInstance.post("/admin/add-employee", formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });
-                alert("Employee added successfully!");
+
+                setSubmittedCredentials({
+                    employeeId: formData.employeeId,
+                    email: formData.email,
+                    password: formData.password,
+                });
+                setShowCredentials(true);
             }
+
             handleClose();
             fetchEmployees();
         } catch (err) {
@@ -208,11 +239,13 @@ const Employee = () => {
                                     <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF JOINING</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF BIRTH</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ADDRESS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>GENDER</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell> */}
                                     <TableCell sx={{ color: "#fff" }}>MOBILE NO.</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>EMERGENCY CONTACT NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -226,11 +259,14 @@ const Employee = () => {
                                             <TableCell>{emp.email}</TableCell>
                                             <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.designation}</TableCell>
+                                            <TableCell>{emp.monthlySalary}</TableCell>
                                             <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.address || "N/A"}</TableCell>
                                             <TableCell>{emp.gender}</TableCell>
-                                            <TableCell>{emp.religion}</TableCell>
+                                            {/* <TableCell>{emp.religion}</TableCell> */}
                                             <TableCell>{emp.mobile}</TableCell>
+                                            <TableCell>{emp.emergencyContact}</TableCell>
+
                                             <TableCell>
                                                 <Box display="flex" gap={1}>
                                                     <Button variant="outlined" color="primary" size="small" onClick={() => handleOpen(emp)}>Update</Button>
@@ -254,9 +290,28 @@ const Employee = () => {
                             <TextField margin="dense" label="Employee ID" fullWidth name="employeeId" value={formData.employeeId} onChange={handleChange} />
                             <TextField margin="dense" label="Name" fullWidth name="userName" value={formData.userName} onChange={handleChange} />
                             <TextField margin="dense" label="Email" fullWidth name="email" value={formData.email} onChange={handleChange} />
-                            <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} />
+                            {/* <TextField margin="dense" label="Password" fullWidth type="password" name="password" value={formData.password} onChange={handleChange} /> */}
+                            <TextField
+                                margin="dense"
+                                label="Password"
+                                fullWidth
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={togglePasswordVisibility} edge="end">
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
                             <TextField margin="dense" label="Date of Joining" fullWidth type="date" name="dateOfJoining" InputLabelProps={{ shrink: true }} value={formData.dateOfJoining} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
+                            <TextField margin="dense" label="Monthly Salary" fullWidth name="monthlySalary" value={formData.monthlySalary} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
                             <TextField margin="dense" label="Gender" fullWidth name="gender" value={formData.gender} onChange={handleChange} select>
@@ -264,14 +319,33 @@ const Employee = () => {
                                 <MenuItem value="Female">Female</MenuItem>
                                 <MenuItem value="Other">Other</MenuItem>
                             </TextField>
-                            <TextField margin="dense" label="Religion" fullWidth name="religion" value={formData.religion} onChange={handleChange} />
+                            {/* <TextField margin="dense" label="Religion" fullWidth name="religion" value={formData.religion} onChange={handleChange} /> */}
                             <TextField margin="dense" label="Mobile No." fullWidth name="mobile" value={formData.mobile} onChange={handleChange} />
+                            <TextField margin="dense" label="Emergency Contact No." fullWidth name="emergencyContact" value={formData.emergencyContact} onChange={handleChange} />
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
                             <Button onClick={handleSubmit} variant="contained" color="primary">{editingEmployee ? "Update" : "Add"}</Button>
+
                         </DialogActions>
                     </Dialog>
+
+
+                    <Dialog open={showCredentials} onClose={() => setShowCredentials(false)}>
+                        <DialogTitle>Employee Created Successfully</DialogTitle>
+                        <DialogContent>
+                            <p><strong>Employee ID:</strong> {submittedCredentials.employeeId}</p>
+                            <p><strong>Email:</strong> {submittedCredentials.email}</p>
+                            <p><strong>Password:</strong> {submittedCredentials.password}</p>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setShowCredentials(false)} color="primary">
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
+
                 </Box>
             </Box>
         </Box>

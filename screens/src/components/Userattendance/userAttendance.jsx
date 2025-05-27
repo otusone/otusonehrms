@@ -116,12 +116,20 @@ const UserAttendance = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const filteredAttendance = () => {
-    return attendanceData?.filter(
-      (attendance) =>
-        attendance.date?.toLowerCase().includes(searchTerm)
+    return attendanceData?.filter((attendance) =>
+      formatDate(attendance.date).includes(searchTerm)
     );
   };
+
 
   const handleOpenModal = () => setOpenModal(true);
 
@@ -340,15 +348,39 @@ const UserAttendance = () => {
                 {filteredAttendance()?.length > 0 ? (
                   filteredAttendance().map((attendance) => (
                     <TableRow key={attendance._id}>
-                      <TableCell>{attendance.date}</TableCell>
-                      <TableCell>{attendance.clockIn || "-"}</TableCell>
+                      <TableCell>
+                        {attendance.date
+                          ? new Date(attendance.date).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric"
+                          })
+                          : "-"}
+                      </TableCell>
+                      <TableCell>
+                        {attendance.clockIn
+                          ? new Date(attendance.clockIn.replace("Z", "")).toLocaleString("en-IN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                          })
+                          : "-"}
+                      </TableCell>
                       <TableCell>
                         {attendance.clockInLocation
                           ? `Lat: ${attendance.clockInLocation.latitude}, Lng: ${attendance.clockInLocation.longitude}`
                           : "-"}
                       </TableCell>
                       <TableCell>{attendance.workingHours || "-"}</TableCell>
-                      <TableCell>{attendance.clockOut || "-"}</TableCell>
+                      <TableCell>
+                        {attendance.clockOut
+                          ? new Date(attendance.clockOut.replace("Z", "")).toLocaleString("en-IN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                          })
+                          : "-"}
+                      </TableCell>
                       <TableCell>
                         {attendance.clockOutLocation
                           ? `Lat: ${attendance.clockOutLocation.latitude}, Lng: ${attendance.clockOutLocation.longitude}`

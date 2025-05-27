@@ -11,6 +11,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import Sidebar from "../userSidebar/sidebar";
 import Heading from "../userHeading/heading";
+import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = ({
   announcementData, handleCreate, handleEdit, inputData,
@@ -23,12 +25,14 @@ const Dashboard = ({
   const [pendingLeaveCount, setPendingLeaveCount] = useState(0);
   const [assignedAssetCount, setAssignedAssetCount] = useState(0);
   const [dateOfJoining, setDateOfJoining] = useState("N/A");
+  const navigate = useNavigate();
+
 
   const data = [
     { id: 1, icon: <AiOutlineTeam />, heading: "Joining Date", number: dateOfJoining, color: "#58024B" },
-    { id: 2, icon: <TbTicket />, heading: "This Month Leaves", number: todaysLeaveCount, color: "#3EC9D6" },
-    { id: 3, icon: <MdAccountBalanceWallet />, heading: "Pending Leaves", number: pendingLeaveCount, color: "#6FD943" },
-    { id: 4, icon: <RiHotspotLine />, heading: "Assigned Assets", number: assignedAssetCount, color: "#3EC9D6" },
+    { id: 2, icon: <TbTicket />, heading: "This Month Leaves", number: todaysLeaveCount, color: "#3EC9D6", path: "/user-leave" },
+    { id: 3, icon: <MdAccountBalanceWallet />, heading: "Pending Leaves", number: pendingLeaveCount, color: "#6FD943", path: "/user-leave?status=pending" },
+    { id: 4, icon: <RiHotspotLine />, heading: "Assigned Assets", number: assignedAssetCount, color: "#3EC9D6", path: "/user-asset" },
   ];
 
 
@@ -86,9 +90,9 @@ const Dashboard = ({
         setAssignedAssetCount(totalAssets);
         //setTodaysAttendance(todaysAttendance);
 
-        console.log("Date of Joining:", joiningDate);
-        console.log("Leaves This Month:", leavesThisMonth);
-        console.log("Pending Leaves:", pendingLeaves);
+        // console.log("Date of Joining:", joiningDate);
+        // console.log("Leaves This Month:", leavesThisMonth);
+        // console.log("Pending Leaves:", pendingLeaves);
 
       } catch (err) {
         console.error("Error loading dashboard stats", err);
@@ -123,7 +127,11 @@ const Dashboard = ({
             <Grid container spacing={2}>
               {data.map(item => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} style={{ display: 'flex' }}>
-                  <div className="commonCardWrapper">
+                  <div
+                    className="commonCardWrapper"
+                    onClick={() => navigate(item.path)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div className="commonCard" style={{ backgroundColor: item.color }}>
                       <div className="header">
                         <div className="icon">{item.icon}</div>

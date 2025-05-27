@@ -1,4 +1,8 @@
 const User = require("../models/UserModel");
+const Attendance = require('../models/attendance');
+const Asset = require('../models/assets');
+const Leave = require('../models/leave');
+const Salary = require('../models/salarySlip');
 const bcrypt = require('bcryptjs');
 
 exports.getAllEmployees = async (req, res) => {
@@ -28,11 +32,12 @@ exports.addEmployee = async (req, res) => {
             password,
             designation,
             dateOfJoining,
+            monthlySalary,
             dateOfBirth,
             address,
             gender,
-            religion,
-            mobile
+            mobile,
+            emergencyContact
         } = req.body;
 
         const existingUser = await User.findOne({ email });
@@ -57,11 +62,12 @@ exports.addEmployee = async (req, res) => {
             password,
             designation,
             dateOfJoining,
+            monthlySalary,
             dateOfBirth,
             address,
             gender,
-            religion,
             mobile,
+            emergencyContact,
             role: "user"
         });
 
@@ -125,25 +131,35 @@ exports.deleteEmployee = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const deleted = await User.findByIdAndDelete(id);
 
-        if (!deleted) {
-            return res.status(404).json({
-                success: false,
-                message: "Employee not found"
-            });
+        const deletedUser = await User.findByIdAndDelete(id);
+        if (!deletedUser) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
         }
+
+        await Attendance.deleteMany({ userId: id });
+
+
+        const assetRecord = await Asset.findOne({ assignedTo: id });
+        if (assetRecord) {
+            await Asset.deleteOne({ assignedTo: id });
+        }
+
+        await Leave.deleteMany({ userId: id });
+
+        await Salary.deleteMany({ userId: id });
 
         res.status(200).json({
             success: true,
-            message: "Employee deleted successfully"
+            message: "Employee and associated data deleted successfully"
         });
     } catch (error) {
         console.error("Error deleting employee:", error);
         res.status(500).json({
             success: false,
-            message: "Failed to delete employee",
+            message: "Failed to delete employee and related data",
             error: error.message
         });
     }
 };
+

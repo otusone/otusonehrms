@@ -11,7 +11,8 @@ const assetSchema = new mongoose.Schema({
             assetName: { type: String, required: true },
             assetType: { type: String, required: true },
             assignedStartDate: { type: Date, required: true },
-            assignedEndDate: { type: Date },
+            //assignedEndDate: { type: Date },
+            status: { type: String, enum: ["Assigned", "Returned"], required: true, },
             remarks: { type: String }
         }
     ]

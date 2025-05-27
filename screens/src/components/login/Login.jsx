@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../slices/authSlice';
 import axios from 'axios';
 import axiosInstance from '../../utils/baseurl';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
+  InputAdornment,
+  IconButton,
   Box,
   Grid,
   Typography,
@@ -22,8 +25,13 @@ const Login = () => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,12 +113,21 @@ const Login = () => {
             <div className="inputFieldContainer">
               <Typography>Password</Typography>
               <TextField
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={inputData.password}
                 placeholder="*****"
                 onChange={handleChange}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
 

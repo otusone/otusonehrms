@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Modal,
-  MenuItem
-} from "@mui/material";
+import { Box, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Modal, MenuItem } from "@mui/material";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
+import { calculatePaidAndLopDays } from "./salaySlipCalculator";
+
+
+
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 
 const SalarySlip = () => {
   const [slips, setSlips] = useState([]);
@@ -27,8 +22,8 @@ const SalarySlip = () => {
     userId: "",
     month: "",
     payDate: "",
-    paidDays: "",
-    lopDays: "",
+    paidDays: 0,
+    lopDays: 0,
     basicSalary: "",
     allowances: "",
     otherBenefits: "",
@@ -40,7 +35,7 @@ const SalarySlip = () => {
     reimbursement1: "",
     reimbursement2: "",
     totalReimbursements: "",
-    netSalary: "",
+    netSalary: 0,
   });
 
   const [users, setUsers] = useState([]);
@@ -83,27 +78,117 @@ const SalarySlip = () => {
   };
 
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const selectedMonthName = formData.month; // e.g., "May"
+  //     const month = monthNames.findIndex(m => m.toLowerCase() === selectedMonthName.toLowerCase());
+  //     const year = new Date().getFullYear();
+
+  //     const { paidDays, lopDays } = await calculatePaidAndLopDays(formData.userId, year, month);
+
+  //     const token = localStorage.getItem("authToken");
+  //     const payload = {
+  //       ...formData,
+  //       month: `${monthNames[month]} ${year}`,
+  //       paidDays,
+  //       lopDays,
+  //       basicSalary: Number(formData.basicSalary),
+  //       //hra: Number(formData.hra),
+  //       allowances: Number(formData.allowances),
+  //       otherBenefits: Number(formData.otherBenefits),
+  //       grossEarnings: Number(formData.grossEarnings),
+  //       pf: Number(formData.pf),
+  //       tds: Number(formData.tds),
+  //       otherDeductions: Number(formData.otherDeductions),
+  //       totalDeductions: Number(formData.totalDeductions),
+  //       reimbursement1: Number(formData.reimbursement1),
+  //       reimbursement2: Number(formData.reimbursement2),
+  //       totalReimbursements: Number(formData.totalReimbursements),
+  //       netSalary: Number(formData.netSalary),
+  //       // paidDays: Number(formData.paidDays),
+  //       // lopDays: Number(formData.lopDays),
+  //     };
+
+  //     await axiosInstance.post("/admin/salary-slip", payload, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     setFormData({
+  //       userId: "",
+  //       month: "",
+  //       payDate: "",
+  //       paidDays: "",
+  //       lopDays: "",
+  //       basicSalary: "",
+  //       allowances: "",
+  //       otherBenefits: "",
+  //       grossEarnings: "",
+  //       pf: "",
+  //       tds: "",
+  //       otherDeductions: "",
+  //       totalDeductions: "",
+  //       reimbursement1: "",
+  //       reimbursement2: "",
+  //       totalReimbursements: "",
+  //       netSalary: "",
+  //     });
+
+  //     setOpenModal(false);
+  //     fetchAllSlips();
+  //     alert("Successfully submitted the form!");
+
+  //   } catch (err) {
+  //     console.error("Failed to generate slip", err);
+  //     alert("Error in submitting the form!");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const selectedMonthName = formData.month; // e.g., "May"
+      const month = monthNames.findIndex(m => m.toLowerCase() === selectedMonthName.toLowerCase());
+      const year = new Date().getFullYear();
+
+      const { paidDays, lopDays } = await calculatePaidAndLopDays(formData.userId, year, month);
+
+      const basicSalary = Number(formData.basicSalary);
+      const allowances = Number(formData.allowances);
+      const otherBenefits = Number(formData.otherBenefits);
+      const pf = Number(formData.pf);
+      const tds = Number(formData.tds);
+      const otherDeductions = Number(formData.otherDeductions);
+      const reimbursement1 = Number(formData.reimbursement1);
+      const reimbursement2 = Number(formData.reimbursement2);
+
+
+      const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
+      const perDaySalary = basicSalary / numberOfDaysInMonth;
+      const grossEarnings = (basicSalary - perDaySalary * lopDays) + allowances + otherBenefits;
+      const totalReimbursements = reimbursement1 + reimbursement2;
+      const totalDeductions = pf + tds + otherDeductions;
+      const netSalary = grossEarnings + totalReimbursements - totalDeductions;
+
       const token = localStorage.getItem("authToken");
+
       const payload = {
         ...formData,
-        basicSalary: Number(formData.basicSalary),
-        //hra: Number(formData.hra),
-        allowances: Number(formData.allowances),
-        otherBenefits: Number(formData.otherBenefits),
-        grossEarnings: Number(formData.grossEarnings),
-        pf: Number(formData.pf),
-        tds: Number(formData.tds),
-        otherDeductions: Number(formData.otherDeductions),
-        totalDeductions: Number(formData.totalDeductions),
-        reimbursement1: Number(formData.reimbursement1),
-        reimbursement2: Number(formData.reimbursement2),
-        totalReimbursements: Number(formData.totalReimbursements),
-        netSalary: Number(formData.netSalary),
-        paidDays: Number(formData.paidDays),
-        lopDays: Number(formData.lopDays),
+        month: `${monthNames[month]} ${year}`,
+        paidDays,
+        lopDays,
+        basicSalary,
+        allowances,
+        otherBenefits,
+        grossEarnings,
+        pf,
+        tds,
+        otherDeductions,
+        totalDeductions,
+        reimbursement1,
+        reimbursement2,
+        totalReimbursements,
+        netSalary,
       };
 
       await axiosInstance.post("/admin/salary-slip", payload, {
@@ -149,6 +234,93 @@ const SalarySlip = () => {
     fetchAllSlips();
     fetchUsers();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchAttendanceData = async () => {
+  //     const { userId, month } = formData;
+
+  //     if (!userId || !month) return;
+
+  //     const monthIndex = monthNames.findIndex(m => m.toLowerCase() === month.toLowerCase());
+  //     const year = new Date().getFullYear();
+
+  //     if (monthIndex === -1) return; // invalid month
+
+  //     try {
+  //       const { paidDays, lopDays } = await calculatePaidAndLopDays(userId, year, monthIndex);
+  //       setFormData(prev => ({
+  //         ...prev,
+  //         paidDays,
+  //         lopDays,
+  //       }));
+  //     } catch (error) {
+  //       console.error("Error fetching attendance data:", error);
+  //     }
+  //   };
+
+  //   fetchAttendanceData();
+  // }, [formData.userId, formData.month]);
+
+  useEffect(() => {
+    const fetchAttendanceDataAndCalculateSalary = async () => {
+      const { userId, month, basicSalary, allowances, otherBenefits, pf, tds, otherDeductions, reimbursement1, reimbursement2 } = formData;
+
+      if (!userId || !month || !basicSalary) return;
+
+      const monthIndex = monthNames.findIndex(m => m.toLowerCase() === month.toLowerCase());
+      const year = new Date().getFullYear();
+
+      if (monthIndex === -1) return;
+
+      try {
+        const { paidDays, lopDays } = await calculatePaidAndLopDays(userId, year, monthIndex);
+
+        const numBasic = Number(basicSalary);
+        const numAllowances = Number(allowances || 0);
+        const numOtherBenefits = Number(otherBenefits || 0);
+        const numPf = Number(pf || 0);
+        const numTds = Number(tds || 0);
+        const numOtherDeductions = Number(otherDeductions || 0);
+        const numReimbursement1 = Number(reimbursement1 || 0);
+        const numReimbursement2 = Number(reimbursement2 || 0);
+
+        const numberOfDaysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+        const perDaySalary = numBasic / numberOfDaysInMonth;
+
+        const grossEarnings = (numBasic - perDaySalary * lopDays) + numAllowances + numOtherBenefits;
+        const totalReimbursements = numReimbursement1 + numReimbursement2;
+        const totalDeductions = numPf + numTds + numOtherDeductions;
+        const netSalary = grossEarnings + totalReimbursements - totalDeductions;
+
+        setFormData(prev => ({
+          ...prev,
+          paidDays,
+          lopDays,
+          grossEarnings: grossEarnings.toFixed(2),
+          totalReimbursements: totalReimbursements.toFixed(2),
+          totalDeductions: totalDeductions.toFixed(2),
+          netSalary: netSalary.toFixed(2),
+        }));
+      } catch (error) {
+        console.error("Error calculating salary:", error);
+      }
+    };
+
+    fetchAttendanceDataAndCalculateSalary();
+  }, [
+    formData.userId,
+    formData.month,
+    formData.basicSalary,
+    formData.allowances,
+    formData.otherBenefits,
+    formData.pf,
+    formData.tds,
+    formData.otherDeductions,
+    formData.reimbursement1,
+    formData.reimbursement2,
+  ]);
+
+
 
   const filteredSlips = slips.filter(
     (s) =>

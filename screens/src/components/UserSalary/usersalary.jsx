@@ -211,8 +211,8 @@ const UserSalary = () => {
                                             <TableCell>{slip.tds}</TableCell>
                                             <TableCell>{slip.otherDeductions}</TableCell>
                                             <TableCell>{slip.totalDeductions}</TableCell>
-                                            <TableCell>{slip.reimbursements1}</TableCell>
-                                            <TableCell>{slip.reimbursements2}</TableCell>
+                                            <TableCell>{slip.reimbursement1}</TableCell>
+                                            <TableCell>{slip.reimbursement2}</TableCell>
                                             <TableCell>{slip.netSalary}</TableCell>
                                             <TableCell>
                                                 <Button variant="outlined" size="small" onClick={() => handleDownloadSlip(slip)}>

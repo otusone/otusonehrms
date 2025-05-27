@@ -3,16 +3,21 @@ import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
 import {
     Box, Typography, TextField, TableContainer, Table,
-    TableHead, TableRow, TableCell, TableBody, Paper
+    TableHead, TableRow, TableCell, TableBody, Paper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import Sidebar from "../userSidebar/sidebar";
 import Heading from "../userHeading/heading";
 
+
+
 const UserAsset = () => {
     const [assets, setAssets] = useState([]);
     const [filteredAssets, setFilteredAssets] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedAsset, setSelectedAsset] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
+
 
     const fetchUserAssets = async () => {
         try {
@@ -56,16 +61,10 @@ const UserAsset = () => {
     };
 
     const handleView = (asset) => {
-        alert(`
-            Asset: ${asset.assetName}
-            Type: ${asset.assetType}
-            From: ${new Date(asset.assignedStartDate).toLocaleDateString()}
-            To: ${new Date(asset.assignedEndDate).toLocaleDateString()}
-            Remarks: ${asset.remarks}
-            Assigned to: ${asset.assignedToDetails?.userName || "N/A"}
-            Email: ${asset.assignedToDetails?.email || "N/A"}
-        `);
+        setSelectedAsset(asset);
+        setOpenDialog(true);
     };
+
 
     return (
         <Box display="flex" minHeight="100vh">
@@ -92,7 +91,8 @@ const UserAsset = () => {
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ASSET NAME</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>TYPE</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>DURATION</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>ASSIGNED DATE</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>STATUS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>REMARKS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
                                 </TableRow>
@@ -105,9 +105,9 @@ const UserAsset = () => {
                                             <TableCell>{asset.assetName}</TableCell>
                                             <TableCell>{asset.assetType}</TableCell>
                                             <TableCell>
-                                                {new Date(asset.assignedStartDate).toLocaleDateString()} -{" "}
-                                                {new Date(asset.assignedEndDate).toLocaleDateString()}
+                                                {new Date(asset.assignedStartDate).toLocaleDateString()}
                                             </TableCell>
+                                            <TableCell>{asset.status}</TableCell>
                                             <TableCell>{asset.remarks}</TableCell>
                                             <TableCell>
                                                 <FaEye style={{ cursor: "pointer" }} onClick={() => handleView(asset)} />
@@ -122,6 +122,27 @@ const UserAsset = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+
+                    <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
+                        <DialogTitle>Asset Details</DialogTitle>
+                        <DialogContent dividers>
+                            {selectedAsset && (
+                                <>
+                                    <Typography><strong>Asset:</strong> {selectedAsset.assetName}</Typography>
+                                    <Typography><strong>Type:</strong> {selectedAsset.assetType}</Typography>
+                                    <Typography><strong>From:</strong> {new Date(selectedAsset.assignedStartDate).toLocaleDateString()}</Typography>
+                                    <Typography><strong>Status:</strong> {selectedAsset.status || "N/A"}</Typography>
+                                    <Typography><strong>Remarks:</strong> {selectedAsset.remarks || "N/A"}</Typography>
+                                    <Typography><strong>Assigned to:</strong> {selectedAsset.assignedToDetails?.userName || "N/A"}</Typography>
+                                    <Typography><strong>Email:</strong> {selectedAsset.assignedToDetails?.email || "N/A"}</Typography>
+                                </>
+                            )}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setOpenDialog(false)} color="primary">Close</Button>
+                        </DialogActions>
+                    </Dialog>
+
                 </Box>
             </Box>
         </Box>

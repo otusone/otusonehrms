@@ -14,7 +14,7 @@ import Salaryslip from "./components/salarySlip/salarySlip";
 
 import UserDashboard from "./components/UserDashboard/UserDashboard.jsx";
 import UserAttendance from "./components/Userattendance/userAttendance";
-// import UserProfile from "./components/UserProfile/UserProfile";
+import UserProfile from "./components/userHeading/userProfile.jsx";
 import UserLeave from "./components/userLeave/userLeave";
 import UserAsset from "./components/UserAsset/UserAsset";
 import UserSalary from "./components/UserSalary/usersalary.jsx";
@@ -71,10 +71,10 @@ function App() {
         path="/user-attendance"
         element={<ProtectedRoute allowedRoles={['user']}><UserAttendance /></ProtectedRoute>}
       />
-      {/* <Route
+      <Route
         path="/user-profile"
         element={<ProtectedRoute allowedRoles={['user']}><UserProfile /></ProtectedRoute>}
-      /> */}
+      />
       <Route
         path="/user-leave"
         element={<ProtectedRoute allowedRoles={['user']}><UserLeave /></ProtectedRoute>}
