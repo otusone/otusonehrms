@@ -148,11 +148,11 @@ exports.getAssetsByUserId = async (req, res) => {
 
         const assetDoc = await Asset.findOne({ assignedTo: userId }).populate("assignedTo", "userName email");
         // console.log("User ID:", userId);
-        // console.log("Asset Document:", assetDoc);
 
 
         if (!assetDoc || !assetDoc.assets || assetDoc.assets.length === 0) {
-            return res.status(404).json({ message: "No assets found for this user" });
+            // return res.status(404).json({ message: "No assets found for this user" });
+            return res.status(200).json([]);
         }
 
 

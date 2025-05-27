@@ -57,18 +57,9 @@ const UserProfile = () => {
 
                     <Box display="flex" justifyContent="center" mt={4} px={2}>
 
-                        <Box
-                            sx={{
-                                width: "100%",
-                                maxWidth: 1200,
-                                display: "flex",
-                                flexDirection: { xs: "column", md: "row" },
-                                gap: 4,
-                            }}
-                        >
+                        <Box sx={{ width: "100%", maxWidth: 1200, display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4, }}>
 
                             {/* Left - Profile Summary */}
-
                             <Paper
                                 elevation={3}
                                 sx={{
@@ -100,33 +91,33 @@ const UserProfile = () => {
 
 
                                 <Typography variant="h6" gutterBottom>
-                                    {userData.userName}
+                                    Name: {userData.userName}
                                 </Typography>
 
                                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                                    {userData.designation}
+                                    Designation: {userData.designation}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                                    {userData.employeeId}
+                                    Employee ID: {userData.employeeId}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" gutterBottom>{userData.gender}</Typography>
+                                <Typography variant="body2" color="textSecondary" gutterBottom>Gender: {userData.gender}</Typography>
 
                                 <Divider sx={{ my: 2, width: "100%" }} />
 
-                                <Typography variant="body2" color="textSecondary">
+                                {/* <Typography variant="body2" color="textSecondary">
                                     Phone
-                                </Typography>
-                                <Typography sx={{ mb: 1 }}>{userData.mobile}</Typography>
+                                </Typography> */}
+                                <Typography sx={{ mb: 1 }}>Phone: {userData.mobile}</Typography>
 
-                                <Typography variant="body2" color="textSecondary">
+                                {/* <Typography variant="body2" color="textSecondary">
                                     Email
-                                </Typography>
-                                <Typography sx={{ mb: 1 }}>{userData.email}</Typography>
+                                </Typography> */}
+                                <Typography sx={{ mb: 1 }}>Email: {userData.email}</Typography>
 
-                                <Typography variant="body2" color="textSecondary">
+                                {/* <Typography variant="body2" color="textSecondary">
                                     Date Of Birth
-                                </Typography>
-                                <Typography sx={{ mb: 1 }}>{
+                                </Typography> */}
+                                <Typography sx={{ mb: 1 }}>Date Of Birth{
                                     userData.dateOfBirth
                                         ? new Date(userData.dateOfBirth).toISOString().split("T")[0]
                                         : ""
@@ -142,7 +133,7 @@ const UserProfile = () => {
 
                                 {/* Card 2 - Contact Details */}
                                 <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
-                                    <Typography variant="subtitle1" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
                                         Contact Details
                                     </Typography>
                                     <TextField
@@ -150,7 +141,12 @@ const UserProfile = () => {
                                         label="Mobile"
                                         name="mobile"
                                         value={userData.mobile || ""}
-
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -158,7 +154,12 @@ const UserProfile = () => {
                                         label="Emergency Contact No."
                                         name="emergencyContact"
                                         value={userData.emergencyContact || ""}
-
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -166,14 +167,19 @@ const UserProfile = () => {
                                         label="Address"
                                         name="address"
                                         value={userData.address || ""}
-
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                 </Paper>
 
                                 {/* Card 3 - Employment Info */}
                                 <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
-                                    <Typography variant="subtitle1" gutterBottom>
+                                    <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
                                         Employment Information
                                     </Typography>
                                     <TextField
@@ -181,7 +187,12 @@ const UserProfile = () => {
                                         label="Designation"
                                         name="designation"
                                         value={userData.designation || ""}
-
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -189,7 +200,12 @@ const UserProfile = () => {
                                         label="Monthly Salary"
                                         name="monthlySalary"
                                         value={userData.monthlySalary || ""}
-
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                     <TextField
@@ -202,8 +218,13 @@ const UserProfile = () => {
                                                 ? new Date(userData.dateOfJoining).toISOString().split("T")[0]
                                                 : ""
                                         }
-
+                                        variant="standard"
                                         InputLabelProps={{ shrink: true }}
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
                                         sx={{ mb: 2 }}
                                     />
                                 </Paper>

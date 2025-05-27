@@ -51,6 +51,20 @@ const Employee = () => {
         emergencyContact: "",
     });
 
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [openViewModal, setOpenViewModal] = useState(false);
+
+    const handleView = (emp) => {
+        setSelectedEmployee(emp);
+        setOpenViewModal(true);
+    };
+
+    const handleCloseView = () => {
+        setOpenViewModal(false);
+        setSelectedEmployee(null);
+    };
+
+
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -154,8 +168,8 @@ const Employee = () => {
 
     const handleSubmit = async () => {
         const requiredFields = editingEmployee
-            ? ["userName", "email", "designation", "gender", "mobile"]
-            : ["userName", "email", "password", "designation", "gender", "mobile"];
+            ? ["userName", "email", "designation", "gender", "mobile", "monthlySalary"]
+            : ["userName", "email", "password", "designation", "gender", "mobile", "monthlySalary"];
 
         const missingFields = requiredFields.filter(field => !formData[field]?.trim());
 
@@ -239,14 +253,13 @@ const Employee = () => {
                                     <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF JOINING</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DESIGNATION</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DATE OF BIRTH</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>ADDRESS</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>GENDER</TableCell>
-                                    {/* <TableCell sx={{ color: "#fff" }}>RELIGION</TableCell> */}
-                                    <TableCell sx={{ color: "#fff" }}>MOBILE NO.</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>EMERGENCY CONTACT NO.</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>GENDER</TableCell> */}
+                                    {/* <TableCell sx={{ color: "#fff" }}>MOBILE NO.</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>EMERGENCY CONTACT NO.</TableCell> */}
+                                    <TableCell sx={{ color: "#fff", textAlign: "center" }}>ACTION</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -259,20 +272,21 @@ const Employee = () => {
                                             <TableCell>{emp.email}</TableCell>
                                             <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.designation}</TableCell>
-                                            <TableCell>{emp.monthlySalary}</TableCell>
+                                            {/* <TableCell>{emp.monthlySalary}</TableCell>
                                             <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
                                             <TableCell>{emp.address || "N/A"}</TableCell>
-                                            <TableCell>{emp.gender}</TableCell>
-                                            {/* <TableCell>{emp.religion}</TableCell> */}
-                                            <TableCell>{emp.mobile}</TableCell>
-                                            <TableCell>{emp.emergencyContact}</TableCell>
+                                            <TableCell>{emp.gender}</TableCell> */}
+                                            {/* <TableCell>{emp.mobile}</TableCell>
+                                            <TableCell>{emp.emergencyContact}</TableCell> */}
 
                                             <TableCell>
                                                 <Box display="flex" gap={1}>
+                                                    <Button variant="outlined" color="info" size="small" onClick={() => handleView(emp)}>View</Button>
                                                     <Button variant="outlined" color="primary" size="small" onClick={() => handleOpen(emp)}>Update</Button>
                                                     <Button variant="outlined" color="error" size="small" onClick={() => handleDelete(emp._id)}>Delete</Button>
                                                 </Box>
                                             </TableCell>
+
                                         </TableRow>
                                     ))
                                 ) : (
@@ -344,6 +358,32 @@ const Employee = () => {
                             </Button>
                         </DialogActions>
                     </Dialog>
+
+                    <Dialog open={openViewModal} onClose={handleCloseView} fullWidth maxWidth="md">
+                        <DialogTitle>Employee Details</DialogTitle>
+                        <DialogContent dividers>
+                            {selectedEmployee && (
+                                <Box display="flex" flexDirection="column" gap={2}>
+                                    <Typography><strong>Employee ID:</strong> {selectedEmployee.employeeId}</Typography>
+                                    <Typography><strong>Name:</strong> {selectedEmployee.userName}</Typography>
+                                    <Typography><strong>Email:</strong> {selectedEmployee.email}</Typography>
+                                    <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString() : "N/A"}</Typography>
+                                    <Typography><strong>Designation:</strong> {selectedEmployee.designation}</Typography>
+                                    <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.monthlySalary}</Typography>
+                                    <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString() : "N/A"}</Typography>
+                                    <Typography><strong>Address:</strong> {selectedEmployee.address || "N/A"}</Typography>
+                                    <Typography><strong>Gender:</strong> {selectedEmployee.gender}</Typography>
+                                    <Typography><strong>Mobile No:</strong> {selectedEmployee.mobile}</Typography>
+                                    <Typography><strong>Emergency Contact:</strong> {selectedEmployee.emergencyContact}</Typography>
+                                    {/* Add more fields if needed */}
+                                </Box>
+                            )}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseView} variant="contained" color="primary">Close</Button>
+                        </DialogActions>
+                    </Dialog>
+
 
 
                 </Box>

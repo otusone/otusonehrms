@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
-import { Box, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Modal, MenuItem } from "@mui/material";
+import {
+  Box, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Modal, MenuItem, Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 import { calculatePaidAndLopDays } from "./salaySlipCalculator";
@@ -40,6 +45,20 @@ const SalarySlip = () => {
 
   const [users, setUsers] = useState([]);
 
+  const [selectedSlip, setSelectedSlip] = useState(null);
+  const [openViewModal, setOpenViewModal] = useState(false);
+
+  const handleView = (slip) => {
+    setSelectedSlip(slip);
+    setOpenViewModal(true);
+  };
+
+  const handleCloseView = () => {
+    setOpenViewModal(false);
+    setSelectedSlip(null);
+  };
+
+
   const fetchAllSlips = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -77,72 +96,6 @@ const SalarySlip = () => {
     }
   };
 
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const selectedMonthName = formData.month; // e.g., "May"
-  //     const month = monthNames.findIndex(m => m.toLowerCase() === selectedMonthName.toLowerCase());
-  //     const year = new Date().getFullYear();
-
-  //     const { paidDays, lopDays } = await calculatePaidAndLopDays(formData.userId, year, month);
-
-  //     const token = localStorage.getItem("authToken");
-  //     const payload = {
-  //       ...formData,
-  //       month: `${monthNames[month]} ${year}`,
-  //       paidDays,
-  //       lopDays,
-  //       basicSalary: Number(formData.basicSalary),
-  //       //hra: Number(formData.hra),
-  //       allowances: Number(formData.allowances),
-  //       otherBenefits: Number(formData.otherBenefits),
-  //       grossEarnings: Number(formData.grossEarnings),
-  //       pf: Number(formData.pf),
-  //       tds: Number(formData.tds),
-  //       otherDeductions: Number(formData.otherDeductions),
-  //       totalDeductions: Number(formData.totalDeductions),
-  //       reimbursement1: Number(formData.reimbursement1),
-  //       reimbursement2: Number(formData.reimbursement2),
-  //       totalReimbursements: Number(formData.totalReimbursements),
-  //       netSalary: Number(formData.netSalary),
-  //       // paidDays: Number(formData.paidDays),
-  //       // lopDays: Number(formData.lopDays),
-  //     };
-
-  //     await axiosInstance.post("/admin/salary-slip", payload, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-
-  //     setFormData({
-  //       userId: "",
-  //       month: "",
-  //       payDate: "",
-  //       paidDays: "",
-  //       lopDays: "",
-  //       basicSalary: "",
-  //       allowances: "",
-  //       otherBenefits: "",
-  //       grossEarnings: "",
-  //       pf: "",
-  //       tds: "",
-  //       otherDeductions: "",
-  //       totalDeductions: "",
-  //       reimbursement1: "",
-  //       reimbursement2: "",
-  //       totalReimbursements: "",
-  //       netSalary: "",
-  //     });
-
-  //     setOpenModal(false);
-  //     fetchAllSlips();
-  //     alert("Successfully submitted the form!");
-
-  //   } catch (err) {
-  //     console.error("Failed to generate slip", err);
-  //     alert("Error in submitting the form!");
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -235,32 +188,6 @@ const SalarySlip = () => {
     fetchUsers();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchAttendanceData = async () => {
-  //     const { userId, month } = formData;
-
-  //     if (!userId || !month) return;
-
-  //     const monthIndex = monthNames.findIndex(m => m.toLowerCase() === month.toLowerCase());
-  //     const year = new Date().getFullYear();
-
-  //     if (monthIndex === -1) return; // invalid month
-
-  //     try {
-  //       const { paidDays, lopDays } = await calculatePaidAndLopDays(userId, year, monthIndex);
-  //       setFormData(prev => ({
-  //         ...prev,
-  //         paidDays,
-  //         lopDays,
-  //       }));
-  //     } catch (error) {
-  //       console.error("Error fetching attendance data:", error);
-  //     }
-  //   };
-
-  //   fetchAttendanceData();
-  // }, [formData.userId, formData.month]);
-
   useEffect(() => {
     const fetchAttendanceDataAndCalculateSalary = async () => {
       const { userId, month, basicSalary, allowances, otherBenefits, pf, tds, otherDeductions, reimbursement1, reimbursement2 } = formData;
@@ -343,7 +270,7 @@ const SalarySlip = () => {
               Generate Salary Slip
             </Button>
           </Box>
-          <Box display="flex" justifyContent={{ xs: "flex-start", sm: "flex-end" }} mb={2}>
+          <Box display="flex" justifyContent={{ xs: "flex-end", sm: "flex-end" }} mb={2}>
             <TextField
               label="Filter by Name or Email"
               variant="outlined"
@@ -365,11 +292,11 @@ const SalarySlip = () => {
                   <TableCell sx={{ color: "#fff" }}>Month</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Pay Date</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Designation</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Basic</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Allowances</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>Allowances</TableCell> */}
                   {/* <TableCell sx={{ color: "#fff" }}>Deductions</TableCell> */}
-                  <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
+                  {/* <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
                   <TableCell sx={{ color: "#fff" }}>LOP Days</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Other Benefits</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Gross Earnings</TableCell>
@@ -379,7 +306,7 @@ const SalarySlip = () => {
                   <TableCell sx={{ color: "#fff" }}>Total Deductions</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Reimbursement 1</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Reimbursement 2</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Total Reimbursements</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Total Reimbursements</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Net Salary</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Action</TableCell>
 
@@ -397,9 +324,9 @@ const SalarySlip = () => {
                     <TableCell>{s.month}</TableCell>
                     <TableCell>{s.payDate?.substring(0, 10)}</TableCell>
                     <TableCell>{s.userId?.designation}</TableCell>
-                    <TableCell>{s.userId?.dateOfJoining?.substring(0, 10)}</TableCell>
+                    {/* <TableCell>{s.userId?.dateOfJoining?.substring(0, 10)}</TableCell> */}
                     <TableCell>{s.basicSalary}</TableCell>
-                    <TableCell>{s.allowances}</TableCell>
+                    {/* <TableCell>{s.allowances}</TableCell>
                     <TableCell>{s.paidDays}</TableCell>
                     <TableCell>{s.lopDays}</TableCell>
                     <TableCell>{s.otherBenefits}</TableCell>
@@ -410,20 +337,28 @@ const SalarySlip = () => {
                     <TableCell>{s.totalDeductions}</TableCell>
                     <TableCell>{s.reimbursement1}</TableCell>
                     <TableCell>{s.reimbursement2}</TableCell>
-                    <TableCell>{s.totalReimbursements}</TableCell>
+                    <TableCell>{s.totalReimbursements}</TableCell> */}
                     <TableCell>{s.netSalary}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => handleDelete(s._id)}
-                      >
-                        Delete
-                      </Button>
+                      <Box display="flex" gap={1}>
+                        <Button
+                          variant="outlined"
+                          color="info"
+                          size="small"
+                          onClick={() => handleView(s)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          size="small"
+                          onClick={() => handleDelete(s._id)}
+                        >
+                          Delete
+                        </Button>
+                      </Box>
                     </TableCell>
-
-
                   </TableRow>
                 ))}
                 {filteredSlips.length === 0 && (
@@ -519,6 +454,41 @@ const SalarySlip = () => {
           </Box>
         </Box>
       </Modal>
+
+      <Dialog open={openViewModal} onClose={handleCloseView} fullWidth maxWidth="md">
+        <DialogTitle>Salary Slip Details</DialogTitle>
+        <DialogContent dividers>
+          {selectedSlip && (
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Typography><strong>Employee ID:</strong> {selectedSlip.userId?.employeeId}</Typography>
+              <Typography><strong>Name:</strong> {selectedSlip.userId?.userName}</Typography>
+              <Typography><strong>Email:</strong> {selectedSlip.userId?.email}</Typography>
+              <Typography><strong>Month:</strong> {selectedSlip.month}</Typography>
+              <Typography><strong>Pay Date:</strong> {selectedSlip.payDate?.substring(0, 10)}</Typography>
+              <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
+              <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
+              <Typography><strong>Basic:</strong> ₹{selectedSlip.basicSalary}</Typography>
+              <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
+              <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>
+              <Typography><strong>LOP Days:</strong> {selectedSlip.lopDays}</Typography>
+              <Typography><strong>Other Benefits:</strong> ₹{selectedSlip.otherBenefits}</Typography>
+              <Typography><strong>Gross Earnings:</strong> ₹{selectedSlip.grossEarnings}</Typography>
+              <Typography><strong>PF:</strong> ₹{selectedSlip.pf}</Typography>
+              <Typography><strong>TDS:</strong> ₹{selectedSlip.tds}</Typography>
+              <Typography><strong>Other Deductions:</strong> ₹{selectedSlip.otherDeductions}</Typography>
+              <Typography><strong>Total Deductions:</strong> ₹{selectedSlip.totalDeductions}</Typography>
+              <Typography><strong>Reimbursement 1:</strong> ₹{selectedSlip.reimbursement1}</Typography>
+              <Typography><strong>Reimbursement 2:</strong> ₹{selectedSlip.reimbursement2}</Typography>
+              <Typography><strong>Total Reimbursements:</strong> ₹{selectedSlip.totalReimbursements}</Typography>
+              <Typography><strong>Net Salary:</strong> ₹{selectedSlip.netSalary}</Typography>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseView} variant="contained" color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+
 
     </Box>
   );

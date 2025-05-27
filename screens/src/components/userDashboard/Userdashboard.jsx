@@ -15,12 +15,8 @@ import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = ({
-  announcementData, handleCreate, handleEdit, inputData,
-  handleChange, handleEditModal, handleClose,
-  editModal, handleModal, open, handleDelete
 }) => {
 
-  const [todaysAttendance, setTodaysAttendance] = useState([]);
   const [todaysLeaveCount, setTodaysLeaveCount] = useState(0);
   const [pendingLeaveCount, setPendingLeaveCount] = useState(0);
   const [assignedAssetCount, setAssignedAssetCount] = useState(0);
@@ -47,57 +43,44 @@ const Dashboard = ({
         const [
           profileRes,
           leavesRes,
-          assetsRes,
-          attendanceRes
-        ] = await Promise.all([
+          assetsRes
+        ] = await Promise.allSettled([
           axiosInstance.get(`/user/profile/${userId}`, { headers }),
           axiosInstance.get("/user/my-leaves", { headers }),
           axiosInstance.get(`/user/get-asset/${userId}`, { headers }),
-          // axiosInstance.get(`/user/get-attendance/${userId}`, { headers })
         ]);
 
-        const profile = profileRes.data;
-        const leaves = leavesRes.data.leaves || [];
-        const assets = assetsRes?.data?.data || [];
-        //const attendance = attendanceRes.data.data || [];
-        console.log(profile);
 
-        const joiningDate = profile.dateOfJoining ? new Date(profile.dateOfJoining).toLocaleDateString() : "N/A";
+        const profile = profileRes.status === "fulfilled" ? profileRes.value.data : null;
+        const leaves = leavesRes.status === "fulfilled" ? leavesRes.value.data.leaves || [] : [];
+        const assets = assetsRes.status === "fulfilled" ? assetsRes.value.data.data || [] : [];
 
+        const joiningDate = profile?.dateOfJoining
+          ? new Date(profile.dateOfJoining).toLocaleDateString()
+          : "N/A";
 
         const today = new Date();
         const thisMonth = today.getMonth();
         const thisYear = today.getFullYear();
-
 
         const leavesThisMonth = leaves.filter((leave) => {
           const leaveDate = new Date(leave.startDate);
           return leaveDate.getMonth() === thisMonth && leaveDate.getFullYear() === thisYear;
         });
 
-
         const pendingLeaves = leaves.filter((leave) => leave.status === "Pending");
         const totalAssets = assets.length;
-
-
-
-        // const todayString = today.toISOString().split('T')[0];
-        // const todaysAttendance = attendance.filter(item => item.date === todayString);
 
         setDateOfJoining(joiningDate);
         setTodaysLeaveCount(leavesThisMonth.length);
         setPendingLeaveCount(pendingLeaves.length);
         setAssignedAssetCount(totalAssets);
-        //setTodaysAttendance(todaysAttendance);
-
-        // console.log("Date of Joining:", joiningDate);
-        // console.log("Leaves This Month:", leavesThisMonth);
-        // console.log("Pending Leaves:", pendingLeaves);
 
       } catch (err) {
         console.error("Error loading dashboard stats", err);
       }
     };
+
 
     fetchDashboardStats();
   }, []);
