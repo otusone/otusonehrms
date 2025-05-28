@@ -96,15 +96,26 @@ const Attendance = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              mb={2}
+              mb={1}
             >
               {/* <Typography variant="h6">Attendance Records</Typography> */}
               <Typography variant="h6">Attendance Records</Typography>
+
+
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems={{ xs: "flex-start", lg: "flex-end" }}
+              gap={2}
+              mb={2}
+            >
               <Box
                 display="flex"
                 gap={1.5}
                 flexWrap="wrap"
                 justifyContent="flex-start"
+                sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}
               >
                 <Box sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}>
                   <Button
@@ -135,16 +146,17 @@ const Attendance = () => {
                 </Box>
               </Box>
 
-            </Box>
-            <Box display="flex" justifyContent="flex-end" mb={2}>
               <TextField
                 placeholder="Search By Name..."
                 size="small"
                 value={searchTerm}
                 onChange={handleSearch}
-                sx={{ width: "250px" }}
+                sx={{
+                  width: { sm: "250px" },
+                }}
               />
             </Box>
+
           </Box>
 
 

@@ -129,15 +129,20 @@ const UserLeave = () => {
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} >
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" >
                         <Typography variant="h6">My Leaves</Typography>
-                        <Box display="flex" gap={2}>
-                            <Button variant="contained" onClick={() => handleOpenForm()} sx={{ bgcolor: "#58024B" }}>
-                                Apply Leave
-                            </Button>
-                            {/* <TextField placeholder="Search..." size="small" onChange={handleSearch} /> */}
-                        </Box>
                     </Box>
+                    <Box display="flex" flexDirection="column"
+                        gap={2}
+                        mb={2}
+                        alignItems={{ xs: "flex-start", lg: "flex-end" }}
+                    >
+                        <Button variant="contained" onClick={() => handleOpenForm()} sx={{ bgcolor: "#58024B" }}>
+                            Apply Leave
+                        </Button>
+                        {/* <TextField placeholder="Search..." size="small" onChange={handleSearch} /> */}
+                    </Box>
+
 
                     <TableContainer component={Paper}>
                         <Table>

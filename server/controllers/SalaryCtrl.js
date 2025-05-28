@@ -196,11 +196,20 @@ exports.getAllSalarySlips = async (req, res) => {
             .populate("userId", "employeeId userName email designation dateOfJoining")
             .sort({ createdAt: -1 });
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            message: "All salary slips fetched successfully",
+            message: slips.length > 0
+                ? "Salary slips fetched successfully"
+                : "No salary slips found for this user",
             data: slips,
         });
+
+        // res.status(200).json({
+        //     success: true,
+        //     message: "All salary slips fetched successfully",
+        //     data: slips,
+        // });
+
     } catch (error) {
         res.status(500).json({
             success: false,

@@ -230,11 +230,15 @@ const Asset = () => {
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1} flexWrap="wrap">
                         <Typography variant="h6">Manage Assets</Typography>
-                        <Button variant="outlined" color="primary" onClick={handleOpen}>ASSIGN ASSET</Button>
+
                     </Box>
-                    <Box display="flex" justifyContent="flex-end" mb={2}>
+                    <Box display="flex" flexDirection="column"
+                        gap={2}
+                        mb={2}
+                        alignItems={{ xs: "flex-start", lg: "flex-end" }}>
+                        <Button variant="outlined" color="primary" onClick={handleOpen}>ASSIGN ASSET</Button>
                         <TextField placeholder="Search..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>

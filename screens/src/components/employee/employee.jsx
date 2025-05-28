@@ -42,7 +42,7 @@ const Employee = () => {
         password: "",
         dateOfJoining: "",
         designation: "",
-        monthlySalary: "",
+        basicSalary: "",
         dateOfBirth: "",
         address: "",
         gender: "",
@@ -127,7 +127,7 @@ const Employee = () => {
                 email: employee.email || "",
                 password: employee.password || "",
                 designation: employee.designation || "",
-                monthlySalary: employee.monthlySalary || "",
+                basicSalary: employee.basicSalary || "",
                 dateOfJoining: formatDate(employee.dateOfJoining),
                 dateOfBirth: formatDate(employee.dateOfBirth),
                 address: employee.address || "",
@@ -144,7 +144,7 @@ const Employee = () => {
                 password: "",
                 designation: "",
                 dateOfJoining: "",
-                monthlySalary: "",
+                baiscSalary: "",
                 dateOfBirth: "",
                 address: "",
                 gender: "",
@@ -168,10 +168,10 @@ const Employee = () => {
 
     const handleSubmit = async () => {
         const requiredFields = editingEmployee
-            ? ["userName", "email", "designation", "gender", "mobile", "monthlySalary"]
-            : ["userName", "email", "password", "designation", "gender", "mobile", "monthlySalary"];
+            ? ["userName", "email", "designation", "gender", "mobile", "basicSalary"]
+            : ["userName", "email", "password", "designation", "gender", "mobile", "basicSalary"];
 
-        const missingFields = requiredFields.filter(field => !formData[field]?.trim());
+        const missingFields = requiredFields.filter(field => !formData[field]);
 
         if (missingFields.length > 0) {
             alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
@@ -211,6 +211,8 @@ const Employee = () => {
 
             handleClose();
             fetchEmployees();
+            alert("Successfully submitted!");
+
         } catch (err) {
             console.error("Failed to submit employee data", err);
             if (
@@ -234,13 +236,14 @@ const Employee = () => {
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1} flexWrap="wrap">
                         <Typography variant="h6">Manage Employee</Typography>
-                        <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ mt: { xs: 1, sm: 0 } }}>
+
+                    </Box>
+                    <Box display="flex" flexDirection="column" gap={2} mb={2} alignItems={{ xs: "flex-start", lg: "flex-end" }} >
+                        <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ width: "fit-content" }}>
                             ADD EMPLOYEE
                         </Button>
-                    </Box>
-                    <Box display="flex" justifyContent="flex-end" mb={2}>
                         <TextField placeholder="Search by Name or Email..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
@@ -325,7 +328,7 @@ const Employee = () => {
                             />
                             <TextField margin="dense" label="Date of Joining" fullWidth type="date" name="dateOfJoining" InputLabelProps={{ shrink: true }} value={formData.dateOfJoining} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
-                            <TextField margin="dense" label="Monthly Salary" fullWidth name="monthlySalary" value={formData.monthlySalary} onChange={handleChange} />
+                            <TextField margin="dense" label="Monthly Salary" fullWidth name="basicSalary" value={formData.basicSalary} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
                             <TextField margin="dense" label="Gender" fullWidth name="gender" value={formData.gender} onChange={handleChange} select>
@@ -369,7 +372,7 @@ const Employee = () => {
                                     <Typography><strong>Email:</strong> {selectedEmployee.email}</Typography>
                                     <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Designation:</strong> {selectedEmployee.designation}</Typography>
-                                    <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.monthlySalary}</Typography>
+                                    <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.basicSalary}</Typography>
                                     <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Address:</strong> {selectedEmployee.address || "N/A"}</Typography>
                                     <Typography><strong>Gender:</strong> {selectedEmployee.gender}</Typography>

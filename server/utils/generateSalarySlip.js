@@ -1,4 +1,3 @@
-// utils/generateSalarySlip.js
 const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
@@ -8,13 +7,13 @@ const generateSalarySlip = async (slipData) => {
     const slipId = slipData._id.toString();
     const outputPath = path.join(__dirname, `../uploads/slips/${slipId}.pdf`);
 
-    // Ensure directory exists
+
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
     const writeStream = fs.createWriteStream(outputPath);
     doc.pipe(writeStream);
 
-    // PDF content
+
     doc.fontSize(18).text("Salary Slip", { align: 'center' });
     doc.moveDown();
 

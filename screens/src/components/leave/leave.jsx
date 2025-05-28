@@ -131,23 +131,26 @@ const Leave = () => {
                 <Heading />
 
                 <Box px={4} py={2}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1} flexWrap="wrap">
+                        <Typography variant="h6">Manage Leave</Typography>
+                    </Box>
+
                     <Box
                         display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
+                        flexDirection="column"
+                        gap={2}
                         mb={2}
-                        flexWrap="wrap"
+                        alignItems={{ xs: "flex-start", lg: "flex-end" }}
                     >
-                        <Typography variant="h6" sx={{ mb: { xs: 1, sm: 0 } }}>
-                            Manage Leave
-                        </Typography>
                         <TextField
-                            placeholder="Search..."
+                            placeholder="Search by Name..."
                             size="small"
+                            value={searchTerm}
                             onChange={handleSearch}
                             sx={{ width: "250px" }}
                         />
                     </Box>
+
 
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>

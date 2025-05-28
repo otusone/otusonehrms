@@ -100,7 +100,7 @@ const SalarySlip = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const selectedMonthName = formData.month; // e.g., "May"
+      const selectedMonthName = formData.month;
       const month = monthNames.findIndex(m => m.toLowerCase() === selectedMonthName.toLowerCase());
       const year = new Date().getFullYear();
 
@@ -183,10 +183,37 @@ const SalarySlip = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const fetchUserSalary = async (userId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axiosInstance.get(`/admin/profile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res?.data?.basicSalary) {
+        setFormData(prev => ({
+          ...prev,
+          basicSalary: res.data.basicSalary,
+        }));
+      }
+    } catch (err) {
+      console.error("Error fetching user salary:", err);
+    }
+  };
+
+
+
   useEffect(() => {
     fetchAllSlips();
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (formData.userId) {
+      fetchUserSalary(formData.userId);
+    }
+  }, [formData.userId]);
+
 
   useEffect(() => {
     const fetchAttendanceDataAndCalculateSalary = async () => {
@@ -264,13 +291,17 @@ const SalarySlip = () => {
       <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
         <Heading />
         <Box px={4} py={2}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "center", mb: 2 }}>
-            <Typography variant="h6" mb={2}>Salary Slip Management</Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "center", mb: 1 }}>
+            <Typography variant="h6" mb={1}>Salary Slip Management</Typography>
+
+          </Box>
+          <Box display="flex" flexDirection="column"
+            gap={2}
+            mb={2}
+            alignItems={{ xs: "flex-start", lg: "flex-end" }}>
             <Button variant="outlined" onClick={() => setOpenModal(true)}>
               Generate Salary Slip
             </Button>
-          </Box>
-          <Box display="flex" justifyContent={{ xs: "flex-end", sm: "flex-end" }} mb={2}>
             <TextField
               label="Filter by Name or Email"
               variant="outlined"
@@ -293,7 +324,7 @@ const SalarySlip = () => {
                   <TableCell sx={{ color: "#fff" }}>Pay Date</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Designation</TableCell>
                   {/* <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell> */}
-                  <TableCell sx={{ color: "#fff" }}>Basic</TableCell>
+                  <TableCell sx={{ color: "#fff" }}>Monthly Salary</TableCell>
                   {/* <TableCell sx={{ color: "#fff" }}>Allowances</TableCell> */}
                   {/* <TableCell sx={{ color: "#fff" }}>Deductions</TableCell> */}
                   {/* <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
@@ -308,7 +339,7 @@ const SalarySlip = () => {
                   <TableCell sx={{ color: "#fff" }}>Reimbursement 2</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Total Reimbursements</TableCell> */}
                   <TableCell sx={{ color: "#fff" }}>Net Salary</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Action</TableCell>
+                  <TableCell sx={{ color: "#fff", textAlign: "center" }}>Action</TableCell>
 
 
                 </TableRow>
@@ -426,7 +457,7 @@ const SalarySlip = () => {
 
 
             <TextField fullWidth label="Month" name="month" value={formData.month} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Basic Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
+            <TextField fullWidth label="Monthly Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" required size="small" />
             {/* <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} /> */}
             <TextField fullWidth label="Pay Date" name="payDate" type="date" value={formData.payDate} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
@@ -467,7 +498,7 @@ const SalarySlip = () => {
               <Typography><strong>Pay Date:</strong> {selectedSlip.payDate?.substring(0, 10)}</Typography>
               <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
               <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
-              <Typography><strong>Basic:</strong> ₹{selectedSlip.basicSalary}</Typography>
+              <Typography><strong>Monthly Salary:</strong> ₹{selectedSlip.basicSalary}</Typography>
               <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
               <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>
               <Typography><strong>LOP Days:</strong> {selectedSlip.lopDays}</Typography>

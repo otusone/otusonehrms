@@ -104,20 +104,11 @@ const UserProfile = () => {
 
                                 <Divider sx={{ my: 2, width: "100%" }} />
 
-                                {/* <Typography variant="body2" color="textSecondary">
-                                    Phone
-                                </Typography> */}
                                 <Typography sx={{ mb: 1 }}>Phone: {userData.mobile}</Typography>
 
-                                {/* <Typography variant="body2" color="textSecondary">
-                                    Email
-                                </Typography> */}
                                 <Typography sx={{ mb: 1 }}>Email: {userData.email}</Typography>
 
-                                {/* <Typography variant="body2" color="textSecondary">
-                                    Date Of Birth
-                                </Typography> */}
-                                <Typography sx={{ mb: 1 }}>Date Of Birth{
+                                <Typography sx={{ mb: 1 }}>Date Of Birth: {
                                     userData.dateOfBirth
                                         ? new Date(userData.dateOfBirth).toISOString().split("T")[0]
                                         : ""
@@ -198,8 +189,8 @@ const UserProfile = () => {
                                     <TextField
                                         fullWidth
                                         label="Monthly Salary"
-                                        name="monthlySalary"
-                                        value={userData.monthlySalary || ""}
+                                        name="basicSalary"
+                                        value={userData.basicSalary || ""}
                                         variant="standard"
                                         InputProps={{
                                             readOnly: true,

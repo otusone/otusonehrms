@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './sidebar.css';
+import ChangePassword from '../change-password/change-password';
+
 
 import { AiOutlineHome, AiOutlineTeam, AiOutlineUser } from 'react-icons/ai';
 import { TbCalendarTime } from 'react-icons/tb';
 import { GrDocumentTime } from "react-icons/gr";
 import { PiNoteBold, PiBriefcaseBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { HiOutlineKey } from "react-icons/hi";
+
+
+
 
 const menuItems = [
     { id: 1, icon: <AiOutlineHome />, title: "Dashboard", link: "/dashboard" },
@@ -15,7 +21,9 @@ const menuItems = [
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
     { id: 6, icon: <PiNoteBold />, title: "Salary Slip", link: "/salary-slip" },
-    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" }
+    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" },
+    { id: 8, icon: <HiOutlineKey />, title: "Change Password", link: "/change-password" }
+
 
 
 ];
@@ -24,6 +32,9 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+
+
 
     const handleLogout = () => {
         localStorage.clear();
@@ -45,9 +56,14 @@ const Sidebar = () => {
                                 key={item.id}
                                 className={`menuItem ${location.pathname === item.link ? 'active' : ''}`}
                                 onClick={() => {
-                                    navigate(item.link);
+                                    if (item.link === "/change-password") {
+                                        setPasswordModalOpen(true);
+                                    } else {
+                                        navigate(item.link);
+                                    }
                                     setIsOpen(false);
                                 }}
+
                             >
                                 {item.icon}
                                 {item.title}
@@ -60,6 +76,8 @@ const Sidebar = () => {
                     Logout
                 </div>
             </div>
+            <ChangePassword open={isPasswordModalOpen} handleClose={() => setPasswordModalOpen(false)} />
+
         </>
     );
 };
