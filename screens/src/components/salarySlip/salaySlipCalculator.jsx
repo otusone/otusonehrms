@@ -24,7 +24,7 @@ export const getSundaysAnd4thSaturday = (year, month) => {
 
 export const calculatePaidAndLopDays = async (userId, year, month) => {
     try {
-        const res = await axios.get(`http://localhost:8000/api/v1/user/attendance/${userId}`);
+        const res = await axios.get(`/user/attendance/${userId}`);
         const attendanceData = res.data.data || [];
         console.log("attendace", attendanceData);
         console.log("userid", userId);
