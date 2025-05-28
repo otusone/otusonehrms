@@ -11,6 +11,8 @@ import Leave from "./components/leave/leave";
 import Asset from "./components/asset/asset";
 import Invoice from "./components/Invoice/invoice";
 import Salaryslip from "./components/salarySlip/salarySlip";
+import Changepassword from "./components/change-password/change-password.jsx";
+
 
 import UserDashboard from "./components/UserDashboard/UserDashboard.jsx";
 import UserAttendance from "./components/Userattendance/userAttendance";
@@ -60,6 +62,10 @@ function App() {
       <Route
         path="/salary-slip"
         element={<ProtectedRoute allowedRoles={['admin']}><Salaryslip /></ProtectedRoute>}
+      />
+      <Route
+        path="/change-password"
+        element={<ProtectedRoute allowedRoles={['admin']}><Changepassword /></ProtectedRoute>}
       />
 
 

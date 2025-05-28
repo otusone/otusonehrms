@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
     Box, Typography, TextField, TableContainer, Table, Button,
-    TableHead, TableRow, TableCell, TableBody, Paper
+    TableHead, TableRow, TableCell, TableBody, Paper, Dialog, DialogTitle, DialogContent, DialogActions,
 } from "@mui/material";
 import Sidebar from "../userSidebar/sidebar";
 import Heading from "../userHeading/heading";
@@ -14,6 +14,18 @@ const UserSalary = () => {
     const [salarySlips, setSalarySlips] = useState([]);
     const [filteredSlips, setFilteredSlips] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedSlip, setSelectedSlip] = useState(null);
+    const [openViewModal, setOpenViewModal] = useState(false);
+
+    const handleView = (slip) => {
+        setSelectedSlip(slip);
+        setOpenViewModal(true);
+    };
+
+    const handleCloseView = () => {
+        setOpenViewModal(false);
+        setSelectedSlip(null);
+    };
 
 
     const convertToWords = (num) => {
@@ -76,7 +88,7 @@ const UserSalary = () => {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["EARNINGS", "AMOUNT", "DEDUCTIONS", "AMOUNT"]],
             body: [
-                ["Basic Salary", `₹${slip.basicSalary}`, "PF", `₹${slip.pf}`],
+                ["Monthly Salary", `₹${slip.basicSalary}`, "PF", `₹${slip.pf}`],
                 ["Allowances", `₹${slip.allowances}`, "TDS", `₹${slip.tds}`],
                 ["Other Benefits", `₹${slip.otherBenefits}`, "Other Deduction", `₹${slip.otherDeductions}`],
                 ["Gross Earnings", `₹${slip.grossEarnings}`, "Total Deductions", `₹${slip.totalDeductions}`],
@@ -138,6 +150,7 @@ const UserSalary = () => {
 
             setSalarySlips(res.data.data);
             setFilteredSlips(res.data.data);
+
         } catch (err) {
             console.error("Failed to fetch salary slips", err.response?.data || err.message);
         }
@@ -164,18 +177,23 @@ const UserSalary = () => {
             <Box sx={{ width: { xs: "100%", md: "82%" }, bgcolor: "#f9f9f9" }}>
                 <Heading />
                 <Box px={4} py={2}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} >
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1} >
                         <Typography variant="h6" mb={2}>My Salary Details</Typography>
-                        <Box display="flex" gap={2}>
-                            <TextField
-                                placeholder="Search by month..."
-                                size="small"
-                                value={searchTerm}
-                                onChange={handleSearch}
-                                sx={{ width: "300px" }}
-                            />
-                        </Box>
                     </Box>
+                    <Box display="flex"
+                        flexDirection="column"
+                        gap={2}
+                        mb={2}
+                        alignItems={{ xs: "flex-start", lg: "flex-end" }}>
+                        <TextField
+                            placeholder="Search by month..."
+                            size="small"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            sx={{ width: "300px" }}
+                        />
+                    </Box>
+
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
                         <Table>
                             <TableHead sx={{ bgcolor: "#58024B" }}>
@@ -183,8 +201,8 @@ const UserSalary = () => {
                                     <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>MONTH</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>PAID DAYS</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>BASIC SALARY</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>ALLOWANCES</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
+                                    {/* <TableCell sx={{ color: "#fff" }}>ALLOWANCES</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>OTHER BENEFITS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>GROSS EARNINGS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>PF</TableCell>
@@ -192,8 +210,9 @@ const UserSalary = () => {
                                     <TableCell sx={{ color: "#fff" }}>OTHER DEDUCTIONS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>TOTAL DEDUCTIONS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 1</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 2</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 2</TableCell> */}
                                     <TableCell sx={{ color: "#fff" }}>NET SALARY</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>VIEW</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>DOWNLOAD</TableCell>
 
                                 </TableRow>
@@ -206,7 +225,7 @@ const UserSalary = () => {
                                             <TableCell>{slip.month}</TableCell>
                                             <TableCell>{slip.paidDays}</TableCell>
                                             <TableCell>{slip.basicSalary}</TableCell>
-                                            <TableCell>{slip.allowances}</TableCell>
+                                            {/* <TableCell>{slip.allowances}</TableCell>
                                             <TableCell>{slip.otherBenefits}</TableCell>
                                             <TableCell>{slip.grossEarnings}</TableCell>
                                             <TableCell>{slip.pf}</TableCell>
@@ -214,8 +233,20 @@ const UserSalary = () => {
                                             <TableCell>{slip.otherDeductions}</TableCell>
                                             <TableCell>{slip.totalDeductions}</TableCell>
                                             <TableCell>{slip.reimbursement1}</TableCell>
-                                            <TableCell>{slip.reimbursement2}</TableCell>
+                                            <TableCell>{slip.reimbursement2}</TableCell> */}
                                             <TableCell>{slip.netSalary}</TableCell>
+                                            <TableCell>
+                                                <Box display="flex" gap={1}>
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="info"
+                                                        size="small"
+                                                        onClick={() => handleView(slip)}
+                                                    >
+                                                        View
+                                                    </Button>
+                                                </Box>
+                                            </TableCell>
                                             <TableCell>
                                                 <Button variant="outlined" size="small" onClick={() => handleDownloadSlip(slip)}>
                                                     Download
@@ -234,7 +265,41 @@ const UserSalary = () => {
                     </TableContainer>
                 </Box>
             </Box>
-        </Box>
+
+            <Dialog open={openViewModal} onClose={handleCloseView} fullWidth maxWidth="md">
+                <DialogTitle>Salary Slip Details</DialogTitle>
+                <DialogContent dividers>
+                    {selectedSlip && (
+                        <Box display="flex" flexDirection="column" gap={1}>
+                            <Typography><strong>Employee ID:</strong> {selectedSlip.userId?.employeeId}</Typography>
+                            <Typography><strong>Name:</strong> {selectedSlip.userId?.userName}</Typography>
+                            <Typography><strong>Email:</strong> {selectedSlip.userId?.email}</Typography>
+                            <Typography><strong>Month:</strong> {selectedSlip.month}</Typography>
+                            <Typography><strong>Pay Date:</strong> {selectedSlip.payDate?.substring(0, 10)}</Typography>
+                            <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
+                            <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
+                            <Typography><strong>Monthly Salary:</strong> ₹{selectedSlip.basicSalary}</Typography>
+                            <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
+                            <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>
+                            <Typography><strong>LOP Days:</strong> {selectedSlip.lopDays}</Typography>
+                            <Typography><strong>Other Benefits:</strong> ₹{selectedSlip.otherBenefits}</Typography>
+                            <Typography><strong>Gross Earnings:</strong> ₹{selectedSlip.grossEarnings}</Typography>
+                            <Typography><strong>PF:</strong> ₹{selectedSlip.pf}</Typography>
+                            <Typography><strong>TDS:</strong> ₹{selectedSlip.tds}</Typography>
+                            <Typography><strong>Other Deductions:</strong> ₹{selectedSlip.otherDeductions}</Typography>
+                            <Typography><strong>Total Deductions:</strong> ₹{selectedSlip.totalDeductions}</Typography>
+                            <Typography><strong>Reimbursement 1:</strong> ₹{selectedSlip.reimbursement1}</Typography>
+                            <Typography><strong>Reimbursement 2:</strong> ₹{selectedSlip.reimbursement2}</Typography>
+                            <Typography><strong>Total Reimbursements:</strong> ₹{selectedSlip.totalReimbursements}</Typography>
+                            <Typography><strong>Net Salary:</strong> ₹{selectedSlip.netSalary}</Typography>
+                        </Box>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseView} variant="contained" color="primary">Close</Button>
+                </DialogActions>
+            </Dialog>
+        </Box >
     );
 };
 

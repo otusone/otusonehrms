@@ -81,8 +81,9 @@ const Heading = () => {
     };
 
     useEffect(() => {
-        if (open) fetchProfile();
-    }, [open]);
+        fetchProfile();
+    }, []);
+
 
     return (
         <div className="heading-container">
@@ -101,85 +102,6 @@ const Heading = () => {
             <IconButton onClick={() => navigate('/user-profile')}>
                 <FaUserCircle className="user-icon" />
             </IconButton>
-
-
-            {/* <IconButton onClick={() => setOpen(true)}>
-                <FaUserCircle className="user-icon" />
-            </IconButton> */}
-
-
-            {/* <Modal open={open} onClose={() => setOpen(false)}>
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    bgcolor: 'background.paper',
-                    p: { xs: 2, sm: 3, md: 4 },
-                    borderRadius: 2,
-                    width: { xs: '90vw', sm: 400, md: 450 },
-                    maxHeight: '80vh',
-                    overflowY: 'auto'
-                }}>
-                    <Typography variant="h6" gutterBottom>Edit Profile</Typography>
-
-                    <TextField fullWidth label="Employee Id" name="employeeId" value={userData.employeeId || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Name" name="userName" value={userData.userName || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Email" name="email" value={userData.email || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField
-                        fullWidth
-                        type="date"
-                        label="Date of Birth"
-                        name="dateOfBirth"
-                        value={userData.dateOfBirth ? new Date(userData.dateOfBirth).toISOString().split("T")[0] : ''}
-                        onChange={handleChange}
-                        InputLabelProps={{ shrink: true }}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField fullWidth label="Mobile" name="mobile" value={userData.mobile || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Emergency Conatct No." name="emergencyContact" value={userData.emergencyContact || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Designation" name="designation" value={userData.designation || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Monthly Salary" name="Monthly Salary" value={userData.monthlySalary || ''} onChange={handleChange} sx={{ mb: 2 }} />
-                    {/* <TextField fullWidth label="Religion" name="religion" value={userData.religion || ''} onChange={handleChange} sx={{ mb: 2 }} /> */}
-
-            {/* <TextField
-                        fullWidth
-                        type="date"
-                        label="Date of Joining"
-                        name="dateOfJoining"
-                        value={userData.dateOfJoining ? new Date(userData.dateOfJoining).toISOString().split("T")[0] : ''}
-                        onChange={handleChange}
-                        InputLabelProps={{ shrink: true }}
-                        sx={{ mb: 2 }}
-                    />
-
-                    <TextField
-                        select
-                        fullWidth
-                        label="Gender"
-                        name="gender"
-                        value={userData.gender || ''}
-                        onChange={handleChange}
-                        sx={{ mb: 2 }}
-                    >
-                        <MenuItem value="Male">Male</MenuItem>
-                        <MenuItem value="Female">Female</MenuItem>
-                        <MenuItem value="Other">Other</MenuItem>
-                    </TextField>
-
-                    <TextField
-                        fullWidth
-                        label="Address"
-                        name="address"
-                        value={userData.address || ''}
-                        onChange={handleChange}
-                        sx={{ mb: 2 }}
-                    />
-
-                    {/* <Button fullWidth variant="contained" onClick={handleUpdate}>Update</Button> */}
-            {/* </Box>
-
-            </Modal> */}
         </div>
     );
 };

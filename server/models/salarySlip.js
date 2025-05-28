@@ -30,7 +30,7 @@ const salarySlipSchema = new mongoose.Schema({
     basicSalary: { type: Number, required: true },
     allowances: { type: Number, required: true },
     otherBenefits: { type: Number, required: true },
-    grossEarnings: { type: Number, required: true },
+    grossEarnings: { type: Number, required: true, set: (v) => Math.round(v * 100) / 100 },
     pf: { type: Number, required: true },
     tds: { type: Number, required: true },
     otherDeductions: { type: Number, required: true },
@@ -38,7 +38,7 @@ const salarySlipSchema = new mongoose.Schema({
     reimbursement1: { type: Number, required: true },
     reimbursement2: { type: Number, required: true },
     totalReimbursements: { type: Number, required: true },
-    netSalary: { type: Number, required: true },
+    netSalary: { type: Number, required: true, set: (v) => Math.round(v * 100) / 100 },
 }, { timestamps: true });
 
 module.exports = mongoose.model("SalarySlip", salarySlipSchema);

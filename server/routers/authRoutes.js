@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login } = require("../controllers/Auth/userAuthCtrl");
+const { register, login, changePassword } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { userAuth, isAdmin } = require("../middleware/auth");
 const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
@@ -53,6 +53,11 @@ router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
 //attendance
 router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
 
+//change-password
+router.patch("/change-password", userAuth, isAdmin, changePassword);
+
+//profile
+router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);
 
 
 

@@ -58,9 +58,6 @@ exports.resendVerification = async (req, res, next) => {
         user.verificationToken = verificationToken;
         await user.save();
 
-
-
-
         res.status(200).json({
             success: true,
             message: "Verification email resent successfully"
@@ -206,4 +203,29 @@ exports.deleteProfile = async (req, res) => {
         res.status(500).json({ success: false, message: error.message || "Internal server error" });
     }
 }
+
+
+exports.changePassword = async (req, res) => {
+    try {
+        const user = req.user;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ message: "Both current and new passwords are required" });
+        }
+
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Current password is incorrect" });
+        }
+
+        user.password = newPassword;
+        await user.save();
+
+        res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error("Change password error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
 
