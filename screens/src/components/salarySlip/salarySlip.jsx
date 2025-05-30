@@ -47,6 +47,17 @@ const SalarySlip = () => {
 
   const [selectedSlip, setSelectedSlip] = useState(null);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+
+  const handleEdit = (slip) => {
+    setEditData(slip);
+    setEditOpen(true);
+  };
+
+
+
+
 
   const handleView = (slip) => {
     setSelectedSlip(slip);
@@ -107,13 +118,13 @@ const SalarySlip = () => {
       const { paidDays, lopDays } = await calculatePaidAndLopDays(formData.userId, year, month);
 
       const basicSalary = Number(formData.basicSalary);
-      const allowances = Number(formData.allowances);
-      const otherBenefits = Number(formData.otherBenefits);
-      const pf = Number(formData.pf);
-      const tds = Number(formData.tds);
-      const otherDeductions = Number(formData.otherDeductions);
-      const reimbursement1 = Number(formData.reimbursement1);
-      const reimbursement2 = Number(formData.reimbursement2);
+      const allowances = Number(formData.allowances || 0);
+      const otherBenefits = Number(formData.otherBenefits || 0);
+      const pf = Number(formData.pf || 0);
+      const tds = Number(formData.tds || 0);
+      const otherDeductions = Number(formData.otherDeductions || 0);
+      const reimbursement1 = Number(formData.reimbursement1 || 0);
+      const reimbursement2 = Number(formData.reimbursement2 || 0);
 
 
       const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
@@ -177,6 +188,33 @@ const SalarySlip = () => {
       alert("Error in submitting the form!");
     }
   };
+
+  const handleUpdateSalary = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const { _id, ...updateData } = editData;
+
+      const res = await axiosInstance.patch(
+        `/admin/update-salary-slip/${_id}`,
+        updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Salary slip updated successfully!");
+      setEditOpen(false);
+      fetchAllSlips();
+    } catch (err) {
+      alert("Failed to update salary slip");
+      console.error(err);
+    }
+  };
+
+
+
 
 
   const handleChange = (e) => {
@@ -382,6 +420,16 @@ const SalarySlip = () => {
                         </Button>
                         <Button
                           variant="outlined"
+                          color="warning"
+                          size="small"
+                          onClick={() => handleEdit(s)}
+                        >
+                          Update
+                        </Button>
+
+
+                        <Button
+                          variant="outlined"
                           color="error"
                           size="small"
                           onClick={() => handleDelete(s._id)}
@@ -456,22 +504,28 @@ const SalarySlip = () => {
             </TextField>
 
 
-            <TextField fullWidth label="Month" name="month" value={formData.month} onChange={handleChange} margin="normal" required size="small" />
+            <TextField fullWidth select label="Month" name="month" value={formData.month} onChange={handleChange} margin="normal" required size="small">
+              {monthNames.map((month, index) => (
+                <MenuItem key={index} value={month}>
+                  {month}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField fullWidth label="Monthly Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" required size="small" />
+            <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" size="small" />
             {/* <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} /> */}
             <TextField fullWidth label="Pay Date" name="payDate" type="date" value={formData.payDate} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
             <TextField fullWidth label="Paid Days" name="paidDays" type="number" value={formData.paidDays} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="LOP Days" name="lopDays" type="number" value={formData.lopDays} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Other Benefits" name="otherBenefits" type="number" value={formData.otherBenefits} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Gross Earnings" name="grossEarnings" type="number" value={formData.grossEarnings} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="PF" name="pf" type="number" value={formData.pf} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="TDS" name="tds" type="number" value={formData.tds} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Other Deductions" name="otherDeductions" type="number" value={formData.otherDeductions} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Total Deductions" name="totalDeductions" type="number" value={formData.totalDeductions} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Reimbursement 1" name="reimbursement1" type="number" value={formData.reimbursement1} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Reimbursement 2" name="reimbursement2" type="number" value={formData.reimbursement2} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Total Reimbursements" name="totalReimbursements" type="number" value={formData.totalReimbursements} onChange={handleChange} margin="normal" required size="small" />
+            <TextField fullWidth label="Other Benefits" name="otherBenefits" type="number" value={formData.otherBenefits} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Gross Earnings" name="grossEarnings" type="number" value={formData.grossEarnings} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="PF" name="pf" type="number" value={formData.pf} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="TDS" name="tds" type="number" value={formData.tds} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Other Deductions" name="otherDeductions" type="number" value={formData.otherDeductions} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Total Deductions" name="totalDeductions" type="number" value={formData.totalDeductions} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Reimbursement 1" name="reimbursement1" type="number" value={formData.reimbursement1} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Reimbursement 2" name="reimbursement2" type="number" value={formData.reimbursement2} onChange={handleChange} margin="normal" size="small" />
+            <TextField fullWidth label="Total Reimbursements" name="totalReimbursements" type="number" value={formData.totalReimbursements} onChange={handleChange} margin="normal" size="small" />
             <TextField fullWidth label="Net Salary" name="netSalary" type="number" value={formData.netSalary} onChange={handleChange} margin="normal" required size="small" />
 
             <Button
@@ -519,6 +573,149 @@ const SalarySlip = () => {
           <Button onClick={handleCloseView} variant="contained" color="primary">Close</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={editOpen} onClose={() => setEditOpen(false)} fullWidth>
+        <DialogTitle>Update Salary Slip</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Month"
+            value={editData?.month || ''}
+            onChange={(e) => setEditData({ ...editData, month: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Pay Date"
+            type="date"
+            value={editData?.payDate?.substring(0, 10) || ''}
+            onChange={(e) => setEditData({ ...editData, payDate: e.target.value })}
+            fullWidth
+            margin="dense"
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="Paid Days"
+            type="number"
+            value={editData?.paidDays || ''}
+            onChange={(e) => setEditData({ ...editData, paidDays: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="LOP Days"
+            type="number"
+            value={editData?.lopDays || ''}
+            onChange={(e) => setEditData({ ...editData, lopDays: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Monthly Salary"
+            type="number"
+            value={editData?.basicSalary ?? ''}
+            onChange={(e) => setEditData({ ...editData, basicSalary: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Allowances"
+            type="number"
+            value={editData?.allowances ?? ''}
+            onChange={(e) => setEditData({ ...editData, allowances: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Other Benefits"
+            type="number"
+            value={editData?.otherBenefits ?? ''}
+            onChange={(e) => setEditData({ ...editData, otherBenefits: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Gross Earnings"
+            type="number"
+            value={editData?.grossEarnings ?? ''}
+            onChange={(e) => setEditData({ ...editData, grossEarnings: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="PF"
+            type="number"
+            value={editData?.pf ?? ''}
+            onChange={(e) => setEditData({ ...editData, pf: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="TDS"
+            type="number"
+            value={editData?.tds ?? ''}
+            onChange={(e) => setEditData({ ...editData, tds: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Other Deductions"
+            type="number"
+            value={editData?.otherDeductions ?? ''}
+            onChange={(e) => setEditData({ ...editData, otherDeductions: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Total Deductions"
+            type="number"
+            value={editData?.totalDeductions ?? ''}
+            onChange={(e) => setEditData({ ...editData, totalDeductions: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Reimbursement 1"
+            type="number"
+            value={editData?.reimbursement1 ?? ''}
+            onChange={(e) => setEditData({ ...editData, reimbursement1: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Reimbursement 2"
+            type="number"
+            value={editData?.reimbursement2 ?? ''}
+            onChange={(e) => setEditData({ ...editData, reimbursement2: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Total Reimbursements"
+            type="number"
+            value={editData?.totalReimbursements ?? ''}
+            onChange={(e) => setEditData({ ...editData, totalReimbursements: e.target.value })}
+            margin="dense"
+          />
+          <TextField
+            label="Net Salary"
+            type="number"
+            value={editData?.netSalary || ''}
+            onChange={(e) => setEditData({ ...editData, netSalary: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={handleUpdateSalary}>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
 
 
     </Box>

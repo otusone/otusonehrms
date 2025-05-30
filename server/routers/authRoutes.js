@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login, changePassword } = require("../controllers/Auth/userAuthCtrl");
+const { register, login, changePassword, verifyToken } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { userAuth, isAdmin } = require("../middleware/auth");
 const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
@@ -17,6 +17,8 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/verify-token", verifyToken);
+
 
 //profile
 router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);

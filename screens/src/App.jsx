@@ -1,7 +1,8 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute.jsx";
 import Login from "./components/login/Login";
+import { setUser, logout } from "./slices/authSlice.js"; // logout imported
 
 import Dashboard from "./components/Dashboard/Dashboard";
 import Staff from "./components/staff/staff";
@@ -22,10 +23,46 @@ import UserAsset from "./components/UserAsset/UserAsset";
 import UserSalary from "./components/UserSalary/usersalary.jsx";
 
 
+import { useDispatch } from "react-redux";
+import axiosInstance from "./utils/baseurl.js";
+
 
 
 function App() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axiosInstance
+        .get("/admin/verify-token", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          const userData = res.data.data;
+          dispatch(setUser(userData));
+          if (location.pathname === "/login") {
+            if (userData.role === "admin") navigate("/dashboard");
+            else if (userData.role === "user") navigate("/user-dashboard");
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          dispatch(logout());
+          if (location.pathname !== "/login") navigate("/login");
+        });
+    } else {
+      dispatch(logout());
+    }
+  }, []);
+
+
   return (
+
     <Routes>
 
       <Route path="/" element={<Navigate to="/login" />} />

@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login } = require("../controllers/Auth/userAuthCtrl");
+const { register, login, verifyToken } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { markClockIn, markClockOut, getAtendanceByDate, getMonthlyReport, getAllAttendance, getAttendanceByUserId } = require("../controllers/attendanceCtrl");
 const { userAuth, isUser } = require("../middleware/auth");
@@ -13,6 +13,8 @@ router.use(express.json());
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/verify-token", verifyToken);
+
 
 //profile
 router.get('/profile/:id', userAuth, userController.getProfile);

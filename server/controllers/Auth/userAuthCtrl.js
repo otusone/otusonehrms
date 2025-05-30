@@ -143,6 +143,32 @@ exports.login = async (req, res) => {
     }
 };
 
+exports.verifyToken = async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+        if (!token) return res.status(401).json({ success: false, message: "Token missing" });
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded._id);
+
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+        res.status(200).json({
+            success: true,
+            message: "Token is valid",
+            data: {
+                _id: user._id,
+                email: user.email,
+                userName: user.userName,
+                role: user.role,
+            }
+        });
+    } catch (err) {
+        res.status(401).json({ success: false, message: "Invalid or expired token" });
+    }
+};
+
+
 
 exports.getProfile = async (req, res) => {
     try {
@@ -228,4 +254,6 @@ exports.changePassword = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+
 
