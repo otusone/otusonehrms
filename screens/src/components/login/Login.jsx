@@ -56,14 +56,12 @@ const Login = () => {
         const { token, data } = response.data;
 
         localStorage.setItem('authToken', token);
+        localStorage.setItem('token', token);
         localStorage.setItem('authUser', JSON.stringify(data));
         localStorage.setItem('userId', data._id);
 
 
         dispatch(setUser(data));
-
-
-
 
         if (data.role === 'admin') {
           navigate('/dashboard');

@@ -1,11 +1,13 @@
 const express = require("express");
-const { register, login } = require("../controllers/Auth/userAuthCtrl");
+const { register, login, verifyToken } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { markClockIn, markClockOut, getAtendanceByDate, getMonthlyReport, getAllAttendance, getAttendanceByUserId } = require("../controllers/attendanceCtrl");
 const { userAuth, isUser } = require("../middleware/auth");
 const { applyForLeave, updateLeave, deleteLeave, getMyLeaves } = require("../controllers/leaveCtrl");
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const { getAssetsByUserId } = require("../controllers/assetsCtrl");
+const { getHolidays } = require("../controllers/holidayCtrl");
+
 const router = express.Router();
 
 router.use(express.json());
@@ -13,6 +15,8 @@ router.use(express.json());
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/verify-token", verifyToken);
+
 
 //profile
 router.get('/profile/:id', userAuth, userController.getProfile);
@@ -39,6 +43,9 @@ router.get("/get-salary-slip/:userId", userAuth, getSalarySlipsByUser);
 
 //asset
 router.get("/get-asset/:userId", userAuth, getAssetsByUserId);
+
+//holidays
+router.get('/get-holidays', userAuth, getHolidays);
 
 
 

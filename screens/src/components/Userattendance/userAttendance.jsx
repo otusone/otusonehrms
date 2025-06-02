@@ -32,20 +32,25 @@ const UserAttendance = () => {
   });
   const [clockOutModal, setClockOutModal] = useState(false);
   const [selectedAttendanceId, setSelectedAttendanceId] = useState(null);
+
+  const localDate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
+
   const [clockOutForm, setClockOutForm] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: localDate,
     clockOut: "",
     latitude: "",
     longitude: "",
   });
 
-
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: localDate,
     clockIn: "",
     latitude: "",
     longitude: "",
   });
+
 
   useEffect(() => {
     fetchAttendanceData();
@@ -136,11 +141,12 @@ const UserAttendance = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
     setFormData({
-      date: new Date().toISOString().split("T")[0],
+      date: localDate,
       clockIn: "",
       latitude: "",
       longitude: "",
     });
+
   };
 
   const handleChange = (e) => {
@@ -301,32 +307,37 @@ const UserAttendance = () => {
             gap={2}
           >
             <Typography variant="h6">User Attendance</Typography>
-            <Box display="flex" gap={1} flexWrap="wrap">
-              <Button
-                variant="contained"
-                onClick={handleOpenModal}
-                sx={{
-                  bgcolor: "#58024B",
-                  fontSize: { xs: "0.7rem", sm: "0.875rem" },
-                  px: { xs: 1.5, sm: 2 },
-                  py: { xs: 0.5, sm: 1 },
-                  minWidth: "unset",
-                  "&:hover": { bgcolor: "#7a007f" },
-                }}
-              >
-                Mark Attendance
-              </Button>
-              <TextField
-                placeholder="Search..."
-                size="small"
-                onChange={handleSearch}
-                sx={{
-                  width: { xs: "100%", sm: "250px" },
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
-                }}
-              />
-            </Box>
           </Box>
+          <Box display="flex" flexDirection="column"
+            gap={2}
+            mb={2}
+            alignItems={{ xs: "flex-start", lg: "flex-end" }}
+          >
+            <Button
+              variant="contained"
+              onClick={handleOpenModal}
+              sx={{
+                bgcolor: "#58024B",
+                fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                px: { xs: 1.5, sm: 2 },
+                py: { xs: 0.5, sm: 1 },
+                minWidth: "unset",
+                "&:hover": { bgcolor: "#7a007f" },
+              }}
+            >
+              Mark Attendance
+            </Button>
+            <TextField
+              placeholder="Search..."
+              size="small"
+              onChange={handleSearch}
+              sx={{
+                width: { xs: "100%", sm: "250px" },
+                fontSize: { xs: "0.8rem", sm: "1rem" },
+              }}
+            />
+          </Box>
+
 
           <TableContainer component={Paper} sx={{ boxShadow: 2 }}>
             <Table>
@@ -590,7 +601,7 @@ const UserAttendance = () => {
           {notification.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Box >
   );
 };
 

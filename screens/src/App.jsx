@@ -1,13 +1,15 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute.jsx";
 import Login from "./components/login/Login";
+import { setUser, logout } from "./slices/authSlice.js";
 
 import Dashboard from "./components/Dashboard/Dashboard";
 import Staff from "./components/staff/staff";
 import Employee from "./components/employee/employee";
 import Attendance from "./components/Attendance/Attendance";
 import Leave from "./components/leave/leave";
+import Holiday from "./components/holiday/holiday";
 import Asset from "./components/asset/asset";
 import Invoice from "./components/Invoice/invoice";
 import Salaryslip from "./components/salarySlip/salarySlip";
@@ -20,12 +22,50 @@ import UserProfile from "./components/userHeading/userProfile.jsx";
 import UserLeave from "./components/userLeave/userLeave";
 import UserAsset from "./components/UserAsset/UserAsset";
 import UserSalary from "./components/UserSalary/usersalary.jsx";
+import UserHoliday from "./components/userHoliday/userHoliday.jsx";
 
+
+
+import { useDispatch } from "react-redux";
+import axiosInstance from "./utils/baseurl.js";
 
 
 
 function App() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axiosInstance
+        .get("/admin/verify-token", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          const userData = res.data.data;
+          dispatch(setUser(userData));
+          if (location.pathname === "/login") {
+            if (userData.role === "admin") navigate("/dashboard");
+            else if (userData.role === "user") navigate("/user-dashboard");
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          dispatch(logout());
+          if (location.pathname !== "/login") navigate("/login");
+        });
+    } else {
+      dispatch(logout());
+    }
+  }, []);
+
+
   return (
+
     <Routes>
 
       <Route path="/" element={<Navigate to="/login" />} />
@@ -50,6 +90,10 @@ function App() {
       <Route
         path="/manage-leave"
         element={<ProtectedRoute allowedRoles={['admin']}><Leave /></ProtectedRoute>}
+      />
+      <Route
+        path="/holiday"
+        element={<ProtectedRoute allowedRoles={['admin']}><Holiday /></ProtectedRoute>}
       />
       <Route
         path="/invoice"
@@ -84,6 +128,10 @@ function App() {
       <Route
         path="/user-leave"
         element={<ProtectedRoute allowedRoles={['user']}><UserLeave /></ProtectedRoute>}
+      />
+      <Route
+        path="/user-holiday"
+        element={<ProtectedRoute allowedRoles={['user']}><UserHoliday /></ProtectedRoute>}
       />
       <Route
         path="/user-asset"

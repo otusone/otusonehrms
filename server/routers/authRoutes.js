@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login, changePassword } = require("../controllers/Auth/userAuthCtrl");
+const { register, login, changePassword, verifyToken } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { userAuth, isAdmin } = require("../middleware/auth");
 const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
@@ -8,6 +8,7 @@ const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = re
 const employeeController = require("../controllers/employeeCtrl");
 const staffController = require("../controllers/staffCtrl");
 const attendanceController = require("../controllers/attendanceCtrl");
+const holidayController = require('../controllers/holidayCtrl');
 
 
 
@@ -17,6 +18,8 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/verify-token", verifyToken);
+
 
 //profile
 router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);
@@ -52,12 +55,20 @@ router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
 
 //attendance
 router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
+router.get("/attendance/:userId", userAuth, isAdmin, attendanceController.getAttendanceByUserId);
+
 
 //change-password
 router.patch("/change-password", userAuth, isAdmin, changePassword);
 
 //profile
 router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);
+
+//holiday
+router.post('/add-holiday', userAuth, isAdmin, holidayController.addHoliday);
+router.get('/get-holidays', userAuth, isAdmin, holidayController.getHolidays);
+router.delete('/delete-holiday/:id', userAuth, isAdmin, holidayController.deleteHoliday);
+
 
 
 

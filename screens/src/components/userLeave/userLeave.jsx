@@ -185,7 +185,7 @@ const UserLeave = () => {
                     </TableContainer>
                 </Box>
 
-                {/* Form Modal */}
+
                 <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm">
                     <DialogTitle sx={{ bgcolor: "#58024B", color: "#fff" }}>
                         {leaveForm.id ? "Update Leave" : "Apply for Leave"}
@@ -228,12 +228,17 @@ const UserLeave = () => {
                     </DialogActions>
                 </Dialog>
 
-                {/* Snackbar */}
-                <Snackbar open={notification.open} autoHideDuration={6000} onClose={handleCloseNotification}>
+                <Snackbar
+                    open={notification.open}
+                    autoHideDuration={6000}
+                    onClose={handleCloseNotification}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
                     <Alert severity={notification.severity} onClose={handleCloseNotification}>
                         {notification.message}
                     </Alert>
                 </Snackbar>
+
             </Box>
         </Box >
     );
