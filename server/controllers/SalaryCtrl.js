@@ -6,6 +6,7 @@ exports.generateSalarySlip = async (req, res) => {
         const {
             userId,
             month,
+            lastWorkingDay,
             payDate,
             paidDays,
             lopDays,
@@ -23,7 +24,7 @@ exports.generateSalarySlip = async (req, res) => {
             netSalary
         } = req.body;
 
-        // Validation
+
         if (!userId || !month || basicSalary == null) {
             return res.status(400).json({ message: "Required fields missing" });
         }
@@ -58,6 +59,7 @@ exports.generateSalarySlip = async (req, res) => {
             month,
             designation: user.designation,
             dateOfJoining: user.dateOfJoining,
+            lastWorkingDay: lastWorkingDay ?? null,
             payDate,
             paidDays,
             lopDays,
@@ -95,6 +97,7 @@ exports.updateSalarySlip = async (req, res) => {
         const {
             userId,
             month,
+            lastWorkingDay,
             payDate,
             paidDays,
             lopDays,
@@ -121,6 +124,7 @@ exports.updateSalarySlip = async (req, res) => {
 
         slip.userId = userId ?? slip.userId;
         slip.month = month ?? slip.month;
+        slip.lastWorkingDay = lastWorkingDay ?? slip.lastWorkingDay;
         slip.payDate = payDate ?? slip.payDate;
         slip.paidDays = paidDays ?? slip.paidDays;
         slip.lopDays = lopDays ?? slip.lopDays;

@@ -32,20 +32,25 @@ const UserAttendance = () => {
   });
   const [clockOutModal, setClockOutModal] = useState(false);
   const [selectedAttendanceId, setSelectedAttendanceId] = useState(null);
+
+  const localDate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
+
   const [clockOutForm, setClockOutForm] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: localDate,
     clockOut: "",
     latitude: "",
     longitude: "",
   });
 
-
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: localDate,
     clockIn: "",
     latitude: "",
     longitude: "",
   });
+
 
   useEffect(() => {
     fetchAttendanceData();
@@ -136,11 +141,12 @@ const UserAttendance = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
     setFormData({
-      date: new Date().toISOString().split("T")[0],
+      date: localDate,
       clockIn: "",
       latitude: "",
       longitude: "",
     });
+
   };
 
   const handleChange = (e) => {

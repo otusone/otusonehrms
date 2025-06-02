@@ -10,6 +10,9 @@ import { GrDocumentTime } from "react-icons/gr";
 import { PiNoteBold, PiBriefcaseBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiOutlineKey } from "react-icons/hi";
+import { MdEventAvailable } from "react-icons/md";
+
+
 
 
 
@@ -20,9 +23,10 @@ const menuItems = [
     { id: 3, icon: <AiOutlineUser />, title: "Employee", link: "/employee" },
     { id: 4, icon: <TbCalendarTime />, title: "Attendance", link: "/attendance" },
     { id: 5, icon: <GrDocumentTime />, title: "Manage Leave", link: "/manage-leave" },
-    { id: 6, icon: <PiNoteBold />, title: "Salary Slip", link: "/salary-slip" },
-    { id: 7, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" },
-    { id: 8, icon: <HiOutlineKey />, title: "Change Password", link: "/change-password" }
+    { id: 6, icon: <MdEventAvailable />, title: "Holidays", link: "/holiday" },
+    { id: 7, icon: <PiNoteBold />, title: "Salary Slip", link: "/salary-slip" },
+    { id: 8, icon: <PiBriefcaseBold />, title: "Assets", link: "/asset" },
+    { id: 9, icon: <HiOutlineKey />, title: "Change Password", link: "/change-password" }
 
 
 

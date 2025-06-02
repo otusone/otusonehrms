@@ -32,7 +32,7 @@ const Heading = () => {
         try {
             const token = localStorage.getItem("authToken");
             const userId = localStorage.getItem("userId");
-            console.log(userId);
+            //console.log(userId);
 
             if (!token || !userId || userId === "null") {
                 console.error("No valid token or userId found");

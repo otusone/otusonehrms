@@ -6,6 +6,8 @@ const { userAuth, isUser } = require("../middleware/auth");
 const { applyForLeave, updateLeave, deleteLeave, getMyLeaves } = require("../controllers/leaveCtrl");
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const { getAssetsByUserId } = require("../controllers/assetsCtrl");
+const { getHolidays } = require("../controllers/holidayCtrl");
+
 const router = express.Router();
 
 router.use(express.json());
@@ -41,6 +43,9 @@ router.get("/get-salary-slip/:userId", userAuth, getSalarySlipsByUser);
 
 //asset
 router.get("/get-asset/:userId", userAuth, getAssetsByUserId);
+
+//holidays
+router.get('/get-holidays', userAuth, getHolidays);
 
 
 

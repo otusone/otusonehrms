@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
-import { calculatePaidAndLopDays } from "./salaySlipCalculator";
+import { calculateSalary } from "./salaySlipCalculator";
 
 
 
@@ -26,6 +26,8 @@ const SalarySlip = () => {
   const [formData, setFormData] = useState({
     userId: "",
     month: "",
+    dateOfJoining: "",
+    lastWorkingDay: null,
     payDate: "",
     paidDays: 0,
     lopDays: 0,
@@ -115,8 +117,8 @@ const SalarySlip = () => {
       const month = monthNames.findIndex(m => m.toLowerCase() === selectedMonthName.toLowerCase());
       const year = new Date().getFullYear();
 
-      const { paidDays, lopDays } = await calculatePaidAndLopDays(formData.userId, year, month);
-
+      const { paidDays, lopDays, finalSalary } = await calculateSalary(formData.userId, year, month, formData.basicSalary, formData.dateOfJoining, formData.lastWorkingDay || null);
+      //console.log(finalSalary)
       const basicSalary = Number(formData.basicSalary);
       const allowances = Number(formData.allowances || 0);
       const otherBenefits = Number(formData.otherBenefits || 0);
@@ -127,9 +129,7 @@ const SalarySlip = () => {
       const reimbursement2 = Number(formData.reimbursement2 || 0);
 
 
-      const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
-      const perDaySalary = basicSalary / numberOfDaysInMonth;
-      const grossEarnings = (basicSalary - perDaySalary * lopDays) + allowances + otherBenefits;
+      const grossEarnings = finalSalary + allowances + otherBenefits;
       const totalReimbursements = reimbursement1 + reimbursement2;
       const totalDeductions = pf + tds + otherDeductions;
       const netSalary = grossEarnings + totalReimbursements - totalDeductions;
@@ -139,6 +139,7 @@ const SalarySlip = () => {
       const payload = {
         ...formData,
         month: `${monthNames[month]} ${year}`,
+        lastWorkingDay: formData.lastWorkingDay || null,
         paidDays,
         lopDays,
         basicSalary,
@@ -162,6 +163,7 @@ const SalarySlip = () => {
       setFormData({
         userId: "",
         month: "",
+        lastWorkingDay: "",
         payDate: "",
         paidDays: "",
         lopDays: "",
@@ -232,6 +234,7 @@ const SalarySlip = () => {
         setFormData(prev => ({
           ...prev,
           basicSalary: res.data.basicSalary,
+          dateOfJoining: res.data.dateOfJoining,
         }));
       }
     } catch (err) {
@@ -255,7 +258,7 @@ const SalarySlip = () => {
 
   useEffect(() => {
     const fetchAttendanceDataAndCalculateSalary = async () => {
-      const { userId, month, basicSalary, allowances, otherBenefits, pf, tds, otherDeductions, reimbursement1, reimbursement2 } = formData;
+      const { userId, month, dateOfJoining, lastWorkingDay, basicSalary, allowances, otherBenefits, pf, tds, otherDeductions, reimbursement1, reimbursement2 } = formData;
 
       if (!userId || !month || !basicSalary) return;
 
@@ -265,7 +268,7 @@ const SalarySlip = () => {
       if (monthIndex === -1) return;
 
       try {
-        const { paidDays, lopDays } = await calculatePaidAndLopDays(userId, year, monthIndex);
+        const { paidDays, lopDays, finalSalary } = await calculateSalary(userId, year, monthIndex, basicSalary, dateOfJoining, lastWorkingDay || null);
 
         const numBasic = Number(basicSalary);
         const numAllowances = Number(allowances || 0);
@@ -279,7 +282,7 @@ const SalarySlip = () => {
         const numberOfDaysInMonth = new Date(year, monthIndex + 1, 0).getDate();
         const perDaySalary = numBasic / numberOfDaysInMonth;
 
-        const grossEarnings = (numBasic - perDaySalary * lopDays) + numAllowances + numOtherBenefits;
+        const grossEarnings = finalSalary + numAllowances + numOtherBenefits;
         const totalReimbursements = numReimbursement1 + numReimbursement2;
         const totalDeductions = numPf + numTds + numOtherDeductions;
         const netSalary = grossEarnings + totalReimbursements - totalDeductions;
@@ -302,6 +305,8 @@ const SalarySlip = () => {
   }, [
     formData.userId,
     formData.month,
+    formData.dateOfJoining,
+    formData.lastWorkingDay,
     formData.basicSalary,
     formData.allowances,
     formData.otherBenefits,
@@ -512,6 +517,7 @@ const SalarySlip = () => {
               ))}
             </TextField>
             <TextField fullWidth label="Monthly Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
+            <TextField fullWidth label="Last Working Day" name="lastWorkingDay" type="date" value={formData.lastWorkingDay} onChange={handleChange} margin="normal" size="small" InputLabelProps={{ shrink: true }} />
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" size="small" />
             {/* <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} /> */}
             <TextField fullWidth label="Pay Date" name="payDate" type="date" value={formData.payDate} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />
@@ -552,6 +558,7 @@ const SalarySlip = () => {
               <Typography><strong>Pay Date:</strong> {selectedSlip.payDate?.substring(0, 10)}</Typography>
               <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
               <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
+              <Typography><strong>Last Working Day:</strong> {selectedSlip.lastWorkingDay?.substring(0, 10)}</Typography>
               <Typography><strong>Monthly Salary:</strong> ₹{selectedSlip.basicSalary}</Typography>
               <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
               <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>
@@ -580,6 +587,13 @@ const SalarySlip = () => {
           <TextField
             label="Month"
             value={editData?.month || ''}
+            onChange={(e) => setEditData({ ...editData, month: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Last Working Day"
+            value={editData?.lastWorkingDay?.substring(0, 10) || ''}
             onChange={(e) => setEditData({ ...editData, month: e.target.value })}
             fullWidth
             margin="dense"
@@ -713,11 +727,6 @@ const SalarySlip = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
-
-
-
     </Box>
   );
 };

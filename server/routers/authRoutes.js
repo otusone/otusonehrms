@@ -8,6 +8,7 @@ const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = re
 const employeeController = require("../controllers/employeeCtrl");
 const staffController = require("../controllers/staffCtrl");
 const attendanceController = require("../controllers/attendanceCtrl");
+const holidayController = require('../controllers/holidayCtrl');
 
 
 
@@ -54,12 +55,20 @@ router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
 
 //attendance
 router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
+router.get("/attendance/:userId", userAuth, isAdmin, attendanceController.getAttendanceByUserId);
+
 
 //change-password
 router.patch("/change-password", userAuth, isAdmin, changePassword);
 
 //profile
 router.get('/profile/:id', userAuth, isAdmin, userController.getProfile);
+
+//holiday
+router.post('/add-holiday', userAuth, isAdmin, holidayController.addHoliday);
+router.get('/get-holidays', userAuth, isAdmin, holidayController.getHolidays);
+router.delete('/delete-holiday/:id', userAuth, isAdmin, holidayController.deleteHoliday);
+
 
 
 

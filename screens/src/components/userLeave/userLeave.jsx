@@ -228,11 +228,17 @@ const UserLeave = () => {
                     </DialogActions>
                 </Dialog>
 
-                <Snackbar open={notification.open} autoHideDuration={6000} onClose={handleCloseNotification}>
+                <Snackbar
+                    open={notification.open}
+                    autoHideDuration={6000}
+                    onClose={handleCloseNotification}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
                     <Alert severity={notification.severity} onClose={handleCloseNotification}>
                         {notification.message}
                     </Alert>
                 </Snackbar>
+
             </Box>
         </Box >
     );

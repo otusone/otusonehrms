@@ -8,6 +8,7 @@ const salarySlipSchema = new mongoose.Schema({
     month: { type: String, required: true },
     designation: { type: String, required: true },
     dateOfJoining: { type: Date, required: true },
+    lastWorkingDay: { type: Date, defaul: null },
     payDate: { type: String, required: true },
     paidDays: { type: Number, required: true },
     lopDays: { type: Number, required: true },
