@@ -48,39 +48,87 @@ const UserSalary = () => {
         return str.trim();
     };
 
+    const imageToBase64 = (url) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.src = url;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL("image/png"));
+            };
+            img.onerror = reject;
+        });
+    }
 
 
-    const handleDownloadSlip = (slip) => {
+    const handleDownloadSlip = async (slip) => {
         const doc = new jsPDF();
 
         const netPay = Math.floor(Number(slip.netSalary));
         const netPayFormatted = Number(slip.netSalary).toFixed(2);
+        const logoUrl = "/logo.png";
+        const logoBase64 = await imageToBase64(logoUrl);
 
 
+        doc.addImage(logoBase64, "PNG", (doc.internal.pageSize.getWidth() - 40) / 15, 10, 40, 25);
         doc.setFont("times", "normal");
         doc.setFontSize(16);
-        doc.text("OTUSONE LLP", doc.internal.pageSize.getWidth() / 2, 20, { align: "center" });
+        doc.text("OTUSONE LLP", doc.internal.pageSize.getWidth() / 2, 35, { align: "center" });
         doc.setFontSize(11);
-        doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", doc.internal.pageSize.getWidth() / 2, 27, { align: "center" });
+        doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", doc.internal.pageSize.getWidth() / 2, 42, { align: "center" });
         doc.setFontSize(13);
-        doc.text(`Payslip for the Month of ${slip.month}`, doc.internal.pageSize.getWidth() / 2, 37, { align: "center" });
+        doc.text(`Payslip for the Month of ${slip.month}`, doc.internal.pageSize.getWidth() / 2, 52, { align: "center" });
 
 
 
         autoTable(doc, {
-            startY: 45,
+            startY: 60,
             body: [
                 ["Employee Name", slip.userName || "-"],
                 ["Employee Email", slip.email || "-"],
                 ["Employee Id.", slip.employeeId || "-"],
                 ["Designation", slip.designation || "-"],
-                ["Date of Joining", slip.dateOfJoining || "-"],
+                ["Date of Joining (YYYY-MM-DD)", slip.dateOfJoining.substring(0, 10) || "-"],
                 ["Pay Month", `${slip.month} | Paid Days: ${slip.paidDays} | LOP Days: ${slip.lopDays}`],
                 ["Pay Date", slip.payDate || "-"],
             ],
-            theme: "grid",
             font: "times",
-            styles: { halign: "left" },
+            theme: "grid",
+            styles: {
+                halign: "left",
+                fillColor: false,
+                textColor: [50, 50, 50],
+                lineColor: [80, 80, 80],
+                lineWidth: 0.1
+            },
+            headStyles: {
+                fillColor: [88, 2, 75],
+                textColor: [255, 255, 255],
+                halign: "center",
+                fontStyle: "bold",
+            },
+            didParseCell: (data) => {
+                if (data.section !== 'head') {
+                    data.cell.styles.fillColor = false;
+                }
+            },
+            didDrawPage: () => {
+                doc.setGState(new doc.GState({ opacity: 0.04 }));
+                doc.addImage(
+                    logoBase64,
+                    "PNG",
+                    (doc.internal.pageSize.getWidth() - 150) / 2,
+                    (doc.internal.pageSize.getHeight() - 100) / 2,
+                    150,
+                    100
+                );
+                doc.setGState(new doc.GState({ opacity: 1 }));
+            },
         });
 
 
@@ -88,13 +136,45 @@ const UserSalary = () => {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["EARNINGS", "AMOUNT", "DEDUCTIONS", "AMOUNT"]],
             body: [
-                ["Monthly Salary", `₹${slip.basicSalary}`, "PF", `₹${slip.pf}`],
-                ["Allowances", `₹${slip.allowances}`, "TDS", `₹${slip.tds}`],
-                ["Other Benefits", `₹${slip.otherBenefits}`, "Other Deduction", `₹${slip.otherDeductions}`],
-                ["Gross Earnings", `₹${slip.grossEarnings}`, "Total Deductions", `₹${slip.totalDeductions}`],
+                ["Monthly Salary", "Rs. " + slip.basicSalary, "PF", "Rs. " + slip.pf],
+                ["Allowances", "Rs. " + slip.allowances, "TDS", "Rs. " + slip.tds],
+                ["Other Benefits", "Rs. " + slip.otherBenefits, "Other Deduction", "Rs. " + slip.otherDeductions],
+                ["Gross Earnings", "Rs. " + slip.grossEarnings, "Total Deductions", "Rs. " + slip.totalDeductions],
             ],
             font: "times",
-            styles: { halign: "left" },
+            theme: "grid",
+            styles: {
+                halign: "left",
+                fillColor: false,
+                textColor: [50, 50, 50],
+                lineColor: [80, 80, 80],
+                lineWidth: 0.1
+            },
+            headStyles: {
+                fillColor: false,
+                textColor: [88, 2, 75],
+                halign: "center",
+                fontStyle: "bold",
+                lineWidth: 0.1,
+                lineColor: [88, 2, 75],
+            },
+            didParseCell: (data) => {
+                if (data.section !== 'head') {
+                    data.cell.styles.fillColor = false;
+                }
+            },
+            didDrawPage: () => {
+                doc.setGState(new doc.GState({ opacity: 0.04 }));
+                doc.addImage(
+                    logoBase64,
+                    "PNG",
+                    (doc.internal.pageSize.getWidth() - 150) / 2,
+                    (doc.internal.pageSize.getHeight() - 100) / 2,
+                    150,
+                    100
+                );
+                doc.setGState(new doc.GState({ opacity: 1 }));
+            },
         });
 
 
@@ -102,12 +182,44 @@ const UserSalary = () => {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["REIMBURSEMENTS", "AMOUNT"]],
             body: [
-                ["Reimbursement 1", `₹${slip.reimbursement1}`],
-                ["Reimbursement 2", `₹${slip.reimbursement2}`],
-                ["Total Reimbursements", `₹${slip.totalReimbursements}`],
+                ["Reimbursement 1", "Rs. " + slip.reimbursement1],
+                ["Reimbursement 2", "Rs. " + slip.reimbursement2],
+                ["Total Reimbursements", "Rs. " + slip.totalReimbursements],
             ],
             font: "times",
-            styles: { halign: "left" },
+            theme: "grid",
+            styles: {
+                halign: "left",
+                fillColor: false,
+                textColor: [50, 50, 50],
+                lineColor: [80, 80, 80],
+                lineWidth: 0.1
+            },
+            headStyles: {
+                fillColor: false,
+                textColor: [88, 2, 75],
+                halign: "center",
+                fontStyle: "bold",
+                lineWidth: 0.1,
+                lineColor: [88, 2, 75],
+            },
+            didParseCell: (data) => {
+                if (data.section !== 'head') {
+                    data.cell.styles.fillColor = false;
+                }
+            },
+            didDrawPage: () => {
+                doc.setGState(new doc.GState({ opacity: 0.04 }));
+                doc.addImage(
+                    logoBase64,
+                    "PNG",
+                    (doc.internal.pageSize.getWidth() - 150) / 2,
+                    (doc.internal.pageSize.getHeight() - 100) / 2,
+                    150,
+                    100
+                );
+                doc.setGState(new doc.GState({ opacity: 1 }));
+            },
         });
 
 
@@ -116,11 +228,45 @@ const UserSalary = () => {
             startY: doc.lastAutoTable.finalY + 10,
             head: [["NET PAYABLE", "AMOUNT"]],
             body: [
-                ["Total Net Payable", `₹${netPayFormatted} (${convertToWords(netPay)} only)`],
+                ["Total Net Payable", "Rs. " + netPayFormatted + ` (${convertToWords(netPay)} only)`],
             ],
             font: "times",
-            styles: { halign: "left", fontStyle: "bold" },
+            theme: "grid",
+            styles: {
+                halign: "left",
+                fontStyle: "bold",
+                fillColor: false,
+                textColor: [80, 80, 80],
+                lineColor: [80, 80, 80],
+                lineWidth: 0.1
+            },
+            headStyles: {
+                fillColor: false,
+                textColor: [88, 2, 75],
+                halign: "center",
+                fontStyle: "bold",
+                lineWidth: 0.1,
+                lineColor: [88, 2, 75],
+            },
+            didParseCell: (data) => {
+                if (data.section !== 'head') {
+                    data.cell.styles.fillColor = false;
+                }
+            },
+            didDrawPage: () => {
+                doc.setGState(new doc.GState({ opacity: 0.04 }));
+                doc.addImage(
+                    logoBase64,
+                    "PNG",
+                    (doc.internal.pageSize.getWidth() - 150) / 2,
+                    (doc.internal.pageSize.getHeight() - 100) / 2,
+                    150,
+                    100
+                );
+                doc.setGState(new doc.GState({ opacity: 1 }));
+            },
         });
+
 
         doc.setFont("times", "normal");
         doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 45);
