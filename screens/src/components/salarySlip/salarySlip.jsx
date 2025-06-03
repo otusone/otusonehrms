@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from '../../utils/baseurl';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import {
   Box, Typography, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Modal, MenuItem, Dialog,
   DialogTitle,
@@ -10,6 +12,7 @@ import {
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
 import { calculateSalary } from "./salaySlipCalculator";
+
 
 
 
@@ -58,9 +61,6 @@ const SalarySlip = () => {
   };
 
 
-
-
-
   const handleView = (slip) => {
     setSelectedSlip(slip);
     setOpenViewModal(true);
@@ -71,6 +71,256 @@ const SalarySlip = () => {
     setSelectedSlip(null);
   };
 
+  const convertToWords = (num) => {
+    const a = [
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+      'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen',
+      'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+    ];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    num = Math.floor(Number(num));
+    if ((num = num.toString()).length > 9) return 'Overflow';
+    let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{3})$/);
+    if (!n) return;
+    let str = '';
+    str += (Number(n[1]) !== 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
+    str += (Number(n[2]) !== 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
+    str += (Number(n[3]) !== 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
+    str += (Number(n[4]) !== 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' ' : '';
+    return str.trim();
+  };
+
+  const imageToBase64 = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = url;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.onerror = reject;
+    });
+  }
+
+
+  const handleDownloadSlip = async (slip) => {
+    const doc = new jsPDF();
+
+    const netPay = Math.floor(Number(slip.netSalary));
+    const netPayFormatted = Number(slip.netSalary).toFixed(2);
+    const logoUrl = "/logo.png";
+    const logoBase64 = await imageToBase64(logoUrl);
+
+
+    doc.addImage(logoBase64, "PNG", (doc.internal.pageSize.getWidth() - 40) / 15, 10, 40, 25);
+    doc.setFont("times", "normal");
+    doc.setFontSize(16);
+    doc.text("OTUSONE LLP", doc.internal.pageSize.getWidth() / 2, 35, { align: "center" });
+    doc.setFontSize(11);
+    doc.text("H-112, Sector 63, Noida, Uttar Pradesh-201301", doc.internal.pageSize.getWidth() / 2, 42, { align: "center" });
+    doc.setFontSize(13);
+    doc.text(`Payslip for the Month of ${slip.month}`, doc.internal.pageSize.getWidth() / 2, 52, { align: "center" });
+
+
+
+    autoTable(doc, {
+      startY: 60,
+      body: [
+        ["Employee Name", slip.userName || "-"],
+        ["Employee Email", slip.email || "-"],
+        ["Employee Id.", slip.employeeId || "-"],
+        ["Designation", slip.designation || "-"],
+        ["Date of Joining (YYYY-MM-DD)", slip.dateOfJoining.substring(0, 10) || "-"],
+        ["Pay Month", `${slip.month} | Paid Days: ${slip.paidDays} | LOP Days: ${slip.lopDays}`],
+        ["Pay Date", slip.payDate || "-"],
+      ],
+      font: "times",
+      theme: "grid",
+      styles: {
+        halign: "left",
+        fillColor: false,
+        textColor: [50, 50, 50],
+        lineColor: [80, 80, 80],
+        lineWidth: 0.1
+      },
+      headStyles: {
+        fillColor: [88, 2, 75],
+        textColor: [255, 255, 255],
+        halign: "center",
+        fontStyle: "bold",
+      },
+      didParseCell: (data) => {
+        if (data.section !== 'head') {
+          data.cell.styles.fillColor = false;
+        }
+      },
+      didDrawPage: () => {
+        doc.setGState(new doc.GState({ opacity: 0.04 }));
+        doc.addImage(
+          logoBase64,
+          "PNG",
+          (doc.internal.pageSize.getWidth() - 150) / 2,
+          (doc.internal.pageSize.getHeight() - 100) / 2,
+          150,
+          100
+        );
+        doc.setGState(new doc.GState({ opacity: 1 }));
+      },
+    });
+
+
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["EARNINGS", "AMOUNT", "DEDUCTIONS", "AMOUNT"]],
+      body: [
+        ["Monthly Salary", "Rs. " + slip.basicSalary, "PF", "Rs. " + slip.pf],
+        ["Allowances", "Rs. " + slip.allowances, "TDS", "Rs. " + slip.tds],
+        ["Other Benefits", "Rs. " + slip.otherBenefits, "Other Deduction", "Rs. " + slip.otherDeductions],
+        ["Gross Earnings", "Rs. " + slip.grossEarnings, "Total Deductions", "Rs. " + slip.totalDeductions],
+      ],
+      font: "times",
+      theme: "grid",
+      styles: {
+        halign: "left",
+        fillColor: false,
+        textColor: [50, 50, 50],
+        lineColor: [80, 80, 80],
+        lineWidth: 0.1
+      },
+      headStyles: {
+        fillColor: false,
+        textColor: [88, 2, 75],
+        halign: "center",
+        fontStyle: "bold",
+        lineWidth: 0.1,
+        lineColor: [88, 2, 75],
+      },
+      didParseCell: (data) => {
+        if (data.section !== 'head') {
+          data.cell.styles.fillColor = false;
+        }
+      },
+      didDrawPage: () => {
+        doc.setGState(new doc.GState({ opacity: 0.04 }));
+        doc.addImage(
+          logoBase64,
+          "PNG",
+          (doc.internal.pageSize.getWidth() - 150) / 2,
+          (doc.internal.pageSize.getHeight() - 100) / 2,
+          150,
+          100
+        );
+        doc.setGState(new doc.GState({ opacity: 1 }));
+      },
+    });
+
+
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["REIMBURSEMENTS", "AMOUNT"]],
+      body: [
+        ["Reimbursement 1", "Rs. " + slip.reimbursement1],
+        ["Reimbursement 2", "Rs. " + slip.reimbursement2],
+        ["Total Reimbursements", "Rs. " + slip.totalReimbursements],
+      ],
+      font: "times",
+      theme: "grid",
+      styles: {
+        halign: "left",
+        fillColor: false,
+        textColor: [50, 50, 50],
+        lineColor: [80, 80, 80],
+        lineWidth: 0.1
+      },
+      headStyles: {
+        fillColor: false,
+        textColor: [88, 2, 75],
+        halign: "center",
+        fontStyle: "bold",
+        lineWidth: 0.1,
+        lineColor: [88, 2, 75],
+      },
+      didParseCell: (data) => {
+        if (data.section !== 'head') {
+          data.cell.styles.fillColor = false;
+        }
+      },
+      didDrawPage: () => {
+        doc.setGState(new doc.GState({ opacity: 0.04 }));
+        doc.addImage(
+          logoBase64,
+          "PNG",
+          (doc.internal.pageSize.getWidth() - 150) / 2,
+          (doc.internal.pageSize.getHeight() - 100) / 2,
+          150,
+          100
+        );
+        doc.setGState(new doc.GState({ opacity: 1 }));
+      },
+    });
+
+
+
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["NET PAYABLE", "AMOUNT"]],
+      body: [
+        ["Total Net Payable", "Rs. " + netPayFormatted + ` (${convertToWords(netPay)} only)`],
+      ],
+      font: "times",
+      theme: "grid",
+      styles: {
+        halign: "left",
+        fontStyle: "bold",
+        fillColor: false,
+        textColor: [80, 80, 80],
+        lineColor: [80, 80, 80],
+        lineWidth: 0.1
+      },
+      headStyles: {
+        fillColor: false,
+        textColor: [88, 2, 75],
+        halign: "center",
+        fontStyle: "bold",
+        lineWidth: 0.1,
+        lineColor: [88, 2, 75],
+      },
+      didParseCell: (data) => {
+        if (data.section !== 'head') {
+          data.cell.styles.fillColor = false;
+        }
+      },
+      didDrawPage: () => {
+        doc.setGState(new doc.GState({ opacity: 0.04 }));
+        doc.addImage(
+          logoBase64,
+          "PNG",
+          (doc.internal.pageSize.getWidth() - 150) / 2,
+          (doc.internal.pageSize.getHeight() - 100) / 2,
+          150,
+          100
+        );
+        doc.setGState(new doc.GState({ opacity: 1 }));
+      },
+    });
+
+
+    doc.setFont("times", "normal");
+    doc.text("Aparna Singh", 14, doc.lastAutoTable.finalY + 45);
+    doc.text("HR HEAD", 14, doc.lastAutoTable.finalY + 50);
+    doc.text("Email: hr@otusone.com", 14, doc.lastAutoTable.finalY + 57);
+    doc.text("Website: www.otusone.com", 14, doc.lastAutoTable.finalY + 62);
+
+    doc.save(`${slip.month}-${slip.user?.name || "Employee"}-salary-slip.pdf`);
+
+
+  };
 
   const fetchAllSlips = async () => {
     try {
@@ -432,6 +682,15 @@ const SalarySlip = () => {
                           Update
                         </Button>
 
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          size="small"
+                          onClick={() => handleDownloadSlip(s)}
+                        >
+                          Download
+                        </Button>
+
 
                         <Button
                           variant="outlined"
@@ -517,7 +776,7 @@ const SalarySlip = () => {
               ))}
             </TextField>
             <TextField fullWidth label="Monthly Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
-            <TextField fullWidth label="Last Working Day" name="lastWorkingDay" type="date" value={formData.lastWorkingDay} onChange={handleChange} margin="normal" size="small" InputLabelProps={{ shrink: true }} />
+            <TextField fullWidth label="Last Working Day (Optional)" name="lastWorkingDay" type="date" value={formData.lastWorkingDay} onChange={handleChange} margin="normal" size="small" InputLabelProps={{ shrink: true }} />
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" size="small" />
             {/* <TextField fullWidth label="Date of Joining" name="dateOfJoining" type="date" value={formData.dateOfJoining} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} /> */}
             <TextField fullWidth label="Pay Date" name="payDate" type="date" value={formData.payDate} onChange={handleChange} margin="normal" required size="small" InputLabelProps={{ shrink: true }} />

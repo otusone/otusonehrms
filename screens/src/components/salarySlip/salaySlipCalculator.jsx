@@ -39,16 +39,16 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
             .filter(date => date.getFullYear() === year && date.getMonth() === month)
             .map(date => date.getDate());
 
-        const allPaidLeaveCandidates = new Set([...weekendSet, ...holidayDates]);
+        const allPaidLeaveCandidates = new Set([...weekendSet, ...holidayDates].map(Number));
         //console.log("Raw Attendance:", attendanceData.map(r => r.date));
-        //console.log("LeavePaid", allPaidLeaveCandidates);
+        console.log("LeavePaid", allPaidLeaveCandidates);
 
         const daysPresent = attendanceData
             .map(record => new Date(`${record.date}T00:00:00Z`))
             .filter(date => date.getFullYear() === year && date.getMonth() === month)
             .map(date => date.getDate());
 
-        //console.log("Present Days in Month:", daysPresent);
+        console.log("Present Days in Month:", daysPresent);
 
         const presentSet = new Set(daysPresent);
 
@@ -62,6 +62,10 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
 
 
         const lopSet = new Set([...allAbsent]);
+        console.log("absent days", lopSet);
+        //console.log("Type of absent day:", typeof absentDay);
+        //console.log("Type in leavePaid:", [...allPaidLeaveCandidates].map(x => typeof x));
+
 
 
         for (let day = startDay + 1; day <= endDay - 1; day++) {
@@ -88,60 +92,142 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
                         }
                     }
 
-                    if (sandwichDays.length >= 2) {
+                    if (
+                        sandwichDays.length >= 1 &&
+                        lopSet.has(left) &&
+                        lopSet.has(right)
+                    ) {
                         sandwichDays.forEach(d => lopSet.add(d));
+                        //console.log("day", d);
                     }
+
 
                     day = right - 1;
-                    // console.log(`Checking sandwich on day ${day}`);
-                    // console.log(`Left: ${left}, Right: ${right}`);
-                    // console.log(`lopSet.has(${left}):`, lopSet.has(left));
-                    // console.log(`lopSet.has(${right}):`, lopSet.has(right));
-                    // console.log(`Identified sandwich days:`, sandwichDays);
+                    //console.log(`Checking sandwich on day ${day}`);
+                    //console.log(`Left: ${left}, Right: ${right}`);
+                    //console.log(`lopSet.has(${left}):`, lopSet.has(left));
+                    //console.log(`lopSet.has(${right}):`, lopSet.has(right));
+                    console.log(`Identified sandwich days:`, sandwichDays);
 
                 }
             }
 
         }
 
-        for (let day = startDay; day <= endDay - 3; day++) {
 
+        // LOP - Holiday - LOP 
+        for (let day = startDay + 1; day <= endDay - 1; day++) {
+            if (
+                lopSet.has(day - 1) &&
+                allPaidLeaveCandidates.has(day) &&
+                lopSet.has(day + 1)
+            ) {
+                lopSet.add(day);
+                //console.log("day3", day);
+
+                allPaidLeaveCandidates.delete(day);
+
+                console.log(`Marked holiday on day ${day} as LOP due to sandwich between LOPs.`);
+            }
+        }
+
+
+
+
+        for (let day = startDay; day <= endDay - 1; day++) {
             if (lopSet.has(day)) {
-                if (
-                    allPaidLeaveCandidates.has(day + 1) &&
-                    allPaidLeaveCandidates.has(day + 2) &&
-                    !presentSet.has(day + 1) &&
-                    !presentSet.has(day + 2)
-                ) {
+                let mid = day + 1;
+                const sandwichCandidates = [];
 
-                    if (lopSet.has(day + 3)) {
-                        lopSet.add(day + 1);
-                        lopSet.add(day + 2);
-                        //console.log(`Two holidays between LOP days detected on days ${day + 1} and ${day + 2}, counting as LOP.`);
-                    }
+                while (
+                    allPaidLeaveCandidates.has(mid) &&
+                    !presentSet.has(mid) &&
+                    mid < endDay &&
+                    !lopSet.has(mid)
+                ) {
+                    sandwichCandidates.push(mid);
+                    mid++;
                 }
+
+                if (lopSet.has(mid)) {
+                    sandwichCandidates.forEach(d => lopSet.add(d));
+                    //console.log("day4", d);
+
+                }
+
+                day = mid - 1;
             }
         }
 
 
-        for (let day = startDay; day <= endDay - 3; day++) {
-            if (lopSet.has(day)) {
-                if (
-                    allPaidLeaveCandidates.has(day + 1) &&
-                    allPaidLeaveCandidates.has(day + 2) &&
-                    !presentSet.has(day + 1) &&
-                    !presentSet.has(day + 2)
-                ) {
-                    if (lopSet.has(day + 3)) {
-                        lopSet.add(day + 1);
-                        lopSet.add(day + 2);
-                        //console.log(`Two holidays between LOP days detected on days ${day + 1} and ${day + 2}, counting as LOP.`);
-                    }
-                }
+        // Holiday - LOP - Holiday
+        for (let day = startDay + 1; day <= endDay - 1; day++) {
+            if (
+                allPaidLeaveCandidates.has(day - 1) &&
+                lopSet.has(day) &&
+                allPaidLeaveCandidates.has(day + 1)
+            ) {
+                lopSet.add(day - 1);
+                //console.log("day", day);
+
+                lopSet.add(day + 1);
+                //console.log("day", day);
+
+
+                allPaidLeaveCandidates.delete(day - 1);
+                allPaidLeaveCandidates.delete(day + 1);
+
+                console.log(`Sandwich LOP: Marked ${day - 1} and ${day + 1} as LOP`);
             }
         }
 
 
+
+        // Holiday - LOP - LOP - Holiday 
+        for (let day = startDay; day <= endDay - 1; day++) {
+            if (allPaidLeaveCandidates.has(day)) {
+                let mid = day + 1;
+                const middleLOPs = [];
+
+                while (lopSet.has(mid) && mid < endDay) {
+                    middleLOPs.push(mid);
+                    mid++;
+                }
+
+                // if (allPaidLeaveCandidates.has(mid)) {
+                //     lopSet.add(day);
+                //     console.log("day", day);
+
+                //     lopSet.add(mid);
+                //     console.log("day", day);
+
+                // }
+                if (middleLOPs.length > 0 && allPaidLeaveCandidates.has(mid)) {
+                    lopSet.add(day);
+                    lopSet.add(mid);
+                }
+
+                day = mid;
+            }
+        }
+
+
+        for (let day = startDay + 2; day <= endDay - 2; day++) {
+            if (
+                lopSet.has(day - 2) &&
+                allPaidLeaveCandidates.has(day - 1) &&
+                lopSet.has(day) &&
+                allPaidLeaveCandidates.has(day + 1) &&
+                lopSet.has(day + 2)
+            ) {
+                lopSet.add(day - 1);
+                //console.log("day", day);
+
+                lopSet.add(day + 1);
+                //console.log("day", day);
+
+            }
+        }
 
 
 
