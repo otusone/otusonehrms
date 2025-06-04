@@ -22,6 +22,34 @@ exports.getAllEmployees = async (req, res) => {
     }
 };
 
+exports.getEmployeeById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const employee = await User.findById(id).select("-password -token");
+
+        if (!employee || employee.role !== "user") {
+            return res.status(404).json({
+                success: false,
+                message: "Employee not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            employee,
+        });
+    } catch (error) {
+        console.error("Error fetching employee by ID:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch employee",
+            error: error.message,
+        });
+    }
+};
+
+
 
 exports.addEmployee = async (req, res) => {
     try {
@@ -33,6 +61,7 @@ exports.addEmployee = async (req, res) => {
             designation,
             dateOfJoining,
             basicSalary,
+            probationPeriodMonths,
             dateOfBirth,
             address,
             gender,
@@ -63,6 +92,7 @@ exports.addEmployee = async (req, res) => {
             designation,
             dateOfJoining,
             basicSalary,
+            probationPeriodMonths,
             dateOfBirth,
             address,
             gender,

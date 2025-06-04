@@ -151,15 +151,15 @@ const Dashboard = ({
                   <Table>
                     <TableHead style={{ backgroundColor: "#58024B" }}>
                       <TableRow>
-                        <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>Name</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
-                        <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>S. NO.</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Name</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>EMAIL</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>DATE</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK IN</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK OUT</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK IN LOCATION</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
+                        <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>WORKING HOURS</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

@@ -16,10 +16,26 @@ const UserSalary = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSlip, setSelectedSlip] = useState(null);
     const [openViewModal, setOpenViewModal] = useState(false);
+    const [probationPeriodMonths, setProbationPeriodMonths] = useState(0);
 
-    const handleView = (slip) => {
+
+    const handleView = async (slip) => {
         setSelectedSlip(slip);
         setOpenViewModal(true);
+
+        try {
+            const token = localStorage.getItem("authToken");
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
+
+            const response = await axiosInstance.get(`/user/get-employees/${slip.userId._id}`, config);
+            const months = Number(response.data?.employee?.probationPeriodMonths || 0);
+            setProbationPeriodMonths(months);
+        } catch (error) {
+            console.error("Error fetching probation period:", error);
+            setProbationPeriodMonths(0);
+        }
     };
 
     const handleCloseView = () => {
@@ -344,10 +360,10 @@ const UserSalary = () => {
                         <Table>
                             <TableHead sx={{ bgcolor: "#58024B" }}>
                                 <TableRow>
-                                    <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>MONTH</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>PAID DAYS</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>MONTHLY SALARY</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>S. NO.</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>MONTH</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>PAID DAYS</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>MONTHLY SALARY</TableCell>
                                     {/* <TableCell sx={{ color: "#fff" }}>ALLOWANCES</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>OTHER BENEFITS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>GROSS EARNINGS</TableCell>
@@ -357,9 +373,9 @@ const UserSalary = () => {
                                     <TableCell sx={{ color: "#fff" }}>TOTAL DEDUCTIONS</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 1</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>REIMBURSEMENTS 2</TableCell> */}
-                                    <TableCell sx={{ color: "#fff" }}>NET SALARY</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>VIEW</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>DOWNLOAD</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>NET SALARY</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>VIEW</TableCell>
+                                    <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>DOWNLOAD</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -424,6 +440,8 @@ const UserSalary = () => {
                             <Typography><strong>Pay Date:</strong> {selectedSlip.payDate?.substring(0, 10)}</Typography>
                             <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
                             <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
+                            <Typography><strong>Last Working Day:</strong> {selectedSlip.lastWorkingDay?.substring(0, 10) || "NA"}</Typography>
+                            <Typography><strong>Probation Period:</strong> {probationPeriodMonths || "NA"}</Typography>
                             <Typography><strong>Monthly Salary:</strong> ₹{selectedSlip.basicSalary}</Typography>
                             <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
                             <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>

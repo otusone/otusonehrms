@@ -10,16 +10,34 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
             headers: { Authorization: `Bearer ${token}` },
         };
 
-        const [attendanceRes, holidaysRes] = await Promise.all([
+        const [attendanceRes, holidaysRes, employeeRes] = await Promise.all([
             axiosInstance.get(`/admin/attendance/${userId}`, config),
             axiosInstance.get(`/admin/get-holidays?year=${year}&month=${month}`, config),
+            axiosInstance.get(`/admin/get-employees/${userId}`, config),
         ]);
+
 
         const attendanceData = attendanceRes.data.data || [];
         const holidaysData = holidaysRes.data.holidays || [];
-        //console.log(holidaysRes.data.holidays);
-
         const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+
+
+        const probationPeriodMonths = Number(employeeRes.data?.employee?.probationPeriodMonths || 0);
+        const probationEndDate = new Date(joiningDate);
+        probationEndDate.setMonth(probationEndDate.getMonth() + probationPeriodMonths);
+
+        const monthEndDate = new Date(year, month + 1, 0);
+        const isInProbation = probationEndDate > monthEndDate;
+
+        // console.log("monthend", monthEndDate);
+        // console.log("probationEndDate", probationEndDate);
+        // console.log("joiningDate", joiningDate);
+        // console.log("isInProbation", isInProbation);
+        // console.log("Raw probationPeriodMonths from API:", employeeRes.data?.probationPeriodMonths);
+        // console.log("Parsed probationPeriodMonths:", probationPeriodMonths);
+        // console.log("Before mutation - probationEndDate:", probationEndDate);
+        // console.log("employeeRes.data", employeeRes.data);
+
 
         const startDay = (joiningDate && new Date(joiningDate).getMonth() === month)
             ? new Date(joiningDate).getDate()
@@ -41,7 +59,7 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
 
         const allPaidLeaveCandidates = new Set([...weekendSet, ...holidayDates].map(Number));
         //console.log("Raw Attendance:", attendanceData.map(r => r.date));
-        console.log("LeavePaid", allPaidLeaveCandidates);
+        //console.log("LeavePaid", allPaidLeaveCandidates);
 
         const daysPresent = attendanceData
             .map(record => new Date(`${record.date}T00:00:00Z`))
@@ -62,12 +80,10 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
 
 
         const lopSet = new Set([...allAbsent]);
-        console.log("absent days", lopSet);
-        //console.log("Type of absent day:", typeof absentDay);
-        //console.log("Type in leavePaid:", [...allPaidLeaveCandidates].map(x => typeof x));
+        // console.log("absent days", lopSet);
 
 
-
+        //LOP - Holiday- Holiday- Holiday - OR MORE - LOP
         for (let day = startDay + 1; day <= endDay - 1; day++) {
             if (
                 allPaidLeaveCandidates.has(day) &&
@@ -98,7 +114,6 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
                         lopSet.has(right)
                     ) {
                         sandwichDays.forEach(d => lopSet.add(d));
-                        //console.log("day", d);
                     }
 
 
@@ -114,45 +129,26 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
 
         }
 
-
-        // LOP - Holiday - LOP 
-        for (let day = startDay + 1; day <= endDay - 1; day++) {
-            if (
-                lopSet.has(day - 1) &&
-                allPaidLeaveCandidates.has(day) &&
-                lopSet.has(day + 1)
-            ) {
-                lopSet.add(day);
-                //console.log("day3", day);
-
-                allPaidLeaveCandidates.delete(day);
-
-                console.log(`Marked holiday on day ${day} as LOP due to sandwich between LOPs.`);
-            }
-        }
+        console.log("LeavePaid", allPaidLeaveCandidates);
+        console.log("absent days", lopSet);
 
 
-
-
+        // Holiday - LOP - LOP - LOP - OR MORE - Holiday 
         for (let day = startDay; day <= endDay - 1; day++) {
-            if (lopSet.has(day)) {
+            if (allPaidLeaveCandidates.has(day)) {
                 let mid = day + 1;
-                const sandwichCandidates = [];
+                const middleLOPs = [];
 
-                while (
-                    allPaidLeaveCandidates.has(mid) &&
-                    !presentSet.has(mid) &&
-                    mid < endDay &&
-                    !lopSet.has(mid)
-                ) {
-                    sandwichCandidates.push(mid);
+                while (mid <= endDay && lopSet.has(mid)) {
+                    middleLOPs.push(mid);
                     mid++;
                 }
 
-                if (lopSet.has(mid)) {
-                    sandwichCandidates.forEach(d => lopSet.add(d));
-                    //console.log("day4", d);
-
+                if (middleLOPs.length > 0 && allPaidLeaveCandidates.has(mid)) {
+                    console.log(`Sandwich Detected: ${day} -> ${middleLOPs.join(', ')} -> ${mid}`);
+                    lopSet.add(day);
+                    middleLOPs.forEach(d => lopSet.add(d));
+                    lopSet.add(mid);
                 }
 
                 day = mid - 1;
@@ -160,58 +156,7 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         }
 
 
-        // Holiday - LOP - Holiday
-        for (let day = startDay + 1; day <= endDay - 1; day++) {
-            if (
-                allPaidLeaveCandidates.has(day - 1) &&
-                lopSet.has(day) &&
-                allPaidLeaveCandidates.has(day + 1)
-            ) {
-                lopSet.add(day - 1);
-                //console.log("day", day);
-
-                lopSet.add(day + 1);
-                //console.log("day", day);
-
-
-                allPaidLeaveCandidates.delete(day - 1);
-                allPaidLeaveCandidates.delete(day + 1);
-
-                console.log(`Sandwich LOP: Marked ${day - 1} and ${day + 1} as LOP`);
-            }
-        }
-
-
-
-        // Holiday - LOP - LOP - Holiday 
-        for (let day = startDay; day <= endDay - 1; day++) {
-            if (allPaidLeaveCandidates.has(day)) {
-                let mid = day + 1;
-                const middleLOPs = [];
-
-                while (lopSet.has(mid) && mid < endDay) {
-                    middleLOPs.push(mid);
-                    mid++;
-                }
-
-                // if (allPaidLeaveCandidates.has(mid)) {
-                //     lopSet.add(day);
-                //     console.log("day", day);
-
-                //     lopSet.add(mid);
-                //     console.log("day", day);
-
-                // }
-                if (middleLOPs.length > 0 && allPaidLeaveCandidates.has(mid)) {
-                    lopSet.add(day);
-                    lopSet.add(mid);
-                }
-
-                day = mid;
-            }
-        }
-
-
+        //LOP - H - LOP - H - LOP
         for (let day = startDay + 2; day <= endDay - 2; day++) {
             if (
                 lopSet.has(day - 2) &&
@@ -221,10 +166,7 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
                 lopSet.has(day + 2)
             ) {
                 lopSet.add(day - 1);
-                //console.log("day", day);
-
                 lopSet.add(day + 1);
-                //console.log("day", day);
 
             }
         }
@@ -240,18 +182,46 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
             }
         }
 
-        console.log(paidDaysSet)
+        // Count half-day attendances
+        let halfDayCount = 0;
+        let fullDayCount = 0;
+        let actualLOPdays = 0;
+
+        attendanceData.forEach(record => {
+            const date = new Date(`${record.date}T00:00:00Z`);
+            if (date.getFullYear() === year && date.getMonth() === month) {
+                if (record.attendanceType === "Half Day") halfDayCount++;
+                else if (record.attendanceType === "Full Day") fullDayCount++;
+            }
+        });
+
+
+        let lopFromHalfDays = 0;
+        lopFromHalfDays = (halfDayCount * 0.5);
+
+        actualLOPdays = Number((lopFromHalfDays + lopSet.size).toFixed(1));
+
+        console.log("before loop", actualLOPdays);
+        console.log(paidDaysSet);
+        console.log(lopSet);
+
+        if (!isInProbation && actualLOPdays > 0) {
+            actualLOPdays = Math.max(0, actualLOPdays - 1);
+
+        }
+        console.log("after loop", actualLOPdays);
+
 
         const eligibleDays = endDay - startDay + 1;
-        const paidDays = paidDaysSet.size;
+        const paidDays = (endDay - startDay + 1) - actualLOPdays;
         const lopDays = eligibleDays - paidDays;
         const perDaySalary = basicSalary / totalDaysInMonth;
         const finalSalary = perDaySalary * paidDays;
-        //console.log(finalSalary);
+        console.log(finalSalary);
 
         return {
-            paidDays,
-            lopDays,
+            paidDays: paidDays,
+            lopDays: actualLOPdays,
             finalSalary: Number(finalSalary.toFixed(2)),
         };
     } catch (err) {
