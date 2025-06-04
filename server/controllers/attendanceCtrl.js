@@ -29,6 +29,9 @@ exports.markClockIn = async (req, res) => {
       });
     }
 
+    const officeStartTime = new Date(`${date}T09:20:00Z`);
+    const attendanceType = clockInDateTime > officeStartTime ? "Half Day" : "Full Day";
+
     const attendance = new Attendance({
       userId: new mongoose.Types.ObjectId(userId),
       clockIn: clockInDateTime,
@@ -36,7 +39,8 @@ exports.markClockIn = async (req, res) => {
       clockInLocation: {
         latitude: Number(clockInLocation.latitude),
         longitude: Number(clockInLocation.longitude),
-      }
+      },
+      attendanceType,
     });
 
     await attendance.save();

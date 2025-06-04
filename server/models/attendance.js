@@ -7,6 +7,7 @@ const attendanceSchema = new mongoose.Schema({
     clockInLocation: { latitude: { type: Number }, longitude: { type: Number }, },
     clockOutLocation: { latitude: { type: Number }, longitude: { type: Number }, },
     workingHours: { type: Number, default: 0 },
+    attendanceType: { type: String, enum: ["Full Day", "Half Day"], default: "Full Day" }
 
 }, { timestamps: true })
 

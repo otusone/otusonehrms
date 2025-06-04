@@ -54,6 +54,7 @@ const SalarySlip = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [probationPeriodMonths, setProbationPeriodMonths] = useState(0);
 
   const handleEdit = (slip) => {
     setEditData(slip);
@@ -61,9 +62,23 @@ const SalarySlip = () => {
   };
 
 
-  const handleView = (slip) => {
+  const handleView = async (slip) => {
     setSelectedSlip(slip);
     setOpenViewModal(true);
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axiosInstance.get(`/admin/get-employees/${slip.userId._id}`, config);
+      const months = Number(response.data?.employee?.probationPeriodMonths || 0);
+      setProbationPeriodMonths(months);
+    } catch (error) {
+      console.error("Error fetching probation period:", error);
+      setProbationPeriodMonths(0);
+    }
   };
 
   const handleCloseView = () => {
@@ -360,6 +375,8 @@ const SalarySlip = () => {
   };
 
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -466,9 +483,6 @@ const SalarySlip = () => {
   };
 
 
-
-
-
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -485,6 +499,7 @@ const SalarySlip = () => {
           ...prev,
           basicSalary: res.data.basicSalary,
           dateOfJoining: res.data.dateOfJoining,
+
         }));
       }
     } catch (err) {
@@ -575,6 +590,7 @@ const SalarySlip = () => {
       s.userId?.email?.toLowerCase().includes(filterText)
   );
 
+
   return (
     <Box display="flex" minHeight="100vh">
       <Box sx={{ width: { xs: "100%", md: "18%" }, bgcolor: "#fff", borderRight: "1px solid #eee" }}>
@@ -609,15 +625,15 @@ const SalarySlip = () => {
             <Table>
               <TableHead sx={{ bgcolor: "#58024B" }}>
                 <TableRow>
-                  <TableCell sx={{ color: "#fff" }}>S. No.</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Employee ID</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Name</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Email</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Month</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Pay Date</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>Designation</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>S. No.</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Employee ID</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Name</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Email</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Month</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Pay Date</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Designation</TableCell>
                   {/* <TableCell sx={{ color: "#fff" }}>Date of Joining</TableCell> */}
-                  <TableCell sx={{ color: "#fff" }}>Monthly Salary</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Monthly Salary</TableCell>
                   {/* <TableCell sx={{ color: "#fff" }}>Allowances</TableCell> */}
                   {/* <TableCell sx={{ color: "#fff" }}>Deductions</TableCell> */}
                   {/* <TableCell sx={{ color: "#fff" }}>Paid Days</TableCell>
@@ -631,8 +647,8 @@ const SalarySlip = () => {
                   <TableCell sx={{ color: "#fff" }}>Reimbursement 1</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Reimbursement 2</TableCell>
                   <TableCell sx={{ color: "#fff" }}>Total Reimbursements</TableCell> */}
-                  <TableCell sx={{ color: "#fff" }}>Net Salary</TableCell>
-                  <TableCell sx={{ color: "#fff", textAlign: "center" }}>Action</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>Net Salary</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff", textAlign: "center" }}>Action</TableCell>
 
 
                 </TableRow>
@@ -773,8 +789,7 @@ const SalarySlip = () => {
                 <MenuItem key={index} value={month}>
                   {month}
                 </MenuItem>
-              ))}
-            </TextField>
+              ))}</TextField>
             <TextField fullWidth label="Monthly Salary" name="basicSalary" type="number" value={formData.basicSalary} onChange={handleChange} margin="normal" required size="small" />
             <TextField fullWidth label="Last Working Day (Optional)" name="lastWorkingDay" type="date" value={formData.lastWorkingDay} onChange={handleChange} margin="normal" size="small" InputLabelProps={{ shrink: true }} />
             <TextField fullWidth label="Allowances" name="allowances" type="number" value={formData.allowances} onChange={handleChange} margin="normal" size="small" />
@@ -818,6 +833,7 @@ const SalarySlip = () => {
               <Typography><strong>Designation:</strong> {selectedSlip.userId?.designation}</Typography>
               <Typography><strong>Date of Joining:</strong> {selectedSlip.userId?.dateOfJoining?.substring(0, 10)}</Typography>
               <Typography><strong>Last Working Day:</strong> {selectedSlip.lastWorkingDay?.substring(0, 10)}</Typography>
+              <Typography><strong>Probation Period:</strong> {probationPeriodMonths || "NA"} months</Typography>
               <Typography><strong>Monthly Salary:</strong> ₹{selectedSlip.basicSalary}</Typography>
               <Typography><strong>Allowances:</strong> ₹{selectedSlip.allowances}</Typography>
               <Typography><strong>Paid Days:</strong> {selectedSlip.paidDays}</Typography>
@@ -852,10 +868,12 @@ const SalarySlip = () => {
           />
           <TextField
             label="Last Working Day"
+            type="date"
             value={editData?.lastWorkingDay?.substring(0, 10) || ''}
-            onChange={(e) => setEditData({ ...editData, month: e.target.value })}
+            onChange={(e) => setEditData({ ...editData, lastWorkingDay: e.target.value })}
             fullWidth
             margin="dense"
+            InputLabelProps={{ shrink: true }}
           />
           <TextField
             label="Pay Date"

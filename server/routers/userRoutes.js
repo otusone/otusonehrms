@@ -7,6 +7,8 @@ const { applyForLeave, updateLeave, deleteLeave, getMyLeaves } = require("../con
 const { getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const { getAssetsByUserId } = require("../controllers/assetsCtrl");
 const { getHolidays } = require("../controllers/holidayCtrl");
+const employeeController = require("../controllers/employeeCtrl");
+
 
 const router = express.Router();
 
@@ -46,6 +48,10 @@ router.get("/get-asset/:userId", userAuth, getAssetsByUserId);
 
 //holidays
 router.get('/get-holidays', userAuth, getHolidays);
+
+//employee
+router.get("/get-employees/:id", userAuth, employeeController.getEmployeeById);
+
 
 
 

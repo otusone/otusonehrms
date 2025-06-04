@@ -46,6 +46,7 @@ router.delete("/delete-asset/:id", userAuth, isAdmin, deleteAsset);
 
 //employee
 router.get("/get-employees", userAuth, isAdmin, employeeController.getAllEmployees);
+router.get("/get-employees/:id", userAuth, isAdmin, employeeController.getEmployeeById);
 router.post("/add-employee", userAuth, isAdmin, employeeController.addEmployee);
 router.patch("/update-employee/:id", userAuth, isAdmin, employeeController.updateEmployee);
 router.delete("/delete-employee/:id", userAuth, isAdmin, employeeController.deleteEmployee);

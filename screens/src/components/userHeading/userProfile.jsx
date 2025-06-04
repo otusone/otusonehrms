@@ -119,10 +119,10 @@ const UserProfile = () => {
 
 
 
-                            {/* Right - Form in Cards */}
+
                             <Box sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 3 }}>
 
-                                {/* Card 2 - Contact Details */}
+
                                 <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
                                     <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
                                         Contact Details
@@ -168,7 +168,7 @@ const UserProfile = () => {
                                     />
                                 </Paper>
 
-                                {/* Card 3 - Employment Info */}
+
                                 <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
                                     <Typography variant="subtitle1" gutterBottom sx={{ mb: 2 }}>
                                         Employment Information
@@ -211,6 +211,19 @@ const UserProfile = () => {
                                         }
                                         variant="standard"
                                         InputLabelProps={{ shrink: true }}
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label="Probation Period (in Months)"
+                                        name="probationPeriodMonths"
+                                        value={(userData.probationPeriodMonths) + " months" || " NA"}
+                                        variant="standard"
                                         InputProps={{
                                             readOnly: true,
                                             disableUnderline: true,

@@ -345,13 +345,14 @@ const UserAttendance = () => {
                 <TableRow>
                   {/* <TableCell sx={{ color: "#fff" }}>EMPLOYEE NAME</TableCell>
                   <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell> */}
-                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK IN LOCATION</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>ACTION</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>DATE</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK IN</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK IN LOCATION</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>WORKING HOURS</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK OUT</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK OUT LOCATION</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>STATUS</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>ACTION</TableCell>
 
                 </TableRow>
               </TableHead>
@@ -397,6 +398,10 @@ const UserAttendance = () => {
                           ? `Lat: ${attendance.clockOutLocation.latitude}, Lng: ${attendance.clockOutLocation.longitude}`
                           : "-"}
                       </TableCell>
+                      <TableCell sx={{ whiteSpace: "nowrap", color: attendance.attendanceType === "Half Day" ? "orange" : attendance.attendanceType === "Full Day" ? "green" : "gray", fontWeight: "bold", }}>
+                        {attendance.attendanceType || "-"}
+                      </TableCell>
+
                       <TableCell>
                         {!attendance.clockOut ? (
                           <Button

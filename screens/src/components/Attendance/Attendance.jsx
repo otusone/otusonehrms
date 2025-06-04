@@ -164,19 +164,20 @@ const Attendance = () => {
             <Table>
               <TableHead sx={{ bgcolor: "#58024B" }}>
                 <TableRow>
-                  <TableCell sx={{ color: "#fff" }}>S. NO.</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>EMPLOYEE Name</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>EMAIL</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>DATE</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK IN</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>S. NO.</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>EMPLOYEE Name</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>EMAIL</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>DATE</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK IN</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>
                     CLOCK IN LOCATION
                   </TableCell>
-                  <TableCell sx={{ color: "#fff" }}>CLOCK OUT</TableCell>
-                  <TableCell sx={{ color: "#fff" }}>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>CLOCK OUT</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>
                     CLOCK OUT LOCATION
                   </TableCell>
-                  <TableCell sx={{ color: "#fff" }}>WORKING HOURS</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>WORKING HOURS</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap", color: "#fff" }}>STATUS</TableCell>
 
                 </TableRow>
               </TableHead>
@@ -205,9 +206,6 @@ const Attendance = () => {
                           })
                           : "-"}
                       </TableCell>
-
-
-
                       <TableCell>
                         {a.clockInLocation
                           ? `Lat: ${a.clockInLocation.latitude}, Lng: ${a.clockInLocation.longitude}`
@@ -228,7 +226,10 @@ const Attendance = () => {
                           ? `Lat: ${a.clockOutLocation.latitude}, Lng: ${a.clockOutLocation.longitude}`
                           : "N/A"}
                       </TableCell>
-                      <TableCell>{a.workingHours || 0}</TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>{a.workingHours || 0}</TableCell>
+                      <TableCell sx={{ whiteSpace: "nowrap", color: a.attendanceType === "Half Day" ? "orange" : a.attendanceType === "Full Day" ? "green" : "gray", fontWeight: "bold", }}>
+                        {a.attendanceType || "-"}
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (

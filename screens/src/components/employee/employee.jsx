@@ -43,6 +43,7 @@ const Employee = () => {
         dateOfJoining: "",
         designation: "",
         basicSalary: "",
+        probationPeriodMonths: "",
         dateOfBirth: "",
         address: "",
         gender: "",
@@ -128,6 +129,7 @@ const Employee = () => {
                 password: employee.password || "",
                 designation: employee.designation || "",
                 basicSalary: employee.basicSalary || "",
+                probationPeriodMonths: employee.probationPeriodMonths || "",
                 dateOfJoining: formatDate(employee.dateOfJoining),
                 dateOfBirth: formatDate(employee.dateOfBirth),
                 address: employee.address || "",
@@ -145,6 +147,7 @@ const Employee = () => {
                 designation: "",
                 dateOfJoining: "",
                 baiscSalary: "",
+                probationPeriodMonths: "",
                 dateOfBirth: "",
                 address: "",
                 gender: "",
@@ -329,6 +332,7 @@ const Employee = () => {
                             <TextField margin="dense" label="Date of Joining" fullWidth type="date" name="dateOfJoining" InputLabelProps={{ shrink: true }} value={formData.dateOfJoining} onChange={handleChange} />
                             <TextField margin="dense" label="Designation" fullWidth name="designation" value={formData.designation} onChange={handleChange} />
                             <TextField margin="dense" label="Monthly Salary" fullWidth name="basicSalary" value={formData.basicSalary} onChange={handleChange} />
+                            <TextField margin="dense" label="Probation Period (in Months)" fullWidth name="probationPeriodMonths" value={formData.probationPeriodMonths} onChange={handleChange} />
                             <TextField margin="dense" label="Date of Birth" fullWidth type="date" name="dateOfBirth" InputLabelProps={{ shrink: true }} value={formData.dateOfBirth} onChange={handleChange} />
                             <TextField margin="dense" label="Address" fullWidth name="address" value={formData.address} onChange={handleChange} />
                             <TextField margin="dense" label="Gender" fullWidth name="gender" value={formData.gender} onChange={handleChange} select>
@@ -373,6 +377,7 @@ const Employee = () => {
                                     <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Designation:</strong> {selectedEmployee.designation}</Typography>
                                     <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.basicSalary}</Typography>
+                                    <Typography><strong>Probation Period (in Months):</strong> {selectedEmployee.probationPeriodMonths}</Typography>
                                     <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Address:</strong> {selectedEmployee.address || "N/A"}</Typography>
                                     <Typography><strong>Gender:</strong> {selectedEmployee.gender}</Typography>
@@ -386,9 +391,6 @@ const Employee = () => {
                             <Button onClick={handleCloseView} variant="contained" color="primary">Close</Button>
                         </DialogActions>
                     </Dialog>
-
-
-
                 </Box>
             </Box>
         </Box>
