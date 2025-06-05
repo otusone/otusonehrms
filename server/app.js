@@ -6,6 +6,8 @@ const routes = require("./routers/index");
 require("dotenv").config();
 const PORT = process.env.PORT || 8000;
 const path = require('path');
+require("./utils/autoClockOut");
+
 
 
 
