@@ -22,12 +22,18 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
 
 
+        const today = new Date();
         const probationPeriodMonths = Number(employeeRes.data?.employee?.probationPeriodMonths || 0);
+
+        const probationStartDate = new Date(joiningDate);
         const probationEndDate = new Date(joiningDate);
         probationEndDate.setMonth(probationEndDate.getMonth() + probationPeriodMonths);
 
-        const monthEndDate = new Date(year, month + 1, 0);
-        const isInProbation = probationEndDate > monthEndDate;
+        const salaryMonthStartDate = new Date(year, month, 1);
+        const salaryMonthEndDate = new Date(year, month + 1, 0);
+
+        const isInProbation =
+            probationStartDate <= salaryMonthEndDate && probationEndDate >= salaryMonthStartDate;
 
         // console.log("monthend", monthEndDate);
         // console.log("probationEndDate", probationEndDate);
@@ -39,13 +45,23 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         // console.log("employeeRes.data", employeeRes.data);
 
 
-        const startDay = (joiningDate && new Date(joiningDate).getMonth() === month)
-            ? new Date(joiningDate).getDate()
-            : 1;
+        const joining = new Date(joiningDate);
+        const lastWorking = lastWorkingDate ? new Date(lastWorkingDate) : null;
 
-        const endDay = (lastWorkingDate && new Date(lastWorkingDate).getMonth() === month)
-            ? new Date(lastWorkingDate).getDate()
-            : totalDaysInMonth;
+        const startDay =
+            joining &&
+                joining.getFullYear() === year &&
+                joining.getMonth() === month
+                ? joining.getDate()
+                : 1;
+
+        const endDay =
+            lastWorking &&
+                lastWorking.getFullYear() === year &&
+                lastWorking.getMonth() === month
+                ? lastWorking.getDate()
+                : totalDaysInMonth;
+
 
         const { sundays, fourthSaturday } = getSundaysAnd4thSaturday(year, month);
         const weekendSet = new Set(sundays);
@@ -177,7 +193,7 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         for (let day = startDay; day <= endDay; day++) {
             if (presentSet.has(day)) {
                 paidDaysSet.add(day);
-            } else if (allPaidLeaveCandidates.has(day) && !lopSet.has(day)) {
+            } else if (allPaidLeaveCandidates.has(day) && !lopSet.has(day) && presentSet.size > 0) {
                 paidDaysSet.add(day);
             }
         }
@@ -205,7 +221,7 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         console.log(paidDaysSet);
         console.log(lopSet);
 
-        if (!isInProbation && actualLOPdays > 0) {
+        if (daysPresent.length > 0 && !isInProbation && actualLOPdays > 0) {
             actualLOPdays = Math.max(0, actualLOPdays - 1);
 
         }
