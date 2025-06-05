@@ -55,10 +55,34 @@ const Employee = () => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [openViewModal, setOpenViewModal] = useState(false);
 
-    const handleView = (emp) => {
-        setSelectedEmployee(emp);
-        setOpenViewModal(true);
+    const handleView = async (emp) => {
+        try {
+            const token = localStorage.getItem("authToken");
+            const response = await axiosInstance.get(`/admin/salaryslip/${emp._id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const slips = response.data?.data || [];
+
+            if (slips.length > 0) {
+                const latestSlip = slips[0];
+                const enrichedEmployee = { ...emp, ...latestSlip };
+                setSelectedEmployee(enrichedEmployee);
+            } else {
+                setSelectedEmployee(emp);
+            }
+
+            setOpenViewModal(true);
+        } catch (error) {
+            console.error("Error fetching salary slip:", error);
+            setSelectedEmployee(emp);
+            setOpenViewModal(true);
+        }
     };
+
+
 
     const handleCloseView = () => {
         setOpenViewModal(false);
@@ -377,8 +401,9 @@ const Employee = () => {
                                     <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Designation:</strong> {selectedEmployee.designation}</Typography>
                                     <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.basicSalary}</Typography>
-                                    <Typography><strong>Probation Period (in Months):</strong> {selectedEmployee.probationPeriodMonths}</Typography>
+                                    <Typography><strong>Probation Period (in Months):</strong> {selectedEmployee.probationPeriodMonths || "NA"}</Typography>
                                     <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString() : "N/A"}</Typography>
+                                    <Typography><strong>Last Working Day:</strong>{" "} {selectedEmployee?.lastWorkingDay ? new Date(selectedEmployee.lastWorkingDay).toLocaleDateString() : "N/A"}</Typography>
                                     <Typography><strong>Address:</strong> {selectedEmployee.address || "N/A"}</Typography>
                                     <Typography><strong>Gender:</strong> {selectedEmployee.gender}</Typography>
                                     <Typography><strong>Mobile No:</strong> {selectedEmployee.mobile}</Typography>

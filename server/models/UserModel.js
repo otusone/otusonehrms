@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   designation: { type: String, required: true, trim: true },
   dateOfJoining: { type: Date },
   basicSalary: { type: Number, required: true },
-  probationPeriodMonths: { type: Number, default: 3 },
+  probationPeriodMonths: { type: Number },
   // religion: { type: String, trim: true },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true, },
   dateOfBirth: { type: Date, },
