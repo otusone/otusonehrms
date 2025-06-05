@@ -21,6 +21,8 @@ const UserProfile = () => {
     const [open, setOpen] = useState(false);
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("authToken");
+    const [lastWorkingDay, setLastWorkingDay] = useState(null);
+
 
     const fetchProfile = async () => {
         try {
@@ -34,12 +36,31 @@ const UserProfile = () => {
         }
     };
 
+    const fetchLastWorkingDay = async () => {
+        try {
+            const res = await axiosInstance.get(`/user/get-salary-slip/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const slips = res?.data?.data || [];
+            if (slips.length > 0) {
+                const latestSlip = slips[0];
+                setLastWorkingDay(latestSlip.lastWorkingDay);
+            }
+        } catch (error) {
+            console.error("Error fetching last working day:", error);
+        }
+    };
+
+
 
 
 
     useEffect(() => {
         fetchProfile();
+        fetchLastWorkingDay();
     }, []);
+
 
     return (
         <Box display="flex" minHeight="100vh" bgcolor="#f0f2f5">
@@ -222,7 +243,23 @@ const UserProfile = () => {
                                         fullWidth
                                         label="Probation Period (in Months)"
                                         name="probationPeriodMonths"
-                                        value={(userData.probationPeriodMonths) + " months" || " NA"}
+                                        value={userData.probationPeriodMonths != null
+                                            ? `${userData.probationPeriodMonths} months`
+                                            : "NA"
+                                        }
+                                        variant="standard"
+                                        InputProps={{
+                                            readOnly: true,
+                                            disableUnderline: true,
+                                            sx: { cursor: "default" },
+                                        }}
+                                        sx={{ mb: 2 }}
+                                    />
+
+                                    <TextField
+                                        fullWidth
+                                        label="Last Working Day"
+                                        value={lastWorkingDay ? new Date(lastWorkingDay).toLocaleDateString() : "NA"}
                                         variant="standard"
                                         InputProps={{
                                             readOnly: true,

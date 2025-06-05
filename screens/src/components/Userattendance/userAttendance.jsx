@@ -158,17 +158,59 @@ const UserAttendance = () => {
   };
 
   const handleSubmit = async () => {
+    const OFFICE_LAT = 28.626118095021997;
+    const OFFICE_LNG = 77.37859426749372;
+    const MAX_DISTANCE_METERS = 100;
+
+    const getDistanceFromLatLonInMeters = (lat1, lon1, lat2, lon2) => {
+      const R = 6371e3;
+      const toRad = (value) => (value * Math.PI) / 180;
+
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    };
+
     try {
       const token = localStorage.getItem("authToken");
       const userId = localStorage.getItem("userId");
       if (!token || !userId) return;
 
+      const latitude = parseFloat(formData.latitude);
+      const longitude = parseFloat(formData.longitude);
+
+      if (isNaN(latitude) || isNaN(longitude)) {
+        alert("Invalid coordinates.");
+        return;
+      }
+
+      const distance = getDistanceFromLatLonInMeters(
+        latitude,
+        longitude,
+        OFFICE_LAT,
+        OFFICE_LNG
+      );
+
+      if (distance > MAX_DISTANCE_METERS) {
+        alert("You are not within 100 meters of the office. Attendance cannot be marked.");
+        return;
+      }
+
       const requestBody = {
         date: formData.date,
         clockIn: formData.clockIn,
         clockInLocation: {
-          latitude: parseFloat(formData.latitude),
-          longitude: parseFloat(formData.longitude),
+          latitude,
+          longitude,
         },
         userId,
       };
@@ -431,7 +473,6 @@ const UserAttendance = () => {
         </Box>
       </Box>
 
-      {/* Modal */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}

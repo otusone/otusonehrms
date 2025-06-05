@@ -2,7 +2,7 @@ const express = require("express");
 const { register, login, changePassword, verifyToken } = require("../controllers/Auth/userAuthCtrl");
 const userController = require("../controllers/Auth/userAuthCtrl");
 const { userAuth, isAdmin } = require("../middleware/auth");
-const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips } = require("../controllers/SalaryCtrl");
+const { generateSalarySlip, deleteSalarySlip, updateSalarySlip, getAllSalarySlips, getSalarySlipsByUser } = require("../controllers/SalaryCtrl");
 const { updateLeaveStatus, getAllLeaves } = require("../controllers/leaveCtrl");
 const { createAsset, updateAsset, getAllAssets, getAssetById, deleteAsset } = require("../controllers/assetsCtrl");
 const employeeController = require("../controllers/employeeCtrl");
@@ -31,6 +31,8 @@ router.post("/salary-slip", userAuth, isAdmin, generateSalarySlip);
 router.patch("/update-salary-slip/:id", userAuth, isAdmin, updateSalarySlip);
 router.delete("/delete-slip/:id", userAuth, isAdmin, deleteSalarySlip);
 router.get("/get-salary-slip", userAuth, isAdmin, getAllSalarySlips);
+router.get("/salaryslip/:userId", userAuth, isAdmin, getSalarySlipsByUser);
+
 
 //leave
 router.patch("/leave/status/:id", userAuth, isAdmin, updateLeaveStatus);
