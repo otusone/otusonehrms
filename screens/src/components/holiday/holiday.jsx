@@ -13,6 +13,8 @@ import {
     TableRow,
     Paper,
     Modal,
+    Snackbar,
+    Alert,
 } from "@mui/material";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
@@ -22,6 +24,11 @@ const Holiday = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = useState(false);
     const [newHoliday, setNewHoliday] = useState({ date: "", title: "", description: "" });
+    const [notification, setNotification] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
 
     useEffect(() => {
         fetchHolidays();
@@ -47,6 +54,11 @@ const Holiday = () => {
         holiday.title.toLowerCase().includes(searchTerm)
     );
 
+    const handleCloseNotification = () => {
+        setNotification((prev) => ({ ...prev, open: false }));
+    };
+
+
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this holiday?")) return;
         try {
@@ -54,27 +66,62 @@ const Holiday = () => {
             await axiosInstance.delete(`/admin/delete-holiday/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+
+            setNotification({
+                open: true,
+                message: "Holiday deleted successfully!",
+                severity: "success",
+            });
+
             fetchHolidays();
         } catch (err) {
             console.error("Error deleting holiday:", err);
+            setNotification({
+                open: true,
+                message: "Failed to delete holiday",
+                severity: "error",
+            });
         }
     };
 
+
     const handleAddHoliday = async () => {
-        if (!newHoliday.date || !newHoliday.title) return alert("Please fill all fields");
+        if (!newHoliday.date || !newHoliday.title) {
+            setNotification({
+                open: true,
+                message: "Please fill all the fields",
+                severity: "error",
+            });
+            return;
+        }
+
         try {
             const token = localStorage.getItem("authToken");
-            await axiosInstance.post("/admin/add-holiday", newHoliday, {
+            const response = await axiosInstance.post("/admin/add-holiday", newHoliday, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
             });
+
+            if (response.data?.success) {
+                setNotification({
+                    open: true,
+                    message: "Holiday added successfully!",
+                    severity: "success",
+                });
+            }
+
             fetchHolidays();
             setOpen(false);
             setNewHoliday({ date: "", title: "", description: "" });
         } catch (err) {
             console.error("Error adding holiday:", err);
+            setNotification({
+                open: true,
+                message: "Failed to add holiday",
+                severity: "error",
+            });
         }
     };
 
@@ -205,7 +252,7 @@ const Holiday = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Description"
+                        label="Description (Optional)"
                         value={newHoliday.description}
                         onChange={(e) =>
                             setNewHoliday((prev) => ({ ...prev, description: e.target.value }))
@@ -218,6 +265,21 @@ const Holiday = () => {
                     </Button>
                 </Box>
             </Modal>
+
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={6000}
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert
+                    onClose={handleCloseNotification}
+                    severity={notification.severity}
+                    sx={{ width: "100%" }}
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
