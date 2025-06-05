@@ -25,6 +25,7 @@ const UserAttendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [isAttendanceMarked, setIsAttendanceMarked] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -69,8 +70,11 @@ const UserAttendance = () => {
         longitude: '',
       }));
 
+      let success = false;
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          success = true;
           setFormData((prev) => ({
             ...prev,
             latitude: position.coords.latitude.toString(),
@@ -78,12 +82,14 @@ const UserAttendance = () => {
           }));
         },
         (error) => {
-          console.error("Geolocation error:", error);
-          setNotification({
-            open: true,
-            message: "Unable to get location. Please allow location access.",
-            severity: "error",
-          });
+          if (!success) {
+            console.error("Geolocation error:", error);
+            setNotification({
+              open: true,
+              message: "Unable to get location. Please allow location access.",
+              severity: "error",
+            });
+          }
         }
       );
     }
@@ -112,6 +118,12 @@ const UserAttendance = () => {
       }));
 
       setAttendanceData(enrichedAttendance);
+
+      const todayMarked = attendanceArray.some((item) => {
+        const itemDate = new Date(item.date).toISOString().split("T")[0];
+        return itemDate === localDate;
+      });
+
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -136,7 +148,18 @@ const UserAttendance = () => {
   };
 
 
-  const handleOpenModal = () => setOpenModal(true);
+  const handleOpenModal = () => {
+    if (isAttendanceMarked) {
+      setNotification({
+        open: true,
+        message: "Attendance for today has already been marked.",
+        severity: "info",
+      });
+      return;
+    }
+    setOpenModal(true);
+  };
+
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -233,6 +256,7 @@ const UserAttendance = () => {
         });
         handleCloseModal();
         fetchAttendanceData();
+        setIsAttendanceMarked(true);
       }
     } catch (error) {
       console.error("Error marking attendance:", error);
@@ -252,6 +276,7 @@ const UserAttendance = () => {
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const currentTime = `${hours}:${minutes}`;
+
     setClockOutForm((prev) => ({
       ...prev,
       clockOut: currentTime,
@@ -259,8 +284,11 @@ const UserAttendance = () => {
       longitude: '',
     }));
 
+    let success = false;
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        success = true;
         setClockOutForm((prev) => ({
           ...prev,
           latitude: position.coords.latitude.toString(),
@@ -268,12 +296,14 @@ const UserAttendance = () => {
         }));
       },
       (error) => {
-        console.error("Geolocation error:", error);
-        setNotification({
-          open: true,
-          message: "Unable to get location. Please allow location access.",
-          severity: "error",
-        });
+        if (!success) {
+          console.error("Geolocation error:", error);
+          setNotification({
+            open: true,
+            message: "Unable to get location. Please allow location access.",
+            severity: "error",
+          });
+        }
       }
     );
   };
@@ -366,10 +396,10 @@ const UserAttendance = () => {
                 minWidth: "unset",
                 "&:hover": { bgcolor: "#7a007f" },
               }}
-            >
-              Mark Attendance
+            >{isAttendanceMarked}
+              {isAttendanceMarked ? "Already Marked" : "Mark Attendance"}
             </Button>
-            <TextField
+            {/* <TextField
               placeholder="Search..."
               size="small"
               onChange={handleSearch}
@@ -377,7 +407,7 @@ const UserAttendance = () => {
                 width: { xs: "100%", sm: "250px" },
                 fontSize: { xs: "0.8rem", sm: "1rem" },
               }}
-            />
+            /> */}
           </Box>
 
 
