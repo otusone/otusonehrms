@@ -11,6 +11,8 @@ router.use('/admin', admin)
 const user = require('./userRoutes');
 router.use('/user', user)
 
+const cron = require('./cronRoutes');
+router.use('/cron', cron);
 
 
 module.exports = router;
