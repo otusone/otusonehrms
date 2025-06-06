@@ -124,6 +124,8 @@ const UserAttendance = () => {
         return itemDate === localDate;
       });
 
+      setIsAttendanceMarked(todayMarked);
+
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
