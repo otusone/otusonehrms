@@ -56,7 +56,7 @@ const Dashboard = ({
         const assets = assetsRes.status === "fulfilled" ? assetsRes.value.data.data || [] : [];
 
         const joiningDate = profile?.dateOfJoining
-          ? new Date(profile.dateOfJoining).toLocaleDateString()
+          ? new Date(profile.dateOfJoining).toLocaleDateString('en-GB')
           : "N/A";
 
         const today = new Date();

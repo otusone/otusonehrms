@@ -59,6 +59,7 @@ router.get("/get-staff", userAuth, isAdmin, staffController.getAllStaff);
 //attendance
 router.get("/get-attendance", userAuth, isAdmin, attendanceController.getAllAttendance);
 router.get("/attendance/:userId", userAuth, isAdmin, attendanceController.getAttendanceByUserId);
+router.post("/clockinattendance", userAuth, isAdmin, attendanceController.markClockIn);
 
 
 //change-password

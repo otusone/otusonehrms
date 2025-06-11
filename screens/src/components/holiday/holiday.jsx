@@ -30,6 +30,13 @@ const Holiday = () => {
         severity: "success",
     });
 
+    const isPastHoliday = (date) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return new Date(date) < today;
+    };
+
+
     useEffect(() => {
         fetchHolidays();
     }, []);
@@ -177,28 +184,36 @@ const Holiday = () => {
                             </TableHead>
                             <TableBody>
                                 {filteredHolidays.length ? (
-                                    filteredHolidays.map((holidays, index) => (
-                                        <TableRow key={holidays._id}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{holidays.title}</TableCell>
-                                            <TableCell>
-                                                {new Date(holidays.date).toLocaleDateString()}
-                                            </TableCell>
-                                            <TableCell>{holidays.description?.trim() ? holidays.description : "-"}</TableCell>
+                                    filteredHolidays.map((holiday, index) => {
+                                        const past = isPastHoliday(holiday.date);
+                                        return (
+                                            <TableRow
+                                                key={holiday._id}
+                                                sx={past ? { color: "#f0f0f0" } : {}}
+                                            >
+                                                <TableCell sx={past ? { color: "#999" } : {}}>{index + 1}</TableCell>
+                                                <TableCell sx={past ? { color: "#999" } : {}}>{holiday.title}</TableCell>
+                                                <TableCell sx={past ? { color: "#999" } : {}}>
+                                                    {new Date(holiday.date).toLocaleDateString("en-GB")}
+                                                </TableCell>
+                                                <TableCell sx={past ? { color: "#999" } : {}}>
+                                                    {holiday.description?.trim() ? holiday.description : "-"}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="error"
+                                                        size="small"
+                                                        disabled={past}
+                                                        onClick={() => handleDelete(holiday._id)}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })
 
-
-                                            <TableCell>
-                                                <Button
-                                                    variant="outlined"
-                                                    color="error"
-                                                    size="small"
-                                                    onClick={() => handleDelete(holidays._id)}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
                                 ) : (
                                     <TableRow>
                                         <TableCell colSpan={4} align="center">

@@ -103,7 +103,7 @@ const Holiday = () => {
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{holidays.title}</TableCell>
                                             <TableCell>
-                                                {new Date(holidays.date).toLocaleDateString()}
+                                                {new Date(holidays.date).toLocaleDateString('en-GB')}
                                             </TableCell>
                                             <TableCell>{holidays.description?.trim() ? holidays.description : "-"}</TableCell>
                                         </TableRow>

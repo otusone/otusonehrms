@@ -105,7 +105,7 @@ const UserAsset = () => {
                                             <TableCell>{asset.assetName}</TableCell>
                                             <TableCell>{asset.assetType}</TableCell>
                                             <TableCell>
-                                                {new Date(asset.assignedStartDate).toLocaleDateString()}
+                                                {new Date(asset.assignedStartDate).toLocaleDateString('en-GB')}
                                             </TableCell>
                                             <TableCell>{asset.status}</TableCell>
                                             <TableCell>{asset.remarks}</TableCell>
@@ -130,7 +130,7 @@ const UserAsset = () => {
                                 <>
                                     <Typography><strong>Asset:</strong> {selectedAsset.assetName}</Typography>
                                     <Typography><strong>Type:</strong> {selectedAsset.assetType}</Typography>
-                                    <Typography><strong>From:</strong> {new Date(selectedAsset.assignedStartDate).toLocaleDateString()}</Typography>
+                                    <Typography><strong>From:</strong> {new Date(selectedAsset.assignedStartDate).toLocaleDateString('en-GB')}</Typography>
                                     <Typography><strong>Status:</strong> {selectedAsset.status || "N/A"}</Typography>
                                     <Typography><strong>Remarks:</strong> {selectedAsset.remarks || "N/A"}</Typography>
                                     <Typography><strong>Assigned to:</strong> {selectedAsset.assignedToDetails?.userName || "N/A"}</Typography>

@@ -176,10 +176,10 @@ const Leave = () => {
                                             <TableCell>{leave.userName}</TableCell>
                                             {/* <TableCell>-</TableCell> */}
                                             <TableCell>
-                                                {new Date(leave.startDate).toLocaleDateString()}
+                                                {new Date(leave.startDate).toLocaleDateString('en-GB')}
                                             </TableCell>
                                             <TableCell>
-                                                {new Date(leave.endDate).toLocaleDateString()}
+                                                {new Date(leave.endDate).toLocaleDateString('en-GB')}
                                             </TableCell>
                                             <TableCell>{leave.reason}</TableCell>
                                             <TableCell>{leave.status}</TableCell>

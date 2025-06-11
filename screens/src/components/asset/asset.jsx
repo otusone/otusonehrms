@@ -272,7 +272,7 @@ const Asset = () => {
                                                             </Box>
                                                         </Box>
                                                         {/* <Typography variant="caption">
-                                                            From: {new Date(asset.assignedStartDate).toLocaleDateString()} - To: {new Date(asset.assignedEndDate).toLocaleDateString()}
+                                                            From: {new Date(asset.assignedStartDate).toLocaleDateString('en-GB')} - To: {new Date(asset.assignedEndDate).toLocaleDateString('en-GB')}
                                                         </Typography><br /> */}
                                                         <Typography variant="body2" style={{ flex: 0.6 }}>
                                                             Status: <strong>{asset.status}</strong>
@@ -341,7 +341,7 @@ const Asset = () => {
                                 label="Assigned From"
                                 fullWidth
                                 margin="dense"
-                                value={viewAsset?.assignedStartDate ? new Date(viewAsset.assignedStartDate).toLocaleDateString() : ""}
+                                value={viewAsset?.assignedStartDate ? new Date(viewAsset.assignedStartDate).toLocaleDateString('en-GB') : ""}
                                 InputProps={{ readOnly: true }}
                             />
                             <TextField

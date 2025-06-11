@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/baseurl";
 import {
   Box,
+  Modal,
   Typography,
   TextField,
   TableContainer,
@@ -12,6 +13,8 @@ import {
   TableBody,
   Paper,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import Sidebar from "../sidebar/sidebar";
 import Heading from "../headingProfile/heading";
@@ -22,7 +25,19 @@ import Heading from "../headingProfile/heading";
 const Attendance = () => {
   const [attendance, setAttendance] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("all"); // "all" or "today"
+  const [filter, setFilter] = useState("all");
+  const [openModal, setOpenModal] = useState(false);
+  const [formData, setFormData] = useState({
+    userId: "",
+    date: "",
+    clockIn: "",
+    latitude: "",
+    longitude: "",
+  });
+  const [users, setUsers] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
 
   const fetchAttendance = async () => {
     try {
@@ -75,6 +90,102 @@ const Attendance = () => {
 
     return matchesSearch && matchesFilter;
   });
+
+  const handleOpenModal = () => {
+    const now = new Date();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData({
+            userId: "",
+            date: now.toISOString().slice(0, 10),
+            clockIn: now.toTimeString().slice(0, 5),
+            latitude: position.coords.latitude.toString(),
+            longitude: position.coords.longitude.toString(),
+          });
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          setFormData({
+            userId: "",
+            date: now.toISOString().slice(0, 10),
+            clockIn: now.toTimeString().slice(0, 5),
+            latitude: "",
+            longitude: "",
+          });
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+      setFormData({
+        userId: "",
+        date: now.toISOString().slice(0, 10),
+        clockIn: now.toTimeString().slice(0, 5),
+        latitude: "",
+        longitude: "",
+      });
+    }
+
+    setOpenModal(true);
+  };
+
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      await axiosInstance.post(
+        "/admin/clockinattendance",
+        {
+          ...formData,
+          clockInLocation: {
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSuccessMsg(response.data.message);
+      setErrorMsg("");
+      handleCloseModal();
+      fetchAttendance();
+    } catch (err) {
+      console.error("Error marking attendance", err);
+      const msg =
+        err.response?.data?.message || "Failed to mark attendance. Please try again.";
+      setErrorMsg(msg);
+      setSuccessMsg("");
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axiosInstance.get("/admin/get-employees", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsers(res.data.employees)
+    } catch (err) {
+      console.error("Failed to fetch users", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
 
   return (
     <Box display="flex" minHeight="100vh">
@@ -155,6 +266,15 @@ const Attendance = () => {
                   width: { sm: "250px" },
                 }}
               />
+
+              <Button
+                variant="contained"
+                sx={{ bgcolor: "#58024B", mb: 2 }}
+                onClick={handleOpenModal}
+              >
+                Mark Attendance
+              </Button>
+
             </Box>
 
           </Box>
@@ -244,6 +364,139 @@ const Attendance = () => {
           </TableContainer>
         </Box>
       </Box>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Box
+          sx={{
+            width: 500,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Mark Attendance
+          </Typography>
+          {/* {errorMsg && (
+            <Typography variant="body2" color="error" mb={2}>
+              {errorMsg}
+            </Typography>
+          )}
+
+          {successMsg && (
+            <Typography variant="body2" color="primary" mb={2}>
+              {successMsg}
+            </Typography>
+          )} */}
+
+
+          <Box component="form" noValidate autoComplete="off">
+            <TextField
+              select
+              fullWidth
+              label="Select Employee"
+              name="userId"
+              value={formData.userId}
+              onChange={handleChange}
+              SelectProps={{ native: true }}
+              margin="normal"
+              InputLabelProps={{ shrink: true }}
+
+            >
+              <option value="">-- Select Employee --</option>
+              {users.map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.email}
+                </option>
+              ))}
+            </TextField>
+
+            <TextField
+              fullWidth
+              label="Date"
+              type="date"
+              name="date"
+              value={formData.date}
+              margin="normal"
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+            />
+
+            <TextField
+              fullWidth
+              label="Clock In Time"
+              type="time"
+              name="clockIn"
+              value={formData.clockIn}
+              margin="normal"
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ step: 300 }}
+            />
+
+            <TextField
+              fullWidth
+              label="Latitude"
+              name="latitude"
+              value={formData.latitude}
+              onChange={handleChange}
+              margin="normal"
+            />
+
+            <TextField
+              fullWidth
+              label="Longitude"
+              name="longitude"
+              value={formData.longitude}
+              onChange={handleChange}
+              margin="normal"
+            />
+
+            <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+              <Button
+                variant="outlined"
+                onClick={handleCloseModal}
+                sx={{ color: "#58024B", borderColor: "#58024B" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{ bgcolor: "#58024B", "&:hover": { bgcolor: "#7a007f" } }}
+              >
+                Submit
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
+      <Snackbar
+        open={!!errorMsg}
+        autoHideDuration={6000}
+        onClose={() => setErrorMsg("")}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={() => setErrorMsg("")} severity="error" sx={{ width: "100%" }}>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={!!successMsg}
+        autoHideDuration={6000}
+        onClose={() => setSuccessMsg("")}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={() => setSuccessMsg("")} severity="success" sx={{ width: "100%" }}>
+          {successMsg}
+        </Alert>
+      </Snackbar>
+
     </Box>
   );
 };
