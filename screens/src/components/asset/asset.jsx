@@ -238,7 +238,7 @@ const Asset = () => {
                         gap={2}
                         mb={2}
                         alignItems={{ xs: "flex-start", lg: "flex-end" }}>
-                        <Button variant="outlined" color="primary" onClick={handleOpen}>ASSIGN ASSET</Button>
+                        <Button variant="contained" color="primary" onClick={handleOpen}>ASSIGN ASSET</Button>
                         <TextField placeholder="Search..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
                     </Box>
                     <TableContainer component={Paper} sx={{ boxShadow: 2 }}>

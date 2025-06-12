@@ -4,15 +4,13 @@ import {
     Box,
     Typography,
     TextField,
-    Button,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    Modal,
+    Paper
 } from "@mui/material";
 import Sidebar from "../userSidebar/sidebar";
 import Heading from "../userHeading/heading";
@@ -20,8 +18,6 @@ import Heading from "../userHeading/heading";
 const Holiday = () => {
     const [holidays, setHolidays] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [open, setOpen] = useState(false);
-    const [newHoliday, setNewHoliday] = useState({ date: "", title: "", description: "" });
 
     useEffect(() => {
         fetchHolidays();
@@ -47,7 +43,9 @@ const Holiday = () => {
         holiday.title.toLowerCase().includes(searchTerm)
     );
 
-
+    const isPastHoliday = (endDate) => {
+        return new Date(endDate) < new Date();
+    };
 
     return (
         <Box display="flex" minHeight="100vh">
@@ -91,26 +89,37 @@ const Holiday = () => {
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S.No</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>Holiday Title</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>Date</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>Desription</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>Action</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>Start Date</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>End Date</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>Description</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {filteredHolidays.length ? (
-                                    filteredHolidays.map((holidays, index) => (
-                                        <TableRow key={holidays._id}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{holidays.title}</TableCell>
-                                            <TableCell>
-                                                {new Date(holidays.date).toLocaleDateString('en-GB')}
-                                            </TableCell>
-                                            <TableCell>{holidays.description?.trim() ? holidays.description : "-"}</TableCell>
-                                        </TableRow>
-                                    ))
+                                    filteredHolidays.map((holiday, index) => {
+                                        const isPast = isPastHoliday(holiday.endDate);
+                                        return (
+                                            <TableRow
+                                                key={holiday._id}
+                                            >
+                                                <TableCell sx={{ color: isPast ? "gray" : "inherit" }}>{index + 1}</TableCell>
+                                                <TableCell sx={{ color: isPast ? "gray" : "inherit" }}>{holiday.title}</TableCell>
+                                                <TableCell sx={{ color: isPast ? "gray" : "inherit" }}>
+                                                    {new Date(holiday.startDate).toLocaleDateString("en-GB")}
+                                                </TableCell>
+                                                <TableCell sx={{ color: isPast ? "gray" : "inherit" }}>
+                                                    {new Date(holiday.endDate).toLocaleDateString("en-GB")}
+                                                </TableCell>
+                                                <TableCell sx={{ color: isPast ? "gray" : "inherit" }}>
+                                                    {holiday.description?.trim() ? holiday.description : "-"}
+                                                </TableCell>
+
+                                            </TableRow>
+                                        );
+                                    })
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={4} align="center">
+                                        <TableCell colSpan={5} align="center">
                                             No holiday records found.
                                         </TableCell>
                                     </TableRow>

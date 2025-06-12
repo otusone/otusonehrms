@@ -268,7 +268,7 @@ const Employee = () => {
 
                     </Box>
                     <Box display="flex" flexDirection="column" gap={2} mb={2} alignItems={{ xs: "flex-start", lg: "flex-end" }} >
-                        <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ width: "fit-content" }}>
+                        <Button variant="contained" color="primary" onClick={() => handleOpen()} sx={{ width: "fit-content" }}>
                             ADD EMPLOYEE
                         </Button>
                         <TextField placeholder="Search by Name or Email..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />

@@ -142,7 +142,7 @@ const Attendance = () => {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      await axiosInstance.post(
+      const response = await axiosInstance.post(
         "/admin/clockinattendance",
         {
           ...formData,
@@ -214,6 +214,7 @@ const Attendance = () => {
 
 
             </Box>
+
             <Box
               display="flex"
               flexDirection="column"
@@ -226,33 +227,49 @@ const Attendance = () => {
                 gap={1.5}
                 flexWrap="wrap"
                 justifyContent="flex-start"
-                sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}
               >
-                <Box sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}>
+                <Box sx={{ flex: { xs: "1 1 48%", sm: "0 0 auto" } }}>
                   <Button
                     variant={filter === "all" ? "contained" : "outlined"}
                     onClick={() => setFilter("all")}
                     size="small"
                     fullWidth
                     sx={{
-                      fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                      width: "100%",
+                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    All Attendance
+                    <Box component="span" display={{ xs: "none", sm: "inline" }}>
+                      All Attendance
+                    </Box>
+                    <Box component="span" display={{ xs: "inline", sm: "none" }}>
+                      All
+                    </Box>
                   </Button>
                 </Box>
 
-                <Box sx={{ flex: { xs: "1 1 100%", sm: "0 0 auto" } }}>
+                <Box
+                  sx={{
+                    flex: { xs: "1 1 48%", sm: "0 0 auto" },
+                  }}
+                >
                   <Button
                     variant={filter === "today" ? "contained" : "outlined"}
                     onClick={() => setFilter("today")}
                     size="small"
-                    fullWidth
                     sx={{
-                      fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                      width: "100%",
+                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    Today Only
+                    <Box component="span" display={{ xs: "none", sm: "inline" }}>
+                      Today Only
+                    </Box>
+                    <Box component="span" display={{ xs: "inline", sm: "none" }}>
+                      Today
+                    </Box>
                   </Button>
                 </Box>
               </Box>
@@ -263,7 +280,7 @@ const Attendance = () => {
                 value={searchTerm}
                 onChange={handleSearch}
                 sx={{
-                  width: { sm: "250px" },
+                  width: { sm: "270px", md: "270px" },
                 }}
               />
 

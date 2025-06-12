@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const holidaySchema = new mongoose.Schema({
-    date: {
+    startDate: {
         type: Date,
         required: true,
-        unique: true,
+    },
+    endDate: {
+        type: Date,
+        required: true,
     },
     title: {
         type: String,
@@ -18,5 +21,6 @@ const holidaySchema = new mongoose.Schema({
 }, {
     timestamps: true,
 });
+
 
 module.exports = mongoose.model('Holiday', holidaySchema);

@@ -68,12 +68,21 @@ export const calculateSalary = async (userId, year, month, basicSalary, joiningD
         if (fourthSaturday) weekendSet.add(fourthSaturday);
 
 
-        const holidayDates = holidaysData
-            .map(holiday => new Date(holiday.date))
-            .filter(date => date.getFullYear() === year && date.getMonth() === month)
-            .map(date => date.getDate());
+        const holidayDates = [];
 
-        const allPaidLeaveCandidates = new Set([...weekendSet, ...holidayDates].map(Number));
+        holidaysData.forEach(holiday => {
+            const start = new Date(holiday.startDate);
+            const end = new Date(holiday.endDate);
+
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                if (d.getFullYear() === year && d.getMonth() === month) {
+                    holidayDates.push(d.getDate());
+                }
+            }
+        });
+
+
+        const allPaidLeaveCandidates = new Set([...weekendSet, ...new Set(holidayDates)].map(Number));
         //console.log("Raw Attendance:", attendanceData.map(r => r.date));
         //console.log("LeavePaid", allPaidLeaveCandidates);
 

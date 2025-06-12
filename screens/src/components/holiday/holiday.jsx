@@ -23,17 +23,17 @@ const Holiday = () => {
     const [holidays, setHolidays] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = useState(false);
-    const [newHoliday, setNewHoliday] = useState({ date: "", title: "", description: "" });
+    const [newHoliday, setNewHoliday] = useState({ startDate: "", endDate: "", title: "", description: "" });
     const [notification, setNotification] = useState({
         open: false,
         message: "",
         severity: "success",
     });
 
-    const isPastHoliday = (date) => {
+    const isPastHoliday = (endDate) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        return new Date(date) < today;
+        return new Date(endDate) < today;
     };
 
 
@@ -93,10 +93,19 @@ const Holiday = () => {
 
 
     const handleAddHoliday = async () => {
-        if (!newHoliday.date || !newHoliday.title) {
+        if (!newHoliday.startDate || !newHoliday.endDate || !newHoliday.title) {
             setNotification({
                 open: true,
                 message: "Please fill all the fields",
+                severity: "error",
+            });
+            return;
+        }
+
+        if (new Date(newHoliday.endDate) < new Date(newHoliday.startDate)) {
+            setNotification({
+                open: true,
+                message: "End date cannot be earlier than start date",
                 severity: "error",
             });
             return;
@@ -121,7 +130,7 @@ const Holiday = () => {
 
             fetchHolidays();
             setOpen(false);
-            setNewHoliday({ date: "", title: "", description: "" });
+            setNewHoliday({ startDate: "", endDate: "", title: "", description: "" });
         } catch (err) {
             console.error("Error adding holiday:", err);
             setNotification({
@@ -177,7 +186,8 @@ const Holiday = () => {
                                 <TableRow>
                                     <TableCell sx={{ color: "#fff" }}>S.No</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>Holiday Title</TableCell>
-                                    <TableCell sx={{ color: "#fff" }}>Date</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>Start Date</TableCell>
+                                    <TableCell sx={{ color: "#fff" }}>End Date</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>Desription</TableCell>
                                     <TableCell sx={{ color: "#fff" }}>Action</TableCell>
                                 </TableRow>
@@ -185,7 +195,7 @@ const Holiday = () => {
                             <TableBody>
                                 {filteredHolidays.length ? (
                                     filteredHolidays.map((holiday, index) => {
-                                        const past = isPastHoliday(holiday.date);
+                                        const past = isPastHoliday(holiday.endDate);
                                         return (
                                             <TableRow
                                                 key={holiday._id}
@@ -193,9 +203,8 @@ const Holiday = () => {
                                             >
                                                 <TableCell sx={past ? { color: "#999" } : {}}>{index + 1}</TableCell>
                                                 <TableCell sx={past ? { color: "#999" } : {}}>{holiday.title}</TableCell>
-                                                <TableCell sx={past ? { color: "#999" } : {}}>
-                                                    {new Date(holiday.date).toLocaleDateString("en-GB")}
-                                                </TableCell>
+                                                <TableCell sx={past ? { color: "#999" } : {}}>{new Date(holiday.startDate).toLocaleDateString("en-GB")} </TableCell>
+                                                <TableCell sx={past ? { color: "#999" } : {}}> {new Date(holiday.endDate).toLocaleDateString("en-GB")}</TableCell>
                                                 <TableCell sx={past ? { color: "#999" } : {}}>
                                                     {holiday.description?.trim() ? holiday.description : "-"}
                                                 </TableCell>
@@ -257,14 +266,27 @@ const Holiday = () => {
                     <TextField
                         fullWidth
                         type="date"
-                        label="Date"
+                        label="Start Date"
                         InputLabelProps={{ shrink: true }}
-                        value={newHoliday.date}
+                        value={newHoliday.startDate}
                         onChange={(e) =>
-                            setNewHoliday((prev) => ({ ...prev, date: e.target.value }))
+                            setNewHoliday((prev) => ({ ...prev, startDate: e.target.value }))
                         }
                         sx={{ mb: 2 }}
                     />
+
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="End Date"
+                        InputLabelProps={{ shrink: true }}
+                        value={newHoliday.endDate}
+                        onChange={(e) =>
+                            setNewHoliday((prev) => ({ ...prev, endDate: e.target.value }))
+                        }
+                        sx={{ mb: 2 }}
+                    />
+
                     <TextField
                         fullWidth
                         label="Description (Optional)"
