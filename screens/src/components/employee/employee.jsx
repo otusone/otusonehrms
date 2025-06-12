@@ -268,7 +268,7 @@ const Employee = () => {
 
                     </Box>
                     <Box display="flex" flexDirection="column" gap={2} mb={2} alignItems={{ xs: "flex-start", lg: "flex-end" }} >
-                        <Button variant="outlined" color="primary" onClick={() => handleOpen()} sx={{ width: "fit-content" }}>
+                        <Button variant="contained" color="primary" onClick={() => handleOpen()} sx={{ width: "fit-content" }}>
                             ADD EMPLOYEE
                         </Button>
                         <TextField placeholder="Search by Name or Email..." size="small" value={searchTerm} onChange={handleSearch} sx={{ width: "250px" }} />
@@ -300,7 +300,7 @@ const Employee = () => {
                                             <TableCell>{emp.employeeId}</TableCell>
                                             <TableCell>{emp.userName}</TableCell>
                                             <TableCell>{emp.email}</TableCell>
-                                            <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString() : "N/A"}</TableCell>
+                                            <TableCell>{emp.dateOfJoining ? new Date(emp.dateOfJoining).toLocaleDateString('en-GB') : "N/A"}</TableCell>
                                             <TableCell>{emp.designation}</TableCell>
                                             {/* <TableCell>{emp.monthlySalary}</TableCell>
                                             <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
@@ -398,12 +398,12 @@ const Employee = () => {
                                     <Typography><strong>Employee ID:</strong> {selectedEmployee.employeeId}</Typography>
                                     <Typography><strong>Name:</strong> {selectedEmployee.userName}</Typography>
                                     <Typography><strong>Email:</strong> {selectedEmployee.email}</Typography>
-                                    <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString() : "N/A"}</Typography>
+                                    <Typography><strong>Date of Joining:</strong> {selectedEmployee.dateOfJoining ? new Date(selectedEmployee.dateOfJoining).toLocaleDateString('en-GB') : "N/A"}</Typography>
                                     <Typography><strong>Designation:</strong> {selectedEmployee.designation}</Typography>
                                     <Typography><strong>Monthly Salary:</strong> ₹{selectedEmployee.basicSalary}</Typography>
                                     <Typography><strong>Probation Period (in Months):</strong> {selectedEmployee.probationPeriodMonths || "NA"}</Typography>
-                                    <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString() : "N/A"}</Typography>
-                                    <Typography><strong>Last Working Day:</strong>{" "} {selectedEmployee?.lastWorkingDay ? new Date(selectedEmployee.lastWorkingDay).toLocaleDateString() : "N/A"}</Typography>
+                                    <Typography><strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth ? new Date(selectedEmployee.dateOfBirth).toLocaleDateString('en-GB') : "N/A"}</Typography>
+                                    <Typography><strong>Last Working Day:</strong>{" "} {selectedEmployee?.lastWorkingDay ? new Date(selectedEmployee.lastWorkingDay).toLocaleDateString('en-GB') : "N/A"}</Typography>
                                     <Typography><strong>Address:</strong> {selectedEmployee.address || "N/A"}</Typography>
                                     <Typography><strong>Gender:</strong> {selectedEmployee.gender}</Typography>
                                     <Typography><strong>Mobile No:</strong> {selectedEmployee.mobile}</Typography>

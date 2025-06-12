@@ -608,7 +608,7 @@ const SalarySlip = () => {
             gap={2}
             mb={2}
             alignItems={{ xs: "flex-start", lg: "flex-end" }}>
-            <Button variant="outlined" onClick={() => setOpenModal(true)}>
+            <Button variant="contained" onClick={() => setOpenModal(true)}>
               Generate Salary Slip
             </Button>
             <TextField

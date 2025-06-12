@@ -259,7 +259,7 @@ const UserProfile = () => {
                                     <TextField
                                         fullWidth
                                         label="Last Working Day"
-                                        value={lastWorkingDay ? new Date(lastWorkingDay).toLocaleDateString() : "NA"}
+                                        value={lastWorkingDay ? new Date(lastWorkingDay).toLocaleDateString('en-GB') : "NA"}
                                         variant="standard"
                                         InputProps={{
                                             readOnly: true,

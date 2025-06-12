@@ -33,7 +33,7 @@ exports.updateLeave = async (req, res) => {
     const { id } = req.params;
     console.log("Leave ID:", id);
 
-    // First validate the ID
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid leave ID" });
     }

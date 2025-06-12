@@ -98,7 +98,7 @@ const Staff = () => {
                       <TableCell>{emp.userName}</TableCell>
                       <TableCell>{emp.email}</TableCell>
                       <TableCell>{emp.role}</TableCell>
-                      <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
+                      <TableCell>{emp.dateOfBirth ? new Date(emp.dateOfBirth).toLocaleDateString('en-GB') : "N/A"}</TableCell>
                       <TableCell>{emp.designation}</TableCell>
                       <TableCell>{emp.address || "N/A"}</TableCell>
                       <TableCell>{emp.gender}</TableCell>

@@ -158,8 +158,8 @@ const UserLeave = () => {
                             <TableBody>
                                 {filteredLeave()?.length ? filteredLeave().map((leave) => (
                                     <TableRow key={leave._id}>
-                                        <TableCell>{new Date(leave.startDate).toLocaleDateString()}</TableCell>
-                                        <TableCell>{new Date(leave.endDate).toLocaleDateString()}</TableCell>
+                                        <TableCell>{new Date(leave.startDate).toLocaleDateString('en-GB')}</TableCell>
+                                        <TableCell>{new Date(leave.endDate).toLocaleDateString('en-GB')}</TableCell>
                                         <TableCell>{leave.reason}</TableCell>
                                         <TableCell>{leave.status}</TableCell>
                                         <TableCell>
